@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-fastboot",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "The default blueprint for ember-cli addons.",
   "directories": {
     "doc": "doc",
@@ -37,5 +37,10 @@
   ],
   "ember-addon": {
     "configPath": "tests/dummy/config"
+  },
+  "dependencies": {
+    "contextify": "^0.1.11",
+    "rsvp": "^3.0.16",
+    "simple-dom": "^0.1.1"
   }
 }
