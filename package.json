@@ -41,6 +41,6 @@
   "dependencies": {
     "contextify": "^0.1.11",
     "rsvp": "^3.0.16",
-    "simple-dom": "^0.1.1"
+    "simple-dom": "^0.1.2"
   }
 }
