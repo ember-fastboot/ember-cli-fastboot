@@ -1,20 +1,9 @@
 /*globals SimpleDOM, Ember, FastBoot*/
 
-function resetTemplateState(container) {
-  var cache = container.cache;
-
-  Object.keys(cache).forEach(function(key) {
-    if (key.match(/^template:/)) {
-      cache[key].cachedFragment = null;
-      cache[key].hasRendered = false;
-    }
-  });
-}
-
 export default {
   name: "fast-boot",
 
-  initialize: function(registry) {
+  initialize: function(registry, App) {
     // Detect if we're running in Node. If not, there's nothing to do.
     if (typeof document === 'undefined') {
       var doc = new SimpleDOM.Document();
@@ -28,10 +17,11 @@ export default {
         }
       });
 
-      Ember.View.reopen({
-        appendTo: function() {
-          // We should not need to fake out a morph to get the DOM
-          var morph = FastBoot.morph = {
+      FastBoot.resolve(function(url) {
+        return App.visit(url).then(function(instance) {
+          var view = instance.view;
+
+          view._morph = {
             contextualElement: {},
             setContent: function(element) {
               this.element = element;
@@ -40,41 +30,17 @@ export default {
             destroy: function() { }
           };
 
-          this._morph = morph;
-
-          var app = this.container.lookup('application:main');
-
-          // This should be part of the appInstance.visit API
-          Ember.run(this, function() {
-            this.renderer.renderTree(this);
+          Ember.run(view, function() {
+            view.renderer.renderTree(view);
           });
 
-          var container = this.container;
+          var serializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
+          return serializer.serialize(view._morph.element);
+        });
+      });
 
-          FastBoot.resolve(function(url) {
-
-            // The app should expose a handleURL that returns a promise with the correct info
-            return app.__container__.lookup('router:main').handleURL(url).promise.then(function() {
-              return new Ember.RSVP.Promise(function(res) {
-                // This setTimeout is due to the fact that the router's promise doesn't include
-                // a wait for the template to finish rendering. We should add something for this.
-                setTimeout(function() {
-                  var serializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
-                  res(serializer.serialize(FastBoot.morph.element));
-
-                  // This is to avoid the templates calling cloneNode on the cached fragment on
-                  // the second pass through an HTMLBars template.
-                  resetTemplateState(container);
-
-                  // This should be replaced by proper support for application instances.
-                  app.buildRegistry();
-                  app.reset();
-
-                }, 500);
-              });
-            });
-          });
-        }
+      Ember.View.reopen({
+        appendTo: function() { }
       });
     }
   }
