@@ -1,21 +1,16 @@
 {
   "name": "ember-cli-fastboot",
   "version": "0.0.1",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Server-side rendering for Ember.js apps",
   "directories": {
     "doc": "doc",
     "test": "tests"
   },
-  "scripts": {
-    "start": "ember server",
-    "build": "ember build",
-    "test": "ember test"
-  },
-  "repository": "",
+  "repository": "https://github.com/tildeio/ember-cli-fastboot",
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "author": "Tom Dale & Yehuda Katz <tomhuda@tilde.io>",
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.0",
