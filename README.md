@@ -19,6 +19,69 @@ From within your Ember CLI application, run the following command:
 ember install:addon ember-cli-fastboot
 ```
 
+In order to get FastBoot working, you will first need to do the
+following:
+
+* Disable Ember CLI's default configuration meta tag
+* Install Ember Canary and enable HTMLbars
+* Enable the required feature flags
+
+#### Disable Default Configuration
+
+Modify your application's generated `Brocfile` to disable storing
+configuration information in a `<meta>` tag:
+
+```js
+// Brocfile.js
+var app = new EmberApp({
+  storeConfigInMeta: false
+});
+```
+
+#### Install Ember Canary and Enable HTMLbars
+
+To enable Ember canary and HTMLbars, run the following commands:
+
+```
+rm -rf bower_components
+bower install --save handlebars#~2.0.0
+bower install --save ember#canary
+bower install
+```
+
+Bower also prompts you to confirm various "resolutions" that it is
+unsure of. Make sure you pick ember#canary and Handlebars 2.0 if
+prompted.
+
+Then update the npm dependencies:
+
+```
+npm uninstall --save-dev broccoli-ember-hbs-template-compiler
+npm install --save-dev ember-cli-htmlbars
+```
+
+For more details, [see this blog
+post](http://reefpoints.dockyard.com/2014/11/30/htmlbars_calling_all_testers.html).
+
+#### Enable Required Feature Flags
+
+Lastly, enabled the following feature flags:
+
+* `ember-application-instance-initializers`
+* `ember-application-visit`
+
+To enable the these flags, add the following to your
+`config/environment.js` (under the `EmberENV.FEATURES` section):
+
+```js
+EmberENV: {
+  FEATURES: {
+    'ember-application-instance-initializers': true,
+    'ember-application-visit': true
+  }
+},
+```
+
 ## Running
 
 * `ember fastboot`
