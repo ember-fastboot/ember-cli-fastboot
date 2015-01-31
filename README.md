@@ -25,6 +25,7 @@ following:
 * Disable Ember CLI's default configuration meta tag
 * Install Ember Canary and enable HTMLbars
 * Enable the required feature flags
+* Set the router's location to NoneLocation
 
 #### Disable Default Configuration
 
@@ -82,6 +83,24 @@ EmberENV: {
 },
 ```
 
+#### Set Router's Location to `NoneLocation`
+
+Currently, the `AutoLocation` used by default tries to access the window
+when the application boots in Node. This causes a crash.
+
+To prevent this, change the `location` configuration info in your
+`config/environment.js` from `auto` to `none`.
+
+```js
+// config/environment.js
+
+var ENV = {
+  modulePrefix: 'fastboot-test',
+  environment: environment,
+  baseURL: '/',
+  locationType: 'none',
+```
+
 ## Running
 
 * `ember fastboot`
@@ -129,14 +148,10 @@ for steps on enabling HTMLbars in an Ember CLI application.
 
 ### No `didInsertElement`
 
-Because Node does not offer a full DOM, we are not able to evaluate
-components' `didInsertElement` hook when running in FastBoot mode.
-
-Unfortunately, due to a limitation of the current implementation\*,
-if you have any `didInsertElement` hooks in a component or view, the app
-will just crash.
-
-\*_The current limitation is that we have not figured out how to disable it yet._
+Since `didInsertElement` hooks are designed to let your component
+directly manipulate the DOM, and that doesn't make sense on the server
+where there is no DOM, we do not invoke either `didInsertElement` nor
+`willInsertElement` hooks.
 
 ### No `link-to`
 
