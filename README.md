@@ -153,12 +153,6 @@ directly manipulate the DOM, and that doesn't make sense on the server
 where there is no DOM, we do not invoke either `didInsertElement` nor
 `willInsertElement` hooks.
 
-### No `link-to`
-
-The current `LinkView` implementation relies on having access to DOM.
-Fixing this is next on our list so soon this section of the README will
-be lost to the sands of time.
-
 ### No `index.html`
 
 Built apps evaluated traditionally in the browser render your
