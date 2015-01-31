@@ -153,6 +153,13 @@ directly manipulate the DOM, and that doesn't make sense on the server
 where there is no DOM, we do not invoke either `didInsertElement` nor
 `willInsertElement` hooks.
 
+### No jQuery
+
+Running most of jQuery requires a full DOM. Most of jQuery will just not be
+supported when running in FastBoot mode. One exception is network code for
+fetching models, which we intended to support, but doesn't work at
+present.
+
 ### No `index.html`
 
 Built apps evaluated traditionally in the browser render your
