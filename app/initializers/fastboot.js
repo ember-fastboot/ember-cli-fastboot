@@ -14,6 +14,10 @@ export default {
         return (protocol == null) ? ':' : protocol;
       };
 
+      // Disable autobooting of the app. This will disable automatic routing,
+      // and routing will only occur via our calls to visit().
+      App.autoboot = false;
+
       // This needs to be setting up renderer:main, and ideally would have a less hacked
       // up interface. In particular, the only ACTUAL swap-in here is the fake document,
       // so it would be nice if we could register just that.
@@ -27,7 +31,7 @@ export default {
         return App.visit(url).then(function(instance) {
           var view = instance.view;
 
-          var element = Ember.run(view, 'createElement').element;
+          var element = view.renderToElement().firstChild;
 
           var serializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
           return serializer.serialize(element);
