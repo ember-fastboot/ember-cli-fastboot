@@ -37,10 +37,6 @@ export default {
           return serializer.serialize(element);
         });
       });
-
-      Ember.View.reopen({
-        appendTo: function() { }
-      });
     }
   }
 };
