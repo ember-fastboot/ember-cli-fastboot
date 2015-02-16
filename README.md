@@ -83,24 +83,6 @@ EmberENV: {
 },
 ```
 
-#### Set Router's Location to `NoneLocation`
-
-Currently, the `AutoLocation` used by default tries to access the window
-when the application boots in Node. This causes a crash.
-
-To prevent this, change the `location` configuration info in your
-`config/environment.js` from `auto` to `none`.
-
-```js
-// config/environment.js
-
-var ENV = {
-  modulePrefix: 'fastboot-test',
-  environment: environment,
-  baseURL: '/',
-  locationType: 'none',
-```
-
 ## Running
 
 * `ember fastboot`
