@@ -142,16 +142,6 @@ supported when running in FastBoot mode. One exception is network code for
 fetching models, which we intended to support, but doesn't work at
 present.
 
-### No `index.html`
-
-Built apps evaluated traditionally in the browser render your
-`application` template into the document body you supply in
-`app/index.html`.
-
-Currently, FastBoot just renders your app with the `application`
-template's `<div>` as the root element. Fortunately browsers are
-resilient to this, but it's an obvious oversight we'll fix shortly.
-
 ### No JavaScript Served
 
 Right now, this is only useful for creating an HTML representation of
