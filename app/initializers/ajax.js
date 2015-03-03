@@ -21,7 +21,7 @@ var nodeAjax = function(url, type, options) {
 export default {
   name: "ajax-service",
 
-  initialize: function(registry, App) {
+  initialize: function(registry) {
     // Detect if we're running in Node. If not, there's nothing to do.
     if (typeof document === 'undefined') {
       // This needs to be setting up renderer:main, and ideally would have a less hacked
@@ -34,21 +34,6 @@ export default {
       });
 
       registry.injection('adapter', 'ajax', 'ajax:node');
-
-      FastBoot.resolve(function(url) {
-        return App.visit(url).then(function(instance) {
-          var view = instance.view;
-
-          var element = view.renderToElement().firstChild;
-
-          var serializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
-          return serializer.serialize(element);
-        });
-      });
-
-      Ember.View.reopen({
-        appendTo: function() { }
-      });
     }
   }
 };

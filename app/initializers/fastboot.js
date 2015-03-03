@@ -27,11 +27,21 @@ export default {
         }
       });
 
+      FastBoot.debug("resolving FastBoot promise");
+
       FastBoot.resolve(function(url) {
+        FastBoot.debug("routing; url=%s", url);
+
         return App.visit(url).then(function(instance) {
           var view = instance.view;
 
-          var element = view.renderToElement().firstChild;
+          var element;
+
+          Ember.run(function() {
+            element = view.renderToElement();
+          });
+
+          element = element.firstChild;
 
           var serializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
           return serializer.serialize(element);
