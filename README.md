@@ -151,3 +151,71 @@ once it has finished loading and making the app fully interactive.
 
 In the meantime, this is probably only useful for cURL or search
 crawlers.
+
+## Troubleshooting
+
+Because your app is now running in Node.js, not the browser, you'll
+need a new set of tools to diagnose problems when things go wrong. Here
+are some tips and tricks we use for debugging our own apps.
+
+### Verbose Logging
+
+Enable verbose logging by running the FastBoot server with the following
+environment variables set:
+
+```sh
+DEBUG=ember-cli-fastboot:* ember fastboot
+```
+
+PRs adding or improving logging facilities are very welcome.
+
+### Developer Tools
+
+You can get a debugging environment similar to the Chrome developer
+tools running with a FastBoot app, although it's not (yet) as easy as
+in the browser.
+
+First, install the Node Inspector:
+
+```sh
+npm install node-inspector -g
+```
+
+Make sure you install a recent release; in our experience, older
+versions will segfault when used in conjunction with Contextify, which
+FastBoot uses for sandboxing.
+
+Next, start the inspector server. We found the experience too slow to be
+usable until we discovered the `--no-preload` flag, which waits to
+fetch the source code for a given file until it's actually needed.
+
+```sh
+node-inspector --no-preload
+```
+
+Once the debug server is running, you'll want to start up the FastBoot
+server with Node in debug mode. One thing about debug mode: it makes
+everything much slower. Since the `ember fastboot` command does a full
+build when launched, this becomes agonizingly slow in debug mode.
+
+Avoid the slowness by manually running the build in normal mode, then
+running FastBoot in debug mode without doing a build:
+
+```sh
+ember build && node --debug-brk ./node_modules/.bin/ember fastboot --no-build
+```
+
+This does a full rebuild and then starts the FastBoot server in debug
+mode. Note that the `--debug-brk` flag will cause your app to start
+paused to give you a chance to open the debugger.
+
+Once you see the output `debugger listening on port 5858`, visit
+[http://127.0.0.1:8080/debug?port=5858](http://127.0.0.1:8080/debug?port=5858)
+in your browser. Once it loads, click the "Resume script execution"
+button (it has a ▶︎ icon) to let FastBoot continue loading.
+
+Assuming your app loads without an exception, after a few seconds you
+will see a message that FastBoot is listening on port 3000. Once you see
+that, you can open a connection; any exceptions should be logged in the
+console, and you can use the tools you'd expect such as `console.log`,
+`debugger` statements, etc.
