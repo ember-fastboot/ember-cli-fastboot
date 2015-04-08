@@ -23,7 +23,6 @@ In order to get FastBoot working, you will first need to do the
 following:
 
 * Install Ember Canary and enable HTMLbars
-* Enable the required feature flags
 * Set the router's location to NoneLocation
 
 #### Install Ember Canary and Enable HTMLbars
@@ -32,43 +31,12 @@ To enable Ember canary and HTMLbars, run the following commands:
 
 ```
 rm -rf bower_components
-bower install --save handlebars#~2.0.0
 bower install --save ember#canary
 bower install
 ```
 
 Bower also prompts you to confirm various "resolutions" that it is
-unsure of. Make sure you pick ember#canary and Handlebars 2.0 if
-prompted.
-
-Then update the npm dependencies:
-
-```
-npm uninstall --save-dev broccoli-ember-hbs-template-compiler
-npm install --save-dev ember-cli-htmlbars
-```
-
-For more details, [see this blog
-post](http://reefpoints.dockyard.com/2014/11/30/htmlbars_calling_all_testers.html).
-
-#### Enable Required Feature Flags
-
-Lastly, enabled the following feature flags:
-
-* `ember-application-instance-initializers`
-* `ember-application-visit`
-
-To enable the these flags, add the following to your
-`config/environment.js` (under the `EmberENV.FEATURES` section):
-
-```js
-EmberENV: {
-  FEATURES: {
-    'ember-application-instance-initializers': true,
-    'ember-application-visit': true
-  }
-},
-```
+unsure of. Make sure you pick ember#canary if prompted.
 
 ## Running
 
