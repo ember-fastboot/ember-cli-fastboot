@@ -11,10 +11,11 @@ module.exports = {
   },
 
   contentFor: function(type, config) {
-    // When using a dist built html file, we need to reinsert 
-    // content-for body so fastboot can insert its content.
+    // do nothing unless running `ember fastboot` command
+    if (!process.env.EMBER_CLI_FASTBOOT) { return; }
+
     if (type === 'body') {
-      return "{{content-for 'body'}}";
+      return "<!-- EMBER_CLI_FASTBOOT_BODY -->";
     }
   }
 };
