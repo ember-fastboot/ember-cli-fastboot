@@ -22,22 +22,9 @@ ember install:addon ember-cli-fastboot
 In order to get FastBoot working, you will first need to do the
 following:
 
-* Disable Ember CLI's default configuration meta tag
 * Install Ember Canary and enable HTMLbars
 * Enable the required feature flags
 * Set the router's location to NoneLocation
-
-#### Disable Default Configuration
-
-Modify your application's generated `Brocfile` to disable storing
-configuration information in a `<meta>` tag:
-
-```js
-// Brocfile.js
-var app = new EmberApp({
-  storeConfigInMeta: false
-});
-```
 
 #### Install Ember Canary and Enable HTMLbars
 

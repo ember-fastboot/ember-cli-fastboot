@@ -17,5 +17,11 @@ module.exports = {
     if (type === 'body') {
       return "<!-- EMBER_CLI_FASTBOOT_BODY -->";
     }
+  },
+
+  included: function() {
+    if (process.env.EMBER_CLI_FASTBOOT) {
+      this.app.options.storeConfigInMeta = false;
+    }
   }
 };
