@@ -19,6 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.0",
+    "chai": "^2.2.0",
     "ember-cli": "0.2.3",
     "ember-cli-app-version": "0.3.2",
     "ember-cli-babel": "^4.0.0",
@@ -30,7 +31,9 @@
     "ember-cli-qunit": "0.3.9",
     "ember-cli-uglify": "1.0.1",
     "ember-data": "1.0.0-beta.16.1",
-    "ember-export-application-global": "^1.0.2"
+    "ember-export-application-global": "^1.0.2",
+    "mocha": "^2.2.4",
+    "request": "^2.55.0",
   },
   "keywords": [
     "ember-addon"
