@@ -28,6 +28,7 @@ module.exports = {
   included: function() {
     if (process.env.EMBER_CLI_FASTBOOT) {
       this.app.options.storeConfigInMeta = false;
+      process.env.EMBER_CLI_FASTBOOT_APP_NAME = this.app.name;
     }
   }
 };
