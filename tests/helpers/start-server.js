@@ -6,7 +6,21 @@ var path = require('path');
 var runCommand = require('ember-cli/tests/helpers/run-command');
 
 module.exports = function runServer(callback, options) {
-  options = options || { port: '49741'};
+  options = options || { };
+
+  if (!options.port) {
+    options.port = '49741';
+  }
+
+  var args = [
+    path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'),
+    'fastboot',
+    '--port', options.port
+  ];
+
+  if (options.additionalArguments) {
+    args = args.concat(options.additionalArguments);
+  }
 
   var commandOptions = {
     verbose: true,
@@ -20,9 +34,10 @@ module.exports = function runServer(callback, options) {
     }
   };
 
+  args.push(commandOptions);
+
   return new Promise(function(resolve, reject) {
-    runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'),
-      'fastboot', '--port', options.port, commandOptions)
+    runCommand.apply(null, args)
       .then(function() {
         throw new Error('The server should not have exited successfully.');
       })

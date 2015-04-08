@@ -38,4 +38,11 @@ describe('simple acceptance', function() {
         expect(response.body).to.contain("Posts Route!");
       });
   });
+
+  it('/assets/vendor.js', function() {
+    return request('http://localhost:49741/assets/vendor.js')
+      .then(function(response) {
+        expect(response.body).not.to.contain("Ember =");
+      });
+  });
 });
