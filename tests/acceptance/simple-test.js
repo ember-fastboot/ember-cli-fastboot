@@ -28,8 +28,10 @@ describe('simple acceptance', function() {
     return request('http://localhost:49741/')
       .then(function(response) {
         expect(response.body).to.contain("Welcome to Ember.js");
+        expect(response.body).to.contain('Application Route -- Title');
       });
   });
+
 
   it('/posts HTML contents', function() {
     return request('http://localhost:49741/posts')

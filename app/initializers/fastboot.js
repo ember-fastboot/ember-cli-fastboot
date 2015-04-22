@@ -34,7 +34,7 @@ export default {
 
         return App.visit(url).then(function(instance) {
           var view = instance.view;
-
+          var title = view.renderer._dom.document.title;
           var element;
 
           Ember.run(function() {
@@ -44,7 +44,11 @@ export default {
           element = element.firstChild;
 
           var serializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
-          return serializer.serialize(element);
+
+          return {
+            body: serializer.serialize(element),
+            title: title
+          };
         });
       });
     }
