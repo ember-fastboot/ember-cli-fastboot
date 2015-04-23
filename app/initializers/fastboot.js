@@ -1,5 +1,7 @@
 /*globals SimpleDOM, Ember, FastBoot, URL*/
 
+import serializeStores from 'ember-cli-fastboot/utils/serialize-stores';
+
 export default {
   name: "fast-boot",
 
@@ -35,7 +37,9 @@ export default {
         return App.visit(url).then(function(instance) {
           var view = instance.view;
           var title = view.renderer._dom.document.title;
+          var data = serializeStores(view.container);
           var element;
+
 
           Ember.run(function() {
             element = view.renderToElement();
@@ -47,7 +51,8 @@ export default {
 
           return {
             body: serializer.serialize(element),
-            title: title
+            title: title,
+            data: data
           };
         });
       });
