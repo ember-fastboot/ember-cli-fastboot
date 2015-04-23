@@ -18,6 +18,10 @@ module.exports = {
       return "<!-- EMBER_CLI_FASTBOOT_BODY -->";
     }
 
+    if (type === 'head') {
+      return "<!-- EMBER_CLI_FASTBOOT_TITLE -->";
+    }
+
     if (type === 'vendor-prefix') {
       return '// Added from ember-cli-fastboot \n' +
              'EmberENV.FEATURES = EmberENV.FEATURES || {};\n' +
