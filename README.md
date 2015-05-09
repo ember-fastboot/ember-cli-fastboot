@@ -16,7 +16,7 @@ your production app and have FastBoot work.
 From within your Ember CLI application, run the following command:
 
 ```
-ember install:addon ember-cli-fastboot
+ember install ember-cli-fastboot
 ```
 
 In order to get FastBoot working, you will first need to do the
