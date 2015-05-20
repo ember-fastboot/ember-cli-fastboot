@@ -12,7 +12,6 @@ describe('serve assets acceptance', function() {
     this.timeout(300000);
 
     function grabChild(child) {
-      console.log('saving child');
       server = child;
       done();
     }
@@ -46,4 +45,3 @@ describe('serve assets acceptance', function() {
       });
   });
 });
-
