@@ -20,7 +20,8 @@ module.exports = {
     }
 
     if (type === 'head') {
-      return "<!-- EMBER_CLI_FASTBOOT_TITLE -->";
+      return "<!-- EMBER_CLI_FASTBOOT_TITLE -->\n" +
+        "<!-- EMBER_CLI_FASTBOOT_DATA -->";
     }
 
     if (type === 'vendor-prefix') {

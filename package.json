@@ -22,7 +22,6 @@
     "chai": "^2.2.0",
     "ember-cli": "0.2.3",
     "ember-cli-app-version": "0.3.2",
-    "ember-cli-babel": "^4.0.0",
     "ember-cli-content-security-policy": "0.3.0",
     "ember-cli-dependency-checker": "0.0.8",
     "ember-cli-htmlbars": "0.7.4",
@@ -42,13 +41,14 @@
     "configPath": "tests/dummy/config"
   },
   "dependencies": {
-    "contextify": "^0.1.11",
-    "najax": "^0.1.5",
-    "rsvp": "^3.0.16",
-    "simple-dom": "0.2.1",
     "chalk": "^0.5.1",
+    "contextify": "^0.1.11",
+    "debug": "^2.1.0",
+    "ember-cli-babel": "^5.0.0",
     "express": "^4.8.5",
     "glob": "^4.0.5",
-    "debug": "^2.1.0"
+    "najax": "^0.1.5",
+    "rsvp": "^3.0.16",
+    "simple-dom": "0.2.1"
   }
 }
