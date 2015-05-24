@@ -7,7 +7,7 @@ export default {
     // Detect if we're running in Node. If not, there's nothing to do.
     if (typeof document === 'undefined') {
       var doc = new SimpleDOM.Document();
-      var domHelper = new Ember.View.DOMHelper(doc);
+      var domHelper = new Ember.HTMLBars.DOMHelper(doc);
 
       domHelper.protocolForURL = function(url) {
         var protocol = URL.parse(url).protocol;
