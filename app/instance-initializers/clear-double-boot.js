@@ -12,7 +12,7 @@ export default {
     var originalDidCreateRootView = instance.didCreateRootView;
 
     instance.didCreateRootView = function() {
-      Ember.$(instance.rootElement + ' .ember-view').remove();
+      Ember.$(instance.rootElement).children().not('script').remove();
 
       originalDidCreateRootView.apply(instance, arguments);
     };
