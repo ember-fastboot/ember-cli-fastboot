@@ -1,6 +1,5 @@
 var expect = require('chai').expect;
 var RSVP = require('rsvp');
-var Promise = RSVP.Promise;
 var startServer = require('../helpers/start-server');
 var delay = require('../helpers/delay');
 var request = RSVP.denodeify(require('request'));

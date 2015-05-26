@@ -1,7 +1,6 @@
 // node:true
 
 var RSVP = require('rsvp');
-var Promise = RSVP.Promise;
 var path = require('path');
 var runCommand = require('ember-cli/tests/helpers/run-command');
 
@@ -36,7 +35,7 @@ module.exports = function runServer(callback, options) {
 
   args.push(commandOptions);
 
-  return new Promise(function(resolve, reject) {
+  return new RSVP.Promise(function(resolve, reject) {
     runCommand.apply(null, args)
       .then(function() {
         throw new Error('The server should not have exited successfully.');
@@ -49,5 +48,4 @@ module.exports = function runServer(callback, options) {
   .catch(function(error) {
     console.error(error);
   });
-}
-
+};

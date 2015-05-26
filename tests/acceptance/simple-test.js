@@ -1,6 +1,5 @@
 var expect = require('chai').expect;
 var RSVP = require('rsvp');
-var Promise = RSVP.Promise;
 var startServer = require('../helpers/start-server');
 var request = RSVP.denodeify(require('request'));
 
@@ -27,17 +26,26 @@ describe('simple acceptance', function() {
   it('/ HTML contents', function() {
     return request('http://localhost:49741/')
       .then(function(response) {
+        expect(response.statusCode).to.equal(200);
         expect(response.body).to.contain("Welcome to Ember.js");
         expect(response.body).to.contain('Application Route -- Title');
       });
   });
 
-
   it('/posts HTML contents', function() {
     return request('http://localhost:49741/posts')
       .then(function(response) {
+        expect(response.statusCode).to.equal(200);
         expect(response.body).to.contain("Welcome to Ember.js");
         expect(response.body).to.contain("Posts Route!");
+      });
+  });
+
+  it('/not-found HTML contents', function() {
+    return request('http://localhost:49741/not-found')
+      .then(function(response) {
+        expect(response.statusCode).to.equal(404);
+        expect(response.body).to.equal("Not Found");
       });
   });
 

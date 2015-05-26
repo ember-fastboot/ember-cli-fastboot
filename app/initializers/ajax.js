@@ -24,9 +24,6 @@ export default {
   initialize: function(registry) {
     // Detect if we're running in Node. If not, there's nothing to do.
     if (typeof document === 'undefined') {
-      // This needs to be setting up renderer:main, and ideally would have a less hacked
-      // up interface. In particular, the only ACTUAL swap-in here is the fake document,
-      // so it would be nice if we could register just that.
       registry.register('ajax:node', {
         create: function() {
           return nodeAjax;
