@@ -40,7 +40,7 @@ unsure of. Make sure you pick ember#canary if prompted.
 
 ## Running
 
-* `ember fastboot`
+* `ember fastboot --serve-assets`
 * Visit your app at `http://localhost:3000`.
 
 You may be shocked to learn that minified code runs faster in Node than
