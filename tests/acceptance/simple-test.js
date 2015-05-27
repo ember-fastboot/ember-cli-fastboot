@@ -27,8 +27,9 @@ describe('simple acceptance', function() {
     return request('http://localhost:49741/')
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
+        expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
+        expect(response.body).to.contain('<title>Application Route -- Title</title>');
         expect(response.body).to.contain("Welcome to Ember.js");
-        expect(response.body).to.contain('Application Route -- Title');
       });
   });
 
@@ -36,6 +37,8 @@ describe('simple acceptance', function() {
     return request('http://localhost:49741/posts')
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
+        expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
+        expect(response.body).to.contain('<title>Application Route -- Title</title>');
         expect(response.body).to.contain("Welcome to Ember.js");
         expect(response.body).to.contain("Posts Route!");
       });
@@ -45,14 +48,27 @@ describe('simple acceptance', function() {
     return request('http://localhost:49741/not-found')
       .then(function(response) {
         expect(response.statusCode).to.equal(404);
+        expect(response.headers["content-type"]).to.eq("text/plain; charset=utf-8");
         expect(response.body).to.equal("Not Found");
+      });
+  });
+
+  it('/boom HTML contents', function() {
+    return request('http://localhost:49741/boom')
+      .then(function(response) {
+        expect(response.statusCode).to.equal(500);
+        expect(response.headers["content-type"]).to.eq("text/plain; charset=utf-8");
+        expect(response.body).to.equal("Internal Server Error");
       });
   });
 
   it('/assets/vendor.js', function() {
     return request('http://localhost:49741/assets/vendor.js')
       .then(function(response) {
-        expect(response.body).not.to.contain("Ember =");
+        // Asset servering is off by default
+        expect(response.statusCode).to.equal(404);
+        expect(response.headers["content-type"]).to.eq("text/plain; charset=utf-8");
+        expect(response.body).to.equal("Not Found");
       });
   });
 });

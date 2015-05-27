@@ -31,6 +31,8 @@ describe('serve assets acceptance', function() {
   it('/assets/vendor.js', function() {
     return request('http://localhost:49741/assets/vendor.js')
       .then(function(response) {
+        expect(response.statusCode).to.equal(200);
+        expect(response.headers["content-type"]).to.eq("application/javascript");
         expect(response.body).to.contain("Ember =");
       });
   });
@@ -38,6 +40,8 @@ describe('serve assets acceptance', function() {
   it('/assets/dummy.js', function() {
     return request('http://localhost:49741/assets/dummy.js')
       .then(function(response) {
+        expect(response.statusCode).to.equal(200);
+        expect(response.headers["content-type"]).to.eq("application/javascript");
         expect(response.body).to.contain("this.route('posts')");
       });
   });
