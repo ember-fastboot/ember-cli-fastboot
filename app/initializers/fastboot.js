@@ -36,6 +36,7 @@ export default {
         return App.visit(url).then(function(instance) {
           var view = instance.view;
           var title = view.renderer._dom.document.title;
+          var metaTags = view.renderer.metaTags;
           var element;
 
           Ember.run(function() {
@@ -48,7 +49,8 @@ export default {
 
           return {
             body: serializer.serialize(element),
-            title: title
+            title: title,
+            metaTags: metaTags,
           };
         });
       });

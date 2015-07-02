@@ -29,6 +29,8 @@ describe('simple acceptance', function() {
         expect(response.statusCode).to.equal(200);
         expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
         expect(response.body).to.contain('<title>Application Route -- Title</title>');
+        expect(response.body).to.contain('<meta name="description" content="something here">');
+        expect(response.body).to.contain('<meta property="og:image" content="http://placehold.it/500x500">');
         expect(response.body).to.contain("Welcome to Ember.js");
       });
   });
@@ -39,6 +41,8 @@ describe('simple acceptance', function() {
         expect(response.statusCode).to.equal(200);
         expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
         expect(response.body).to.contain('<title>Application Route -- Title</title>');
+        expect(response.body).to.contain('<meta name="description" content="something here">');
+        expect(response.body).to.contain('<meta property="og:image" content="http://placehold.it/500x500">');
         expect(response.body).to.contain("Welcome to Ember.js");
         expect(response.body).to.contain("Posts Route!");
       });
