@@ -34,23 +34,47 @@ export default {
         FastBoot.debug("routing; url=%s", url);
 
         return App.visit(url).then(function(instance) {
+          var serializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
           var view = instance.view;
-          var title = view.renderer._dom.document.title;
+          var dom = view.renderer._dom;
+          var title = dom.document.title;
+          var head = dom.document.head;
           var metaTags = view.renderer.metaTags;
+          var body;
           var element;
 
           Ember.run(function() {
-            element = view.renderToElement();
+            body = view.renderToElement();
           });
 
-          element = element.firstChild;
+          if (title) {
+            element = dom.document.createElement('title');
+            element.appendChild(dom.document.createTextNode(title));
+            head.appendChild(element);
+          }
 
-          var serializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
+          if (metaTags) {
+            metaTags.forEach(function(metaTag) {
+              element = dom.document.createElement(metaTag.name);
+
+              Object.keys(metaTag.attrs).forEach(function(key) {
+                element.setAttribute(key, metaTag.attrs[key]);
+              });
+
+              for (var i = 2; i < arguments.length; i++) {
+                element.appendChild(arguments[i]);
+              }
+
+              head.appendChild(element);
+            });
+          }
+
+          body = body.firstChild;
+          head = head.firstChild;
 
           return {
-            body: serializer.serialize(element),
-            title: title,
-            metaTags: metaTags,
+            body: serializer.serialize(body),
+            head: (head === null) ? null : serializer.serialize(head)
           };
         });
       });
