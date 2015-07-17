@@ -23,7 +23,8 @@ export default {
       // so it would be nice if we could register just that.
       registry.register('renderer:-dom', {
         create: function() {
-          return new Ember.View._Renderer(domHelper, false);
+          var Renderer = Ember._Renderer || Ember.View._Renderer;
+          return new Renderer(domHelper, false);
         }
       });
 
