@@ -19,18 +19,18 @@ var nodeAjax = function(url, type, options) {
 };
 
 export default {
-  name: "ajax-service",
+  name: 'ajax-service',
 
-  initialize: function(registry) {
+  initialize: function(application) {
     // Detect if we're running in Node. If not, there's nothing to do.
     if (typeof document === 'undefined') {
-      registry.register('ajax:node', {
+      application.register('ajax:node', {
         create: function() {
           return nodeAjax;
         }
       });
 
-      registry.injection('adapter', 'ajax', 'ajax:node');
+      application.inject('adapter', 'ajax', 'ajax:node');
     }
   }
 };
