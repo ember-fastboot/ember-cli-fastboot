@@ -19,15 +19,7 @@ From within your Ember CLI application, run the following command:
 ember install ember-cli-fastboot
 ```
 
-In order to get FastBoot working, you will first need to do the
-following:
-
-* Install Ember Canary and enable HTMLbars
-* Set the router's location to NoneLocation
-
-#### Install Ember Canary and Enable HTMLbars
-
-To enable Ember canary and HTMLbars, run the following commands:
+In order to get FastBoot working, you will first need to enable Ember Canary:
 
 ```
 rm -rf bower_components
