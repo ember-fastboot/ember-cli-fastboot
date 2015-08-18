@@ -45,7 +45,7 @@
     "contextify": "^0.1.11",
     "najax": "^0.1.5",
     "rsvp": "^3.0.16",
-    "simple-dom": "0.2.3",
+    "simple-dom": "0.2.7",
     "chalk": "^0.5.1",
     "express": "^4.8.5",
     "glob": "^4.0.5",

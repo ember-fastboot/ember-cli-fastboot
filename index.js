@@ -15,12 +15,12 @@ module.exports = {
     // do nothing unless running `ember fastboot` command
     if (!process.env.EMBER_CLI_FASTBOOT) { return; }
 
-    if (type === 'body') {
-      return "<!-- EMBER_CLI_FASTBOOT_BODY -->";
+    if (type === 'head') {
+      return "<!-- EMBER_CLI_FASTBOOT_HEAD -->";
     }
 
-    if (type === 'head') {
-      return "<!-- EMBER_CLI_FASTBOOT_TITLE -->";
+    if (type === 'body') {
+      return "<!-- EMBER_CLI_FASTBOOT_BODY -->";
     }
 
     if (type === 'vendor-prefix') {
