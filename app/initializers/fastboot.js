@@ -14,6 +14,11 @@ export default {
         return (protocol == null) ? ':' : protocol;
       };
 
+      domHelper.setMorphHTML = function(morph, html) {
+        var section = this.document.createRawHTMLSection(html);
+        morph.setNode(section);
+      };
+
       // Disable autobooting of the app. This will disable automatic routing,
       // and routing will only occur via our calls to visit().
       App.autoboot = false;
