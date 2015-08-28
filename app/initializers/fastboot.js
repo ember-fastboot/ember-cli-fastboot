@@ -38,7 +38,12 @@ export default {
       FastBoot.resolve(function(url) {
         FastBoot.debug("routing; url=%s", url);
 
-        return App.visit(url).then(function(instance) {
+        var promise;
+        Ember.run(function() {
+          promise = App.visit(url);
+        });
+
+        return promise.then(function(instance) {
           var view = instance.view;
           var title = view.renderer._dom.document.title;
           var element;
@@ -46,8 +51,6 @@ export default {
           Ember.run(function() {
             element = view.renderToElement();
           });
-
-          element = element.firstChild;
 
           var serializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
 
