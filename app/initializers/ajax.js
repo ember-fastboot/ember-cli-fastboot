@@ -6,7 +6,10 @@ var nodeAjax = function(url, type, options) {
     var hash = adapter.ajaxOptions(url, type, options);
 
     hash.success = function(json, textStatus, jqXHR) {
-      json = adapter.ajaxSuccess(jqXHR, json);
+      // TODO: Resolve the hard coded success values below
+      var statusCode = 200; // textStatus is null in Fastboot
+      var headers = ''; // jqXHR is undefined in Fastboot
+      json = adapter.handleResponse(statusCode, headers, json);
       Ember.run(null, resolve, json);
     };
 
