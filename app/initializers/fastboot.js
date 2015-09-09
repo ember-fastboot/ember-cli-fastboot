@@ -3,7 +3,7 @@
 export default {
   name: "fast-boot",
 
-  initialize: function(registry, App) {
+  initialize: function(App) {
     // Detect if we're running in Node. If not, there's nothing to do.
     if (typeof document === 'undefined') {
       var doc = new SimpleDOM.Document();
@@ -26,7 +26,7 @@ export default {
       // This needs to be setting up renderer:main, and ideally would have a less hacked
       // up interface. In particular, the only ACTUAL swap-in here is the fake document,
       // so it would be nice if we could register just that.
-      registry.register('renderer:-dom', {
+      App.register('renderer:-dom', {
         create: function() {
           var Renderer = Ember._Renderer || Ember.View._Renderer;
           return new Renderer(domHelper, false);
