@@ -11,7 +11,7 @@ module.exports = {
     };
   },
 
-  contentFor: function(type, config) {
+  contentFor: function(type) {
     // do nothing unless running `ember fastboot` command
     if (!process.env.EMBER_CLI_FASTBOOT) { return; }
 
@@ -19,7 +19,7 @@ module.exports = {
       return "<!-- EMBER_CLI_FASTBOOT_BODY -->";
     }
 
-    if (type === 'head') {
+    if (type === 'head-footer') {
       return "<!-- EMBER_CLI_FASTBOOT_TITLE -->";
     }
 
