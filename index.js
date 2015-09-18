@@ -34,6 +34,7 @@ module.exports = {
     if (process.env.EMBER_CLI_FASTBOOT) {
       this.app.options.storeConfigInMeta = false;
       process.env.EMBER_CLI_FASTBOOT_APP_NAME = this.app.name;
+      process.env.EMBER_CLI_FASTBOOT_APP_OUTPUT_PATHS = JSON.stringify(this.app.options.outputPaths);
     }
   }
 };
