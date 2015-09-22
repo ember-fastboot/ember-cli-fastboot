@@ -4,7 +4,7 @@
 // Provide a title to the process in `ps`
 process.title = 'ember-fastboot-server';
 
-var Server = require('../lib/server');
+var FastBootServer = require('../lib/server');
 var express = require('express');
 var parseArgs = require('minimist');
 
