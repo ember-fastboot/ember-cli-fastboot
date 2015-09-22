@@ -8,6 +8,8 @@ For more information about FastBoot, see
 [ember-cli-fastboot][ember-cli-fastboot], the Ember CLI addon that's a
 prerequisite for developing FastBoot apps.
 
+[ember-cli-fastboot]: https://github.com/tildeio/ember-cli-fastboot
+
 ## Usage
 
 ### Command Line
