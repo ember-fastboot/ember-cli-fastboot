@@ -1,0 +1,58 @@
+#!/usr/bin/env node
+'use strict';
+
+// Provide a title to the process in `ps`
+process.title = 'ember-fastboot-server';
+
+var Server = require('../lib/server');
+var express = require('express');
+var parseArgs = require('minimist');
+
+var options = parseArgs(process.argv.slice(2));
+var appFile = options['app-file'];
+var vendorFile = options['vendor-file'];
+var htmlFile = options['html-file'];
+
+if (!appFile) {
+  console.error("You must specify the path to an application file with the --app-file option.");
+  return;
+}
+
+if (!vendorFile) {
+  console.error("You must specify the path to a vendor file with the --vendor-file option.");
+  return;
+}
+
+if (!htmlFile) {
+  console.error("You must specify the path to a HTML file with the --html-file option.");
+  return;
+}
+
+// Stubs out the `ui` object for printing to the terminal used
+// by Ember CLI addons.
+var ui = {
+  writeLine: function() {
+    console.log.apply(console, arguments);
+  }
+};
+
+var server = new FastBootServer({
+  appFile: appFile,
+  vendorFile: vendorFile,
+  htmlFile: htmlFile,
+  ui: ui
+});
+
+var app = express();
+
+app.get('/*', server.middleware());
+
+var listener = app.listen(options.port, function() {
+  var host = listener.address().address;
+  var port = listener.address().port;
+  var family = listener.address().family;
+
+  if (family === 'IPv6') { host = '[' + host + ']'; }
+
+  console.log('Ember FastBoot running at http://' + host + ":" + port);
+});
