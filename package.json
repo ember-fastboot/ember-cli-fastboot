@@ -42,13 +42,14 @@
     "configPath": "tests/dummy/config"
   },
   "dependencies": {
-    "contextify": "^0.1.11",
-    "najax": "^0.1.5",
-    "rsvp": "^3.0.16",
-    "simple-dom": "0.2.7",
     "chalk": "^0.5.1",
+    "contextify": "^0.1.11",
+    "debug": "^2.1.0",
+    "ember-fastboot-server": "0.0.2",
     "express": "^4.8.5",
     "glob": "^4.0.5",
-    "debug": "^2.1.0"
+    "najax": "^0.1.5",
+    "rsvp": "^3.0.16",
+    "simple-dom": "^0.2.7"
   }
 }
