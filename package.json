@@ -45,11 +45,11 @@
     "chalk": "^0.5.1",
     "contextify": "^0.1.11",
     "debug": "^2.1.0",
-    "ember-fastboot-server": "0.0.2",
+    "ember-fastboot-server": "ronco/ember-fastboot-server#fastboot-head-content",
     "express": "^4.8.5",
     "glob": "^4.0.5",
     "najax": "^0.1.5",
     "rsvp": "^3.0.16",
-    "simple-dom": "^0.2.7"
+    "simple-dom": "ronco/simple-dom#serialize-children"
   }
 }

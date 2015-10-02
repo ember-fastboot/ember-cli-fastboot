@@ -55,8 +55,8 @@ export default {
           });
 
           return {
-            body: serializer.serialize(body),
-            head: (head === null) ? null : serializer.serialize(head)
+            body: serializer.serializeChildren(body),
+            head: (head === null) ? null : serializer.serializeChildren(head)
           };
         });
       });
