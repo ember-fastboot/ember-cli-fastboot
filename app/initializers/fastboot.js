@@ -44,19 +44,19 @@ export default {
         });
 
         return promise.then(function(instance) {
+          var serializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
           var view = instance.view;
-          var title = view.renderer._dom.document.title;
-          var element;
+          var dom = view.renderer._dom;
+          var head = dom.document.head;
+          var body;
 
           Ember.run(function() {
-            element = view.renderToElement();
+            body = view.renderToElement();
           });
 
-          var serializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
-
           return {
-            body: serializer.serialize(element),
-            title: title
+            body: serializer.serializeChildren(body),
+            head: (head === null) ? null : serializer.serializeChildren(head)
           };
         });
       });
