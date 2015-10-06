@@ -43,11 +43,22 @@ var server = new FastBootServer({
   ui: ui
 });
 
-var app = express();
+console.log('Booting Ember app...');
 
-app.get('/*', server.middleware());
+// FastFail™: this is not mandatory; the first call to visit would
+// also boot the app anyway. This is just to provide useful feedback
+// instead of booting a server that keeps serving 500.
+//
+// Note that Application#boot is still a private API atm, so it might
+// go through more churn in the near term.
+server.app.boot().then(function() {
+  console.log('Ember app booted successfully.');
 
-var listener = app.listen(options.port, function() {
+  var app = express();
+
+  app.get('/*', server.middleware());
+
+  var listener = app.listen(options.port, function() {
   var host = listener.address().address;
   var port = listener.address().port;
   var family = listener.address().family;
@@ -55,4 +66,15 @@ var listener = app.listen(options.port, function() {
   if (family === 'IPv6') { host = '[' + host + ']'; }
 
   console.log('Ember FastBoot running at http://' + host + ":" + port);
+}, function(error) {
+  if (error.stack) {
+    console.error('An error occured when booting Ember app...');
+    console.error(error.stack);
+  } else if (error.message) {
+    console.error('An error occured when booting Ember app: ' + error.message);
+  } else {
+    console.error('An unknown error occured when booting Ember app: ' + JSON.stringify(error));
+  }
+
+  process.exit(1);
 });
