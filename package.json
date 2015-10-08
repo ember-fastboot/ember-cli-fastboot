@@ -42,6 +42,7 @@
     "configPath": "tests/dummy/config"
   },
   "dependencies": {
+    "broccoli-funnel": "0.2.8",
     "chalk": "^0.5.1",
     "contextify": "^0.1.11",
     "debug": "^2.1.0",
@@ -49,7 +50,6 @@
     "express": "^4.8.5",
     "glob": "^4.0.5",
     "najax": "^0.1.5",
-    "rsvp": "^3.0.16",
-    "simple-dom": "^0.2.7"
+    "rsvp": "^3.0.16"
   }
 }

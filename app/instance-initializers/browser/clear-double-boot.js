@@ -1,3 +1,5 @@
+/*globals Ember*/
+
 // When using `ember fastboot --serve-assets` the application output will
 // already be rendered to the DOM when the actual JavaScript loads. Ember
 // does not automatically clear its `rootElement` so this leads to the
