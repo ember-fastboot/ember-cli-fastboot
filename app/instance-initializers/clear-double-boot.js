@@ -11,8 +11,12 @@ export default {
   initialize: function(instance) {
     var originalDidCreateRootView = instance.didCreateRootView;
 
-    instance.didCreateRootView = function() {
-      Ember.$(instance.rootElement + ' .ember-view').remove();
+    instance.didCreateRootView = function(view) {
+      if( Ember.$ ) {
+        Ember.$(instance.rootElement + ' .ember-view').remove();
+      } else {
+        instance.view = view;
+      }
 
       originalDidCreateRootView.apply(instance, arguments);
     };
