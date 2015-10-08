@@ -40,7 +40,10 @@ export default {
 
         var promise;
         Ember.run(function() {
-          promise = App.visit(url);
+          promise = App.visit(url {
+            document: doc,
+            rootElement: doc
+          });
         });
 
         return promise.then(function(instance) {
