@@ -10,7 +10,8 @@
   "scripts": {
     "start": "ember server",
     "build": "ember build",
-    "test": "mocha tests/acceptance"
+    "test": "node tests/runner",
+    "test:precook": "node tests/precook-node-modules"
   },
   "engines": {
     "node": ">= 0.10.0"
@@ -20,20 +21,28 @@
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.0",
     "chai": "^2.2.0",
-    "ember-cli": "0.2.3",
-    "ember-cli-app-version": "0.3.2",
-    "ember-cli-babel": "^4.0.0",
-    "ember-cli-content-security-policy": "0.3.0",
-    "ember-cli-dependency-checker": "0.0.8",
-    "ember-cli-htmlbars": "0.7.4",
-    "ember-cli-ic-ajax": "0.1.1",
-    "ember-cli-inject-live-reload": "^1.3.0",
-    "ember-cli-qunit": "0.3.9",
-    "ember-cli-uglify": "1.0.1",
-    "ember-data": "1.0.0-beta.16.1",
-    "ember-export-application-global": "^1.0.2",
+    "ember-cli": "1.13.8",
+    "ember-cli-app-version": "0.5.0",
+    "ember-cli-content-security-policy": "0.4.0",
+    "ember-cli-dependency-checker": "^1.0.1",
+    "ember-cli-htmlbars": "0.7.9",
+    "ember-cli-htmlbars-inline-precompile": "^0.2.0",
+    "ember-cli-ic-ajax": "0.2.1",
+    "ember-cli-inject-live-reload": "^1.3.1",
+    "ember-cli-qunit": "^1.0.0",
+    "ember-cli-uglify": "^1.2.0",
+    "ember-data": "1.13.8",
+    "ember-export-application-global": "^1.0.3",
+    "cpr": "^0.4.2",
+    "exists-sync": "0.0.3",
+    "fs-extra": "^0.24.0",
+    "lodash": "^3.10.1",
     "mocha": "^2.2.4",
-    "request": "^2.55.0"
+    "request": "^2.55.0",
+    "rimraf": "^2.4.3",
+    "symlink-or-copy": "^1.0.1",
+    "temp": "^0.8.3",
+    "walk-sync": "^0.2.5"
   },
   "keywords": [
     "ember-addon"

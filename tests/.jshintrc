@@ -1,10 +1,15 @@
 {
   "predef": [
+    "console",
+    "it",
+    "describe",
+    "beforeEach",
+    "afterEach",
     "before",
     "after",
-    "describe",
-    "it"
+    "-Promise"
   ],
+  "unused": true,
   "node": true,
   "browser": false,
   "boss": true,

@@ -1,8 +1,9 @@
 // node:true
 
-var RSVP = require('rsvp');
-var path = require('path');
-var runCommand = require('ember-cli/tests/helpers/run-command');
+var RSVP         = require('rsvp');
+var path         = require('path');
+var debug        = require('debug')('fastboot-test');
+var runCommand   = require('ember-cli/tests/helpers/run-command');
 var emberCommand = path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember');
 
 module.exports = function runServer(callback, options) {
@@ -36,6 +37,8 @@ module.exports = function runServer(callback, options) {
 
   args.push(commandOptions);
 
+  debug("starting server");
+
   return new RSVP.Promise(function(resolve, reject) {
     runCommand.call(null, emberCommand, 'build') // build 'dist'
       .then(function() {
@@ -49,7 +52,4 @@ module.exports = function runServer(callback, options) {
         resolve();
       });
   })
-  .catch(function(error) {
-    console.error(error);
-  });
 };

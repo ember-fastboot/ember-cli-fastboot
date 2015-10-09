@@ -166,3 +166,23 @@ will see a message that FastBoot is listening on port 3000. Once you see
 that, you can open a connection; any exceptions should be logged in the
 console, and you can use the tools you'd expect such as `console.log`,
 `debugger` statements, etc.
+
+## Tests
+
+Run the automated tests by running `npm test`.
+
+Note that the integration tests create new Ember applications via `ember
+new` and thus have to run an `npm install`, which can take several
+minutes, particularly on slow connections.
+
+To speed up test runs you can run `npm run test:precook` to "precook" a
+`node_modules` directory that will be reused across test runs.
+
+### Debugging Integration Tests
+
+Run the tests with the `DEBUG` environment variable set to
+`fastboot-test` to see verbose debugging output.
+
+```sh
+DEBUG=fastboot-test npm test
+```
