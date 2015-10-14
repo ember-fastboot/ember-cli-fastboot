@@ -10,6 +10,8 @@
 // application will replace the pre-rendered output
 
 export default {
+  name: "clear-double-boot",
+
   initialize: function(instance) {
     var originalDidCreateRootView = instance.didCreateRootView;
 
