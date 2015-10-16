@@ -1,4 +1,4 @@
-/*globals najax, FastBoot, Ember*/
+/*globals najax, Ember*/
 var nodeAjax = function(url, type, options) {
   var adapter = this;
 
@@ -22,15 +22,7 @@ export default {
   name: 'ajax-service',
 
   initialize: function(application) {
-    // Detect if we're running in Node. If not, there's nothing to do.
-    if (typeof document === 'undefined') {
-      application.register('ajax:node', {
-        create: function() {
-          return nodeAjax;
-        }
-      });
-
-      application.inject('adapter', 'ajax', 'ajax:node');
-    }
+    application.register('ajax:node', nodeAjax, { instantiate: false });
+    application.inject('adapter', 'ajax', 'ajax:node');
   }
 };

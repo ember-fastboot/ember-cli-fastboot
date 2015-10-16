@@ -1,3 +1,5 @@
+/*globals Ember*/
+
 // When using `ember fastboot --serve-assets` the application output will
 // already be rendered to the DOM when the actual JavaScript loads. Ember
 // does not automatically clear its `rootElement` so this leads to the
@@ -8,6 +10,8 @@
 // application will replace the pre-rendered output
 
 export default {
+  name: "clear-double-boot",
+
   initialize: function(instance) {
     var originalDidCreateRootView = instance.didCreateRootView;
 
