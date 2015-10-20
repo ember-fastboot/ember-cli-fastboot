@@ -1,7 +1,6 @@
 'use strict';
 
-var RSVP           = require('rsvp');
-var Promise        = require('../../lib/ext/promise');
+var Promise        = require('rsvp').Promise;
 var chalk          = require('chalk');
 var spawn          = require('child_process').spawn;
 var defaults       = require('lodash/object/defaults');
@@ -41,7 +40,7 @@ module.exports = function run(/* command, args, options */) {
     }
   });
 
-  return new RSVP.Promise(function(resolve, reject) {
+  return new Promise(function(resolve, reject) {
     options.log('      Running: ' + command + ' ' + args.join(' ') + ' in: ' + process.cwd());
 
     var opts = {};

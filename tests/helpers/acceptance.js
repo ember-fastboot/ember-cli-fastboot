@@ -6,13 +6,14 @@ var existsSync       = require('exists-sync');
 var temp             = require('temp').track();
 var debug            = require('debug')('fastboot-test');
 
-var Promise          = require('../../lib/ext/promise');
+var RSVP          = require('rsvp')
+var Promise          = RSVP.Promise;
 var runCommand       = require('./run-command');
 var chdir            = require('./chdir');
 var moveDirectory    = require('./move-directory');
 var symlinkDirectory = require('./symlink-directory');
-var copy             = Promise.denodeify(require('cpr'));
-var exec             = Promise.denodeify(require('child_process').exec);
+var copy             = RSVP.denodeify(require('cpr'));
+var exec             = RSVP.denodeify(require('child_process').exec);
 
 var root             = process.cwd();
 
