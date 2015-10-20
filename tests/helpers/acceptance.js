@@ -6,7 +6,7 @@ var existsSync       = require('exists-sync');
 var temp             = require('temp').track();
 var debug            = require('debug')('fastboot-test');
 
-var RSVP          = require('rsvp')
+var RSVP             = require('rsvp');
 var Promise          = RSVP.Promise;
 var runCommand       = require('./run-command');
 var chdir            = require('./chdir');
