@@ -5,7 +5,7 @@ var chalk          = require('chalk');
 var spawn          = require('child_process').spawn;
 var defaults       = require('lodash/object/defaults');
 var killCliProcess = require('./kill-cli-process');
-var debug             = require('debug')('fastboot-test');
+var debug          = require('debug')('fastboot-test');
 
 module.exports = function run(/* command, args, options */) {
   var command = arguments[0];
