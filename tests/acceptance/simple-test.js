@@ -1,22 +1,37 @@
-var expect = require('chai').expect;
-var RSVP = require('rsvp');
-var startServer = require('../helpers/start-server');
-var request = RSVP.denodeify(require('request'));
+var expect           = require('chai').expect;
+var RSVP             = require('rsvp');
+var startServer      = require('../helpers/start-server');
+var request          = RSVP.denodeify(require('request'));
+
+var acceptance       = require('../helpers/acceptance');
+var createApp        = acceptance.createApp;
+var copyFixtureFiles = acceptance.copyFixtureFiles;
+
+var appName          = 'dummy';
 
 describe('simple acceptance', function() {
+  this.timeout(300000);
   var server;
 
   before(function(done) {
     // start the server once for all tests
-    this.timeout(300000);
 
-    function grabChild(child) {
-      console.log('saving child');
+    var grabChild = function(child) {
       server = child;
       done();
-    }
+    };
 
-    return startServer(grabChild);
+    return createApp(appName)
+      .then(function() {
+        return copyFixtureFiles(appName);
+      })
+      .then(function() {
+        return startServer(grabChild);
+      })
+      .catch(function(e) {
+        console.log(e);
+        console.log(e.stack);
+      });
   });
 
   after(function() {
@@ -65,7 +80,7 @@ describe('simple acceptance', function() {
   it('/assets/vendor.js', function() {
     return request('http://localhost:49741/assets/vendor.js')
       .then(function(response) {
-        // Asset servering is off by default
+        // Asset serving is off by default
         expect(response.statusCode).to.equal(404);
         expect(response.headers["content-type"]).to.eq("text/plain; charset=utf-8");
         expect(response.body).to.equal("Not Found");

@@ -1,10 +1,16 @@
-var expect = require('chai').expect;
-var RSVP = require('rsvp');
-var startServer = require('../helpers/start-server');
-var delay = require('../helpers/delay');
-var request = RSVP.denodeify(require('request'));
+var expect           = require('chai').expect;
+var RSVP             = require('rsvp');
+var request          = RSVP.denodeify(require('request'));
+
+var startServer      = require('../helpers/start-server');
+var acceptance       = require('../helpers/acceptance');
+var createApp        = acceptance.createApp;
+var copyFixtureFiles = acceptance.copyFixtureFiles;
+
+var appName          = 'dummy';
 
 describe('serve assets acceptance', function() {
+  this.timeout(300000);
   var server;
 
   before(function(done) {
@@ -12,20 +18,26 @@ describe('serve assets acceptance', function() {
     this.timeout(300000);
 
     function grabChild(child) {
-      console.log('saving child');
       server = child;
       done();
     }
 
-    return startServer(grabChild, {
-      additionalArguments: ['--serve-assets']
-    });
+    return createApp(appName)
+      .then(function() {
+        return copyFixtureFiles(appName);
+      })
+      .then(function() {
+        return startServer(grabChild, {
+          additionalArguments: ['--serve-assets']
+        });
+      })
+      .catch(function(e) {
+        console.log(e);
+      });
   });
 
   after(function() {
     server.kill('SIGINT');
-
-    return delay(500);
   });
 
   it('/assets/vendor.js', function() {
@@ -46,4 +58,3 @@ describe('serve assets acceptance', function() {
       });
   });
 });
-

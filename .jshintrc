@@ -3,6 +3,7 @@
     "document",
     "window",
     "-Promise"
+    "console"
   ],
   "browser": true,
   "boss": true,
