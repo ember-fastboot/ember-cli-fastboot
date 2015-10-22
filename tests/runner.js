@@ -14,7 +14,7 @@ var testFiles = glob.sync(root + '/**/*-test.js');
 addFiles(mocha, testFiles);
 
 try {
-    runMocha();
+  runMocha();
 } catch (error) {
   console.error(error);
   process.exit(1);
