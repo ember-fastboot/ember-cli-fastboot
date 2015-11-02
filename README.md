@@ -23,7 +23,7 @@ In order to get FastBoot working, you will first need to enable Ember Canary:
 
 ```
 rm -rf bower_components
-bower install --save ember#canary
+bower install --save ember#canary ember-data#canary
 bower install
 ```
 
