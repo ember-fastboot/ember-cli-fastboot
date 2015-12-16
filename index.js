@@ -52,9 +52,6 @@ module.exports = {
     if (!process.env.EMBER_CLI_FASTBOOT) { return {}; }
 
     return {
-      EmberENV: {
-        FEATURES: { 'ember-application-visit': true }
-      },
       APP: {
         autoboot: false
       }
