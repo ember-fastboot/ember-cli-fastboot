@@ -2,6 +2,7 @@
 'use strict';
 
 var Funnel = require('broccoli-funnel');
+var patchEmberApp = require('./lib/ext/patch-ember-app');
 
 // Expose the an factory for the creating the `Application` object
 // with the proper config at a known path, so that the server does
@@ -45,6 +46,8 @@ module.exports = {
 
     // We serve the index.html from fastboot-dist, so this has to apply to both builds
     app.options.storeConfigInMeta = false;
+
+    patchEmberApp(app);
   },
 
   config: function(/* environment, appConfig */) {

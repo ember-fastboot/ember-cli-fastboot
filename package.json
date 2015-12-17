@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "broccoli-funnel": "0.2.8",
+    "broccoli-stew": "^1.0.4",
     "chalk": "^0.5.1",
     "contextify": "^0.1.11",
     "debug": "^2.1.0",
