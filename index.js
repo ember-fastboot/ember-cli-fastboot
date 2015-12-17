@@ -42,12 +42,11 @@ module.exports = {
     if (process.env.EMBER_CLI_FASTBOOT) {
       process.env.EMBER_CLI_FASTBOOT_APP_NAME = app.name;
       app.options.autoRun = false;
+      patchEmberApp(app);
     }
 
     // We serve the index.html from fastboot-dist, so this has to apply to both builds
     app.options.storeConfigInMeta = false;
-
-    patchEmberApp(app);
   },
 
   config: function(/* environment, appConfig */) {
