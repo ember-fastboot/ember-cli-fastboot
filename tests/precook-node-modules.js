@@ -2,6 +2,7 @@
 
 var temp             = require('temp').track();
 var path             = require('path');
+var fs               = require('fs-extra');
 
 var moveDirectory    = require('./helpers/move-directory');
 var runCommand       = require('./helpers/run-command');
@@ -14,10 +15,12 @@ var args             = [path.join(__dirname, '../node_modules/ember-cli/', 'bin'
 
 process.chdir(tmpDir);
 
-runCommand.apply(undefined, args).then(function() {
-    moveDirectory(path.join(tmpDir, name, 'node_modules'), path.join(root, 'tmp', 'precooked_node_modules'));
+runCommand.apply(undefined, args)
+  .then(function() {
+    return fs.ensureDir('tmp');
   })
   .then(function() {
+    moveDirectory(path.join(tmpDir, name, 'node_modules'), path.join(root, 'tmp', 'precooked_node_modules'));
     symlinkDirectory(root, path.join(root, 'tmp', 'precooked_node_modules', 'ember-cli-fastboot'));
   })
   .catch(function(e) {
