@@ -1,6 +1,5 @@
 var glob = require('glob');
 var Mocha = require('mocha');
-var rimraf = require('rimraf');
 
 var root = 'tests/{acceptance,unit}';
 
