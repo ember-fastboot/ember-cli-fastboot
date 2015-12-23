@@ -2,6 +2,7 @@
 'use strict';
 
 var Funnel = require('broccoli-funnel');
+var patchEmberApp = require('./lib/ext/patch-ember-app');
 
 // Expose the an factory for the creating the `Application` object
 // with the proper config at a known path, so that the server does
@@ -41,6 +42,7 @@ module.exports = {
     if (process.env.EMBER_CLI_FASTBOOT) {
       process.env.EMBER_CLI_FASTBOOT_APP_NAME = app.name;
       app.options.autoRun = false;
+      patchEmberApp(app);
     }
 
     // We serve the index.html from fastboot-dist, so this has to apply to both builds
