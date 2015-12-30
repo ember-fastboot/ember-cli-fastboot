@@ -7,11 +7,19 @@ process.title = 'ember-fastboot-server';
 var FastBootServer = require('../lib/server');
 var express = require('express');
 var parseArgs = require('minimist');
+var path = require('path');
+var glob = require('glob');
+var assert = require('assert');
 
 var options = parseArgs(process.argv.slice(2));
+var distFile = options['dist-file'];
 var appFile = options['app-file'];
 var vendorFile = options['vendor-file'];
 var htmlFile = options['html-file'];
+
+if (distFile) {
+  findFromDist();
+}
 
 if (!appFile) {
   console.error("You must specify the path to an application file with the --app-file option.");
@@ -79,3 +87,30 @@ server.app.boot().then(function() {
 
   process.exit(1);
 });
+
+function findFromDist() {
+  appFile = findAppFile();
+  vendorFile = findVendorFile();
+  htmlFile = findHTMLFile();
+}
+
+function findAppFile() {
+  return findFile("app", path.join(distFile, "assets", "!(vendor*).js"));
+}
+
+function findVendorFile() {
+  return findFile("vendor", path.join(distFile, "assets", "vendor*.js"));
+}
+
+function findHTMLFile() {
+  return findFile('html', path.join(distFile, 'index*.html'));
+}
+
+function findFile(name, globPath) {
+  var glob = require('glob');
+  var files = glob.sync(globPath);
+
+  assert(files.length === 1, "Found " + files.length + " " + name + " files (expected 1) when globbing '" + globPath + "'.");
+
+  return files[0];
+}
