@@ -21,7 +21,8 @@
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.0",
     "chai": "^2.2.0",
-    "ember-cli": "1.13.8",
+    "cpr": "^0.4.2",
+    "ember-cli": "^1.13.13",
     "ember-cli-app-version": "0.5.0",
     "ember-cli-content-security-policy": "0.4.0",
     "ember-cli-dependency-checker": "^1.0.1",
@@ -33,7 +34,6 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-data": "1.13.8",
     "ember-export-application-global": "^1.0.3",
-    "cpr": "^0.4.2",
     "exists-sync": "0.0.3",
     "fs-extra": "^0.24.0",
     "lodash": "^3.10.1",
