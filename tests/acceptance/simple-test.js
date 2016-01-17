@@ -29,7 +29,6 @@ describe('simple acceptance', function() {
         return startServer(grabChild);
       })
       .catch(function(e) {
-        console.log(e);
         console.log(e.stack);
       });
   });
