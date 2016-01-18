@@ -2,38 +2,18 @@
 'use strict';
 
 var Funnel = require('broccoli-funnel');
-
-// Expose the an factory for the creating the `Application` object
-// with the proper config at a known path, so that the server does
-// not have to disover the app's module prefix ("my-app").
-//
-// The module defined here is prefixed with a `~` to make it less
-// likely to collide with user code, since it is not possible to
-// define a module with a name like this in the file system.
-function fastbootAppModule(prefix) {
-  return [
-    "",
-    "define('~fastboot/app-factory', ['{{MODULE_PREFIX}}/app', '{{MODULE_PREFIX}}/config/environment'], function(App, config) {",
-    "  App = App['default'];",
-    "  config = config['default'];",
-    "",
-    "  return {",
-    "    'default': function() {",
-    "      return App.create(config.APP);",
-    "    }",
-    "  };",
-    "});",
-    ""
-  ].join("\n").replace(/\{\{MODULE_PREFIX\}\}/g, prefix);
-}
+var mergeTrees = require('broccoli-merge-trees');
+var writeFile = require('broccoli-file-creator');
+var fastbootAppModule = require('./lib/utilities/fastboot-app-module');
+var uniq = require('lodash.uniq');
 
 module.exports = {
   name: 'ember-cli-fastboot',
 
   includedCommands: function() {
     return {
-      fastboot: require('./lib/commands/fastboot'),
-      'fastboot:build': require('./lib/commands/fastboot-build')
+      'fastboot':         require('./lib/commands/fastboot'),
+      'fastboot:build':   require('./lib/commands/fastboot-build')
     };
   },
 
@@ -56,6 +36,44 @@ module.exports = {
         autoboot: false
       }
     };
+  },
+
+  postprocessTree: function(type, tree) {
+    if (type === 'all' && process.env.EMBER_CLI_FASTBOOT) {
+      var configTree = this.treeForFastBootConfig();
+      tree = mergeTrees([tree, configTree]);
+    }
+
+    return tree;
+  },
+
+  treeForFastBootConfig: function() {
+    var config = this.buildFastBootConfig();
+    return writeFile('fastboot-config.json', config);
+  },
+
+  buildFastBootConfig: function() {
+    var whitelistedModules = [];
+
+    this.eachAddonPackage(function(pkg) {
+      var deps = pkg['ember-addon'] && pkg['ember-addon'].fastBootDependencies;
+
+      if (deps) {
+        whitelistedModules = whitelistedModules.concat(deps);
+      }
+    });
+
+    whitelistedModules = uniq(whitelistedModules);
+
+    return JSON.stringify({
+      moduleWhitelist: whitelistedModules
+    }, null, 2);
+  },
+
+  eachAddonPackage: function(cb) {
+    this.project.addons.map(function(addon) {
+      cb(addon.pkg);
+    });
   },
 
   contentFor: function(type, config) {

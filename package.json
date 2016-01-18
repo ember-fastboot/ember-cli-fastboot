@@ -21,7 +21,8 @@
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.0",
     "chai": "^2.2.0",
-    "cpr": "^0.4.2",
+    "chai-fs": "peterkc/chai-fs#31deec5232297e2887a2ffb39b9081364c8e78e1",
+    "cpr": "^1.0.0",
     "ember-cli": "1.13.8",
     "ember-cli-app-version": "0.5.0",
     "ember-cli-content-security-policy": "0.4.0",
@@ -52,14 +53,16 @@
     "configPath": "tests/dummy/config"
   },
   "dependencies": {
+    "broccoli-file-creator": "^1.1.0",
     "broccoli-funnel": "0.2.8",
+    "broccoli-merge-trees": "^1.1.1",
     "chalk": "^0.5.1",
     "contextify": "^0.1.11",
     "debug": "^2.1.0",
     "ember-fastboot-server": "0.1.0",
     "express": "^4.8.5",
     "glob": "^4.0.5",
-    "najax": "^0.1.5",
+    "lodash.uniq": "^4.0.1",
     "rsvp": "^3.0.16",
     "silent-error": "^1.0.0"
   }
