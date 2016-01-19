@@ -13,22 +13,13 @@ your production app and have FastBoot work.
 
 ## Installation
 
+FastBook requires Ember 2.3 or higher.
+
 From within your Ember CLI application, run the following command:
 
 ```
 ember install ember-cli-fastboot
 ```
-
-In order to get FastBoot working, you will first need to enable Ember Canary:
-
-```
-rm -rf bower_components
-bower install --save ember#canary
-bower install
-```
-
-Bower also prompts you to confirm various "resolutions" that it is
-unsure of. Make sure you pick ember#canary if prompted.
 
 ## Running
 
@@ -56,24 +47,6 @@ See `ember help fastboot` for more.
 While FastBoot is under active development, there are several major
 restrictions you should be aware of. Only the most brave should even
 consider deploying this to production.
-
-### Requires Ember Canary
-
-We are actively improving Ember.js to ensure that it loads and renders
-correctly in environments without a DOM (notably Node.js in this case).
-
-Because of that, FastBoot will require you to be running on a canary
-version of Ember for the foreseeable future.
-
-To run your app with canary, run the following command:
-
-```js
-bower install --save ember#canary
-```
-
-You will also need to ensure you have enabled HTMLbars. If you have not
-done so, see [this blog post](http://reefpoints.dockyard.com/2014/11/30/htmlbars_calling_all_testers.html)
-for steps on enabling HTMLbars in an Ember CLI application.
 
 ### No `didInsertElement`
 
