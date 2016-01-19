@@ -58,7 +58,7 @@
     "chalk": "^0.5.1",
     "contextify": "^0.1.11",
     "debug": "^2.1.0",
-    "ember-fastboot-server": "0.1.0",
+    "ember-fastboot-server": "0.2.0",
     "express": "^4.8.5",
     "glob": "^4.0.5",
     "lodash": "^3.1.0",
