@@ -16,6 +16,7 @@ var distFile = options['dist-file'];
 var appFile = options['app-file'];
 var vendorFile = options['vendor-file'];
 var htmlFile = options['html-file'];
+var configFile = options['config-file'];
 
 if (distFile) {
   findFromDist();
@@ -48,6 +49,7 @@ var server = new FastBootServer({
   appFile: appFile,
   vendorFile: vendorFile,
   htmlFile: htmlFile,
+  configFile: configFile,
   ui: ui
 });
 
@@ -92,18 +94,23 @@ function findFromDist() {
   appFile = findAppFile();
   vendorFile = findVendorFile();
   htmlFile = findHTMLFile();
+  configFile = findConfigFile();
 }
 
 function findAppFile() {
-  return findFile("app", path.join(distFile, "assets", "!(vendor*).js"));
+  return findFile('app', path.join(distFile, "assets", "!(vendor*).js"));
 }
 
 function findVendorFile() {
-  return findFile("vendor", path.join(distFile, "assets", "vendor*.js"));
+  return findFile('vendor', path.join(distFile, "assets", "vendor*.js"));
 }
 
 function findHTMLFile() {
   return findFile('html', path.join(distFile, 'index*.html'));
+}
+
+function findConfigFile() {
+  return findFile('config', path.join(distFile, 'fastboot-config.json'));
 }
 
 function findFile(name, globPath) {
