@@ -2,42 +2,28 @@ var expect           = require('chai').expect;
 var RSVP             = require('rsvp');
 var request          = RSVP.denodeify(require('request'));
 
-var startServer      = require('../helpers/start-server');
-var acceptance       = require('../helpers/acceptance');
-var createApp        = acceptance.createApp;
-var copyFixtureFiles = acceptance.copyFixtureFiles;
-
-var appName          = 'dummy';
+var AddonTestApp     = require('ember-cli-addon-tests').AddonTestApp;
 
 describe('serve assets acceptance', function() {
   this.timeout(300000);
-  var server;
 
-  before(function(done) {
-    // start the server once for all tests
-    this.timeout(300000);
+  var app;
 
-    function grabChild(child) {
-      server = child;
-      done();
-    }
+  before(function() {
 
-    return createApp(appName)
+    app = new AddonTestApp();
+
+    return app.create('dummy')
       .then(function() {
-        return copyFixtureFiles(appName);
-      })
-      .then(function() {
-        return startServer(grabChild, {
+        return app.startServer({
+          command: 'fastboot',
           additionalArguments: ['--serve-assets']
         });
-      })
-      .catch(function(e) {
-        console.log(e);
       });
   });
 
   after(function() {
-    server.kill('SIGINT');
+    return app.stopServer();
   });
 
   it('/assets/vendor.js', function() {
