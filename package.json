@@ -1,6 +1,6 @@
 {
   "name": "ember-fastboot-server",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Production server for running Ember applications using FastBoot",
   "main": "./lib/server",
   "scripts": {
