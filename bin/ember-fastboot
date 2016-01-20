@@ -7,47 +7,14 @@ process.title = 'ember-fastboot-server';
 var FastBootServer = require('../lib/server');
 var express = require('express');
 var parseArgs = require('minimist');
-var path = require('path');
-var glob = require('glob');
-var assert = require('assert');
-var fs = require('fs');
 
 var options = parseArgs(process.argv.slice(2));
-var distFile = options['dist-file'];
-var appFile = options['app-file'];
-var vendorFile = options['vendor-file'];
-var htmlFile = options['html-file'];
-var configFile = options['config-file'];
-var moduleWhitelist;
+var distPath = options._[0];
 
-if (distFile) {
-  console.log("WARNING: --dist-file option is deprecated, please use: \n  ember-fastboot <dist-dir>")
-}
-
-if (appFile || vendorFile || htmlFile || configFile) {
-  console.log("WARNING: The --app-file, --vendor-file, --html-file and --config-file options are deprecated, please use: \n  ember-fastboot <dist-dir>")
-}
-
-distFile = distFile || options._[0];
-
-if (distFile) {
-  console.log('Booting ' + distFile);
-  findFromDist();
-}
-
-if (!appFile) {
-  console.error("You must specify the path to an application file with the --app-file option.");
-  return;
-}
-
-if (!vendorFile) {
-  console.error("You must specify the path to a vendor file with the --vendor-file option.");
-  return;
-}
-
-if (!htmlFile) {
-  console.error("You must specify the path to a HTML file with the --html-file option.");
-  return;
+if (!distPath) {
+  console.log("You must call ember-fastboot with the path of a fastboot-dist directory:\n\n" +
+      "  ember-fastboot fastboot-dist");
+  process.exit(1);
 }
 
 // Stubs out the `ui` object for printing to the terminal used
@@ -59,11 +26,7 @@ var ui = {
 };
 
 var server = new FastBootServer({
-  appFile: appFile,
-  vendorFile: vendorFile,
-  htmlFile: htmlFile,
-  configFile: configFile,
-  moduleWhitelist: moduleWhitelist,
+  distPath: distPath,
   ui: ui
 });
 
@@ -103,50 +66,3 @@ server.app.boot().then(function() {
 
   process.exit(1);
 });
-
-function findFromDist() {
-  var pkgPath = path.join(distFile, 'package.json');
-
-  try {
-    var file = fs.readFileSync(pkgPath);
-
-    var pkg = JSON.parse(file);
-    var manifest = pkg.fastboot.manifest;
-
-    appFile = path.join(distFile, manifest.appFile);
-    vendorFile = path.join(distFile, manifest.vendorFile);
-    htmlFile = path.join(distFile, manifest.htmlFile);
-    moduleWhitelist = pkg.fastboot.moduleWhitelist;
-  } catch (e) {
-    appFile = findAppFile();
-    vendorFile = findVendorFile();
-    htmlFile = findHTMLFile();
-    configFile = findConfigFile();
-    return;
-  }
-}
-
-function findAppFile() {
-  return findFile('app', path.join(distFile, "assets", "!(vendor*).js"));
-}
-
-function findVendorFile() {
-  return findFile('vendor', path.join(distFile, "assets", "vendor*.js"));
-}
-
-function findHTMLFile() {
-  return findFile('html', path.join(distFile, 'index*.html'));
-}
-
-function findConfigFile() {
-  return findFile('config', path.join(distFile, 'fastboot-config.json'));
-}
-
-function findFile(name, globPath) {
-  var glob = require('glob');
-  var files = glob.sync(globPath);
-
-  assert(files.length === 1, "Found " + files.length + " " + name + " files (expected 1) when globbing '" + globPath + "'.");
-
-  return files[0];
-}
