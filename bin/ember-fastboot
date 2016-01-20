@@ -10,6 +10,7 @@ var parseArgs = require('minimist');
 var path = require('path');
 var glob = require('glob');
 var assert = require('assert');
+var fs = require('fs');
 
 var options = parseArgs(process.argv.slice(2));
 var distFile = options['dist-file'];
@@ -17,8 +18,20 @@ var appFile = options['app-file'];
 var vendorFile = options['vendor-file'];
 var htmlFile = options['html-file'];
 var configFile = options['config-file'];
+var moduleWhitelist;
 
 if (distFile) {
+  console.log("WARNING: --dist-file option is deprecated, please use: \n  ember-fastboot <dist-dir>")
+}
+
+if (appFile || vendorFile || htmlFile || configFile) {
+  console.log("WARNING: The --app-file, --vendor-file, --html-file and --config-file options are deprecated, please use: \n  ember-fastboot <dist-dir>")
+}
+
+distFile = distFile || options._[0];
+
+if (distFile) {
+  console.log('Booting ' + distFile);
   findFromDist();
 }
 
@@ -50,6 +63,7 @@ var server = new FastBootServer({
   vendorFile: vendorFile,
   htmlFile: htmlFile,
   configFile: configFile,
+  moduleWhitelist: moduleWhitelist,
   ui: ui
 });
 
@@ -91,10 +105,25 @@ server.app.boot().then(function() {
 });
 
 function findFromDist() {
-  appFile = findAppFile();
-  vendorFile = findVendorFile();
-  htmlFile = findHTMLFile();
-  configFile = findConfigFile();
+  var pkgPath = path.join(distFile, 'package.json');
+
+  try {
+    var file = fs.readFileSync(pkgPath);
+
+    var pkg = JSON.parse(file);
+    var manifest = pkg.fastboot.manifest;
+
+    appFile = path.join(distFile, manifest.appFile);
+    vendorFile = path.join(distFile, manifest.vendorFile);
+    htmlFile = path.join(distFile, manifest.htmlFile);
+    moduleWhitelist = pkg.fastboot.moduleWhitelist;
+  } catch (e) {
+    appFile = findAppFile();
+    vendorFile = findVendorFile();
+    htmlFile = findHTMLFile();
+    configFile = findConfigFile();
+    return;
+  }
 }
 
 function findAppFile() {
