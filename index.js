@@ -32,13 +32,21 @@ module.exports = {
    * we mixin additional Ember addon hooks appropriate to the current build target.
    */
   included: function(app) {
+    var mode;
+
     if (isFastBoot()) {
       process.env[APP_NAME_KEY] = app.name;
       app.options.autoRun = false;
 
-      this.mixin(FastBootMode);
+      mode = FastBootMode;
     } else {
-      this.mixin(BrowserMode);
+      mode = BrowserMode;
+    }
+
+    this.mixin(mode);
+
+    if (mode.included) {
+      mode.included.call(this, app);
     }
 
     // We serve the index.html from fastboot-dist, so this has to apply to both builds
