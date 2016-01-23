@@ -13,7 +13,7 @@ your production app and have FastBoot work.
 
 ## Installation
 
-FastBook requires Ember 2.3 or higher.
+FastBoot requires Ember 2.3 or higher.
 
 From within your Ember CLI application, run the following command:
 
