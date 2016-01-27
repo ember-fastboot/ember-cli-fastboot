@@ -8,11 +8,15 @@ var FastBootServer = require('../lib/server');
 var express = require('express');
 var parseArgs = require('minimist');
 
-var options = parseArgs(process.argv.slice(2));
+var argOptions = {
+  default: { port: 3000, host: '::' }
+};
+
+var options = parseArgs(process.argv.slice(2), argOptions);
 var distPath = options._[0];
 
 if (!distPath) {
-  console.log("You must call ember-fastboot with the path of a fastboot-dist directory:\n\n" +
+  console.error("You must call ember-fastboot with the path of a fastboot-dist directory:\n\n" +
       "  ember-fastboot fastboot-dist");
   process.exit(1);
 }
@@ -45,7 +49,7 @@ server.app.boot().then(function() {
 
   app.get('/*', server.middleware());
 
-  var listener = app.listen(options.port, function() {
+  var listener = app.listen(options.port, options.host, function() {
     var host = listener.address().address;
     var port = listener.address().port;
     var family = listener.address().family;
