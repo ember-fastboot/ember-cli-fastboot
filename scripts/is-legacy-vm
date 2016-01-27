@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+'use strict';
+
+var isLegacyVM = require('../lib/sandbox').isLegacyVM;
+
+if (isLegacyVM()) {
+  process.exit(0);
+} else {
+  process.exit(1);
+}
