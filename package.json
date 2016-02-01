@@ -24,7 +24,7 @@
     "chai-fs": "peterkc/chai-fs#31deec5232297e2887a2ffb39b9081364c8e78e1",
     "cpr": "^1.0.0",
     "ember-cli": "1.13.15",
-    "ember-cli-addon-tests": "^0.1.2",
+    "ember-cli-addon-tests": "^0.2.0",
     "ember-cli-app-version": "0.5.0",
     "ember-cli-content-security-policy": "0.4.0",
     "ember-cli-dependency-checker": "^1.0.1",
