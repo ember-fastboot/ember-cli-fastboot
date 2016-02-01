@@ -3,6 +3,7 @@
 
 var _ = require('lodash');
 
+var patchEmberApp = require('./lib/ext/patch-ember-app');
 var FastBootMode = require('./lib/addon-modes/fastboot');
 var BrowserMode  = require('./lib/addon-modes/browser');
 
@@ -32,6 +33,8 @@ module.exports = {
    * we mixin additional Ember addon hooks appropriate to the current build target.
    */
   included: function(app) {
+    patchEmberApp(app);
+
     var mode;
 
     if (isFastBoot()) {
