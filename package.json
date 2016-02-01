@@ -4,7 +4,6 @@
   "description": "Production server for running Ember applications using FastBoot",
   "main": "./lib/server",
   "scripts": {
-    "postinstall": "scripts/is-legacy-vm && npm install contextify@^0.1.11",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,6 +25,7 @@
   "homepage": "https://github.com/ember-fastboot/ember-fastboot-server#readme",
   "dependencies": {
     "chalk": "^0.5.1",
+    "contextify": "^0.1.11",
     "debug": "^2.1.0",
     "express": "^4.13.3",
     "glob": "^4.0.5",
