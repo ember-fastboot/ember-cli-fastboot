@@ -61,7 +61,7 @@ describe('generating package.json', function() {
 
   });
 
-  describe('production FastBoot builds', function() {
+  describe('with production FastBoot builds', function() {
 
     before(function() {
       return app.run('ember', 'fastboot:build', '--environment', 'production');
@@ -83,6 +83,34 @@ describe('generating package.json', function() {
       expect(p(manifest.htmlFile)).to.be.a.file();
       expect(p(manifest.vendorFile)).to.be.a.file();
     });
+  });
+
+  describe('with with customized fingerprinting options', function() {
+    // Tests an app with a custom `assetMapPath` set
+    var customApp = new AddonTestApp();
+
+    before(function() {
+      return customApp.create('customized-fingerprinting')
+        .then(function() {
+          return customApp.run('ember', 'fastboot:build', '--environment', 'production');
+        });
+    });
+
+    it("respects a custom asset map path and prepended URLs", function() {
+      expect(customApp.filePath('fastboot-dist/totally-customized-asset-map.json')).to.be.a.file();
+
+      var p = function(filePath) {
+        return customApp.filePath(path.join('fastboot-dist', filePath));
+      };
+
+      var pkg = fs.readJsonSync(customApp.filePath('/fastboot-dist/package.json'));
+      var manifest = pkg.fastboot.manifest;
+
+      expect(p(manifest.appFile)).to.be.a.file();
+      expect(p(manifest.htmlFile)).to.be.a.file();
+      expect(p(manifest.vendorFile)).to.be.a.file();
+    });
+
   });
 
   describe('with browser builds', function() {
