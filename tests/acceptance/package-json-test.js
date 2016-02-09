@@ -1,7 +1,8 @@
-var chai             = require('chai');
-var expect           = chai.expect;
-var fs               = require('fs-extra');
-var AddonTestApp     = require('ember-cli-addon-tests').AddonTestApp;
+var chai         = require('chai');
+var expect       = chai.expect;
+var fs           = require('fs-extra');
+var path         = require('path');
+var AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 
 chai.use(require('chai-fs'));
 
@@ -36,7 +37,7 @@ describe('generating package.json', function() {
         "baz": "0.2.0"
       });
     });
-    
+
     it("contains a whitelist of allowed module names", function() {
       var pkg = fs.readJsonSync(app.filePath('/fastboot-dist/package.json'));
 
@@ -47,17 +48,41 @@ describe('generating package.json', function() {
         'baz'
       ]);
     });
-    
+
     it("contains a manifest of FastBoot assets", function() {
       var pkg = fs.readJsonSync(app.filePath('/fastboot-dist/package.json'));
-      
+
       expect(pkg.fastboot.manifest).to.deep.equal({
         appFile: 'assets/module-whitelist.js',
         htmlFile: 'index.html',
         vendorFile: 'assets/vendor.js'
       });
-    })
+    });
 
+  });
+
+  describe('production FastBoot builds', function() {
+
+    before(function() {
+      return app.run('ember', 'fastboot:build', '--environment', 'production');
+    });
+
+    // https://github.com/tildeio/ember-cli-fastboot/issues/102
+    // production builds have a fingerprint added to them, which was not being
+    // reflected in the manifest
+    it("contains a manifest of FastBoot assets", function() {
+      var pkg = fs.readJsonSync(app.filePath('/fastboot-dist/package.json'));
+
+      var p = function(filePath) {
+        return app.filePath(path.join('fastboot-dist', filePath));
+      };
+
+      var manifest = pkg.fastboot.manifest;
+
+      expect(p(manifest.appFile)).to.be.a.file();
+      expect(p(manifest.htmlFile)).to.be.a.file();
+      expect(p(manifest.vendorFile)).to.be.a.file();
+    });
   });
 
   describe('with browser builds', function() {
