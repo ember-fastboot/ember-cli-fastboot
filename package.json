@@ -50,13 +50,15 @@
     "ember-addon"
   ],
   "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "configPath": "tests/dummy/config",
+    "after": [
+      "broccoli-asset-rev"
+    ]
   },
   "dependencies": {
-    "broccoli-file-creator": "^1.1.0",
     "broccoli-funnel": "0.2.8",
     "broccoli-merge-trees": "^1.1.1",
-    "broccoli-stew": "^1.2.0",
+    "broccoli-plugin": "^1.2.1",
     "chalk": "^0.5.1",
     "contextify": "^0.1.11",
     "debug": "^2.1.0",
