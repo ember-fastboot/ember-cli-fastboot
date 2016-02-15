@@ -22,6 +22,7 @@
     "broccoli-asset-rev": "^2.0.0",
     "chai": "^2.2.0",
     "chai-fs": "peterkc/chai-fs#31deec5232297e2887a2ffb39b9081364c8e78e1",
+    "cookie-parser": "~1.4.1",
     "cpr": "^1.0.0",
     "ember-cli": "1.13.15",
     "ember-cli-addon-tests": "^0.2.0",
