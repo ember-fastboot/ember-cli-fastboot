@@ -3,6 +3,7 @@
 
 // For details on each option run `ember help release`
 module.exports = {
+  publish: true
   // local: true,
   // remote: 'some_remote',
   // annotation: "Release %@",
