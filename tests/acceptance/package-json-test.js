@@ -15,7 +15,10 @@ describe('generating package.json', function() {
     app = new AddonTestApp();
 
     return app.create('module-whitelist')
-      .then(addFastBootDeps);
+      .then(addFastBootDeps)
+      .then(function() {
+        return app.run('npm', 'install');
+      });
   });
 
   describe('with FastBoot builds', function() {
@@ -34,7 +37,8 @@ describe('generating package.json', function() {
       expect(config.dependencies).to.deep.equal({
         "foo": "1.2.3",
         "bar": "^7.8.9",
-        "baz": "0.2.0"
+        "baz": "0.2.0",
+        "rsvp": "3.2.1"
       });
     });
 
@@ -45,7 +49,8 @@ describe('generating package.json', function() {
         'path',
         'foo',
         'bar',
-        'baz'
+        'baz',
+        'rsvp'
       ]);
     });
 
@@ -131,5 +136,9 @@ function addFastBootDeps(app) {
   return app.editPackageJSON(function(pkg) {
     pkg['devDependencies']['fake-addon'] = "*";
     pkg['devDependencies']['fake-addon-2'] = "*";
+    pkg['fastbootDependencies'] = ["rsvp"];
+    pkg['dependencies'] = {
+      rsvp: "3.2.1"
+    };
   });
 }
