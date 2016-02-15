@@ -42,6 +42,63 @@ ember fastboot --port 8088
 
 See `ember help fastboot` for more.
 
+## Using Node/npm Dependencies
+
+### Whitelisting Packages
+
+When your app is running in FastBoot, it may need to use Node packages
+to replace features that are available only in the browser.
+
+For security reasons, your Ember app running in FastBoot can only access
+packages that you have explicitly whitelisted.
+
+To allow your app to require a package, add it to the
+`fastbootDependencies` array in your app's `package.json`:
+
+```js
+{
+  "name": "my-sweet-app",
+  "version": "0.4.2",
+  "devDependencies": {
+    // ...
+  },
+  "dependencies": {
+    // ...
+  },
+  "fastbootDependencies": [
+    'rsvp',
+    'path'
+  ]
+}
+```
+
+The `fastbootDependencies` in the above example means the only node
+modules your Ember app can use are `rsvp` and `path`.
+
+If the package you are using is not built-in to Node, **you must also
+specify the package and a version in the `package.json` `dependencies`
+hash.** Built-in modules (`path`, `fs`, etc.) only need to be added to
+`fastbootDependencies`.
+
+
+### Using Dependencies
+
+From your Ember.js app, you can run `FastBoot.require()` to require a
+package. This is identical to the CommonJS `require` except it checks
+all requests against the whitelist first.
+
+```js
+let path = FastBoot.require('path');
+let filePath = path.join('tmp', session.getID());
+```
+
+If you attempt to require a package that is not in the whitelist,
+FastBoot will raise an exception.
+
+Note that the `FastBoot` global is **only** available when running in
+FastBoot mode. You should either guard against its presence or only use
+it in FastBoot-only initializers.
+
 ## Known Limitations
 
 While FastBoot is under active development, there are several major
