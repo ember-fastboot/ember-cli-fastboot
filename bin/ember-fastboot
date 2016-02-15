@@ -6,6 +6,7 @@ process.title = 'ember-fastboot-server';
 
 var FastBootServer = require('../lib/server');
 var express = require('express');
+var cookieParser = require('cookie-parser')
 var parseArgs = require('minimist');
 
 var options = parseArgs(process.argv.slice(2));
@@ -33,6 +34,7 @@ server.app.boot().then(function() {
   console.log('Ember app booted successfully.');
 
   var app = express();
+  app.use(cookieParser());
 
   app.get('/*', server.middleware());
 
