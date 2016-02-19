@@ -17,17 +17,8 @@ if (!distPath) {
   process.exit(1);
 }
 
-// Stubs out the `ui` object for printing to the terminal used
-// by Ember CLI addons.
-var ui = {
-  writeLine: function() {
-    console.log.apply(console, arguments);
-  }
-};
-
 var server = new FastBootServer({
-  distPath: distPath,
-  ui: ui
+  distPath: distPath
 });
 
 console.log('Booting Ember app...');
