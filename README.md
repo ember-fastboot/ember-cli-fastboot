@@ -17,11 +17,7 @@ prerequisite for developing FastBoot apps.
 You can run the FastBoot server from the command line:
 
 ```
-$ ember-fastboot \
-    --port 80
-    --app-file path/to/app-file.js
-    --vendor-file path/to/vendor-file.js
-    --html-file path/to/index.html
+$ ember-fastboot path/to/fastboot-dist --port 80
 ```
 
 ### Middleware
@@ -32,17 +28,14 @@ middleware.
 
 ```js
 var server = new FastBootServer({
-  appFile: appFile,
-  vendorFile: vendorFile,
-  htmlFile: htmlFile,
-  ui: ui
+  distPath: 'path/to/fastboot-dist'
 });
 
 var app = express();
 
 app.get('/*', server.middleware());
 
-var listener = app.listen(options.port, function() {
+var listener = app.listen(process.env.PORT || 3000, function() {
   var host = listener.address().address;
   var port = listener.address().port;
 
