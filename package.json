@@ -32,6 +32,7 @@
     "minimist": "^1.2.0",
     "najax": "^0.3.2",
     "rsvp": "^3.0.16",
-    "simple-dom": "^0.2.7"
+    "simple-dom": "^0.2.7",
+    "source-map-support": "^0.4.0"
   }
 }
