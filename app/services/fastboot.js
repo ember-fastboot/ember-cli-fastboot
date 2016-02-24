@@ -3,5 +3,5 @@ import Ember from "ember";
 let alias = Ember.computed.alias;
 
 export default Ember.Service.extend({
-  cookies: alias('_request.cookies')
+  cookies: alias('_fastbootInfo.cookies')
 });

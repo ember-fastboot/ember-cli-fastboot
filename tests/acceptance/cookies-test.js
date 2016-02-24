@@ -39,6 +39,7 @@ describe('cookies', function() {
     })
       .then(function(response) {
         expect(response.body).to.contain('Cookies: Cluj');
+        expect(response.body).to.contain('Cookies from Instance Initializer: Cluj');
       });
   });
 });
