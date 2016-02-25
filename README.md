@@ -99,6 +99,25 @@ Note that the `FastBoot` global is **only** available when running in
 FastBoot mode. You should either guard against its presence or only use
 it in FastBoot-only initializers.
 
+### Cookies
+
+You can access cookies for the current request via the `fastboot`
+service.
+
+```js
+export default Ember.Route.extend({
+  fastboot: Ember.inject.service(),
+
+  model() {
+    let authToken = this.get('fastboot.cookies.auth');
+    // ...
+  }
+});
+```
+
+The service's `cookies` property is an object containing the request's
+cookies as key/value pairs.
+
 ## Known Limitations
 
 While FastBoot is under active development, there are several major
