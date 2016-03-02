@@ -31,9 +31,9 @@ console.log('Booting Ember app...');
 // also boot the app anyway. This is just to provide useful feedback
 // instead of booting a server that keeps serving 500.
 //
-// Note that Application#boot is still a private API atm, so it might
+// Note that Application#buildApp is still a private API atm, so it might
 // go through more churn in the near term.
-server.app.boot().then(function() {
+server.app.buildApp().then(function() {
   console.log('Ember app booted successfully.');
 
   var app = express();
