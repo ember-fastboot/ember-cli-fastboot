@@ -64,6 +64,16 @@ describe('generating package.json', function() {
       });
     });
 
+    it("contains a list of whitelisted hosts from environment.js", function() {
+      var pkg = fs.readJsonSync(app.filePath('/fastboot-dist/package.json'));
+
+      expect(pkg.fastboot.hostWhitelist).to.deep.equal([
+        'example.com',
+        'subdomain.example.com',
+        '/localhost:\\d+/'
+      ]);
+    });
+
   });
 
   describe('with production FastBoot builds', function() {
