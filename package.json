@@ -4,7 +4,7 @@
   "description": "Production server for running Ember applications using FastBoot",
   "main": "./lib/server",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
