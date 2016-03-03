@@ -1,5 +1,7 @@
 # Ember FastBoot Server
 
+[![Build Status](https://travis-ci.org/ember-fastboot/ember-fastboot-server.svg?branch=master)](https://travis-ci.org/ember-fastboot/ember-fastboot-server)
+
 The Ember FastBoot Server is used to render Ember.js applications on the
 server and deliver them to clients over HTTP. This server is meant to be
 run in a production environment.
