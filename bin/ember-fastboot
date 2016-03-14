@@ -14,6 +14,7 @@ var argOptions = {
 
 var options = parseArgs(process.argv.slice(2), argOptions);
 var distPath = options._[0];
+var assetPath = options['serve-assets-from'];
 
 if (!distPath) {
   console.error("You must call ember-fastboot with the path of a fastboot-dist directory:\n\n" +
@@ -37,6 +38,11 @@ server.app.buildApp().then(function() {
   console.log('Ember app booted successfully.');
 
   var app = express();
+
+  if (assetPath) {
+    app.get('/', server.middleware());
+    app.use(express.static(assetPath));
+  }
 
   app.get('/*', server.middleware());
 
