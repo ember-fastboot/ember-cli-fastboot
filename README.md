@@ -128,7 +128,7 @@ consider deploying this to production.
 
 Since `didInsertElement` hooks are designed to let your component
 directly manipulate the DOM, and that doesn't make sense on the server
-where there is no DOM, we do not invoke neither `didInsertElement` nor
+where there is no DOM, we do not invoke either `didInsertElement` or
 `willInsertElement` hooks.
 
 ### No jQuery
