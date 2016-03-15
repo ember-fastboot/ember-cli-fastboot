@@ -11,6 +11,10 @@ Limitations](#known-limitations) below for a full-list.
 The bottom line is that you should not (yet) expect to install this add-on in
 your production app and have FastBoot work.
 
+## Introduction Video
+
+[![Introduction to Ember FastBoot](https://i.vimeocdn.com/video/559399270_640x360.jpg)](https://vimeo.com/157688134)
+
 ## Installation
 
 FastBoot requires Ember 2.3 or higher.
