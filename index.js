@@ -1,7 +1,7 @@
 /* jshint node: true */
 'use strict';
 
-var _ = require('lodash');
+var assign = require('lodash/object/assign');
 
 var patchEmberApp = require('./lib/ext/patch-ember-app');
 var FastBootMode = require('./lib/addon-modes/fastboot');
@@ -9,6 +9,8 @@ var BrowserMode  = require('./lib/addon-modes/browser');
 
 var ENV_KEY      = 'EMBER_CLI_FASTBOOT';
 var APP_NAME_KEY = 'EMBER_CLI_FASTBOOT_APP_NAME';
+
+var MODE_HOOKS = ['config', 'preconcatTree', 'postprocessTree', 'contentFor'];
 
 /*
  * Main entrypoint for the Ember CLI addon.
@@ -46,11 +48,16 @@ module.exports = {
       mode = BrowserMode;
     }
 
+    this.resetMode();
     this.mixin(mode);
 
-    if (mode.included) {
-      mode.included.call(this, app);
+    if (mode.didLoad) {
+      mode.didLoad.call(this, app);
     }
+
+    // Always generate an asset map. Otherwise, we have no way of knowing where
+    // `broccoli-asset-rev` moved our stuff.
+    app.options.fingerprint.generateAssetMap = true;
 
     // We serve the index.html from fastboot-dist, so this has to apply to both builds
     app.options.storeConfigInMeta = false;
@@ -61,7 +68,13 @@ module.exports = {
    * functionality based on which build target we're building for.
    */
   mixin: function(mode) {
-    _.extend(this, mode);
+    assign(this, mode);
+  },
+
+  resetMode: function() {
+    MODE_HOOKS.forEach(function(hook) {
+      this[hook] = null;
+    }, this);
   }
 };
 

@@ -4,7 +4,7 @@ chai.use(require('chai-fs'));
 
 var glob = require('glob');
 
-var AddonTestApp     = require('ember-cli-addon-tests').AddonTestApp;
+var AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 
 describe('it builds', function() {
   this.timeout(300000);
@@ -12,7 +12,6 @@ describe('it builds', function() {
   var app;
 
   before(function() {
-
     app = new AddonTestApp();
 
     return app.create('dummy');
@@ -27,6 +26,8 @@ describe('it builds', function() {
         expect(app.filePath('fastboot-dist/index.html')).to.have.content.that.match(
           /<!-- EMBER_CLI_FASTBOOT_BODY -->/
         );
+        expect(app.filePath('fastboot-dist/browser/assets/dummy.js')).to.be.a.file();
+        expect(app.filePath('fastboot-dist/browser/assets/vendor.js')).to.be.a.file();
       });
   });
 
@@ -43,6 +44,10 @@ describe('it builds', function() {
         expect(app.filePath('fastboot-dist/index.html')).to.have.content.that.match(
           /<!-- EMBER_CLI_FASTBOOT_BODY -->/
         );
+
+        expect(find('fastboot-dist/browser/assets/dummy-*.js')).to.be.a.file();
+        expect(find('fastboot-dist/browser/assets/vendor-*.js')).to.be.a.file();
+        expect(find('fastboot-dist/browser/assets/assetMap.json')).to.be.a.file();
       });
   });
 
