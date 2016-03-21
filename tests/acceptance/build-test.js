@@ -18,36 +18,35 @@ describe('it builds', function() {
   });
 
   it("builds into fastboot-dist by default", function() {
-    return app.runEmberCommand('fastboot:build')
+    return app.runEmberCommand('build')
       .then(function() {
-        expect(app.filePath('fastboot-dist/index.html')).to.be.a.file();
-        expect(app.filePath('fastboot-dist/assets/dummy.js')).to.be.a.file();
-        expect(app.filePath('fastboot-dist/assets/vendor.js')).to.be.a.file();
-        expect(app.filePath('fastboot-dist/index.html')).to.have.content.that.match(
+        expect(app.filePath('dist/index.html')).to.be.a.file();
+        expect(app.filePath('dist/assets/dummy.js')).to.be.a.file();
+        expect(app.filePath('dist/assets/vendor.js')).to.be.a.file();
+        expect(app.filePath('dist/index.html')).to.have.content.that.match(
           /<!-- EMBER_CLI_FASTBOOT_BODY -->/
         );
-        expect(app.filePath('fastboot-dist/browser/assets/dummy.js')).to.be.a.file();
-        expect(app.filePath('fastboot-dist/browser/assets/vendor.js')).to.be.a.file();
+        expect(app.filePath('dist/fastboot/dummy.js')).to.be.a.file();
+        expect(app.filePath('dist/fastboot/vendor.js')).to.be.a.file();
       });
   });
 
   it("produces a production build with --environment=production", function() {
-    return app.runEmberCommand('fastboot:build', '--environment=production')
+    return app.runEmberCommand('build', '--environment=production')
       .then(function() {
-        expect(app.filePath('fastboot-dist/index.html')).to.be.a.file();
-        expect(find('fastboot-dist/assets/dummy-*.js')).to.be.a.file();
-        expect(find('fastboot-dist/assets/dummy-*.js')).to.match(/dummy-\w{32}/, 'file name should contain MD5 fingerprint');
+        expect(app.filePath('dist/index.html')).to.be.a.file();
+        expect(find('dist/assets/dummy-*.js')).to.be.a.file();
+        expect(find('dist/assets/dummy-*.js')).to.match(/dummy-\w{32}/, 'file name should contain MD5 fingerprint');
 
-        expect(find('fastboot-dist/assets/vendor-*.js')).to.be.a.file();
-        expect(find('fastboot-dist/assets/vendor-*.js')).to.match(/vendor-\w{32}/, 'file name should contain MD5 fingerprint');
+        expect(find('dist/assets/vendor-*.js')).to.be.a.file();
+        expect(find('dist/assets/vendor-*.js')).to.match(/vendor-\w{32}/, 'file name should contain MD5 fingerprint');
 
-        expect(app.filePath('fastboot-dist/index.html')).to.have.content.that.match(
+        expect(app.filePath('dist/index.html')).to.have.content.that.match(
           /<!-- EMBER_CLI_FASTBOOT_BODY -->/
         );
 
-        expect(find('fastboot-dist/browser/assets/dummy-*.js')).to.be.a.file();
-        expect(find('fastboot-dist/browser/assets/vendor-*.js')).to.be.a.file();
-        expect(find('fastboot-dist/browser/assets/assetMap.json')).to.be.a.file();
+        expect(find('dist/fastboot/dummy-*.js')).to.be.a.file();
+        expect(find('dist/fastboot/vendor-*.js')).to.be.a.file();
       });
   });
 

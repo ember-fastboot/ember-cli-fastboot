@@ -1,16 +1,14 @@
 /* jshint node: true */
 'use strict';
 
-var assign = require('lodash/object/assign');
+var mergeTrees = require('broccoli-merge-trees');
 
-var patchEmberApp = require('./lib/ext/patch-ember-app');
-var FastBootMode = require('./lib/addon-modes/fastboot');
-var BrowserMode  = require('./lib/addon-modes/browser');
+var patchEmberApp     = require('./lib/ext/patch-ember-app');
+var fastbootAppModule = require('./lib/utilities/fastboot-app-module');
 
-var ENV_KEY      = 'EMBER_CLI_FASTBOOT';
-var APP_NAME_KEY = 'EMBER_CLI_FASTBOOT_APP_NAME';
-
-var MODE_HOOKS = ['config', 'preconcatTree', 'postprocessTree', 'contentFor'];
+var filterInitializers = require('./lib/broccoli/filter-initializers');
+var FastBootBuild      = require('./lib/broccoli/fastboot-build');
+var FastBootConfig     = require('./lib/broccoli/fastboot-config');
 
 /*
  * Main entrypoint for the Ember CLI addon.
@@ -22,6 +20,8 @@ module.exports = {
   includedCommands: function() {
     return {
       'fastboot':       require('./lib/commands/fastboot'),
+
+      /* fastboot:build is deprecated and will be removed in a future version */
       'fastboot:build': require('./lib/commands/fastboot-build')
     };
   },
@@ -37,47 +37,83 @@ module.exports = {
   included: function(app) {
     patchEmberApp(app);
 
-    var mode;
-
-    if (isFastBoot()) {
-      process.env[APP_NAME_KEY] = app.name;
-      app.options.autoRun = false;
-
-      mode = FastBootMode;
-    } else {
-      mode = BrowserMode;
-    }
-
-    this.resetMode();
-    this.mixin(mode);
-
-    if (mode.didLoad) {
-      mode.didLoad.call(this, app);
-    }
-
-    // Always generate an asset map. Otherwise, we have no way of knowing where
-    // `broccoli-asset-rev` moved our stuff.
-    app.options.fingerprint.generateAssetMap = true;
-
     // We serve the index.html from fastboot-dist, so this has to apply to both builds
     app.options.storeConfigInMeta = false;
   },
 
   /**
-   * Copies properties of another object into this addon. Used to dynamically add
-   * functionality based on which build target we're building for.
+   * Inserts placeholders into index.html that are used by the FastBoot server
+   * to insert the rendered content into the right spot. Also injects a module
+   * for FastBoot application boot.
    */
-  mixin: function(mode) {
-    assign(this, mode);
+  contentFor: function(type, config) {
+    if (type === 'body') {
+      return "<!-- EMBER_CLI_FASTBOOT_BODY -->";
+    }
+
+    if (type === 'head') {
+      return "<!-- EMBER_CLI_FASTBOOT_TITLE --><!-- EMBER_CLI_FASTBOOT_HEAD -->";
+    }
+
+    if (type === 'app-boot') {
+      return fastbootAppModule(config.modulePrefix);
+    }
   },
 
-  resetMode: function() {
-    MODE_HOOKS.forEach(function(hook) {
-      this[hook] = null;
-    }, this);
+  /**
+   * Filters out initializers and instance initializers that should only run in
+   * browser mode.
+   */
+  preconcatTree: function(tree) {
+    if (isFastBoot()) {
+      return filterInitializers(tree, 'browser', this.app.name);
+    } else {
+      return filterInitializers(tree, 'fastboot', this.app.name);
+    }
+  },
+
+  /**
+   * After the entire Broccoli tree has been built for the `dist` directory,
+   * adds the `fastboot-config.json` file to the root.
+   */
+  postprocessTree: function(type, tree) {
+    if (type === 'all') {
+      var fastbootTree = this.buildFastBootTree();
+      var configTree = this.buildConfigTree(fastbootTree);
+
+      // Merge the package.json with the existing tree
+      return mergeTrees([configTree, tree, fastbootTree]);
+    }
+
+    return tree;
+  },
+
+  buildConfigTree: function(tree) {
+    var env = this.app.env;
+
+    // Create a new Broccoli tree that writes the FastBoot app's
+    // `package.json`.
+    return new FastBootConfig(tree, {
+      project: this.project,
+      name: this.app.name,
+      assetMapPath: this.assetMapPath,
+      ui: this.ui,
+      fastbootAppConfig: this.project.config(env).fastboot
+    });
+  },
+
+  buildFastBootTree: function() {
+    var fastbootBuild = new FastBootBuild({
+      project: this.project,
+      app: this.app,
+      parent: this.parent
+    });
+
+    return fastbootBuild.toTree();
   }
+
 };
 
 function isFastBoot() {
-  return process.env[ENV_KEY];
+  return process.env['EMBER_CLI_FASTBOOT'] === 'true';
 }

@@ -15,14 +15,15 @@ describe('rewriting HTML', function() {
     return app.create('dummy');
   });
 
-  it("rewrites index.html to point to browser build", function() {
-    return app.runEmberCommand('fastboot:build', '--environment=production')
+  it("builds an index.html that points to the browser build", function() {
+    return app.runEmberCommand('build', '--environment=production')
       .then(function() {
-        var appPath = glob.sync(app.filePath('fastboot-dist/browser/assets/dummy-*.js'))[0];
-        var matches = appPath.match(/fastboot-dist\/browser\/assets\/dummy-(.*).js/);
+        var appPath = glob.sync(app.filePath('dist/assets/dummy-*.js'))[0];
+        var matches = appPath.match(/dist\/assets\/dummy-(.*).js/);
         var appSHA = matches[1];
 
-        expect(app.filePath('fastboot-dist/index.html')).to.have.content.that.match(new RegExp(appSHA));
+        expect(app.filePath('dist/index.html')).to.have.content.that.match(new RegExp(appSHA));
       });
   });
+
 });
