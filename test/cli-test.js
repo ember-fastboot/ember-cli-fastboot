@@ -32,6 +32,23 @@ describe("bin/ember-fastboot", function() {
       });
   });
 
+  it("has 1 body tag", function() {
+    this.timeout(3000);
+
+    var server = new Server('basic-app');
+
+    return expect(server.start()).to.be.fulfilled
+      .then(function() {
+        return request('http://localhost:3000');
+      })
+      .then(function(html) {
+        expect(html.match(/<body>/g)).have.length(1);
+      })
+      .finally(function() {
+        server.stop();
+      });
+  });
+
   it("serves assets if the --serve-assets-from option is provided", function() {
     this.timeout(3000);
 

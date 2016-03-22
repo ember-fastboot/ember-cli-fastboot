@@ -33,7 +33,7 @@
     "minimist": "^1.2.0",
     "najax": "^0.4.0",
     "rsvp": "^3.0.16",
-    "simple-dom": "^0.2.7",
+    "simple-dom": "^0.3.0",
     "source-map-support": "^0.4.0"
   },
   "devDependencies": {
