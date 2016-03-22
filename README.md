@@ -122,6 +122,59 @@ export default Ember.Route.extend({
 The service's `cookies` property is an object containing the request's
 cookies as key/value pairs.
 
+### Host
+
+You can access the host of the request that the current FastBoot server
+is responding to via the `fastboot` service. The `host` function will
+return the protocol and the host (`https://example.com`).
+
+```js
+export default Ember.Route.extend({
+  fastboot: Ember.inject.service(),
+
+  model() {
+    let host = this.get('fastboot').host();
+    // ...
+  }
+});
+```
+
+To retrieve the host of the current request, you must specify a list of
+hosts that you expect in your `config/environment.js`:
+
+```js
+module.exports = function(environment) {
+  var ENV = {
+    modulePrefix: 'host',
+    environment: environment,
+    baseURL: '/',
+    locationType: 'auto',
+    EmberENV: {
+      // ...
+    },
+    APP: {
+      // ...
+    },
+
+    fastboot: {
+      hostWhitelist: ['example.com', 'subdomain.example.com', /^localhost:\d+$/]
+    }
+  };
+  // ...
+};
+```
+
+The `hostWhitelist` can be a string or RegExp to match multiple hosts.
+Care should be taken when using a RegExp, as the host function relies on
+the `Host` HTTP header, which can be forged. You could potentially allow
+a malicious request if your RegExp is too permissive when using the `host`
+when making subsequent requests.
+
+Retrieving `host` will error on 2 conditions:
+
+ 1. you do not have a `hostWhitelist` defined
+ 2. the `Host` header does not match an entry in your `hostWhitelist`
+
 ## Known Limitations
 
 While FastBoot is under active development, there are several major
