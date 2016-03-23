@@ -24,15 +24,15 @@ describe('generating package.json', function() {
   describe('with FastBoot builds', function() {
 
     before(function() {
-      return app.run('ember', 'fastboot:build');
+      return app.run('ember', 'build');
     });
 
     it('builds a package.json', function() {
-      expect(app.filePath('fastboot-dist/package.json')).to.be.a.file();
+      expect(app.filePath('dist/package.json')).to.be.a.file();
     });
 
     it("merges FastBoot dependencies from multiple addons", function() {
-      var config = fs.readJsonSync(app.filePath('/fastboot-dist/package.json'));
+      var config = fs.readJsonSync(app.filePath('/dist/package.json'));
 
       expect(config.dependencies).to.deep.equal({
         "foo": "1.2.3",
@@ -43,7 +43,7 @@ describe('generating package.json', function() {
     });
 
     it("contains a whitelist of allowed module names", function() {
-      var pkg = fs.readJsonSync(app.filePath('/fastboot-dist/package.json'));
+      var pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
 
       expect(pkg.fastboot.moduleWhitelist).to.deep.equal([
         'path',
@@ -55,17 +55,17 @@ describe('generating package.json', function() {
     });
 
     it("contains a manifest of FastBoot assets", function() {
-      var pkg = fs.readJsonSync(app.filePath('/fastboot-dist/package.json'));
+      var pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
 
       expect(pkg.fastboot.manifest).to.deep.equal({
-        appFile: 'assets/module-whitelist.js',
+        appFile: 'fastboot/module-whitelist.js',
         htmlFile: 'index.html',
-        vendorFile: 'assets/vendor.js'
+        vendorFile: 'fastboot/vendor.js'
       });
     });
 
     it("contains a list of whitelisted hosts from environment.js", function() {
-      var pkg = fs.readJsonSync(app.filePath('/fastboot-dist/package.json'));
+      var pkg = fs.readJsonSync(app.filePath('dist/package.json'));
 
       expect(pkg.fastboot.hostWhitelist).to.deep.equal([
         'example.com',
@@ -79,17 +79,17 @@ describe('generating package.json', function() {
   describe('with production FastBoot builds', function() {
 
     before(function() {
-      return app.run('ember', 'fastboot:build', '--environment', 'production');
+      return app.run('ember', 'build', '--environment', 'production');
     });
 
     // https://github.com/tildeio/ember-cli-fastboot/issues/102
     // production builds have a fingerprint added to them, which was not being
     // reflected in the manifest
     it("contains a manifest of FastBoot assets", function() {
-      var pkg = fs.readJsonSync(app.filePath('/fastboot-dist/package.json'));
+      var pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
 
       var p = function(filePath) {
-        return app.filePath(path.join('fastboot-dist', filePath));
+        return app.filePath(path.join('dist', filePath));
       };
 
       var manifest = pkg.fastboot.manifest;
@@ -100,42 +100,30 @@ describe('generating package.json', function() {
     });
   });
 
-  describe('with with customized fingerprinting options', function() {
+  describe('with customized fingerprinting options', function() {
     // Tests an app with a custom `assetMapPath` set
     var customApp = new AddonTestApp();
 
     before(function() {
       return customApp.create('customized-fingerprinting')
         .then(function() {
-          return customApp.run('ember', 'fastboot:build', '--environment', 'production');
+          return customApp.run('ember', 'build', '--environment', 'production');
         });
     });
 
     it("respects a custom asset map path and prepended URLs", function() {
-      expect(customApp.filePath('fastboot-dist/totally-customized-asset-map.json')).to.be.a.file();
+      expect(customApp.filePath('dist/totally-customized-asset-map.json')).to.be.a.file();
 
       var p = function(filePath) {
-        return customApp.filePath(path.join('fastboot-dist', filePath));
+        return customApp.filePath(path.join('dist', filePath));
       };
 
-      var pkg = fs.readJsonSync(customApp.filePath('/fastboot-dist/package.json'));
+      var pkg = fs.readJsonSync(customApp.filePath('/dist/package.json'));
       var manifest = pkg.fastboot.manifest;
 
       expect(p(manifest.appFile)).to.be.a.file();
       expect(p(manifest.htmlFile)).to.be.a.file();
       expect(p(manifest.vendorFile)).to.be.a.file();
-    });
-
-  });
-
-  describe('with browser builds', function() {
-
-    before(function() {
-      return app.run('ember', 'build');
-    });
-
-    it('does not include a package.json', function() {
-      expect(fs.existsSync(app.filePath('dist/package.json'))).to.equal(false);
     });
 
   });
