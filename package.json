@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-fastboot",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Server-side rendering for Ember.js apps",
   "directories": {
     "doc": "doc",
