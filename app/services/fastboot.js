@@ -8,5 +8,8 @@ export default Ember.Service.extend({
   headers: alias('_fastbootInfo.headers'),
   host: computed(function() {
     return this._fastbootInfo.host();
+  }),
+  isFastboot: computed(function() {
+    return typeof window.document === 'undefined';
   })
 });
