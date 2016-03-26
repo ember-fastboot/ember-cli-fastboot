@@ -79,10 +79,9 @@ module.exports = {
   postprocessTree: function(type, tree) {
     if (type === 'all') {
       var fastbootTree = this.buildFastBootTree();
-      var configTree = this.buildConfigTree(fastbootTree);
 
       // Merge the package.json with the existing tree
-      return mergeTrees([configTree, tree, fastbootTree], {overwrite: true});
+      return mergeTrees([tree, fastbootTree], {overwrite: true});
     }
 
     return tree;

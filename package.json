@@ -62,6 +62,7 @@
     "broccoli-funnel": "0.2.8",
     "broccoli-merge-trees": "^1.1.1",
     "broccoli-plugin": "^1.2.1",
+    "broccoli-stew": "^1.2.0",
     "contextify": "^0.1.11",
     "ember-fastboot-server": "0.5.3",
     "express": "^4.8.5",
