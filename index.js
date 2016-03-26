@@ -87,20 +87,6 @@ module.exports = {
     return tree;
   },
 
-  buildConfigTree: function(tree) {
-    var env = this.app.env;
-
-    // Create a new Broccoli tree that writes the FastBoot app's
-    // `package.json`.
-    return new FastBootConfig(tree, {
-      project: this.project,
-      name: this.app.name,
-      assetMapPath: this.assetMapPath,
-      ui: this.ui,
-      fastbootAppConfig: this.project.config(env).fastboot
-    });
-  },
-
   buildFastBootTree: function() {
     var fastbootBuild = new FastBootBuild({
       project: this.project,
