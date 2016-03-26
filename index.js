@@ -89,6 +89,7 @@ module.exports = {
 
   buildFastBootTree: function() {
     var fastbootBuild = new FastBootBuild({
+      ui: this.ui,
       project: this.project,
       app: this.app,
       parent: this.parent
