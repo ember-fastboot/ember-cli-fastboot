@@ -82,7 +82,7 @@ module.exports = {
       var configTree = this.buildConfigTree(fastbootTree);
 
       // Merge the package.json with the existing tree
-      return mergeTrees([configTree, tree, fastbootTree]);
+      return mergeTrees([configTree, tree, fastbootTree], {overwrite: true});
     }
 
     return tree;
