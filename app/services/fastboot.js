@@ -1,3 +1,4 @@
+/* global FastBoot */
 import Ember from "ember";
 
 let alias = Ember.computed.alias;
@@ -8,5 +9,8 @@ export default Ember.Service.extend({
   headers: alias('_fastbootInfo.headers'),
   host: computed(function() {
     return this._fastbootInfo.host();
+  }),
+  isFastBoot: computed(function() {
+    return typeof FastBoot !== 'undefined';
   })
 });
