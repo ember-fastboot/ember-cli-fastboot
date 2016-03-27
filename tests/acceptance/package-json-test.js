@@ -79,8 +79,7 @@ describe('generating package.json', function() {
   describe('with production FastBoot builds', function() {
 
     before(function() {
-      var rm = require('rimraf');
-      return app.runEmberCommand('build', '--environment', 'production');
+      return app.run('ember', 'build', '--environment', 'production');
     });
 
     // https://github.com/tildeio/ember-cli-fastboot/issues/102
