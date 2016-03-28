@@ -6,6 +6,7 @@ process.title = 'ember-fastboot-server';
 
 var FastBootServer = require('../lib/server');
 var express = require('express');
+var cluster = require('express-cluster');
 var parseArgs = require('minimist');
 
 var argOptions = {
@@ -36,25 +37,26 @@ console.log('Booting Ember app...');
 // go through more churn in the near term.
 server.app.buildApp().then(function() {
   console.log('Ember app booted successfully.');
+  cluster(function() {
+    var app = express();
 
-  var app = express();
+    if (assetPath) {
+      app.get('/', server.middleware());
+      app.use(express.static(assetPath));
+    }
 
-  if (assetPath) {
-    app.get('/', server.middleware());
-    app.use(express.static(assetPath));
-  }
+    app.get('/*', server.middleware());
 
-  app.get('/*', server.middleware());
+    var listener = app.listen(options.port, options.host, function() {
+      var host = listener.address().address;
+      var port = listener.address().port;
+      var family = listener.address().family;
 
-  var listener = app.listen(options.port, options.host, function() {
-    var host = listener.address().address;
-    var port = listener.address().port;
-    var family = listener.address().family;
+      if (family === 'IPv6') { host = '[' + host + ']'; }
 
-    if (family === 'IPv6') { host = '[' + host + ']'; }
-
-    console.log('Ember FastBoot running at http://' + host + ":" + port);
-  });
+      console.log('Ember FastBoot running at http://' + host + ":" + port);
+    });
+  }, { verbose: true });
 }, function(error) {
   if (error.stack) {
     console.error('An error occured when booting Ember app...');

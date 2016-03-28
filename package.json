@@ -29,6 +29,7 @@
     "cookie": "^0.2.3",
     "debug": "^2.1.0",
     "express": "^4.13.3",
+    "express-cluster": "0.0.4",
     "glob": "^4.0.5",
     "minimist": "^1.2.0",
     "najax": "^0.4.0",
