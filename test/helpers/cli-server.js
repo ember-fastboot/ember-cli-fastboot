@@ -32,12 +32,12 @@ Server.prototype.start = function() {
     });
 
     server.on('exit', function(statusCode, signal) {
-      if (signal === 'SIGTERM') {
+      if (signal === 'SIGTERM' || statusCode === 143) {
         resolve();
         return;
       }
 
-      console.error('Server exited unexpectedly');
+      console.error('Server exited unexpectedly: ' + signal + ' ' + statusCode);
       reject();
     });
   });

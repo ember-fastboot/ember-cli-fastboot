@@ -4,6 +4,7 @@
   "description": "Production server for running Ember applications using FastBoot",
   "main": "./lib/server",
   "scripts": {
+    "postinstall": "scripts/is-not-legacy-vm || npm install contextify@^0.1.11",
     "test": "mocha"
   },
   "repository": {
