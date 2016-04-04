@@ -133,7 +133,7 @@ export default Ember.Route.extend({
   fastboot: Ember.inject.service(),
 
   model() {
-    let host = this.get('fastboot').host();
+    let host = this.get('fastboot.host');
     // ...
   }
 });
