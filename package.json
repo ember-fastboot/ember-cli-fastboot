@@ -26,7 +26,6 @@
   "homepage": "https://github.com/ember-fastboot/ember-fastboot-server#readme",
   "dependencies": {
     "chalk": "^0.5.1",
-    "contextify": "^0.1.11",
     "cookie": "^0.2.3",
     "debug": "^2.1.0",
     "express": "^4.13.3",
