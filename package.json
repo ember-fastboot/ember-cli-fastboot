@@ -63,7 +63,7 @@
     "broccoli-merge-trees": "^1.1.1",
     "broccoli-plugin": "^1.2.1",
     "contextify": "^0.1.11",
-    "ember-fastboot-server": "0.5.3",
+    "ember-fastboot-server": "0.5.4",
     "express": "^4.8.5",
     "lodash.clonedeep": "^4.3.1",
     "lodash.defaults": "^4.0.1",
