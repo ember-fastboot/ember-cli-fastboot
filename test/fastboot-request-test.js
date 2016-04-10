@@ -1,0 +1,165 @@
+var expect = require('chai').expect;
+var path = require('path');
+var FastBootRequest = require('../lib/fastboot-request.js');
+
+describe("FastBootRequest", function() {
+  it("throws an exception if no hostWhitelist is provided", function() {
+    var request = {
+      cookie: "",
+      protocol: "http",
+      headers: {
+      },
+      get: function() {
+        return this.cookie;
+      }
+    };
+    var fastbootRequest = new FastBootRequest(request);
+
+    var fn = function() {
+      fastbootRequest.host();
+    };
+    expect(fn).to.throw(/You must provide a hostWhitelist to retrieve the host/);
+  });
+
+  it("throws an exception if the host header does not match an entry in the hostWhitelist", function() {
+    var request = {
+      cookie: "",
+      protocol: "http",
+      headers: {
+        host: "evil.com"
+      },
+      get: function() {
+        return this.cookie;
+      }
+    };
+    var hostWhitelist = ["example.com", "localhost:4200"]
+    var fastbootRequest = new FastBootRequest(request, hostWhitelist);
+
+    var fn = function() {
+      fastbootRequest.host();
+    };
+    expect(fn).to.throw(/The host header did not match a hostWhitelist entry/);
+  });
+
+  it("returns the host if it is in the hostWhitelist", function() {
+    var request = {
+      cookie: "",
+      protocol: "http",
+      headers: {
+        host: "localhost:4200"
+      },
+      get: function() {
+        return this.cookie;
+      }
+    };
+    var hostWhitelist = ["example.com", "localhost:4200"]
+    var fastbootRequest = new FastBootRequest(request, hostWhitelist);
+
+    var host =  fastbootRequest.host();
+    expect(host).to.equal("localhost:4200");
+  });
+
+  it("returns the host if it matches a regex in the hostWhitelist", function() {
+    var request = {
+      cookie: "",
+      protocol: "http",
+      headers: {
+        host: "localhost:4200"
+      },
+      get: function() {
+        return this.cookie;
+      }
+    };
+    var hostWhitelist = ["example.com", "/localhost:\\d+/"]
+    var fastbootRequest = new FastBootRequest(request, hostWhitelist);
+
+    var host =  fastbootRequest.host();
+    expect(host).to.equal("localhost:4200");
+  });
+
+  it("captures the query params from the request", function() {
+    var request = {
+      cookie: "",
+      protocol: "http",
+      query: {
+        foo: "bar"
+      },
+      get: function() {
+        return this.cookie;
+      }
+    };
+    var fastbootRequest = new FastBootRequest(request);
+
+    expect(fastbootRequest.queryParams.foo).to.equal("bar");
+  });
+
+  it("captures the path from the request", function() {
+    var request = {
+      cookie: "",
+      protocol: "http",
+      url: "/foo",
+
+      get: function() {
+        return this.cookie;
+      }
+    };
+    var fastbootRequest = new FastBootRequest(request);
+
+    expect(fastbootRequest.path).to.equal("/foo");
+  });
+
+  it("captures the headers from the request", function() {
+    var request = {
+      cookie: "",
+      protocol: "http",
+      url: "/foo",
+      headers: {
+        host: "localhost:4200"
+      },
+
+      get: function() {
+        return this.cookie;
+      }
+    };
+    var fastbootRequest = new FastBootRequest(request);
+
+    expect(fastbootRequest.headers.get('Host')).to.equal("localhost:4200");
+  });
+
+  it("captures the protocol from the request", function() {
+    var request = {
+      cookie: "",
+      protocol: "http",
+      url: "/foo",
+      headers: {
+        host: "localhost:4200"
+      },
+
+      get: function() {
+        return this.cookie;
+      }
+    };
+    var fastbootRequest = new FastBootRequest(request);
+
+    expect(fastbootRequest.protocol).to.equal("http");
+  });
+
+  it("captures the cookies from the request", function() {
+    var request = {
+      cookie: "test=bar",
+      protocol: "http",
+      url: "/foo",
+      headers: {
+        host: "localhost:4200"
+      },
+
+      get: function() {
+        return this.cookie;
+      }
+    };
+    var fastbootRequest = new FastBootRequest(request);
+
+    expect(fastbootRequest.cookies.test).to.equal("bar");
+  });
+});
+
