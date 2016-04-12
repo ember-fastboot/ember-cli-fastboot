@@ -11,7 +11,7 @@
     "start": "ember server",
     "build": "ember build",
     "test": "node tests/runner",
-    "test:precook": "node tests/precook-node-modules"
+    "test:precook": "node node_modules/ember-cli-addon-tests/scripts/precook-node-modules.js"
   },
   "engines": {
     "node": ">= 0.10.0"
