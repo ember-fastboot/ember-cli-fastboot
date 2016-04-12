@@ -97,6 +97,7 @@ module.exports = {
       project: this.project,
       name: this.app.name,
       assetMapPath: this.assetMapPath,
+      outputPaths: this.app.options.outputPaths,
       ui: this.ui,
       fastbootAppConfig: this.project.config(env).fastboot
     });
