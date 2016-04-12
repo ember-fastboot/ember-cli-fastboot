@@ -128,6 +128,33 @@ describe('generating package.json', function() {
 
   });
 
+  describe('with customized outputPaths options', function() {
+    // Tests an app with a custom `outputPaths` set
+    var customApp = new AddonTestApp();
+
+    before(function() {
+      return customApp.create('customized-outputpaths')
+        .then(function() {
+          return customApp.run('ember', 'build', '--environment', 'production');
+        });
+    });
+
+    it("respects custom output paths and maps to them in the manifest", function() {
+
+      var p = function(filePath) {
+        return customApp.filePath(path.join('dist', filePath));
+      };
+
+      var pkg = fs.readJsonSync(customApp.filePath('/dist/package.json'));
+      var manifest = pkg.fastboot.manifest;
+
+      expect(p(manifest.appFile)).to.be.a.file();
+      expect(p(manifest.htmlFile)).to.be.a.file();
+      expect(p(manifest.vendorFile)).to.be.a.file();
+    });
+
+  });
+
 });
 
 function addFastBootDeps(app) {
