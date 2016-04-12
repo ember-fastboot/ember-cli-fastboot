@@ -17,7 +17,7 @@ describe('it builds', function() {
     return app.create('dummy');
   });
 
-  it("builds into fastboot-dist by default", function() {
+  it("builds into dist by default", function() {
     return app.runEmberCommand('build')
       .then(function() {
         expect(app.filePath('dist/index.html')).to.be.a.file();
