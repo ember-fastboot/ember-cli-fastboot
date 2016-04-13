@@ -5,7 +5,7 @@ export default Ember.Route.extend({
 
   model() {
     return {
-      host: this.get('fastboot.host')
+      path: this.get('fastboot.request.path')
     };
   }
 });

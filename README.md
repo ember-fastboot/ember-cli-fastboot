@@ -84,7 +84,6 @@ specify the package and a version in the `package.json` `dependencies`
 hash.** Built-in modules (`path`, `fs`, etc.) only need to be added to
 `fastbootDependencies`.
 
-
 ### Using Dependencies
 
 From your Ember.js app, you can run `FastBoot.require()` to require a
@@ -103,17 +102,25 @@ Note that the `FastBoot` global is **only** available when running in
 FastBoot mode. You should either guard against its presence or only use
 it in FastBoot-only initializers.
 
+## FastBoot Service
+
+FastBoot registers the `fastboot` service. This service allows you to
+check if you are running within FastBoot by checking
+`fastboot.isFastBoot`. There is also a request object under
+`fastboot.request` which exposes details about the current request being
+handled by FastBoot
+
 ### Cookies
 
-You can access cookies for the current request via the `fastboot`
-service.
+You can access cookies for the current request via `fastboot.request`
+in the `fastboot` service.
 
 ```js
 export default Ember.Route.extend({
   fastboot: Ember.inject.service(),
 
   model() {
-    let authToken = this.get('fastboot.cookies.auth');
+    let authToken = this.get('fastboot.request.cookies.auth');
     // ...
   }
 });
@@ -122,18 +129,41 @@ export default Ember.Route.extend({
 The service's `cookies` property is an object containing the request's
 cookies as key/value pairs.
 
-### Host
+### Headers
 
-You can access the host of the request that the current FastBoot server
-is responding to via the `fastboot` service. The `host` function will
-return the protocol and the host (`https://example.com`).
+You can access the headers for the current request via `fastboot.request`
+in the `fastboot` service. The `headers` object implements part of the
+[Fetch API's Headers
+class](https://developer.mozilla.org/en-US/docs/Web/API/Headers), the
+functions available are
+[`has`](https://developer.mozilla.org/en-US/docs/Web/API/Headers/has),
+[`get`](https://developer.mozilla.org/en-US/docs/Web/API/Headers/get), and
+[`getAll`](https://developer.mozilla.org/en-US/docs/Web/API/Headers/getAll).
 
 ```js
 export default Ember.Route.extend({
   fastboot: Ember.inject.service(),
 
   model() {
-    let host = this.get('fastboot.host');
+    let headers = this.get('fastboot.request.headers');
+    let xRequestHeader = headers.get('X-Request');
+    // ...
+  }
+});
+```
+
+### Host
+
+You can access the host of the request that the current FastBoot server
+is responding to via `fastboot.request` in the `fastboot` service. The
+`host` property will return the host (`example.com` or `localhost:3000`).
+
+```js
+export default Ember.Route.extend({
+  fastboot: Ember.inject.service(),
+
+  model() {
+    let host = this.get('fastboot.request.host');
     // ...
   }
 });
@@ -174,6 +204,59 @@ Retrieving `host` will error on 2 conditions:
 
  1. you do not have a `hostWhitelist` defined
  2. the `Host` header does not match an entry in your `hostWhitelist`
+
+### Query Parameters
+
+You can access query parameters for the current request via `fastboot.request`
+in the `fastboot` service.
+
+```js
+export default Ember.Route.extend({
+  fastboot: Ember.inject.service(),
+
+  model() {
+    let authToken = this.get('fastboot.request.queryParams.auth');
+    // ...
+  }
+});
+```
+
+The service's `queryParams` property is an object containing the request's
+query parameters as key/value pairs.
+
+### Path
+
+You can access the path (`/` or `/some-path`) of the request that the
+current FastBoot server is responding to via `fastboot.request` in the
+`fastboot` service.
+
+```js
+export default Ember.Route.extend({
+  fastboot: Ember.inject.service(),
+
+  model() {
+    let path = this.get('fastboot.request.path');
+    // ...
+  }
+});
+```
+
+### Protocol
+
+You can access the protocol (`http` or `https`) of the request that the
+current FastBoot server is responding to via `fastboot.request` in the
+`fastboot` service.
+
+```js
+export default Ember.Route.extend({
+  fastboot: Ember.inject.service(),
+
+  model() {
+    let protocol = this.get('fastboot.request.protocol');
+    // ...
+  }
+});
+```
 
 ## Known Limitations
 

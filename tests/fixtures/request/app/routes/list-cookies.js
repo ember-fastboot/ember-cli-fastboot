@@ -5,7 +5,7 @@ export default Ember.Route.extend({
 
   model() {
     return {
-      cookies: this.get('fastboot.cookies')
+      cookies: this.get('fastboot.request.cookies')
     };
   }
 });
