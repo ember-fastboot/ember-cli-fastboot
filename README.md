@@ -110,6 +110,21 @@ check if you are running within FastBoot by checking
 `fastboot.request` which exposes details about the current request being
 handled by FastBoot
 
+### Delaying the server response
+
+By default, FastBoot waits for the `beforeModel`, `model`, and
+`afterModel` hooks to resolve before sending the response back to the
+client. If you have asynchrony that runs outside of those contexts, your
+response may not reflect the state that you want. To solve this, the
+`fastboot` service has `deferRendering` function that accepts a promise.
+It will chain all promises passed to it, and the FastBoot server will
+wait until all of these promises resolve before sending the response to
+the client. These promises must be chained before the rendering is
+complete after the model hooks. For example, if a component that is
+rendered into the page makes an async call for data, registering a
+promise to be resolved in its `init` hook would allow the component to
+defer the rendering of the page.
+
 ### Cookies
 
 You can access cookies for the current request via `fastboot.request`

@@ -48,5 +48,10 @@ export default Ember.Service.extend({
 
   isFastBoot: computed(function() {
     return typeof FastBoot !== 'undefined';
-  })
+  }),
+
+  deferRendering(promise) {
+    Ember.assert('deferRendering requires a promise or thennable object', promise.then);
+    this._fastbootInfo.deferRendering(promise);
+  }
 });
