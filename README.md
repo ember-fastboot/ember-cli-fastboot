@@ -12,6 +12,8 @@ prerequisite for developing FastBoot apps.
 
 [ember-cli-fastboot]: https://github.com/tildeio/ember-cli-fastboot
 
+The FastBoot server requires Node 0.12 or later.
+
 ## Usage
 
 ### Command Line
