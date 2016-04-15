@@ -5,6 +5,8 @@ var path         = require('path');
 var exec         = RSVP.denodeify(childProcess.exec);
 var request      = require('request-promise');
 var Server       = require('./helpers/cli-server');
+var temp         = require('temp').track();
+var fsp          = require('fs-promise');
 var fixturePath  = require('./helpers/fixture-path');
 
 var binPath = path.join(__dirname, '../bin/ember-fastboot');
@@ -66,6 +68,43 @@ describe("bin/ember-fastboot", function() {
       })
       .finally(function() {
         server.stop();
+      });
+  });
+
+  it("reloads on SIGUSR1", function() {
+    this.timeout(7000);
+
+    var tmpPath = temp.path({ suffix: '-fastboot-server-test' });
+    var server = new Server({ path: tmpPath });
+
+    after(function() {
+      server.stop();
+    });
+
+    return expect(fsp.copy(fixturePath('basic-app'), tmpPath)).to.be.fulfilled
+      .then(function() {
+        return server.start();
+      })
+      .then(function() {
+        return request('http://localhost:3000');
+      })
+      .then(function(html) {
+        expect(html).to.match(/<h2 id="title">Welcome to Ember<\/h2>/);
+      })
+      .then(function() {
+        return fsp.remove(tmpPath);
+      })
+      .then(function() {
+        return fsp.copy(fixturePath('hot-swap-app'), tmpPath);
+      })
+      .then(function() {
+        return server.reload();
+      })
+      .then(function() {
+        return request('http://localhost:3000');
+      })
+      .then(function(html) {
+        expect(html).to.match(/<h2 id="title">Goodbye from Ember<\/h2>/);
       });
   });
 });

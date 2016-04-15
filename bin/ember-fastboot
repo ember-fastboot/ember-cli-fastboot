@@ -6,7 +6,8 @@ process.title = 'ember-fastboot-server';
 
 var FastBootServer = require('../lib/server');
 var express = require('express');
-var cluster = require('express-cluster');
+var expressCluster = require('express-cluster');
+var cluster = require('cluster');
 var parseArgs = require('minimist');
 
 var argOptions = {
@@ -37,7 +38,8 @@ console.log('Booting Ember app...');
 // go through more churn in the near term.
 server.app.buildApp().then(function() {
   console.log('Ember app booted successfully.');
-  cluster(function() {
+
+  expressCluster(function() {
     var app = express();
 
     if (assetPath) {
@@ -56,6 +58,8 @@ server.app.buildApp().then(function() {
 
       console.log('Ember FastBoot running at http://' + host + ":" + port);
     });
+
+    return listener;
   }, { verbose: true });
 }, function(error) {
   if (error.stack) {
@@ -69,3 +73,21 @@ server.app.buildApp().then(function() {
 
   process.exit(1);
 });
+
+if (cluster.isMaster) {
+  process.on('SIGUSR1', function() {
+    console.log('Reloading Ember app from ' + distPath);
+
+    server.reload();
+
+    for (var id in cluster.workers) {
+      cluster.workers[id].send({ event: 'fastboot-reload' });
+    }
+  });
+} else {
+  process.on('message', function(message) {
+    if (message.event === 'fastboot-reload') {
+      server.reload();
+    }
+  });
+}
