@@ -45,14 +45,12 @@ describe("FastBootServer", function() {
     var promise = server.start()
       .then(requestFirstApp)
       .then(hotReloadApp)
-      .then(requestSecondApp);
-
-    promise.finally(cleanup);
+      .then(requestSecondApp)
+      .finally(cleanup);
 
     var url;
 
     return promise;
-
 
     function requestFirstApp(info) {
       url = 'http://[' + info.host + ']:' + info.port + '/';
@@ -80,9 +78,7 @@ describe("FastBootServer", function() {
 
     // Always clean up the server
     function cleanup() {
-      if (info && info.listener) {
-        info.listener.close();
-      }
+      server.stop();
     }
   });
 });

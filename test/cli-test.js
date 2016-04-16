@@ -71,6 +71,24 @@ describe("bin/ember-fastboot", function() {
       });
   });
 
+  it("allows console.log from within the app", function() {
+    this.timeout(3000);
+
+    var server = new Server('app-with-console-log');
+
+    server.start();
+
+    return new RSVP.Promise(function(resolve, reject) {
+      server.stdout.on('data', function(data) {
+        if (data.toString().indexOf('The files are *in* the computer?')) {
+          resolve();
+        }
+      });
+    }).finally(function() {
+      server.stop();
+    });
+  });
+
   it("reloads on SIGUSR1", function() {
     this.timeout(7000);
 

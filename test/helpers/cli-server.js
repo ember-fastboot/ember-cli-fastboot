@@ -22,6 +22,9 @@ function Server(fixture, options) {
 Server.prototype.start = function() {
   var server = this.server = childProcess.spawn(binPath, this.args);
 
+  this.stdout = server.stdout;
+  this.stdin = server.stdin;
+
   return new RSVP.Promise(function(resolve, reject) {
 
     server.stdout.on('data', function(data) {
