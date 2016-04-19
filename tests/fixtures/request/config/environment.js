@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'host',
+    modulePrefix: 'request',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',

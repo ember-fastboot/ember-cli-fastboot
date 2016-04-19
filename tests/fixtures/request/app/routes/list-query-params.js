@@ -5,7 +5,7 @@ export default Ember.Route.extend({
 
   model() {
     return {
-      headers: this.get('fastboot.headers')
+      queryParams: this.get('fastboot.request.queryParams')
     };
   }
 });
