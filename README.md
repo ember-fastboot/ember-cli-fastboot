@@ -75,22 +75,10 @@ var listener = app.listen(process.env.PORT || 3000, function() {
 });
 ```
 
-You can also serve static assets without using a CDN.
+You can also serve static assets without using a CDN by adding an 
+extra `/assets` route.
 
 ```js
-var server = new FastBootServer({
-  distPath: 'path/to/dist'
-});
-
-var app = express();
-
 app.get('/', server.middleware());
 app.use('/assets', express.static('path/to/dist/assets'));
-
-var listener = app.listen(process.env.PORT || 3000, function() {
-  var host = listener.address().address;
-  var port = listener.address().port;
-
-  console.log('FastBoot running at http://' + host + ":" + port);
-});
 ```
