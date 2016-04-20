@@ -75,7 +75,7 @@ var listener = app.listen(process.env.PORT || 3000, function() {
 });
 ```
 
-You can also serve Embers' static assets (compiled JavaScript and CSS files) or public
+You can also serve Ember's static assets (compiled JavaScript and CSS files) or public
 files (like images or fonts) without using a CDN by adding extra routes:
 
 ```js
