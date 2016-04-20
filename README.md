@@ -75,10 +75,12 @@ var listener = app.listen(process.env.PORT || 3000, function() {
 });
 ```
 
-You can also serve static assets without using a CDN by adding an 
-extra `/assets` route.
+You can also serve Embers' static assets (compiled JavaScript and CSS files) or public
+files (like images or fonts) without using a CDN by adding extra routes:
 
 ```js
-app.get('/', server.middleware());
-app.use('/assets', express.static('path/to/dist/assets'));
+app.use('/assets', express.static('dist/assets'));
+app.use('/images', express.static('dist/images'));
+app.use('/fonts', express.static('dist/fonts'));
+app.get('/*', server.middleware());
 ```
