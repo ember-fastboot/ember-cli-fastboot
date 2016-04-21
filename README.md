@@ -74,3 +74,13 @@ var listener = app.listen(process.env.PORT || 3000, function() {
   console.log('FastBoot running at http://' + host + ":" + port);
 });
 ```
+
+You can also serve Ember's static assets (compiled JavaScript and CSS files) or public
+files (like images or fonts) without using a CDN by adding extra routes:
+
+```js
+app.use('/assets', express.static('dist/assets'));
+app.use('/images', express.static('dist/images'));
+app.use('/fonts', express.static('dist/fonts'));
+app.get('/*', server.middleware());
+```
