@@ -51,7 +51,7 @@ describe('FastBootHeaders', function() {
     expect(headers.get('host')).to.be.null;
   });
 
-  it('returns whether or not a header is present via has, regardless of case', function() {
+  it('returns whether or not a header is present via has, regardless of casing', function() {
     var headers = {
       // Express concatenates repeated keys with ', '
       // and also lowercases the keys
@@ -63,6 +63,87 @@ describe('FastBootHeaders', function() {
     expect(headers.has('x-test-header')).to.be.true;
     expect(headers.has('Host')).to.be.false;
     expect(headers.has('host')).to.be.false;
+  });
+
+  it('appends entries onto a header, regardless of casing', function() {
+    var headers = new FastBootHeaders();
+
+    expect(headers.has('x-foo')).to.be.false;
+
+    headers.append('X-Foo', 'bar');
+    expect(headers.has('x-foo')).to.be.true;
+    expect(headers.getAll('x-foo')).to.deep.equal(['bar']);
+
+    headers.append('X-Foo', 'baz');
+    expect(headers.getAll('x-foo')).to.deep.equal(['bar', 'baz']);
+  });
+
+  it('deletes entries onto a header, regardless of casing', function() {
+    var headers = new FastBootHeaders();
+
+    headers.append('X-Foo', 'bar');
+    expect(headers.has('x-foo')).to.be.true;
+
+    headers.delete('X-Foo');
+    expect(headers.has('x-foo')).to.be.false;
+  });
+
+  it('returns an iterator for the header/value pairs when calling entries', function() {
+    var headers = new FastBootHeaders();
+
+    headers.append('X-Foo', 'foo');
+    headers.append('X-Foo', 'baz');
+    headers.append('x-bar', 'bar');
+
+    var entriesIterator = headers.entries();
+    expect(entriesIterator.next()).to.deep.equal({ value: ['x-foo', 'foo'], done: false });
+    expect(entriesIterator.next()).to.deep.equal({ value: ['x-foo', 'baz'], done: false });
+    expect(entriesIterator.next()).to.deep.equal({ value: ['x-bar', 'bar'], done: false });
+    expect(entriesIterator.next()).to.deep.equal({ value: undefined, done: true });
+  });
+
+  it('returns an iterator for keys containing all the keys', function() {
+    var headers = new FastBootHeaders();
+
+    headers.append('X-Foo', 'foo');
+    headers.append('X-Foo', 'baz');
+    headers.append('x-bar', 'bar');
+
+    var entriesIterator = headers.keys();
+    expect(entriesIterator.next()).to.deep.equal({ value: 'x-foo', done: false });
+    expect(entriesIterator.next()).to.deep.equal({ value: 'x-foo', done: false });
+    expect(entriesIterator.next()).to.deep.equal({ value: 'x-bar', done: false });
+    expect(entriesIterator.next()).to.deep.equal({ value: undefined, done: true });
+  });
+
+  it('sets a header, overwriting existing values, regardless of casing', function() {
+    var headers = new FastBootHeaders();
+
+    expect(headers.getAll('x-foo')).to.deep.equal([]);
+    expect(headers.getAll('x-bar')).to.deep.equal([]);
+
+    headers.append('X-Foo', 'foo');
+    expect(headers.getAll('x-foo')).to.deep.equal(['foo']);
+
+    headers.set('x-foo', 'bar');
+    expect(headers.getAll('X-foo')).to.deep.equal(['bar']);
+
+    headers.set('X-Bar', 'baz');
+    expect(headers.getAll('x-bar')).to.deep.equal(['baz']);
+  });
+
+  it('returns an iterator for values containing all the values', function() {
+    var headers = new FastBootHeaders();
+
+    headers.append('X-Foo', 'foo');
+    headers.append('X-Foo', 'baz');
+    headers.append('x-bar', 'bar');
+
+    var entriesIterator = headers.values();
+    expect(entriesIterator.next()).to.deep.equal({ value: 'foo', done: false });
+    expect(entriesIterator.next()).to.deep.equal({ value: 'baz', done: false });
+    expect(entriesIterator.next()).to.deep.equal({ value: 'bar', done: false });
+    expect(entriesIterator.next()).to.deep.equal({ value: undefined, done: true });
   });
 });
 
