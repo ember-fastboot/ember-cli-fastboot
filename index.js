@@ -8,7 +8,6 @@ var fastbootAppModule = require('./lib/utilities/fastboot-app-module');
 
 var filterInitializers = require('./lib/broccoli/filter-initializers');
 var FastBootBuild      = require('./lib/broccoli/fastboot-build');
-var FastBootConfig     = require('./lib/broccoli/fastboot-config');
 
 /*
  * Main entrypoint for the Ember CLI addon.
@@ -79,32 +78,18 @@ module.exports = {
   postprocessTree: function(type, tree) {
     if (type === 'all') {
       var fastbootTree = this.buildFastBootTree();
-      var configTree = this.buildConfigTree(fastbootTree);
 
       // Merge the package.json with the existing tree
-      return mergeTrees([configTree, tree, fastbootTree]);
+      return mergeTrees([tree, fastbootTree], {overwrite: true});
     }
 
     return tree;
   },
 
-  buildConfigTree: function(tree) {
-    var env = this.app.env;
-
-    // Create a new Broccoli tree that writes the FastBoot app's
-    // `package.json`.
-    return new FastBootConfig(tree, {
-      project: this.project,
-      name: this.app.name,
-      assetMapPath: this.assetMapPath,
-      outputPaths: this.app.options.outputPaths,
-      ui: this.ui,
-      fastbootAppConfig: this.project.config(env).fastboot
-    });
-  },
-
   buildFastBootTree: function() {
     var fastbootBuild = new FastBootBuild({
+      ui: this.ui,
+      assetMapPath: this.assetMapPath,
       project: this.project,
       app: this.app,
       parent: this.parent
