@@ -270,7 +270,7 @@ Since `didInsertElement` hooks are designed to let your component
 directly manipulate the DOM, and that doesn't make sense on the server
 where there is no DOM, we do not invoke either `didInsertElement` or
 `willInsertElement` hooks. The only component lifecycle hooks called in
-FastBoot are `init`, `didReceiveAttrs`, `didUpdateAttrs, `willRender`
+FastBoot are `init`, `didReceiveAttrs`, `didUpdateAttrs`, `willRender`
 and `willUpdate`.
 
 ### No jQuery
