@@ -27,8 +27,8 @@ const RequestObject = Ember.Object.extend({
 });
 
 export default Ember.Service.extend({
-  cookies: deprecatingAlias('cookies', 'request.cookies', { id: 'fastboot.cookies-to-request', until: '0.9.9' }),
-  headers: deprecatingAlias('headers', 'request.headers', { id: 'fastboot.cookies-to-request', until: '0.9.9' }),
+  cookies: deprecatingAlias('request.cookies', { id: 'fastboot.cookies-to-request', until: '0.9.9' }),
+  headers: deprecatingAlias('request.headers', { id: 'fastboot.headers-to-request', until: '0.9.9' }),
 
   host: computed(function() {
     deprecate(
