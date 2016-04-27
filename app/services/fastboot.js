@@ -46,5 +46,8 @@ export default Ember.Service.extend({
 
   isFastBoot: computed(function() {
     return typeof FastBoot !== 'undefined';
-  })
+  }),
+  deferRendering(promise) {
+    this._fastbootInfo.deferRendering(promise);
+  }
 });
