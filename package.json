@@ -27,6 +27,7 @@
     "chalk": "^0.5.1",
     "cookie": "^0.2.3",
     "debug": "^2.1.0",
+    "exists-sync": "0.0.3",
     "express": "^4.13.3",
     "express-cluster": "0.0.4",
     "glob": "^4.0.5",
