@@ -2,7 +2,7 @@
 import Ember from "ember";
 
 const { deprecate, computed, get } = Ember;
-const { alias, deprecatingAlias } = computed;
+const { alias, deprecatingAlias, readOnly } = computed;
 
 const RequestObject = Ember.Object.extend({
   init() {
@@ -39,6 +39,8 @@ export default Ember.Service.extend({
 
     return this._fastbootInfo.request.host();
   }),
+
+  response: readOnly('_fastbootInfo.response'),
 
   request: computed(function() {
     return RequestObject.create({ request: get(this, '_fastbootInfo.request') });
