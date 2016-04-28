@@ -6,7 +6,7 @@ var mergeTrees = require('broccoli-merge-trees');
 var patchEmberApp     = require('./lib/ext/patch-ember-app');
 var fastbootAppModule = require('./lib/utilities/fastboot-app-module');
 
-var filterInitializers = require('./lib/broccoli/filter-initializers');
+var filterInitializers = require('fastboot-filter-initializers');
 var FastBootBuild      = require('./lib/broccoli/fastboot-build');
 
 /*
@@ -64,11 +64,7 @@ module.exports = {
    * browser mode.
    */
   preconcatTree: function(tree) {
-    if (isFastBoot()) {
-      return filterInitializers(tree, 'browser', this.app.name);
-    } else {
-      return filterInitializers(tree, 'fastboot', this.app.name);
-    }
+    return filterInitializers(tree, this.app.name);
   },
 
   /**
@@ -99,7 +95,3 @@ module.exports = {
   }
 
 };
-
-function isFastBoot() {
-  return process.env['EMBER_CLI_FASTBOOT'] === 'true';
-}

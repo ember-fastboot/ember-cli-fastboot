@@ -64,6 +64,7 @@
     "broccoli-stew": "^1.2.0",
     "ember-fastboot-server": "^0.6.0",
     "express": "^4.8.5",
+    "fastboot-filter-initializers": "0.0.1",
     "lodash.clonedeep": "^4.3.1",
     "lodash.defaults": "^4.0.1",
     "lodash.find": "^4.2.0",
