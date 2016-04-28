@@ -39,7 +39,8 @@ describe("FastBootServer", function() {
     var distPath = fixture('basic-app');
 
     var server = new TestHTTPServer({
-      distPath: distPath
+      distPath: distPath,
+      port: 0
     });
 
     var promise = server.start()
