@@ -2,7 +2,6 @@
   "name": "fastboot",
   "version": "0.9.0",
   "description": "Library for rendering Ember apps in node.js",
-  "main": "./lib/server",
   "scripts": {
     "test": "mocha"
   },

@@ -1,10 +1,8 @@
-# Ember FastBoot Server
+# FastBoot
 
 [![Build Status](https://travis-ci.org/ember-fastboot/ember-fastboot-server.svg?branch=master)](https://travis-ci.org/ember-fastboot/ember-fastboot-server)
 
-The Ember FastBoot Server is used to render Ember.js applications on the
-server and deliver them to clients over HTTP. This server is meant to be
-run in a production environment.
+FastBoot is a library for rendering Ember.js applications in Node.js.
 
 For more information about FastBoot, see
 [www.ember-fastboot.com][ember-fastboot], the Ember CLI addon that's a
@@ -12,17 +10,27 @@ prerequisite for developing FastBoot apps.
 
 [ember-fastboot]: https://www.ember-fastboot.com
 
-The FastBoot server requires Node 0.12 or later.
+To serve server-rendered versions of your Ember app over HTTP, see the
+[FastBoot App
+Server](https://github.com/ember-fastboot/fastboot-app-server).
+
+FastBoot requires Node v4 or later.
 
 ## Usage
 
-The FastBoot server supports two modes of usage:
+```js
+const FastBoot = require('fastboot');
 
-1. Running as a binary from the command line.
-2. Running programmatically as an Express middleware.
+let app = new FastBoot({
+  distPath: 'path/to/dist'
+});
 
-In both cases, you will first need to build your Ember application,
-which packages it up for using in both the browser and in Node.js.
+app.visit('/photos');
+```
+
+In order to get a `dist` directory, you will first need to build your
+Ember application, which packages it up for using in both the browser
+and in Node.js.
 
 ### Build Your App
 

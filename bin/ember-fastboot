@@ -4,7 +4,7 @@
 // Provide a title to the process in `ps`
 process.title = 'ember-fastboot-server';
 
-var FastBootServer = require('../lib/server');
+var FastBoot = require('../index');
 var express = require('express');
 var expressCluster = require('express-cluster');
 var cluster = require('cluster');
@@ -24,7 +24,7 @@ if (!distPath) {
   process.exit(1);
 }
 
-var server = new FastBootServer({
+var server = new FastBoot({
   distPath: distPath
 });
 
@@ -36,7 +36,7 @@ console.log('Booting Ember app...');
 //
 // Note that Application#buildApp is still a private API atm, so it might
 // go through more churn in the near term.
-server.app.buildApp().then(function() {
+server._app.buildApp().then(function() {
   console.log('Ember app booted successfully.');
 
   expressCluster(function() {

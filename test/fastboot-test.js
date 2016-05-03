@@ -1,22 +1,22 @@
 var expect         = require('chai').expect;
 var path           = require('path');
 var request        = require('request-promise');
-var FastBootServer = require('../lib/server.js');
+var FastBoot       = require('../index');
 var TestHTTPServer = require('./helpers/test-http-server');
 
-describe("FastBootServer", function() {
+describe("FastBoot", function() {
   it("throws an exception if no distPath is provided", function() {
     var fn = function() {
-      return new FastBootServer();
+      return new FastBoot();
     };
 
-    expect(fn).to.throw(/You must instantiate FastBootServer with a distPath option/);
+    expect(fn).to.throw(/You must instantiate FastBoot with a distPath option/);
   });
 
   it("throws an exception if no package.json exists in the provided distPath", function() {
     var distPath = fixture('no-package-json');
     var fn = function() {
-      return new FastBootServer({
+      return new FastBoot({
         distPath: distPath
       });
     };
@@ -27,7 +27,7 @@ describe("FastBootServer", function() {
   it("doesn't throw an exception if a package.json is provided", function() {
     var distPath = fixture('empty-package-json');
     var fn = function() {
-      return new FastBootServer({
+      return new FastBoot({
         distPath: distPath
       });
     };
@@ -63,8 +63,8 @@ describe("FastBootServer", function() {
     }
 
     function hotReloadApp() {
-      return server.withFastBootServer(function(fbs) {
-        return fbs.reload({
+      return server.withFastBoot(function(fb) {
+        return fb.reload({
           distPath: fixture('hot-swap-app')
         });
       });
