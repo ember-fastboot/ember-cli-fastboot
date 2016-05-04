@@ -11,7 +11,7 @@ var fixturePath  = require('./helpers/fixture-path');
 
 var binPath = path.join(__dirname, '../bin/ember-fastboot');
 
-describe("bin/ember-fastboot", function() {
+describe.skip("bin/ember-fastboot", function() {
   it("errors if there is no distPath argument provided", function() {
     return expect(exec(binPath))
       .to.eventually.be.rejectedWith(/You must call ember-fastboot with the path of a fastboot-dist directory/);

@@ -2,6 +2,7 @@ var RSVP         = require('rsvp');
 var childProcess = require('child_process');
 var path         = require('path');
 var fixturePath  = require('./fixture-path');
+const debug = require('debug')('fastboot:cli-server');
 var binPath      = path.join(__dirname, '../../bin/ember-fastboot');
 
 function Server(fixture, options) {
@@ -28,6 +29,7 @@ Server.prototype.start = function() {
   return new RSVP.Promise(function(resolve, reject) {
 
     server.stdout.on('data', function(data) {
+      debug(data.toString());
       if (data.toString().match(/Ember FastBoot running at /)) {
         resolve();
       }

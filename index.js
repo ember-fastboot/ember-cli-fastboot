@@ -13,6 +13,7 @@ class FastBoot {
     this.distPath = options.distPath;
     this.ui = options.ui;
     this.sandbox = options.sandbox;
+    this.resilient = options.resilient;
 
     if (!this.ui) {
       this.ui = require('./lib/default-ui');
@@ -22,7 +23,23 @@ class FastBoot {
   }
 
   visit(path, options) {
-    return this._app.visit(path, options);
+    options = options || {};
+
+    options.html = options.html || this.html;
+
+    let visit = this._app.visit(path, options);
+
+    if (this.resilient) {
+      visit = visit.catch(() => {
+        return {
+          html() {
+            return options.html;
+          }
+        };
+      });
+    }
+
+    return visit;
   }
 
   middleware() {

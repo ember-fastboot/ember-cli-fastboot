@@ -1,8 +1,10 @@
-var expect         = require('chai').expect;
-var path           = require('path');
-var request        = require('request-promise');
-var FastBoot       = require('../index');
-var TestHTTPServer = require('./helpers/test-http-server');
+'use strict';
+
+const expect         = require('chai').expect;
+const path           = require('path');
+const request        = require('request-promise');
+const FastBoot       = require('../index');
+const TestHTTPServer = require('./helpers/test-http-server');
 
 describe("FastBoot", function() {
   it("throws an exception if no distPath is provided", function() {
@@ -33,6 +35,39 @@ describe("FastBoot", function() {
     };
 
     expect(fn).to.throw(/(.+)\/fixtures\/empty-package-json\/package.json was malformed or did not contain a manifest/);
+  });
+
+  it("can render HTML", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('basic-app')
+    });
+
+    return fastboot.visit('/')
+      .then(r => r.html())
+      .then(html => {
+        expect(html).to.match(/Welcome to Ember/);
+      });
+  });
+
+  it("rejects the promise if an error occurs", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('rejected-promise')
+    });
+
+    return expect(fastboot.visit('/')).to.be.rejected;
+  });
+
+  it("renders an empty page if the resilient flag is set", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('rejected-promise'),
+      resilient: true
+    });
+
+    return fastboot.visit('/')
+      .then(r => r.html())
+      .then(html => {
+        expect(html).to.match(/<body>/);
+      });
   });
 
   it("can reload the distPath", function() {
