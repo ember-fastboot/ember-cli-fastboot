@@ -1,0 +1,11 @@
+{
+  "dependencies": {},
+  "fastboot": {
+    "moduleWhitelist": [],
+    "manifest": {
+      "appFile": "assets/fastboot-test.js",
+      "htmlFile": "index.html",
+      "vendorFile": "assets/vendor.js"
+    }
+  }
+}

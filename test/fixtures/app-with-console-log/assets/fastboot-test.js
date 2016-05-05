@@ -328,7 +328,7 @@ define("fastboot-test/templates/application", ["exports"], function (exports) {
 /* jshint ignore:start */
 
 define('fastboot-test/config/environment', ['ember'], function(Ember) {
-  return { 'default': {"modulePrefix":"fastboot-test","environment":"development","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"fastboot-test","version":"0.0.0+3e9fe92d","autoboot":false},"exportApplicationGlobal":true}};
+  return FastBoot.config();
 });
 
 /* jshint ignore:end */
