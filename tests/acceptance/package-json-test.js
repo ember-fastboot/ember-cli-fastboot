@@ -74,6 +74,20 @@ describe('generating package.json', function() {
       ]);
     });
 
+    it("contains the application config", function() {
+      var pkg = fs.readJsonSync(app.filePath('dist/package.json'));
+
+      expect(pkg.fastboot.appConfig).to.deep.equal({
+        modulePrefix: 'module-whitelist',
+        environment: 'development',
+        baseURL: '/',
+        locationType: 'auto',
+        EmberENV: { FEATURES: {} },
+        APP: { name: 'module-whitelist', version: '0.0.0+', autoboot: false },
+        fastboot: { hostWhitelist: [ 'example.com', 'subdomain.example.com', {} ] },
+        exportApplicationGlobal: true
+      });
+    });
   });
 
   describe('with production FastBoot builds', function() {

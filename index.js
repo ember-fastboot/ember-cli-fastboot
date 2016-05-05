@@ -35,9 +35,12 @@ module.exports = {
    */
   included: function(app) {
     patchEmberApp(app);
+  },
 
-    // We serve the index.html from fastboot-dist, so this has to apply to both builds
-    app.options.storeConfigInMeta = false;
+  config: function() {
+    if (this.app && this.app.options.__is_building_fastboot__) {
+      return { APP: { autoboot: false } };
+    }
   },
 
   /**
@@ -45,7 +48,7 @@ module.exports = {
    * to insert the rendered content into the right spot. Also injects a module
    * for FastBoot application boot.
    */
-  contentFor: function(type, config) {
+  contentFor: function(type, config, contents) {
     if (type === 'body') {
       return "<!-- EMBER_CLI_FASTBOOT_BODY -->";
     }
@@ -56,6 +59,17 @@ module.exports = {
 
     if (type === 'app-boot') {
       return fastbootAppModule(config.modulePrefix);
+    }
+
+    if (type === 'config-module' && this.app.options.__is_building_fastboot__) {
+      var linesToRemove = contents.length;
+      while(linesToRemove) {
+        // Clear out the default config from ember-cli
+        contents.pop();
+        linesToRemove--;
+      }
+
+      return 'return FastBoot.config();';
     }
   },
 
