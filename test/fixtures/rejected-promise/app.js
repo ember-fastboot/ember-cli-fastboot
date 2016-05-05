@@ -56,6 +56,10 @@ App.prototype.destroy = function() {
 App.prototype.getURL = function() {
 };
 
+App.prototype.lookup = function() {
+  return {};
+};
+
 var modules = {
   '~fastboot/app-factory': {
     'default': function() { return new App(); }

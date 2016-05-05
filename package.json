@@ -18,9 +18,6 @@
   "bugs": {
     "url": "https://github.com/ember-fastboot/ember-fastboot-server/issues"
   },
-  "bin": {
-    "ember-fastboot": "./bin/ember-fastboot"
-  },
   "homepage": "https://github.com/ember-fastboot/ember-fastboot-server#readme",
   "dependencies": {
     "chalk": "^0.5.1",

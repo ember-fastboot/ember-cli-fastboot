@@ -19,7 +19,7 @@ TestHTTPServer.prototype.start = function() {
 
   this.server = server;
 
-  return server._app.buildApp().then(function() {
+  return server._app.buildAppInstance().then(function() {
     var app = express();
 
     app.get('/*', server.middleware());

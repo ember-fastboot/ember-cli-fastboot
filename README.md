@@ -14,7 +14,7 @@ To serve server-rendered versions of your Ember app over HTTP, see the
 [FastBoot App
 Server](https://github.com/ember-fastboot/fastboot-app-server).
 
-FastBoot requires Node v4 or later.
+FastBoot requires Node.js v4 or later.
 
 ## Usage
 
@@ -25,7 +25,9 @@ let app = new FastBoot({
   distPath: 'path/to/dist'
 });
 
-app.visit('/photos');
+app.visit('/photos')
+  .then(result => result.html())
+  .then(html => res.send(html));
 ```
 
 In order to get a `dist` directory, you will first need to build your
@@ -60,35 +62,7 @@ rendering your Ember.js application using the `ember-fastboot` command:
 $ ember-fastboot path/to/dist --port 80
 ```
 
-### Middleware
+### Debugging
 
-Alternatively, you can integrate the FastBoot server into an existing
-Node.js application by constructing a `FastBootServer` and using it as a
-middleware.
-
-```js
-var server = new FastBootServer({
-  distPath: 'path/to/dist'
-});
-
-var app = express();
-
-app.get('/*', server.middleware());
-
-var listener = app.listen(process.env.PORT || 3000, function() {
-  var host = listener.address().address;
-  var port = listener.address().port;
-
-  console.log('FastBoot running at http://' + host + ":" + port);
-});
-```
-
-You can also serve Ember's static assets (compiled JavaScript and CSS files) or public
-files (like images or fonts) without using a CDN by adding extra routes:
-
-```js
-app.use('/assets', express.static('dist/assets'));
-app.use('/images', express.static('dist/images'));
-app.use('/fonts', express.static('dist/fonts'));
-app.get('/*', server.middleware());
-```
+Run `fastboot` with the `DEBUG` environment variable set to `fastboot:*`
+for detailed logging.

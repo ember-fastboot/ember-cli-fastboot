@@ -32,7 +32,7 @@ describe("FastBootRequest", function() {
         return this.cookie;
       }
     };
-    var hostWhitelist = ["example.com", "localhost:4200"]
+    var hostWhitelist = ["example.com", "localhost:4200"];
     var fastbootRequest = new FastBootRequest(request, hostWhitelist);
 
     var fn = function() {
@@ -52,7 +52,7 @@ describe("FastBootRequest", function() {
         return this.cookie;
       }
     };
-    var hostWhitelist = ["example.com", "localhost:4200"]
+    var hostWhitelist = ["example.com", "localhost:4200"];
     var fastbootRequest = new FastBootRequest(request, hostWhitelist);
 
     var host =  fastbootRequest.host();
@@ -70,7 +70,7 @@ describe("FastBootRequest", function() {
         return this.cookie;
       }
     };
-    var hostWhitelist = ["example.com", "/localhost:\\d+/"]
+    var hostWhitelist = ["example.com", "/localhost:\\d+/"];
     var fastbootRequest = new FastBootRequest(request, hostWhitelist);
 
     var host =  fastbootRequest.host();

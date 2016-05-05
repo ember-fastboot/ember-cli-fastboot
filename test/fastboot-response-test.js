@@ -14,7 +14,7 @@ describe("FastBootResponse", function() {
       get: function () {
         return this.headers.cookie;
       }
-    }
+    };
 
     fastBootResponse = new FastBootResponse(mockResponse);
   });

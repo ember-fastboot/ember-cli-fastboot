@@ -71,50 +71,22 @@ describe("FastBoot", function() {
   });
 
   it("can reload the distPath", function() {
-    var distPath = fixture('basic-app');
-
-    var server = new TestHTTPServer({
-      distPath: distPath,
-      port: 0
+    var fastboot = new FastBoot({
+      distPath: fixture('basic-app')
     });
 
-    var promise = server.start()
-      .then(requestFirstApp)
+    return fastboot.visit('/')
+      .then(r => r.html())
+      .then(html => expect(html).to.match(/Welcome to Ember/))
       .then(hotReloadApp)
-      .then(requestSecondApp)
-      .finally(cleanup);
-
-    var url;
-
-    return promise;
-
-    function requestFirstApp(info) {
-      url = 'http://[' + info.host + ']:' + info.port + '/';
-
-      return request(url)
-        .then(function(html) {
-          expect(html).to.match(/Welcome to Ember/);
-        });
-    }
+      .then(() => fastboot.visit('/'))
+      .then(r => r.html())
+      .then(html => expect(html).to.match(/Goodbye from Ember/));
 
     function hotReloadApp() {
-      return server.withFastBoot(function(fb) {
-        return fb.reload({
-          distPath: fixture('hot-swap-app')
-        });
+      fastboot.reload({
+        distPath: fixture('hot-swap-app')
       });
-    }
-
-    function requestSecondApp(info) {
-      return request(url)
-        .then(function(html) {
-          expect(html).to.match(/Goodbye from Ember/);
-        });
-    }
-
-    // Always clean up the server
-    function cleanup() {
-      server.stop();
     }
   });
 });
