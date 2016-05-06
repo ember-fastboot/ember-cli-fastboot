@@ -21,7 +21,10 @@ class TestHTTPServer {
     app.get('/*', this.middleware);
 
     return new Promise((resolve, reject) => {
-      let listener = app.listen(options.port, options.host, () => {
+      let port = options.port || 3000;
+      let host = options.host || 'localhost';
+
+      let listener = app.listen(port, host, () => {
         let host = listener.address().address;
         let port = listener.address().port;
         let family = listener.address().family;
