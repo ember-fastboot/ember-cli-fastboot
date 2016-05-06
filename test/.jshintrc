@@ -1,0 +1,5 @@
+{
+  "mocha": true,
+  "esnext": true,
+  "node": true
+}
