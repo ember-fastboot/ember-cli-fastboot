@@ -1,7 +1,7 @@
 # FastBoot Express Middleware
 
 This middleware is a small wrapper around the
-[`fastboot`](https://github.com/ember-fastboot/fastboot) package, which
+[fastboot](https://github.com/ember-fastboot/fastboot) package, which
 renders Ember.js apps in Node.js.
 
 By adding this middleware to your Express app, you can serve HTML from a
@@ -78,3 +78,7 @@ fastboot.reload();
 ```
 
 [ember-cli-fastboot]: https://github.com/ember-fastboot/ember-cli-fastboot
+
+## Tests
+
+`npm test`
