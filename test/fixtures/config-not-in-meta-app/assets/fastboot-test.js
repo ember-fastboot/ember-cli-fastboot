@@ -295,7 +295,7 @@ define("fastboot-test/templates/application", ["exports"], function (exports) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("h2");
         dom.setAttribute(el1, "id", "title");
-        var el2 = dom.createTextNode("Goodbye from Ember");
+        var el2 = dom.createTextNode("Welcome to Ember");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
@@ -326,7 +326,7 @@ define("fastboot-test/templates/application", ["exports"], function (exports) {
 /* jshint ignore:start */
 
 define('fastboot-test/config/environment', ['ember'], function(Ember) {
-  return FastBoot.config();
+  return {default:{modulePrefix:"fastboot-test",environment:"development",baseURL:"/",locationType:"auto",EmberENV:{FEATURES:{}},APP:{name:"fastboot-test",version:"0.0.0+3e9fe92d",autoboot:false},exportApplicationGlobal:true}};
 });
 
 /* jshint ignore:end */
