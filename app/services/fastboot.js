@@ -51,7 +51,7 @@ export default Ember.Service.extend({
   }),
 
   deferRendering(promise) {
-    Ember.assert('deferRendering requires a promise or thennable object', promise.then);
+    Ember.assert('deferRendering requires a promise or thennable object', typeof promise.then === 'function');
     this._fastbootInfo.deferRendering(promise);
   }
 });
