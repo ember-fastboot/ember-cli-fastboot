@@ -1,6 +1,7 @@
 'use strict';
 
 const expect         = require('chai').expect;
+const fs             = require('fs');
 const path           = require('path');
 const request        = require('request-promise');
 const FastBoot       = require('../index');
@@ -87,6 +88,92 @@ describe("FastBoot", function() {
       fastboot.reload({
         distPath: fixture('hot-swap-app')
       });
+    }
+  });
+
+  it("reads the config from package.json", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('config-app')
+    });
+
+    return fastboot.visit('/')
+      .then(r => r.html())
+      .then(html => expect(html).to.match(/Config foo: bar/));
+  });
+
+  it("prefers APP_CONFIG environment variable", function() {
+    var config = {
+      modulePrefix: "fastboot-test",
+      environment: "development",
+      baseURL: "/",
+      locationType: "auto",
+      EmberENV: { "FEATURES":{} },
+      APP: {
+        name: "fastboot-test",
+        version: "0.0.0+3e9fe92d",
+        autoboot: false,
+        foo: "baz"
+      },
+      exportApplicationGlobal:true
+    };
+
+    process.env.APP_CONFIG = JSON.stringify(config);
+
+    var fastboot = new FastBoot({
+      distPath: fixture('config-app')
+    });
+
+    delete process.env.APP_CONFIG;
+
+    return fastboot.visit('/')
+      .then(r => r.html())
+      .then(html => expect(html).to.match(/Config foo: baz/));
+  });
+
+  it("handles apps with config defined in app.js", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('config-not-in-meta-app')
+    });
+
+    return fastboot.visit('/')
+      .then(r => r.html())
+      .then(html => expect(html).to.match(/Welcome to Ember/));
+  });
+
+  it("reloads the config when package.json changes", function() {
+    var distPath = fixture('config-swap-app');
+    var packagePath = path.join(distPath, 'package.json');
+    var package1Path = path.join(distPath, 'package-1.json');
+    var package2Path = path.join(distPath, 'package-2.json');
+
+    copyPackage(package1Path);
+    var fastboot = new FastBoot({
+      distPath: distPath
+    });
+
+    return fastboot.visit('/')
+      .then(r => r.html())
+      .then(html => expect(html).to.match(/Config foo: bar/))
+      .then(() => deletePackage())
+      .then(() => copyPackage(package2Path))
+      .then(hotReloadApp)
+      .then(() => fastboot.visit('/'))
+      .then(r => r.html())
+      .then(html => expect(html).to.match(/Config foo: boo/))
+      .finally(() => deletePackage());
+
+    function hotReloadApp() {
+      fastboot.reload({
+        distPath: distPath
+      });
+    }
+
+    function copyPackage(sourcePackage) {
+      fs.symlinkSync(sourcePackage, packagePath);
+    }
+
+    function deletePackage() {
+      fs.unlinkSync(packagePath);
     }
   });
 });
