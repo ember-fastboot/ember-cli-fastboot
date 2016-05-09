@@ -1,8 +1,7 @@
 {
-  "name": "ember-fastboot-server",
-  "version": "0.7.3",
-  "description": "Production server for running Ember applications using FastBoot",
-  "main": "./lib/server",
+  "name": "fastboot",
+  "version": "0.9.0",
+  "description": "Library for rendering Ember apps in node.js",
   "scripts": {
     "test": "mocha"
   },
@@ -18,9 +17,6 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ember-fastboot/ember-fastboot-server/issues"
-  },
-  "bin": {
-    "ember-fastboot": "./bin/ember-fastboot"
   },
   "homepage": "https://github.com/ember-fastboot/ember-fastboot-server#readme",
   "dependencies": {
@@ -42,6 +38,7 @@
     "chai-as-promised": "^5.2.0",
     "fs-promise": "^0.5.0",
     "mocha": "^2.4.5",
+    "mocha-jshint": "^2.3.1",
     "request-promise": "^2.0.1",
     "temp": "^0.8.3"
   }

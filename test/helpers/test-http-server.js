@@ -1,6 +1,6 @@
 var express = require('express');
 var RSVP = require('rsvp');
-var FastBootServer = require('../../lib/server.js');
+var FastBoot = require('../../index');
 
 function TestHTTPServer(options) {
   options = options || {};
@@ -14,12 +14,12 @@ function TestHTTPServer(options) {
 
 TestHTTPServer.prototype.start = function() {
   var options = this.options;
-  var server = new FastBootServer(options);
+  var server = new FastBoot(options);
   var self = this;
 
   this.server = server;
 
-  return server.app.buildApp().then(function() {
+  return server._app.buildAppInstance().then(function() {
     var app = express();
 
     app.get('/*', server.middleware());
@@ -43,7 +43,7 @@ TestHTTPServer.prototype.start = function() {
   });
 };
 
-TestHTTPServer.prototype.withFastBootServer = function(cb) {
+TestHTTPServer.prototype.withFastBoot = function(cb) {
   return cb(this.server);
 };
 

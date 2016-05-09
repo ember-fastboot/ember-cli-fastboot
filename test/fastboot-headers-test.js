@@ -1,3 +1,5 @@
+/* jshint expr:true */
+
 var expect = require('chai').expect;
 var path = require('path');
 var FastBootHeaders = require('../lib/fastboot-headers.js');
@@ -9,7 +11,7 @@ describe('FastBootHeaders', function() {
       // and also lowercases the keys
       'x-test-header': 'value1, value2'
     };
-    var headers = new FastBootHeaders(headers);
+    headers = new FastBootHeaders(headers);
 
     expect(headers.getAll('X-Test-Header')).to.deep.equal(['value1', 'value2']);
     expect(headers.getAll('x-test-header')).to.deep.equal(['value1', 'value2']);
@@ -21,7 +23,7 @@ describe('FastBootHeaders', function() {
       // and also lowercases the keys
       'x-test-header': 'value1, value2'
     };
-    var headers = new FastBootHeaders(headers);
+    headers = new FastBootHeaders(headers);
 
     expect(headers.getAll('Host')).to.deep.equal([]);
     expect(headers.getAll('host')).to.deep.equal([]);
@@ -33,7 +35,7 @@ describe('FastBootHeaders', function() {
       // and also lowercases the keys
       "x-test-header": "value1, value2"
     };
-    var headers = new FastBootHeaders(headers);
+    headers = new FastBootHeaders(headers);
 
     expect(headers.get('X-Test-Header')).to.equal('value1');
     expect(headers.get('x-test-header')).to.equal('value1');
@@ -45,7 +47,7 @@ describe('FastBootHeaders', function() {
       // and also lowercases the keys
       "x-test-header": "value1, value2"
     };
-    var headers = new FastBootHeaders(headers);
+    headers = new FastBootHeaders(headers);
 
     expect(headers.get('Host')).to.be.null;
     expect(headers.get('host')).to.be.null;
@@ -57,7 +59,7 @@ describe('FastBootHeaders', function() {
       // and also lowercases the keys
       "x-test-header": "value1, value2"
     };
-    var headers = new FastBootHeaders(headers);
+    headers = new FastBootHeaders(headers);
 
     expect(headers.has('X-Test-Header')).to.be.true;
     expect(headers.has('x-test-header')).to.be.true;

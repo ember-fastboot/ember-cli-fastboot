@@ -1,10 +1,8 @@
-# Ember FastBoot Server
+# FastBoot
 
 [![Build Status](https://travis-ci.org/ember-fastboot/ember-fastboot-server.svg?branch=master)](https://travis-ci.org/ember-fastboot/ember-fastboot-server)
 
-The Ember FastBoot Server is used to render Ember.js applications on the
-server and deliver them to clients over HTTP. This server is meant to be
-run in a production environment.
+FastBoot is a library for rendering Ember.js applications in Node.js.
 
 For more information about FastBoot, see
 [www.ember-fastboot.com][ember-fastboot], the Ember CLI addon that's a
@@ -12,17 +10,29 @@ prerequisite for developing FastBoot apps.
 
 [ember-fastboot]: https://www.ember-fastboot.com
 
-The FastBoot server requires Node 0.12 or later.
+To serve server-rendered versions of your Ember app over HTTP, see the
+[FastBoot App
+Server](https://github.com/ember-fastboot/fastboot-app-server).
+
+FastBoot requires Node.js v4 or later.
 
 ## Usage
 
-The FastBoot server supports two modes of usage:
+```js
+const FastBoot = require('fastboot');
 
-1. Running as a binary from the command line.
-2. Running programmatically as an Express middleware.
+let app = new FastBoot({
+  distPath: 'path/to/dist'
+});
 
-In both cases, you will first need to build your Ember application,
-which packages it up for using in both the browser and in Node.js.
+app.visit('/photos')
+  .then(result => result.html())
+  .then(html => res.send(html));
+```
+
+In order to get a `dist` directory, you will first need to build your
+Ember application, which packages it up for using in both the browser
+and in Node.js.
 
 ### Build Your App
 
@@ -52,35 +62,7 @@ rendering your Ember.js application using the `ember-fastboot` command:
 $ ember-fastboot path/to/dist --port 80
 ```
 
-### Middleware
+### Debugging
 
-Alternatively, you can integrate the FastBoot server into an existing
-Node.js application by constructing a `FastBootServer` and using it as a
-middleware.
-
-```js
-var server = new FastBootServer({
-  distPath: 'path/to/dist'
-});
-
-var app = express();
-
-app.get('/*', server.middleware());
-
-var listener = app.listen(process.env.PORT || 3000, function() {
-  var host = listener.address().address;
-  var port = listener.address().port;
-
-  console.log('FastBoot running at http://' + host + ":" + port);
-});
-```
-
-You can also serve Ember's static assets (compiled JavaScript and CSS files) or public
-files (like images or fonts) without using a CDN by adding extra routes:
-
-```js
-app.use('/assets', express.static('dist/assets'));
-app.use('/images', express.static('dist/images'));
-app.use('/fonts', express.static('dist/fonts'));
-app.get('/*', server.middleware());
-```
+Run `fastboot` with the `DEBUG` environment variable set to `fastboot:*`
+for detailed logging.
