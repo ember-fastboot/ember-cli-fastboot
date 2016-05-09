@@ -3,7 +3,9 @@
   "version": "1.0.0-beta.1",
   "description": "Library for rendering Ember apps in node.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "preversion": "npm test",
+    "postversion": "git push origin master --tags"
   },
   "repository": {
     "type": "git",
