@@ -62,7 +62,7 @@
     "broccoli-merge-trees": "^1.1.1",
     "broccoli-plugin": "^1.2.1",
     "broccoli-stew": "^1.2.0",
-    "ember-fastboot-server": "^0.7.2",
+    "ember-fastboot-server": "^0.7.3",
     "express": "^4.8.5",
     "fastboot-filter-initializers": "0.0.2",
     "lodash.clonedeep": "^4.3.1",
