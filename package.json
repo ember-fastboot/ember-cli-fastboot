@@ -1,13 +1,13 @@
 {
   "name": "fastboot",
-  "version": "0.9.0",
+  "version": "1.0.0-beta.1",
   "description": "Library for rendering Ember apps in node.js",
   "scripts": {
     "test": "mocha"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ember-fastboot/ember-fastboot-server.git"
+    "url": "git+https://github.com/ember-fastboot/fastboot.git"
   },
   "keywords": [
     "ember",
@@ -16,9 +16,9 @@
   "author": "Tom Dale and FastBoot contributors",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ember-fastboot/ember-fastboot-server/issues"
+    "url": "https://github.com/ember-fastboot/fastboot-fastboot-server/issues"
   },
-  "homepage": "https://github.com/ember-fastboot/ember-fastboot-server#readme",
+  "homepage": "https://github.com/ember-fastboot/fastboot#readme",
   "dependencies": {
     "chalk": "^0.5.1",
     "cookie": "^0.2.3",
