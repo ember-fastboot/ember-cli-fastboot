@@ -29,7 +29,6 @@ describe('simple acceptance', function() {
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
         expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
-        expect(response.body).to.contain('<title>Application Route -- Title</title>');
         expect(response.body).to.contain("Welcome to Ember.js");
       });
   });
@@ -39,7 +38,6 @@ describe('simple acceptance', function() {
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
         expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
-        expect(response.body).to.contain('<title>Application Route -- Title</title>');
         expect(response.body).to.contain("Welcome to Ember.js");
         expect(response.body).to.contain("Posts Route!");
       });
