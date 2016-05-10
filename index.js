@@ -56,7 +56,11 @@ function fastbootExpressMiddleware(distPath, options) {
         next();
       } else {
         log(500, "Unknown Error: " + error.stack);
-        res.status(500).send(error.stack);
+        if (error.stack) {
+          res.status(500).send(error.stack);
+        } else {
+          res.sendStatus(500);
+        }
       }
     }
   };
