@@ -10,7 +10,7 @@
   "scripts": {
     "start": "ember server",
     "build": "ember build",
-    "test": "mocha",
+    "test": "mocha && ember test",
     "test:precook": "node node_modules/ember-cli-addon-tests/scripts/precook-node-modules.js"
   },
   "engines": {
@@ -38,10 +38,13 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-data": "1.13.8",
     "ember-export-application-global": "^1.0.3",
+    "ember-load-initializers": "^0.5.1",
+    "ember-resolver": "^2.0.3",
     "exists-sync": "0.0.3",
     "fs-extra": "^0.24.0",
     "fs-promise": "^0.3.1",
     "glob": "^7.0.0",
+    "loader.js": "^4.0.1",
     "mocha": "^2.2.4",
     "request": "^2.55.0",
     "symlink-or-copy": "^1.0.1",
@@ -62,7 +65,9 @@
     "broccoli-merge-trees": "^1.1.1",
     "broccoli-plugin": "^1.2.1",
     "broccoli-stew": "^1.2.0",
-    "fastboot-express-middleware": "1.0.0-beta.3",
+    "fastboot-express-middleware": "1.0.0-beta.5",
+    "ember-cli-babel": "^5.1.5",
+    "ember-test-helpers": "^0.5.22",
     "express": "^4.8.5",
     "fastboot-filter-initializers": "0.0.2",
     "lodash.clonedeep": "^4.3.1",
