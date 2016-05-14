@@ -1,0 +1,26 @@
+{
+  "dependencies": {},
+  "fastboot": {
+    "moduleWhitelist": [],
+    "manifest": {
+      "appFile": "fastboot/fastboot-test.js",
+      "vendorFile": "fastboot/vendor.js",
+      "htmlFile": "index.html"
+    },
+    "appConfig": {
+      "modulePrefix": "fastboot-test",
+      "environment": "development",
+      "baseURL": "/",
+      "locationType": "auto",
+      "EmberENV": {
+        "FEATURES": {}
+      },
+      "APP": {
+        "name": "fastboot-test",
+        "version": "0.0.0+f2d7225a",
+        "autoboot": false
+      },
+      "exportApplicationGlobal": true
+    }
+  }
+}
