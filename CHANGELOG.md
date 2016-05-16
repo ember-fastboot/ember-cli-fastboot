@@ -1,5 +1,10 @@
 # FastBoot Changelog
 
+### 1.0.0-beta.2
+
+* Adds support for the "shoebox"‑a place to put data that should be
+  shared from the server-rendered app to the browser-rendered version.
+
 ### 1.0.0-beta.1
 
 * This version is a significant change from previous versions.
