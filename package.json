@@ -4,7 +4,7 @@
   "description": "A production-ready app server for running Ember FastBoot apps",
   "main": "lib/fastboot-app-server.js",
   "scripts": {
-    "test": "mocha"
+    "test": "NODE_ENV=test mocha"
   },
   "repository": {
     "type": "git",
