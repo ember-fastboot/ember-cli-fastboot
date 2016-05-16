@@ -1,6 +1,6 @@
 # FastBoot
 
-[![Build Status](https://travis-ci.org/ember-fastboot/ember-fastboot-server.svg?branch=master)](https://travis-ci.org/ember-fastboot/ember-fastboot-server)
+[![Build Status](https://travis-ci.org/ember-fastboot/fastboot.svg?branch=master)](https://travis-ci.org/ember-fastboot/ember-fastboot-server)
 
 FastBoot is a library for rendering Ember.js applications in Node.js.
 
