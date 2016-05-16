@@ -55,6 +55,7 @@ class FastBoot {
    * @param {string} path the URL path to render, like `/photos/1`
    * @param {Object} options
    * @param {Boolean} [options.resilient] whether to reject the returned promise if there is an error during rendering. Overrides the instance's `resilient` setting
+   * @param {string} [options.html] the HTML document to insert the rendered app into. Uses the built app's index.html by default.
    * @returns {Promise<Result>} result
    */
   visit(path, options) {
