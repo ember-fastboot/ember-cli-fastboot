@@ -41,6 +41,20 @@ describe("FastBootAppServer", function() {
       });
   });
 
+  it("serves static assets", function() {
+    return runServer('basic-app-server')
+      .then(() => request('http://localhost:3000/assets/fastboot-test.js'))
+      .then(response => {
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.contain('"use strict";');
+      })
+      .then(() => request('http://localhost:3000/'))
+      .then(response => {
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.contain('Welcome to Ember');
+      });
+  });
+
 });
 
 function runServer(name) {
@@ -59,6 +73,10 @@ function runServer(name) {
     });
 
     server.stderr.on('data', data => {
+      console.log(data.toString());
+    });
+
+    server.stdout.on('data', data => {
       console.log(data.toString());
     });
   });
