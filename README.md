@@ -273,6 +273,69 @@ export default Ember.Route.extend({
 });
 ```
 
+ ### The Shoebox
+
+You can pass application state from the FastBoot rendered application
+to the browser rendered application using a feature called the "Shoebox".
+This allows you to leverage server API calls made by the FastBoot
+rendered application on the browser rendered application. Thus preventing
+you from duplicating work that the FastBoot application is performing.
+This should result in a performance benefit for your browser application,
+as it does not need to issue server API calls whose results are available
+from the Shoebox.
+
+The contents of the Shoebox are written to the HTML as strings within
+`<script>` tags by the server rendered application, which are then
+consumed by the browser rendered application.
+
+This looks like:
+```html
+.
+.
+<script type="fastboot/shoebox" id="shoebox-main-store">
+{"data":[{"attributes":{"name":"AEC Professionals"},"id":106,"type":"audience"},
+{"attributes":{"name":"Components"},"id":111,"type":"audience"},
+{"attributes":{"name":"Emerging Professionals"},"id":116,"type":"audience"},
+{"attributes":{"name":"Independent Voters"},"id":2801,"type":"audience"},
+{"attributes":{"name":"Staff"},"id":141,"type":"audience"},
+{"attributes":{"name":"Students"},"id":146,"type":"audience"}]}
+</script>
+.
+.
+```
+
+You can add items into the shoebox with `shoebox.put`, and you can retrieve
+items from the shoebox using `shoebox.retrieve`. In the example below we use
+an object, `shoeboxStore`, that acts as our store of objects that reside in
+the shoebox. We can then add/remove items from the `shoeboxStore` in the
+FastBoot rendered application as we see fit. Then in the browser rendered
+application, it will grab the `shoeboxStore` from the shoebox and retrieve
+the record necessary for rendering this route.
+
+```js
+export default Ember.Route.extend({
+  fastboot: Ember.inject.service(),
+  
+  model(params) {
+    let shoebox = this.get('fastboot.shoebox');
+    let shoeboxStore = shoebox.retrieve('my-store');
+    
+    if (this.get('fastboot.isFastBoot') {
+      return this.store.findRecord('post', params.post_id).then(post => {
+        if (!shoeboxStore) {
+          shoeboxStore = {};
+          shoebox.put('my-store', shoeboxStore);
+        }
+        shoeboxStore[post.id] = post.toJSON();
+      });
+    } else {
+      return shoeboxStore && shoeboxStore.retrieve(params.post_id);
+    }
+  }
+});
+```
+
+
 ## Known Limitations
 
 While FastBoot is under active development, there are several major
