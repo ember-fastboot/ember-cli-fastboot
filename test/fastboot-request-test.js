@@ -5,12 +5,9 @@ var FastBootRequest = require('../lib/fastboot-request.js');
 describe("FastBootRequest", function() {
   it("throws an exception if no hostWhitelist is provided", function() {
     var request = {
-      cookie: "",
       protocol: "http",
       headers: {
-      },
-      get: function() {
-        return this.cookie;
+        cookie: ""
       }
     };
     var fastbootRequest = new FastBootRequest(request);
@@ -23,13 +20,10 @@ describe("FastBootRequest", function() {
 
   it("throws an exception if the host header does not match an entry in the hostWhitelist", function() {
     var request = {
-      cookie: "",
       protocol: "http",
       headers: {
-        host: "evil.com"
-      },
-      get: function() {
-        return this.cookie;
+        host: "evil.com",
+        cookie: ""
       }
     };
     var hostWhitelist = ["example.com", "localhost:4200"];
@@ -43,13 +37,10 @@ describe("FastBootRequest", function() {
 
   it("returns the host if it is in the hostWhitelist", function() {
     var request = {
-      cookie: "",
       protocol: "http",
       headers: {
-        host: "localhost:4200"
-      },
-      get: function() {
-        return this.cookie;
+        host: "localhost:4200",
+        cookie: ""
       }
     };
     var hostWhitelist = ["example.com", "localhost:4200"];
@@ -61,13 +52,10 @@ describe("FastBootRequest", function() {
 
   it("returns the host if it matches a regex in the hostWhitelist", function() {
     var request = {
-      cookie: "",
       protocol: "http",
       headers: {
-        host: "localhost:4200"
-      },
-      get: function() {
-        return this.cookie;
+        host: "localhost:4200",
+        cookie: ""
       }
     };
     var hostWhitelist = ["example.com", "/localhost:\\d+/"];
@@ -79,13 +67,12 @@ describe("FastBootRequest", function() {
 
   it("captures the query params from the request", function() {
     var request = {
-      cookie: "",
       protocol: "http",
       query: {
         foo: "bar"
       },
-      get: function() {
-        return this.cookie;
+      headers: {
+        cookie: ""
       }
     };
     var fastbootRequest = new FastBootRequest(request);
@@ -95,12 +82,10 @@ describe("FastBootRequest", function() {
 
   it("captures the path from the request", function() {
     var request = {
-      cookie: "",
       protocol: "http",
       url: "/foo",
-
-      get: function() {
-        return this.cookie;
+      headers: {
+        cookie: ""
       }
     };
     var fastbootRequest = new FastBootRequest(request);
@@ -110,15 +95,11 @@ describe("FastBootRequest", function() {
 
   it("captures the headers from the request", function() {
     var request = {
-      cookie: "",
       protocol: "http",
       url: "/foo",
       headers: {
-        host: "localhost:4200"
-      },
-
-      get: function() {
-        return this.cookie;
+        host: "localhost:4200",
+        cookie: ""
       }
     };
     var fastbootRequest = new FastBootRequest(request);
@@ -128,15 +109,11 @@ describe("FastBootRequest", function() {
 
   it("captures the protocol from the request", function() {
     var request = {
-      cookie: "",
       protocol: "http",
       url: "/foo",
       headers: {
-        host: "localhost:4200"
-      },
-
-      get: function() {
-        return this.cookie;
+        host: "localhost:4200",
+        cookie: ""
       }
     };
     var fastbootRequest = new FastBootRequest(request);
@@ -146,15 +123,11 @@ describe("FastBootRequest", function() {
 
   it("captures the cookies from the request", function() {
     var request = {
-      cookie: "test=bar",
       protocol: "http",
       url: "/foo",
       headers: {
-        host: "localhost:4200"
-      },
-
-      get: function() {
-        return this.cookie;
+        host: "localhost:4200",
+        cookie: "test=bar"
       }
     };
     var fastbootRequest = new FastBootRequest(request);
@@ -162,4 +135,3 @@ describe("FastBootRequest", function() {
     expect(fastbootRequest.cookies.test).to.equal("bar");
   });
 });
-
