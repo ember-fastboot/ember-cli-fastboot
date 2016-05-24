@@ -66,3 +66,38 @@ $ ember-fastboot path/to/dist --port 80
 
 Run `fastboot` with the `DEBUG` environment variable set to `fastboot:*`
 for detailed logging.
+
+### The Shoebox
+
+You can pass application state from the FastBoot rendered application to
+the browser rendered application using a feature called the "Shoebox".
+This allows you to leverage server API calls made by the FastBoot rendered
+application on the browser rendered application. Thus preventing you from
+duplicating work that the FastBoot application is performing. This should
+result in a performance benefit for your browser application, as it does
+not need to issue server API calls whose results are available from the
+Shoebox.
+
+The contents of the Shoebox are written to the HTML as strings within
+`<script>` tags by the server rendered application, which are then consumed
+by the browser rendered application.
+
+This looks like:
+```html
+.
+.
+<script type="fastboot/shoebox" id="shoebox-main-store">
+{"data":[{"attributes":{"name":"AEC Professionals"},"id":106,"type":"audience"},
+{"attributes":{"name":"Components"},"id":111,"type":"audience"},
+{"attributes":{"name":"Emerging Professionals"},"id":116,"type":"audience"},
+{"attributes":{"name":"Independent Voters"},"id":2801,"type":"audience"},
+{"attributes":{"name":"Members"},"id":121,"type":"audience"},
+{"attributes":{"name":"Partners"},"id":126,"type":"audience"},
+{"attributes":{"name":"Prospective Members"},"id":131,"type":"audience"},
+{"attributes":{"name":"Public"},"id":136,"type":"audience"},
+{"attributes":{"name":"Staff"},"id":141,"type":"audience"},
+{"attributes":{"name":"Students"},"id":146,"type":"audience"}]}
+</script>
+.
+.
+```
