@@ -29,6 +29,20 @@ describe('Result', function() {
 
   describe('html()', function () {
 
+    describe('when the response status code is 204', function () {
+      beforeEach(function () {
+        result._fastbootInfo.response.statusCode = 204;
+        result._finalize();
+      });
+
+      it('should return an empty message body', function () {
+        return result.html()
+        .then(function (result) {
+          expect(result).to.equal('');
+        });
+      });
+    });
+
     describe('when the response status code is 3XX', function () {
       beforeEach(function () {
         result._fastbootInfo.response.headers.set('location', 'http://some.example.com/page');
@@ -47,7 +61,7 @@ describe('Result', function() {
       });
     });
 
-    describe('when the response status code is not 3XX', function () {
+    describe('when the response status code is not 3XX or 204', function () {
       var HEAD = '<meta name="foo" content="bar">';
       var BODY = '<h1>A normal response document</h1>';
 
