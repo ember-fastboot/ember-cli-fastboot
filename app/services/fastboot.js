@@ -84,6 +84,7 @@ export default Ember.Service.extend({
   response: readOnly('_fastbootInfo.response'),
 
   request: computed(function() {
+    if (!get(this, 'isFastBoot')) return null;
     return RequestObject.create({ request: get(this, '_fastbootInfo.request') });
   }),
 
