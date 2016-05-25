@@ -106,6 +106,10 @@ module.exports = {
     });
 
     return fastbootBuild.toTree();
-  }
+  },
+
+  outputReady: function() {
+    process.emit('SIGUSR1');
+  },
 
 };
