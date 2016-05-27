@@ -38,7 +38,7 @@ describe("FastBootRequest", function() {
     var fn = function() {
       fastbootRequest.host();
     };
-    expect(fn).to.throw(/The host header did not match a hostWhitelist entry/);
+    expect(fn).to.throw(/The host header did not match a hostWhitelist entry. Host header: evil.com/);
   });
 
   it("returns the host if it is in the hostWhitelist", function() {
