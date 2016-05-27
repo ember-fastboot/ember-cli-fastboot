@@ -70,9 +70,7 @@
     "ember-test-helpers": "^0.5.22",
     "express": "^4.8.5",
     "fastboot-filter-initializers": "0.0.2",
-    "lodash.clonedeep": "^4.3.1",
     "lodash.defaults": "^4.0.1",
-    "lodash.find": "^4.2.0",
     "lodash.uniq": "^4.2.0",
     "rsvp": "^3.0.16"
   }
