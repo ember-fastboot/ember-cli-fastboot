@@ -1,12 +1,11 @@
 'use strict';
 
-const http = require('http');
 const CoreObject = require('core-object');
-const RSVP = require('rsvp');
-const expect = require('chai').expect;
-const FastbootCommand = CoreObject.extend(require('../lib/commands/fastboot'));
 const camelize = require('ember-cli-string-utils').camelize;
 const defaults = require('lodash.defaults');
+const expect = require('chai').expect;
+const FastbootCommand = CoreObject.extend(require('../lib/commands/fastboot'));
+const RSVP = require('rsvp');
 
 function CommandOptions(options) {
   const defaultOptions = {};
