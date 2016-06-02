@@ -1,5 +1,12 @@
 # FastBoot Changelog
 
+### 1.0.0-beta.3
+
+* Responses with status codes `204` or `3xx` no longer return the
+  rendered EmberApp
+* Error message for `fastboot.request.host` now returns the Host header
+* najax dependency updated to 0.6.0, which now handles gzip responses
+
 ### 1.0.0-beta.2
 
 * Adds support for the "shoebox"‑a place to put data that should be
