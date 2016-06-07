@@ -273,7 +273,7 @@ export default Ember.Route.extend({
 });
 ```
 
- ### The Shoebox
+### The Shoebox
 
 You can pass application state from the FastBoot rendered application
 to the browser rendered application using a feature called the "Shoebox".
