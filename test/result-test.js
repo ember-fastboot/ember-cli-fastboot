@@ -7,7 +7,7 @@ describe('Result', function() {
   var doc, result;
 
   beforeEach(function () {
-    var req = { get() {} };
+    var req = { headers: {}, get() {} };
 
     doc = new SimpleDOM.Document();
     html = `<!-- EMBER_CLI_FASTBOOT_HEAD -->
