@@ -1,6 +1,6 @@
 {
   "name": "fastboot-express-middleware",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.7",
   "description": "An Express middleware for rendering Ember apps with FastBoot",
   "main": "index.js",
   "scripts": {
@@ -32,6 +32,6 @@
   },
   "dependencies": {
     "chalk": "^1.1.3",
-    "fastboot": "^1.0.0-beta.3"
+    "fastboot": "^1.0.0-beta.4"
   }
 }
