@@ -1,6 +1,12 @@
 # FastBoot Changelog
 
 ### 1.0.0-beta.3
+* najax dependency updated to 0.7.0, which now handle nested query
+  params
+* Don't obscure errors during instance creation
+* Made request compatible with nodejs' ClientRequest instances
+
+### 1.0.0-beta.3
 
 * Responses with status codes `204` or `3xx` no longer return the
   rendered EmberApp
