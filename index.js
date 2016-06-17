@@ -106,6 +106,10 @@ module.exports = {
     });
 
     return fastbootBuild.toTree();
-  }
+  },
+
+  postBuild: function() {
+    process.emit('SIGHUP');
+  },
 
 };
