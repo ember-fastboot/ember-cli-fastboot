@@ -169,6 +169,32 @@ describe('generating package.json', function() {
 
   });
 
+  describe('with custom htmlFile', function() {
+    this.timeout(300000);
+
+    var customApp = new AddonTestApp();
+
+    before(function() {
+      return customApp.create('custom-html-file')
+        .then(function() {
+          return customApp.run('ember', 'build', '--environment', 'production');
+        });
+    });
+
+    it("uses custom htmlFile in the manifest", function() {
+
+      var p = function(filePath) {
+        return customApp.filePath(path.join('dist', filePath));
+      };
+
+      var pkg = fs.readJsonSync(customApp.filePath('/dist/package.json'));
+      var manifest = pkg.fastboot.manifest;
+
+      expect(manifest.htmlFile).to.equal('custom-index.html');
+      expect(p(manifest.htmlFile)).to.be.a.file();
+    });
+
+  });
 });
 
 function addFastBootDeps(app) {
