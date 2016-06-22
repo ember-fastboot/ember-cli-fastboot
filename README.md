@@ -315,11 +315,11 @@ the record necessary for rendering this route.
 ```js
 export default Ember.Route.extend({
   fastboot: Ember.inject.service(),
-  
+
   model(params) {
     let shoebox = this.get('fastboot.shoebox');
     let shoeboxStore = shoebox.retrieve('my-store');
-    
+
     if (this.get('fastboot.isFastBoot') {
       return this.store.findRecord('post', params.post_id).then(post => {
         if (!shoeboxStore) {
@@ -333,6 +333,25 @@ export default Ember.Route.extend({
     }
   }
 });
+```
+
+## Disabling incompatible dependencies
+
+There are two places where the inclusion of incompatible JavaScript libraries could
+occur:
+
+ 1. `app.import` in the application's `ember-cli-build.js`
+ 2. `app.import` in an addon's `included` hook
+
+`ember-cli-fastboot` sets the `EMBER_CLI_FASTBOOT` environment variable when it is
+building the FastBoot version of the application. You can use this to prevent the
+inclusion of the library at build time:
+
+```js
+if (!process.env.EMBER_CLI_FASTBOOT) {
+  // This will only be included in the browser build
+  app.import('some/jquery.plugin.js')
+}
 ```
 
 
@@ -358,15 +377,6 @@ supported when running in FastBoot mode. One exception is network code for
 fetching models, which we intended to support, but doesn't work at
 present.
 
-### No JavaScript Served
-
-Right now, this is only useful for creating an HTML representation of
-your app at a particular route and serving it statically. Eventually, we
-will support *also* serving the JavaScript payload, which can takeover
-once it has finished loading and making the app fully interactive.
-
-In the meantime, this is probably only useful for cURL or search
-crawlers.
 
 ## Troubleshooting
 
