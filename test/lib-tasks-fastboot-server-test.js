@@ -20,7 +20,12 @@ function CommandOptions(options) {
 };
 function MockServer() {
   EventEmitter.apply(this, arguments);
-  this.listen = () => {};
+  this.listen = (port, host, callback) => {
+    RSVP.Promise.resolve().then(function() {
+      callback();
+    });
+  };
+  this.address = () => ({ port: 1, host: '0.0.0.0', family: 'IPv4' });
 }
 MockServer.prototype = Object.create(EventEmitter.prototype);
 const mockUI = { writeLine() {} };
