@@ -71,6 +71,38 @@ The app server will automatically spawn a new worker if one dies while
 handling a request. When a new application deploy is detected, workers
 will automatically reload with the newest version.
 
+## Custom HTTP Server
+You can customize HTTP server (add middlewares, subdomains, etc.), either directly:
+```js
+// start.js
+const httpServer = new ExpressHTTPServer(/* {options} */);
+const app = httpServer.app;
+app.use('/api', apiRoutes);
+let server = new FastBootAppServer({
+  httpServer: httpServer
+});
+
+server.start();
+```
+or extend the provided HTTP server and override any methods you need:
+```js
+// my-custom-express-server.js
+const ExpressHTTPServer = require('fastboot-app-server/lib/express-http-server');
+class MyCustomExpressServer extends ExpressHTTPServer {
+  serve(middleware) {
+    // put your custom code here, don't forget to add fastboot etc.
+  }
+}
+// start.js
+const MyCustomExpressServer = require('./my-custom-express-server');
+const httpServer = new MyCustomExpressServer(/* {options} */);
+let server = new FastBootAppServer({
+  httpServer: httpServer
+});
+
+server.start();
+``` 
+
 ## Downloaders
 
 You can point the app server at a static path that you manage, but that

@@ -19,6 +19,10 @@ class Worker {
         cache: this.cache
       });
     }
+
+    if (!this.httpServer.cache) { this.httpServer.cache = this.cache; }
+    if (!this.httpServer.distPath) { this.httpServer.distPath = this.distPath; }
+    if (!this.httpServer.ui) { this.httpServer.ui = this.ui; }    
   }
 
   start() {
