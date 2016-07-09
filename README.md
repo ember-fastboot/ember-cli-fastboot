@@ -70,8 +70,8 @@ To allow your app to require a package, add it to the
     // ...
   },
   "fastbootDependencies": [
-    'rsvp',
-    'path'
+    "rsvp",
+    "path"
   ]
 }
 ```
