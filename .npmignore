@@ -1,0 +1,4 @@
+.gitignore
+.jshintrc
+.travis.yml
+test
