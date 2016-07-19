@@ -25,7 +25,7 @@ describe('shoebox - put', function() {
   });
 
   it('put items into the shoebox', function() {
-    return request('http://localhost:49741/')
+    return request('http://::1:49741/')
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.contain(

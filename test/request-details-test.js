@@ -29,17 +29,17 @@ describe('request details', function() {
 
   it('makes host available via a service', function() {
     return get({
-      url: 'http://localhost:49741/show-host'
+      url: 'http://::1:49741/show-host'
     })
       .then(function(response) {
-        expect(response.body).to.contain('Host: localhost:49741');
-        expect(response.body).to.contain('Host from Instance Initializer: localhost:49741');
+        expect(response.body).to.contain('Host: ::1:49741');
+        expect(response.body).to.contain('Host from Instance Initializer: ::1:49741');
       });
   });
 
   it('makes protocol available via a service', function() {
     return get({
-      url: 'http://localhost:49741/show-protocol'
+      url: 'http://::1:49741/show-protocol'
     })
       .then(function(response) {
         expect(response.body).to.contain('Protocol: http');
@@ -49,7 +49,7 @@ describe('request details', function() {
 
   it('makes path available via a service', function() {
     return get({
-      url: 'http://localhost:49741/show-path'
+      url: 'http://::1:49741/show-path'
     })
       .then(function(response) {
         expect(response.body).to.contain('Path: /show-path');
@@ -59,7 +59,7 @@ describe('request details', function() {
 
   it('makes query params available via a service', function() {
     return get({
-      url: 'http://localhost:49741/list-query-params?foo=bar'
+      url: 'http://::1:49741/list-query-params?foo=bar'
     })
       .then(function(response) {
         expect(response.body).to.contain('Query Params: bar');
@@ -71,10 +71,10 @@ describe('request details', function() {
     var jar = request.jar();
     var cookie = request.cookie('city=Cluj');
 
-    jar.setCookie(cookie, 'http://localhost:49741');
+    jar.setCookie(cookie, 'http://::1:49741');
 
     return get({
-      url: 'http://localhost:49741/list-cookies',
+      url: 'http://::1:49741/list-cookies',
       jar: jar
     })
       .then(function(response) {
@@ -85,7 +85,7 @@ describe('request details', function() {
 
   it('makes headers available via a service', function() {
     return get({
-      url: 'http://localhost:49741/list-headers',
+      url: 'http://::1:49741/list-headers',
       headers: { 'X-FastBoot-info': 'foobar' }
     })
       .then(function(response) {

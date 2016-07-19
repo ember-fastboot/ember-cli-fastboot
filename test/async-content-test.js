@@ -29,7 +29,7 @@ describe('async content via deferred content', function() {
 
   it('waits for async content when using `fastboot.deferRendering`', function() {
     return get({
-      url: 'http://localhost:49741/'
+      url: 'http://::1:49741/'
     })
       .then(function(response) {
         expect(response.body).to.contain('Async content: foo');

@@ -25,7 +25,7 @@ describe('error handler acceptance', function() {
   });
 
   it('visiting `/` does not result in an error', function() {
-    return request('http://localhost:49741/')
+    return request('http://::1:49741/')
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
       });

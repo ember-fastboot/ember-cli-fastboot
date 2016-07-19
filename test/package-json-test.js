@@ -70,7 +70,7 @@ describe('generating package.json', function() {
       expect(pkg.fastboot.hostWhitelist).to.deep.equal([
         'example.com',
         'subdomain.example.com',
-        '/localhost:\\d+/'
+        '/::1:\\d+/'
       ]);
     });
 
