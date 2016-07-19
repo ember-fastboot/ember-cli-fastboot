@@ -1,10 +1,11 @@
 var expect = require('chai').expect;
-var Result = require('../lib/result.js');
-var FastBootInfo = require('../lib/fastboot-info.js');
+var alchemistRequire = require('broccoli-module-alchemist/require');
+var Result = alchemistRequire('result.js');
+var FastBootInfo = alchemistRequire('fastboot-info.js');
 var SimpleDOM = require('simple-dom');
 
 describe('Result', function() {
-  var doc, result;
+  var doc, result, html;
 
   beforeEach(function () {
     var req = { headers: {}, get() {} };

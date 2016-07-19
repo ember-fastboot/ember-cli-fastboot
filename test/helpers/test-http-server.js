@@ -1,6 +1,7 @@
 var express = require('express');
 var RSVP = require('rsvp');
-var FastBoot = require('../../index');
+var alchemistRequire = require('broccoli-module-alchemist/require');
+var FastBoot = alchemistRequire('index');
 
 function TestHTTPServer(options) {
   options = options || {};

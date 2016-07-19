@@ -1,8 +1,9 @@
 var expect = require('chai').expect;
 var path = require('path');
-var FastBootInfo = require('../lib/fastboot-info.js');
-var FastBootResponse = require('../lib/fastboot-response.js');
-var FastBootRequest = require('../lib/fastboot-request.js');
+var alchemistRequire = require('broccoli-module-alchemist/require');
+var FastBootInfo = alchemistRequire('fastboot-info.js');
+var FastBootResponse = alchemistRequire('fastboot-response.js');
+var FastBootRequest = alchemistRequire('fastboot-request.js');
 
 describe("FastBootInfo", function() {
   var response;

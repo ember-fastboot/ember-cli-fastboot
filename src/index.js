@@ -1,6 +1,6 @@
 'use strict';
 
-const EmberApp = require('./lib/ember-app');
+const EmberApp = require('./ember-app');
 
 /**
  * FastBoot renders your Ember.js applications in Node.js. Start by

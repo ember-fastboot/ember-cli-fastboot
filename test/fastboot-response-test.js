@@ -1,6 +1,7 @@
 var expect = require('chai').expect;
-var FastBootHeaders = require('../lib/fastboot-headers.js');
-var FastBootResponse = require('../lib/fastboot-response.js');
+var alchemistRequire = require('broccoli-module-alchemist/require');
+var FastBootHeaders = alchemistRequire('fastboot-headers.js');
+var FastBootResponse = alchemistRequire('fastboot-response.js');
 
 describe("FastBootResponse", function() {
   var fastBootResponse;
