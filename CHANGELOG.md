@@ -1,6 +1,12 @@
 # FastBoot Changelog
 
-### 1.0.0-beta.3
+### 1.0.0-beta.5
+
+* Only access instance.getURL if the instance has booted
+* Exclude test files from npm package
+
+### 1.0.0-beta.4
+
 * najax dependency updated to 0.7.0, which now handle nested query
   params
 * Don't obscure errors during instance creation
