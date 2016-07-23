@@ -377,6 +377,12 @@ supported when running in FastBoot mode. One exception is network code for
 fetching models, which we intended to support, but doesn't work at
 present.
 
+### Prototype extensions
+
+Prototype extensions do not currently work across node "realms."  Fastboot 
+applications operate in two realms, a normal node environment and a [virtual machine](https://nodejs.org/api/vm.html).  Passing objects that originated from the normal realm will not contain the extension methods
+inside of the sandbox environment. For this reason, it's encouraged to [disable prototype extensions](https://guides.emberjs.com/v2.3.0/configuring-ember/disabling-prototype-extensions/).
+
 
 ## Troubleshooting
 
