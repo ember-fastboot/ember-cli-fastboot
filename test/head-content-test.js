@@ -26,7 +26,7 @@ describe('head content acceptance', function() {
   });
 
   it('/ Has head content replaced', function() {
-    return request('http://localhost:49741/')
+    return request('http://::1:49741/')
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
         expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");

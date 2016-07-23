@@ -25,7 +25,7 @@ describe('simple acceptance', function() {
   });
 
   it('/ HTML contents', function() {
-    return request('http://localhost:49741/')
+    return request('http://::1:49741/')
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
         expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
@@ -34,7 +34,7 @@ describe('simple acceptance', function() {
   });
 
   it('/posts HTML contents', function() {
-    return request('http://localhost:49741/posts')
+    return request('http://::1:49741/posts')
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
         expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
@@ -44,7 +44,7 @@ describe('simple acceptance', function() {
   });
 
   it('/not-found HTML contents', function() {
-    return request('http://localhost:49741/not-found')
+    return request('http://::1:49741/not-found')
       .then(function(response) {
         expect(response.statusCode).to.equal(404);
         expect(response.headers["content-type"]).to.eq("text/plain; charset=utf-8");
@@ -53,7 +53,7 @@ describe('simple acceptance', function() {
   });
 
   it('/boom HTML contents', function() {
-    return request('http://localhost:49741/boom')
+    return request('http://::1:49741/boom')
       .then(function(response) {
         expect(response.statusCode).to.equal(500);
         expect(response.headers["content-type"]).to.eq("text/plain; charset=utf-8");
@@ -62,7 +62,7 @@ describe('simple acceptance', function() {
   });
 
   it('/assets/vendor.js', function() {
-    return request('http://localhost:49741/assets/vendor.js')
+    return request('http://::1:49741/assets/vendor.js')
       .then(function(response) {
         // Asset serving is off by default
         expect(response.statusCode).to.equal(404);

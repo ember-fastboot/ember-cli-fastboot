@@ -29,7 +29,7 @@ describe('response details', function() {
 
   it('makes headers available via a service', function() {
     return get({
-      url: 'http://localhost:49741/echo-request-headers',
+      url: 'http://::1:49741/echo-request-headers',
       headers: { 'X-FastBoot-echo': 'i-should-be-echoed-back' }
     })
       .then(function(response) {
@@ -40,7 +40,7 @@ describe('response details', function() {
 
   it('makes the status code available via a service', function() {
     return get({
-      url: 'http://localhost:49741/return-status-code-418'
+      url: 'http://::1:49741/return-status-code-418'
     })
       .then(function(response) {
         expect(response.statusCode).to.equal(418);
