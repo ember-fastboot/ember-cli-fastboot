@@ -1,6 +1,7 @@
 /* jshint node: true */
 'use strict';
 
+var EventEmitter = require('events').EventEmitter;
 var mergeTrees = require('broccoli-merge-trees');
 
 var patchEmberApp     = require('./lib/ext/patch-ember-app');
@@ -16,13 +17,27 @@ var FastBootBuild      = require('./lib/broccoli/fastboot-build');
 module.exports = {
   name: 'ember-cli-fastboot',
 
+  init() {
+    this._super.init && this._super.init.apply(this, arguments);
+
+    this.emitter = new EventEmitter();
+  },
+
   includedCommands: function() {
     return {
-      'fastboot':       require('./lib/commands/fastboot'),
+      'fastboot':       require('./lib/commands/fastboot')(this),
 
       /* fastboot:build is deprecated and will be removed in a future version */
       'fastboot:build': require('./lib/commands/fastboot-build')
     };
+  },
+
+  on: function() {
+    this.emitter.on.apply(this.emitter, arguments);
+  },
+
+  emit: function() {
+    this.emitter.emit.apply(this.emitter, arguments);
   },
 
   /**
@@ -109,7 +124,7 @@ module.exports = {
   },
 
   postBuild: function() {
-    process.emit('SIGHUP');
+    this.emit('postBuild');
   },
 
 };
