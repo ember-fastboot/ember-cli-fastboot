@@ -109,7 +109,15 @@ module.exports = {
   },
 
   postBuild: function() {
-    process.emit('SIGHUP');
+    /**
+     * Note, only emit SIGHUP if there is a listener since the
+     * default behavior is to terminate the process if no listeners exist
+     *
+     * See: https://nodejs.org/api/process.html
+     */
+    if (process.listenerCount('SIGHUP')) {
+      process.emit('SIGHUP');
+    }
   },
 
 };
