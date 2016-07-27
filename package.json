@@ -6,7 +6,7 @@
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "https://github.com/tildeio/ember-cli-fastboot",
+  "repository": "https://github.com/ember-fastboot/ember-cli-fastboot",
   "scripts": {
     "start": "ember server",
     "build": "ember build",
