@@ -5,7 +5,7 @@ const camelize = require('ember-cli-string-utils').camelize;
 const defaults = require('lodash.defaults');
 const EventEmitter = require('events').EventEmitter;
 const expect = require('chai').expect;
-const FastbootCommand = CoreObject.extend(require('../lib/commands/fastboot'));
+const FastbootCommand = CoreObject.extend(require('../lib/commands/fastboot')());
 const FastbootServerTask = require('../lib/tasks/fastboot-server');
 const http = require('http');
 const RSVP = require('rsvp');
@@ -28,15 +28,23 @@ function MockServer() {
   this.address = () => ({ port: 1, host: '0.0.0.0', family: 'IPv4' });
 }
 MockServer.prototype = Object.create(EventEmitter.prototype);
+
+function MockAddon() {
+  this.emitter = EventEmitter.apply(this, arguments);
+}
+
+MockAddon.prototype = Object.create(EventEmitter.prototype);
+
 const mockUI = { writeLine() {} };
 
 describe('fastboot server task', function() {
   let options, task;
-
+  let addon = new MockAddon();
   beforeEach(function() {
     this.sinon = sinon.sandbox.create();
     task = new FastbootServerTask({
       ui: mockUI,
+      addon: addon
     });
     options = new CommandOptions();
   });
@@ -46,10 +54,10 @@ describe('fastboot server task', function() {
   });
 
   describe('run', function() {
-    it('calls restart on SIGHUP', function() {
+    it('calls restart on outputReady', function() {
       const restartStub = this.sinon.stub(task, 'restart');
       task.run(options);
-      process.emit('SIGHUP');
+      addon.emit('outputReady');
       expect(restartStub.called).to.be.ok;
     });
   });

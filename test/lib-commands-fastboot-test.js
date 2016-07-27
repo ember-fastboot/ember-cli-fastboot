@@ -4,7 +4,7 @@ const CoreObject = require('core-object');
 const camelize = require('ember-cli-string-utils').camelize;
 const defaults = require('lodash.defaults');
 const expect = require('chai').expect;
-const FastbootCommand = CoreObject.extend(require('../lib/commands/fastboot'));
+const FastbootCommand = CoreObject.extend(require('../lib/commands/fastboot')());
 const RSVP = require('rsvp');
 
 function CommandOptions(options) {
