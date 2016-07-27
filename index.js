@@ -123,8 +123,8 @@ module.exports = {
     return fastbootBuild.toTree();
   },
 
-  postBuild: function() {
-    this.emit('postBuild');
-  },
+  outputReady: function() {
+    this.emit('outputReady');
+  }
 
 };
