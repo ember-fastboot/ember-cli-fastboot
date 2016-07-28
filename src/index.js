@@ -1,9 +1,9 @@
 'use strict';
 
-const FastBoot = require('fastboot');
-const chalk = require('chalk');
 
 function fastbootExpressMiddleware(distPath, options) {
+  const FastBoot = require('fastboot');
+
   let opts = options;
 
   if (arguments.length === 1) {
@@ -66,7 +66,10 @@ function fastbootExpressMiddleware(distPath, options) {
   };
 }
 
+let chalk;
+
 function _log(statusCode, message, startTime) {
+  chalk = chalk || require('chalk');
   let color = statusCode === 200 ? 'green' : 'red';
   let now = new Date();
 
