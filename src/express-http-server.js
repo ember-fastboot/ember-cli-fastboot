@@ -1,6 +1,7 @@
 "use strict";
 
-const express = require('express');
+import * as express from 'express';
+//const express = require('express');
 const basicAuth = require('./basic-auth');
 
 class ExpressHTTPServer {

@@ -1,9 +1,10 @@
 'use strict';
 
-const path = require('path');
-const FastBootAppServer = require('../../lib/fastboot-app-server.js');
+var path = require('path');
+var alchemistRequire = require('broccoli-module-alchemist/require');
+var FastBootAppServer = alchemistRequire('fastboot-app-server');
 
-let server = new FastBootAppServer({
+var server = new FastBootAppServer({
   distPath: path.resolve(__dirname, './basic-app')
 });
 

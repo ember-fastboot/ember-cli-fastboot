@@ -3,6 +3,7 @@ node_js:
   - "stable"
   - "5"
   - "4"
+  - "0.12"
 
 env:
   - CXX=g++-4.8 WORKER_COUNT=2
