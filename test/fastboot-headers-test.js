@@ -2,7 +2,8 @@
 
 var expect = require('chai').expect;
 var path = require('path');
-var FastBootHeaders = require('../lib/fastboot-headers.js');
+var alchemistRequire = require('broccoli-module-alchemist/require');
+var FastBootHeaders = alchemistRequire('fastboot-headers.js');
 
 describe('FastBootHeaders', function() {
   it('returns an array of header values from getAll, regardless of header name casing', function() {

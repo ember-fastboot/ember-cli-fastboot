@@ -1,11 +1,12 @@
 'use strict';
 
-const expect         = require('chai').expect;
-const fs             = require('fs');
-const path           = require('path');
-const request        = require('request-promise');
-const FastBoot       = require('../index');
-const TestHTTPServer = require('./helpers/test-http-server');
+const expect           = require('chai').expect;
+const fs               = require('fs');
+const path             = require('path');
+const request          = require('request-promise');
+const TestHTTPServer   = require('./helpers/test-http-server');
+const alchemistRequire = require('broccoli-module-alchemist/require');
+const FastBoot         = alchemistRequire('index');
 
 describe("FastBoot", function() {
   it("throws an exception if no distPath is provided", function() {

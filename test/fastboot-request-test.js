@@ -1,6 +1,7 @@
 var expect = require('chai').expect;
 var path = require('path');
-var FastBootRequest = require('../lib/fastboot-request.js');
+var alchemistRequire = require('broccoli-module-alchemist/require');
+var FastBootRequest = alchemistRequire('fastboot-request.js');
 
 describe("FastBootRequest", function() {
   it("throws an exception if no hostWhitelist is provided", function() {

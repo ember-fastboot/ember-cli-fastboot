@@ -2,9 +2,13 @@
   "name": "fastboot",
   "version": "1.0.0-beta.5",
   "description": "Library for rendering Ember apps in node.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "mocha",
+    "build": "rm -rf dist && broccoli build dist",
     "preversion": "npm test",
+    "prepublish": "npm run build",
+    "postinstall": "broccoli-module-alchemist-install",
     "postversion": "git push origin master --tags"
   },
   "repository": {
@@ -22,6 +26,7 @@
   },
   "homepage": "https://github.com/ember-fastboot/fastboot#readme",
   "dependencies": {
+    "broccoli-module-alchemist-install": "^0.1.1",
     "chalk": "^0.5.1",
     "cookie": "^0.2.3",
     "debug": "^2.1.0",
@@ -36,6 +41,11 @@
     "source-map-support": "^0.4.0"
   },
   "devDependencies": {
+    "babel-core": "^6.10.4",
+    "babel-preset-es2015": "^6.9.0",
+    "broccoli": "^0.16.9",
+    "broccoli-cli": "^1.0.0",
+    "broccoli-module-alchemist": "^0.2.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.2.0",
     "fs-promise": "^0.5.0",
