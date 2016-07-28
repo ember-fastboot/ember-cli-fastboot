@@ -54,10 +54,10 @@ describe('fastboot server task', function() {
   });
 
   describe('run', function() {
-    it('calls restart on outputReady', function() {
+    it('calls restart on postBuild', function() {
       const restartStub = this.sinon.stub(task, 'restart');
       task.run(options);
-      addon.emit('outputReady');
+      addon.emit('postBuild');
       expect(restartStub.called).to.be.ok;
     });
   });
