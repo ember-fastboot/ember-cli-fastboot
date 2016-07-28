@@ -1,15 +1,12 @@
 # Ember FastBoot
 
-An Ember CLI addon that allows you to render and serve Ember.js apps on
-the server. Using FastBoot, you can serve rendered HTML to browsers and
-other clients without requiring them to download JavaScript assets.
+An Ember CLI Addon that allows you to render and serve Ember.js apps on the server. Using FastBoot, you can serve rendered HTML to browsers and other clients without requiring them to download JavaScript assets.
 
-Currently, the set of Ember applications supported is extremely limited.
-As we fix more issues, we expect that set to grow rapidly. See [Known
-Limitations](#known-limitations) below for a full-list.
+## How It Works
 
-The bottom line is that you should not (yet) expect to install this add-on in
-your production app and have FastBoot work.
+FastBoot works by creating a Node virtual [sandbox](https://github.com/ember-fastboot/fastboot/blob/master/lib/ember-app.js#L50-L75) and [executing](https://github.com/ember-fastboot/fastboot/blob/master/lib/ember-app.js#L165-L232) your Ember Application within it.
+
+Most Ember applications should work out of the box. However, there are some patterns that you be sure should follow to to guarantee that your application is fully FastBoot compatible. See [Tips and Tricks](#tips-and-tricks) below for a full-list.
 
 ## Introduction Video
 
@@ -27,12 +24,10 @@ ember install ember-cli-fastboot
 
 ## Running
 
-* `ember fastboot --serve-assets`
-* Visit your app at `http://localhost:3000`.
+- `ember fastboot --serve-assets`
+- Visit your app at `http://localhost:3000`.
 
-You may be shocked to learn that minified code runs faster in Node than
-non-minified code, so you will probably want to run the production
-environment build for anything "serious."
+You may be shocked to learn that minified code runs faster in Node than non-minified code, so you will probably want to run the production environment build for anything "serious."
 
 ```
 ember fastboot --environment production
@@ -50,16 +45,11 @@ See `ember help fastboot` for more.
 
 ### Whitelisting Packages
 
-When your app is running in FastBoot, it may need to use Node packages
-to replace features that are available only in the browser.
+For security reasons, if you need to access node packages or native modules from within FastBoot you should whitelist them. FastBoot will only let you call or require packages that have been added to the `fastbootDependencies` whitelist.
 
-For security reasons, your Ember app running in FastBoot can only access
-packages that you have explicitly whitelisted.
+Example:
 
-To allow your app to require a package, add it to the
-`fastbootDependencies` array in your app's `package.json`:
-
-```js
+```javascript
 {
   "name": "my-sweet-app",
   "version": "0.4.2",
@@ -67,7 +57,7 @@ To allow your app to require a package, add it to the
     // ...
   },
   "dependencies": {
-    // ...
+    "rsvp": "3.0.0"
   },
   "fastbootDependencies": [
     "rsvp",
@@ -76,61 +66,61 @@ To allow your app to require a package, add it to the
 }
 ```
 
-The `fastbootDependencies` in the above example means the only node
-modules your Ember app can use are `rsvp` and `path`.
+In this example, we can now require `rsvp` and `path`. Because `rsvp` is an npm package, we need to specify it in dependencies. Because `path` is a built-in node module, we only have to add it `fastbootDependencies`.
 
-If the package you are using is not built-in to Node, **you must also
-specify the package and a version in the `package.json` `dependencies`
-hash.** Built-in modules (`path`, `fs`, etc.) only need to be added to
-`fastbootDependencies`.
+### Requiring Dependencies
 
-### Using Dependencies
+Now that your packages are whitelisted, in your Ember.js app you can use `FastBoot.require()` to require a package. This is identical to the CommonJS `require` except it checks all requires against the `fastbootDependencies` whitelist.
 
-From your Ember.js app, you can run `FastBoot.require()` to require a
-package. This is identical to the CommonJS `require` except it checks
-all requests against the whitelist first.
+Example:
 
-```js
+```javascript
 let path = FastBoot.require('path');
 let filePath = path.join('tmp', session.getID());
 ```
 
-If you attempt to require a package that is not in the whitelist,
-FastBoot will raise an exception.
+If you attempt to require a package that is not in the whitelist, FastBoot will raise an exception.
 
-Note that the `FastBoot` global is **only** available when running in
-FastBoot mode. You should either guard against its presence or only use
-it in FastBoot-only initializers.
+The `FastBoot` global is **only** available when running in FastBoot mode. You should either guard against its absence or only use it in FastBoot-only initializers.
 
 ## FastBoot Service
 
-FastBoot registers the `fastboot` service. This service allows you to
-check if you are running within FastBoot by checking
-`fastboot.isFastBoot`. There is also a request object under
-`fastboot.request` which exposes details about the current request being
-handled by FastBoot
+FastBoot registers the `fastboot` [service](https://github.com/ember-fastboot/ember-cli-fastboot/blob/master/app/services/fastboot.js) which you can inject into your application:
 
-### Delaying the server response
+```javascript
+export default Ember.Route.extend({
+  fastboot: Ember.inject.service(),
+  isFastBoot: Ember.computed.reads('fastboot.isFastBoot'),
 
-By default, FastBoot waits for the `beforeModel`, `model`, and
-`afterModel` hooks to resolve before sending the response back to the
-client. If you have asynchrony that runs outside of those contexts, your
-response may not reflect the state that you want. To solve this, the
-`fastboot` service has `deferRendering` function that accepts a promise.
-It will chain all promises passed to it, and the FastBoot server will
-wait until all of these promises resolve before sending the response to
-the client. These promises must be chained before the rendering is
-complete after the model hooks. For example, if a component that is
-rendered into the page makes an async call for data, registering a
-promise to be resolved in its `init` hook would allow the component to
-defer the rendering of the page.
+  // ... Application code
+});
+```
 
-### Cookies
+Property         | Description
+---------------- | ---------------------------------------------------------------------------------------------------------
+`isFastBoot`     | Equals `true` if your application is running in FastBoot
+`response`       | The FastBoot server's response
+`request`        | The request sent to the FastBoot server
+`shoebox`        | A key/value store for passing data acquired server-side to the client
+`deferRendering` | A function that takes a `Promise` that you can use to defer the Ember Applications rendering in FastBoot.
 
-You can access cookies for the current request via `fastboot.request`
-in the `fastboot` service.
+### Deferring Response Rendering
 
-```js
+By default, FastBoot waits for the `beforeModel`, `model`, and `afterModel` hooks to resolve before sending a response back to the client.
+
+If you have asynchronous code that runs outside of these lifecycle hooks, will want to use `deferRendering` to block the response. `deferRendering` function accepts a `Promise` and will chain all promises passed to it. FastBoot will wait for these promises to resolve before sending the response to the client.
+
+You must call `deferRendering` before these model hooks complete. For example, if you made an asynchronous call in a Component, you would use `deferRendering` in the `init` lifecycle hook.
+
+### FastBoot Request
+
+The `fastboot.request` key allows you access to the request sent to the FastBoot server.
+
+#### Cookies
+
+You can access cookies for the current request via `fastboot.request` in the `fastboot` service.
+
+```javascript
 export default Ember.Route.extend({
   fastboot: Ember.inject.service(),
 
@@ -141,21 +131,13 @@ export default Ember.Route.extend({
 });
 ```
 
-The service's `cookies` property is an object containing the request's
-cookies as key/value pairs.
+The FastBoot service's `cookies` property is an object containing the request's cookies as key/value pairs.
 
-### Headers
+#### Headers
 
-You can access the headers for the current request via `fastboot.request`
-in the `fastboot` service. The `headers` object implements part of the
-[Fetch API's Headers
-class](https://developer.mozilla.org/en-US/docs/Web/API/Headers), the
-functions available are
-[`has`](https://developer.mozilla.org/en-US/docs/Web/API/Headers/has),
-[`get`](https://developer.mozilla.org/en-US/docs/Web/API/Headers/get), and
-[`getAll`](https://developer.mozilla.org/en-US/docs/Web/API/Headers/getAll).
+You can access the current request headers via `fastboot.request`. The `headers` object implements part of the [Fetch API's Headers class](https://developer.mozilla.org/en-US/docs/Web/API/Headers), the functions available are [`has`](https://developer.mozilla.org/en-US/docs/Web/API/Headers/has), [`get`](https://developer.mozilla.org/en-US/docs/Web/API/Headers/get), and [`getAll`](https://developer.mozilla.org/en-US/docs/Web/API/Headers/getAll).
 
-```js
+```javascript
 export default Ember.Route.extend({
   fastboot: Ember.inject.service(),
 
@@ -167,13 +149,11 @@ export default Ember.Route.extend({
 });
 ```
 
-### Host
+#### Host
 
-You can access the host of the request that the current FastBoot server
-is responding to via `fastboot.request` in the `fastboot` service. The
-`host` property will return the host (`example.com` or `localhost:3000`).
+You can access the host of the request that the current FastBoot server is responding to via `fastboot.request` in the `fastboot` service. The `host` property will return the full `hostname` and `port` (`example.com` or `localhost:3000`).
 
-```js
+```javascript
 export default Ember.Route.extend({
   fastboot: Ember.inject.service(),
 
@@ -184,10 +164,16 @@ export default Ember.Route.extend({
 });
 ```
 
-To retrieve the host of the current request, you must specify a list of
-hosts that you expect in your `config/environment.js`:
+Retrieving `host` will error on 2 conditions:
 
-```js
+1. You do not have a `hostWhitelist` defined.
+2. The `Host` header does not match an entry in your `hostWhitelist`.
+
+##### The Host Whitelist
+
+For security, you must specify a `hostWhitelist` of expected hosts in your application's `config/environment.js`:
+
+```javascript
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'host',
@@ -209,23 +195,17 @@ module.exports = function(environment) {
 };
 ```
 
-The `hostWhitelist` can be a string or RegExp to match multiple hosts.
-Care should be taken when using a RegExp, as the host function relies on
-the `Host` HTTP header, which can be forged. You could potentially allow
-a malicious request if your RegExp is too permissive when using the `host`
-when making subsequent requests.
+`hostWhitelist` entries can be a `String` or `RegExp` to match multiple hosts.
 
-Retrieving `host` will error on 2 conditions:
+##### Security
 
- 1. you do not have a `hostWhitelist` defined
- 2. the `Host` header does not match an entry in your `hostWhitelist`
+Be careful with `RegExp` entries because host names are checked against the `Host` HTTP header, which can be forged. An improperly constructed `RegExp` could open your FastBoot servers and any backend they use to malicious requests.
 
-### Query Parameters
+#### Query Parameters
 
-You can access query parameters for the current request via `fastboot.request`
-in the `fastboot` service.
+You can access query parameters for the current request via `fastboot.request` in the `fastboot` service.
 
-```js
+```javascript
 export default Ember.Route.extend({
   fastboot: Ember.inject.service(),
 
@@ -236,16 +216,13 @@ export default Ember.Route.extend({
 });
 ```
 
-The service's `queryParams` property is an object containing the request's
-query parameters as key/value pairs.
+The service's `queryParams` property is an object containing the request's query parameters as key/value pairs.
 
-### Path
+#### Path
 
-You can access the path (`/` or `/some-path`) of the request that the
-current FastBoot server is responding to via `fastboot.request` in the
-`fastboot` service.
+You can access the path (`/` or `/some-path`) of the request that the current FastBoot server is responding to via `fastboot.request` in the `fastboot` service.
 
-```js
+```javascript
 export default Ember.Route.extend({
   fastboot: Ember.inject.service(),
 
@@ -256,13 +233,11 @@ export default Ember.Route.extend({
 });
 ```
 
-### Protocol
+#### Protocol
 
-You can access the protocol (`http` or `https`) of the request that the
-current FastBoot server is responding to via `fastboot.request` in the
-`fastboot` service.
+You can access the protocol (`http` or `https`) of the request that the current FastBoot server is responding to via `fastboot.request` in the `fastboot` service.
 
-```js
+```javascript
 export default Ember.Route.extend({
   fastboot: Ember.inject.service(),
 
@@ -273,22 +248,66 @@ export default Ember.Route.extend({
 });
 ```
 
+### FastBoot Response
+
+FastBoot Response gives you access to the response metadata that FastBoot will send back the client.
+
+#### Headers
+
+You can access the current response headers via `fastboot.response.headers`. The `headers` object implements part of the [Fetch API's Headers class](https://developer.mozilla.org/en-US/docs/Web/API/Headers), the functions available are [`has`](https://developer.mozilla.org/en-US/docs/Web/API/Headers/has), [`get`](https://developer.mozilla.org/en-US/docs/Web/API/Headers/get), and [`getAll`](https://developer.mozilla.org/en-US/docs/Web/API/Headers/getAll).
+
+```javascript
+export default Ember.Route.extend({
+  fastboot: Ember.inject.service(),
+
+  model() {
+    let isFastBoot = this.get('fastboot.isFastBoot');
+
+    if (isFastBoot) {
+      let resHeaders = this.get('fastboot.response.headers');
+      resHeaders.set('X-Debug-Response-Type', 'fastboot');
+    }
+    // ...
+  }
+});
+```
+
+#### Status Code
+
+You can access the status code of the current response via `fastboot.response.statusCode`. This is useful if you want your application to return a non-default (`200`) status code to the client. For example if you want a route of application to be `401 - Unauthorized` if it accessed without OAuth credentials, you could use `statusCode` to do that.
+
+```javascript
+export default Ember.Route.extend({
+  fastboot: Ember.inject.service(),
+
+  beforeModel() {
+    let isFastBoot = this.get('fastboot.isFastBoot');
+
+    if (!isFastBoot) {
+      return;
+    }
+
+    let reqHeaders = this.get('fastboot.request.headers');
+    let authHeaders = reqHeaders.get('Authorization');
+
+    if (authHeaders === null) {
+      this.set('fastboot.response.statusCode', 401);
+    }
+    // ...
+  }
+});
+```
+
+FastBoot handles `200`, [`204` and `3xx`](https://github.com/ember-fastboot/fastboot/blob/b62e795c8c21c4a5dca09f2cf20e4367c843fc7b/src/result.js#L27-L43) by default. For other custom responses you will want to modify your application and FastBoot server implementation to act accordingly.
+
 ### The Shoebox
 
-You can pass application state from the FastBoot rendered application
-to the browser rendered application using a feature called the "Shoebox".
-This allows you to leverage server API calls made by the FastBoot
-rendered application on the browser rendered application. Thus preventing
-you from duplicating work that the FastBoot application is performing.
-This should result in a performance benefit for your browser application,
-as it does not need to issue server API calls whose results are available
-from the Shoebox.
+The Shoebox lets you pass application state from your FastBoot rendered application to the browser for client-side rendering. For example if your FastBoot server makes an API request, you can use the Shoebox to pass to the client's browser. When the application resumes rendering on the client-side, it will be able to use that data, eliminating the need for it to make an API request of its own.
 
-The contents of the Shoebox are written to the HTML as strings within
-`<script>` tags by the server rendered application, which are then
-consumed by the browser rendered application.
+The contents of the Shoebox are written to the HTML as strings within `<script>` tags by the server rendered application, which are then consumed by the browser rendered application.
 
 This looks like:
+
 ```html
 .
 .
@@ -304,23 +323,24 @@ This looks like:
 .
 ```
 
-You can add items into the shoebox with `shoebox.put`, and you can retrieve
-items from the shoebox using `shoebox.retrieve`. In the example below we use
-an object, `shoeboxStore`, that acts as our store of objects that reside in
-the shoebox. We can then add/remove items from the `shoeboxStore` in the
-FastBoot rendered application as we see fit. Then in the browser rendered
-application, it will grab the `shoeboxStore` from the shoebox and retrieve
-the record necessary for rendering this route.
+#### Putting and Retrieving
 
-```js
+`shoebox.put` lets you add items to the Shoebox.
+
+`shoebox.retrieve` lets you remove items from the Shoebox.
+
+In the example below we find and store our data in a `shoeboxStore` object, when the application is rendered in FastBoot. When the same code is then executed by the client browser, we retrieve the items from the `shoeboxStore` rather than redoing the the find (and triggering a network request).
+
+```javascript
 export default Ember.Route.extend({
   fastboot: Ember.inject.service(),
 
   model(params) {
     let shoebox = this.get('fastboot.shoebox');
     let shoeboxStore = shoebox.retrieve('my-store');
+    let isFastBoot = this.get('fastboot.isFastBoot');
 
-    if (this.get('fastboot.isFastBoot') {
+    if (isFastBoot) {
       return this.store.findRecord('post', params.post_id).then(post => {
         if (!shoeboxStore) {
           shoeboxStore = {};
@@ -328,78 +348,68 @@ export default Ember.Route.extend({
         }
         shoeboxStore[post.id] = post.toJSON();
       });
-    } else {
-      return shoeboxStore && shoeboxStore.retrieve(params.post_id);
     }
+
+    return shoeboxStore && shoeboxStore.retrieve(params.post_id);
   }
 });
 ```
 
-## Disabling incompatible dependencies
+## Disabling Incompatible Dependencies
 
-There are two places where the inclusion of incompatible JavaScript libraries could
-occur:
+For FastBoot, you will want to disable Node-incompatible JavaScript libraries. It is easiest to do this at build time.
 
- 1. `app.import` in the application's `ember-cli-build.js`
- 2. `app.import` in an addon's `included` hook
+There are two places where Ember allows third-party JavaScript to be included:
 
-`ember-cli-fastboot` sets the `EMBER_CLI_FASTBOOT` environment variable when it is
-building the FastBoot version of the application. You can use this to prevent the
-inclusion of the library at build time:
+1. For applications: `app.import` in `ember-cli-build.js`
+2. For addons: `app.import` in the `included` hook
 
-```js
+`ember-cli-fastboot` sets the `EMBER_CLI_FASTBOOT` environment variable when it is building the FastBoot version of the application. You can use this to exclude incompatible libraries at build time:
+
+```javascript
 if (!process.env.EMBER_CLI_FASTBOOT) {
   // This will only be included in the browser build
   app.import('some/jquery.plugin.js')
 }
 ```
 
+## Tips and Tricks
 
-## Known Limitations
+### Designing Components
 
-While FastBoot is under active development, there are several major
-restrictions you should be aware of. Only the most brave should even
-consider deploying this to production.
+#### Use `didInsertElement` for client-side DOM manipulation
 
-### No `didInsertElement`
+In FastBoot, we do not invoke either `didInsertElement` or `willInsertElement` hooks. If your components have any direct DOM manipulation you would do it in those hooks.
 
-Since `didInsertElement` hooks are designed to let your component
-directly manipulate the DOM, and that doesn't make sense on the server
-where there is no DOM, we do not invoke either `didInsertElement` or
-`willInsertElement` hooks. The only component lifecycle hooks called in
-FastBoot are `init`, `didReceiveAttrs`, `didUpdateAttrs`, `willRender`
-and `willUpdate`.
+#### Lifecycle Hooks in FastBoot
 
-### No jQuery
+FastBoot calls the `init`, `didReceiveAttrs`, `didUpdateAttrs`, `willRender` and `willUpdate`. Any code in these hooks will be run inside of FastBoot and should be free of references to browser APIs or DOM manipulation.
 
-Running most of jQuery requires a full DOM. Most of jQuery will just not be
-supported when running in FastBoot mode. One exception is network code for
-fetching models, which we intended to support, but doesn't work at
-present.
+### Avoid jQuery
 
+FastBoot relies on [`Ember.ApplicationInstance`](http://emberjs.com/api/classes/Ember.ApplicationInstance.html) to execute your Ember applicaiton on the server. jQuery is [disabled](https://github.com/emberjs/ember.js/blob/v2.7.0/packages/ember-application/lib/system/application-instance.js#L370) by default for these instances because most of jQuery depends on having full DOM access.
 
-## Troubleshooting
+### Use `ember-network` for XHR requests
 
-Because your app is now running in Node.js, not the browser, you'll
-need a new set of tools to diagnose problems when things go wrong. Here
-are some tips and tricks we use for debugging our own apps.
+If you are depending on jQuery for XHR requests, use [ember-network](https://github.com/tomdale/ember-network) and replace your `$.ajax` calls with `fetch` calls.
+
+## Troubleshooting in Node.js
+
+Because your app is now running in Node.js, not the browser, you will need a new set of tools to help diagnose problems.
 
 ### Verbose Logging
 
-Enable verbose logging by running the FastBoot server with the following
-environment variables set:
+Enable verbose logging by running the FastBoot server with the following environment variables set:
 
 ```sh
 DEBUG=ember-cli-fastboot:* ember fastboot
 ```
 
-PRs adding or improving logging facilities are very welcome.
+Pull requests for adding or improving logging facilities are very welcome.
 
-### Developer Tools
+### Using Node Inspector with Developer Tools
 
-You can get a debugging environment similar to the Chrome developer
-tools running with a FastBoot app, although it's not (yet) as easy as
-in the browser.
+You can get a debugging environment similar to the Chrome developer tools running with a FastBoot app, although it's not (yet) as easy as in the browser.
 
 First, install the Node Inspector:
 
@@ -407,60 +417,41 @@ First, install the Node Inspector:
 npm install node-inspector -g
 ```
 
-Make sure you install a recent release; in our experience, older
-versions will segfault when used in conjunction with Contextify, which
-FastBoot uses for sandboxing.
-
-Next, start the inspector server. We found the experience too slow to be
-usable until we discovered the `--no-preload` flag, which waits to
-fetch the source code for a given file until it's actually needed.
+Next, start the inspector server. Using the `--no-preload` flag is recommended. It waits to fetch the source code for a given file until it's actually needed.
 
 ```sh
 node-inspector --no-preload
 ```
 
-Once the debug server is running, you'll want to start up the FastBoot
-server with Node in debug mode. One thing about debug mode: it makes
-everything much slower. Since the `ember fastboot` command does a full
-build when launched, this becomes agonizingly slow in debug mode.
+Once the debug server is running, you'll want to start up the FastBoot server with Node in debug mode. One thing about debug mode: it makes everything much slower. Since the `ember fastboot` command does a full build when launched, this becomes agonizingly slow in debug mode.
 
-Avoid the slowness by manually running the build in normal mode, then
-running FastBoot in debug mode without doing a build:
+### Speeding up Server-side Debugging
+
+Avoid the slowness by manually running the build in normal mode, then run FastBoot in debug mode without doing a build:
 
 ```sh
 ember build && node --debug-brk ./node_modules/.bin/ember fastboot --no-build
 ```
 
-This does a full rebuild and then starts the FastBoot server in debug
-mode. Note that the `--debug-brk` flag will cause your app to start
-paused to give you a chance to open the debugger.
+This does a full rebuild and then starts the FastBoot server in debug mode.
 
-Once you see the output `debugger listening on port 5858`, visit
-[http://127.0.0.1:8080/debug?port=5858](http://127.0.0.1:8080/debug?port=5858)
-in your browser. Once it loads, click the "Resume script execution"
-button (it has a ▶︎ icon) to let FastBoot continue loading.
+Note that the `--debug-brk` flag will cause your app to start paused to give you a chance to open the debugger.
 
-Assuming your app loads without an exception, after a few seconds you
-will see a message that FastBoot is listening on port 3000. Once you see
-that, you can open a connection; any exceptions should be logged in the
-console, and you can use the tools you'd expect such as `console.log`,
-`debugger` statements, etc.
+Once you see the output `debugger listening on port 5858`, visit <http://127.0.0.1:8080/debug?port=5858> in your browser. Once it loads, click the "Resume script execution" button (it has a ▶︎ icon) to let FastBoot continue loading.
+
+Assuming your app loads without an exception, after a few seconds you will see a message that FastBoot is listening on port 3000\. Once you see that, you can open a connection. Any exceptions should be logged in the console, and you can use the tools you'd expect such as `console.log`, `debugger` statements, etc.
 
 ## Tests
 
 Run the automated tests by running `npm test`.
 
-Note that the integration tests create new Ember applications via `ember
-new` and thus have to run an `npm install`, which can take several
-minutes, particularly on slow connections.
+Note that the integration tests create new Ember applications via `ember new` and thus have to run an `npm install`, which can take several minutes, particularly on slow connections.
 
-To speed up test runs you can run `npm run test:precook` to "precook" a
-`node_modules` directory that will be reused across test runs.
+To speed up test runs you can run `npm run test:precook` to "precook" a `node_modules` directory that will be reused across test runs.
 
 ### Debugging Integration Tests
 
-Run the tests with the `DEBUG` environment variable set to
-`fastboot-test` to see verbose debugging output.
+Run the tests with the `DEBUG` environment variable set to `fastboot-test` to see verbose debugging output.
 
 ```sh
 DEBUG=fastboot-test npm test
