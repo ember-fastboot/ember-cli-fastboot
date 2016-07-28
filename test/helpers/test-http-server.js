@@ -2,7 +2,8 @@
 
 const express            = require('express');
 const request            = require('request-promise');
-const fastbootMiddleware = require('../../index');
+const alchemistRequire   = require('broccoli-module-alchemist/require');
+const fastbootMiddleware = alchemistRequire('index');
 
 let serverID = 0;
 
