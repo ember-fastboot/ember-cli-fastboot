@@ -3,7 +3,8 @@
 const expect             = require('chai').expect;
 const path               = require('path');
 const FastBoot           = require('fastboot');
-const fastbootMiddleware = require('../index');
+const alchemistRequire   = require('broccoli-module-alchemist/require');
+const fastbootMiddleware = alchemistRequire('index');
 const fixture            = require('./helpers/fixture-path');
 const TestHTTPServer     = require('./helpers/test-http-server');
 
