@@ -48,9 +48,9 @@ const Shoebox = Ember.Object.extend({
     let shoeboxItem = this.get(key);
     if (shoeboxItem) { return shoeboxItem; }
 
-    let $el = Ember.$(`#shoebox-${key}`);
-    if (!$el.length) { return; }
-    let valueString = $el.text();
+    let el = document.querySelector(`#shoebox-${key}`);
+    if (!el) { return; }
+    let valueString = el.textContent;
     if (!valueString) { return; }
 
     shoeboxItem = JSON.parse(valueString);

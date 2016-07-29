@@ -16,7 +16,11 @@ export default {
     var originalDidCreateRootView = instance.didCreateRootView;
 
     instance.didCreateRootView = function() {
-      Ember.$(instance.rootElement + ' .ember-view').remove();
+      let elements = document.querySelectorAll(instance.rootElement + ' .ember-view');
+      for (let i = 0; i < elements.length; i++) {
+        let element = elements[i];
+        element.parentNode.removeChild(element);
+      }
 
       originalDidCreateRootView.apply(instance, arguments);
     };
