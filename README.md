@@ -320,7 +320,7 @@ export default Ember.Route.extend({
     let shoebox = this.get('fastboot.shoebox');
     let shoeboxStore = shoebox.retrieve('my-store');
 
-    if (this.get('fastboot.isFastBoot') {
+    if (this.get('fastboot.isFastBoot')) {
       return this.store.findRecord('post', params.post_id).then(post => {
         if (!shoeboxStore) {
           shoeboxStore = {};
