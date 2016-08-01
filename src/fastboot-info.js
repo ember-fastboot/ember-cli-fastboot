@@ -8,7 +8,7 @@ var FastBootResponse = require('./fastboot-response');
  * on to the FastBoot service.
  */
 function FastBootInfo(request, response, options = {}) {
-  const { hostWhitelist, metaData } = options;
+  const { hostWhitelist, metadata } = options;
 
   this.deferredPromise = RSVP.resolve();
   if (request) {
@@ -16,7 +16,7 @@ function FastBootInfo(request, response, options = {}) {
   }
 
   this.response = new FastBootResponse(response || {});
-  this.metaData = metaData;
+  this.metadata = metadata;
 }
 
 FastBootInfo.prototype.deferRendering = function(promise) {
