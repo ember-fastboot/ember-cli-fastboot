@@ -148,6 +148,7 @@ server.start();
 ### Available Notifiers
 
 * fastboot-s3-notifier
+* [fastboot-fs-notifier](https://github.com/iheanyi/fastboot-fs-notifier)
 
 ### Writing a Notifier
 
