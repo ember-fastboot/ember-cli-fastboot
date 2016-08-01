@@ -7,13 +7,16 @@ var FastBootResponse = require('./fastboot-response');
  * current HTTP request from FastBoot. This is injected
  * on to the FastBoot service.
  */
-function FastBootInfo(request, response, hostWhitelist) {
+function FastBootInfo(request, response, options = {}) {
+  const { hostWhitelist, metaData } = options;
+
   this.deferredPromise = RSVP.resolve();
   if (request) {
     this.request = new FastBootRequest(request, hostWhitelist);
   }
 
   this.response = new FastBootResponse(response || {});
+  this.metaData = metaData;
 }
 
 FastBootInfo.prototype.deferRendering = function(promise) {
