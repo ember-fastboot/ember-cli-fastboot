@@ -9,6 +9,7 @@ describe("FastBootInfo", function() {
   var response;
   var request;
   var fastbootInfo;
+  var metadata = { foo: 'bar' };
 
   beforeEach(function () {
     response = {};
@@ -22,7 +23,7 @@ describe("FastBootInfo", function() {
       }
     };
 
-    fastbootInfo = new FastBootInfo(request, response);
+    fastbootInfo = new FastBootInfo(request, response, { metadata });
   });
 
   it("has a FastBootRequest", function() {
@@ -32,5 +33,8 @@ describe("FastBootInfo", function() {
   it("has a FastBootResponse", function() {
     expect(fastbootInfo.response).to.be.an.instanceOf(FastBootResponse);
   });
-});
 
+  it("has metadata", function() {
+    expect(fastbootInfo.metadata).to.deep.equal(metadata);
+  });
+});
