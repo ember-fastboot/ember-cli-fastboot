@@ -30,7 +30,7 @@ class FastBootAppServer {
         ui: this.ui,
         distPath: this.distPath || process.env.FASTBOOT_DIST_PATH,
         cache: this.cache,
-        gzip: this.gzip
+        gzip: this.gzip,
         httpServer: this.httpServer,
       });
 
