@@ -12,8 +12,12 @@ class ExpressHTTPServer {
     this.username = options.username;
     this.password = options.password;
     this.cache = options.cache;
+    this.gzip = options.gzip || false;
 
     this.app = express();
+    if (options.gzip) {
+      this.app.use(require('compression')());
+    }
   }
 
   serve(middleware) {

@@ -35,7 +35,8 @@ Put the following in a `server.js` file:
 const FastBootAppServer = require('fastboot-app-server');
 
 let server = new FastBootAppServer({
-  distPath: 'dist'
+  distPath: 'dist',
+  gzip: true // Optional - Enables gzip compression.
 });
 
 server.start();
