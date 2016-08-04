@@ -1,8 +1,9 @@
 /* global FastBoot */
 import Ember from "ember";
 
-const { deprecate, computed, get } = Ember;
+const { deprecate, computed, get, RSVP } = Ember;
 const { deprecatingAlias, readOnly } = computed;
+const { Promise } = RSVP;
 
 const RequestObject = Ember.Object.extend({
   init() {
@@ -57,6 +58,15 @@ const Shoebox = Ember.Object.extend({
     this.set(key, shoeboxItem);
 
     return shoeboxItem;
+  },
+
+  has(key) {
+    if (this.get('fastboot.isFastBoot')) {
+      let shoebox = this.get('fastboot._fastbootInfo.shoebox');
+      return shoebox && shoebox.hasOwnProperty(key);
+    } else {
+      return !!document.querySelector(`#shoebox-${key}`);
+    }
   }
 });
 
@@ -95,5 +105,21 @@ export default Ember.Service.extend({
   deferRendering(promise) {
     Ember.assert('deferRendering requires a promise or thennable object', typeof promise.then === 'function');
     this._fastbootInfo.deferRendering(promise);
+  },
+
+  withShoebox(key, fn) {
+    return new Promise((resolve, reject) => {
+      let shoebox = this.get('shoebox');
+      if (shoebox.has(key)) {
+        resolve(shoebox.retrieve(key));
+        return;
+      }
+      Promise.resolve(fn()).then(value => {
+        if (this.get('isFastBoot')) {
+          shoebox.put(key, value);
+        }
+        return value;
+      }).then(resolve, reject);
+    });
   }
 });
