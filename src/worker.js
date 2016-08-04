@@ -11,18 +11,19 @@ class Worker {
     this.ui = options.ui;
     this.cache = options.cache;
     this.gzip = options.gzip || false;
-    
+
     if (!this.httpServer) {
       this.httpServer = new ExpressHTTPServer({
         ui: this.ui,
         distPath: this.distPath,
-        cache: this.cache
+        cache: this.cache,
+        gzip: this.gzip
       });
     }
 
     if (!this.httpServer.cache) { this.httpServer.cache = this.cache; }
     if (!this.httpServer.distPath) { this.httpServer.distPath = this.distPath; }
-    if (!this.httpServer.ui) { this.httpServer.ui = this.ui; }    
+    if (!this.httpServer.ui) { this.httpServer.ui = this.ui; }
   }
 
   start() {
