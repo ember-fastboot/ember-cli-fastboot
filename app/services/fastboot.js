@@ -108,18 +108,18 @@ export default Ember.Service.extend({
   },
 
   withShoebox(key, fn) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       let shoebox = this.get('shoebox');
       if (shoebox.has(key)) {
         resolve(shoebox.retrieve(key));
         return;
       }
-      Promise.resolve(fn()).then(value => {
+      resolve(Promise.resolve(fn()).then(value => {
         if (this.get('isFastBoot')) {
           shoebox.put(key, value);
         }
         return value;
-      }).then(resolve, reject);
+      }));
     });
   }
 });
