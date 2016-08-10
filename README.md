@@ -101,7 +101,7 @@ let server = new FastBootAppServer({
 });
 
 server.start();
-``` 
+```
 
 ## Downloaders
 
@@ -182,6 +182,7 @@ server.start();
 
 * fastboot-s3-notifier
 * [fastboot-fs-notifier](https://github.com/iheanyi/fastboot-fs-notifier)
+* [fastboot-watch-notifier](https://github.com/pwfisher/fastboot-watch-notifier)
 
 ### Writing a Notifier
 
