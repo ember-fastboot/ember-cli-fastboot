@@ -177,6 +177,16 @@ describe("FastBoot", function() {
       fs.unlinkSync(packagePath);
     }
   });
+
+  it("handles apps boot-time failures by throwing Errors", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('boot-time-failing-app')
+    });
+
+    return fastboot.visit('/')
+    .catch((e) => expect(e).to.be.an('error'));
+  });
+
 });
 
 function fixture(fixtureName) {
