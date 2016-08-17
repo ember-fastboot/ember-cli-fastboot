@@ -310,7 +310,10 @@ function createShoebox(doc, fastbootInfo) {
     if (!shoebox.hasOwnProperty(key)) { continue; }
 
     let value = shoebox[key];
-    let scriptText = doc.createTextNode(JSON.stringify(value));
+    let textValue = JSON.stringify(value);
+    textValue = escapeJSONString(textValue);
+
+    let scriptText = doc.createRawHTMLSection(textValue);
     let scriptEl = doc.createElement('script');
 
     scriptEl.setAttribute('type', 'fastboot/shoebox');
@@ -320,6 +323,22 @@ function createShoebox(doc, fastbootInfo) {
   }
 
   return RSVP.resolve();
+}
+
+const JSON_ESCAPE = {
+  '&': '\\u0026',
+  '>': '\\u003e',
+  '<': '\\u003c',
+  '\u2028': '\\u2028',
+  '\u2029': '\\u2029'
+};
+
+const JSON_ESCAPE_REGEXP = /[\u2028\u2029&><]/g;
+
+function escapeJSONString(string) {
+  return string.replace(JSON_ESCAPE_REGEXP, function(match) {
+    return JSON_ESCAPE[match];
+  });
 }
 
 /*

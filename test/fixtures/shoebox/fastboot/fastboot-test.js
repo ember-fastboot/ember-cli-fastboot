@@ -67,7 +67,7 @@ define('fastboot-test/initializers/data-adapter', ['exports', 'ember'], function
   /*
     This initializer is here to keep backwards compatibility with code depending
     on the `data-adapter` initializer (before Ember Data was an addon).
-  
+
     Should be removed for Ember Data 3.x
   */
 
@@ -80,31 +80,31 @@ define('fastboot-test/initializers/data-adapter', ['exports', 'ember'], function
 define('fastboot-test/initializers/ember-data', ['exports', 'ember-data/setup-container', 'ember-data/-private/core'], function (exports, _emberDataSetupContainer, _emberDataPrivateCore) {
 
   /*
-  
+
     This code initializes Ember-Data onto an Ember application.
-  
+
     If an Ember.js developer defines a subclass of DS.Store on their application,
     as `App.StoreService` (or via a module system that resolves to `service:store`)
     this code will automatically instantiate it and make it available on the
     router.
-  
+
     Additionally, after an application's controllers have been injected, they will
     each have the store made available to them.
-  
+
     For example, imagine an Ember.js application with the following classes:
-  
+
     App.StoreService = DS.Store.extend({
       adapter: 'custom'
     });
-  
+
     App.PostsController = Ember.ArrayController.extend({
       // ...
     });
-  
+
     When the application is initialized, `App.ApplicationStore` will automatically be
     instantiated, and the instance of `App.PostsController` will have its `store`
     property set to that instance.
-  
+
     Note that this code will only be run if the `ember-application` package is
     loaded. If Ember Data is being used in an environment other than a
     typical application (e.g., node.js where only `ember-runtime` is available),
@@ -227,7 +227,7 @@ define('fastboot-test/initializers/injectStore', ['exports', 'ember'], function 
   /*
     This initializer is here to keep backwards compatibility with code depending
     on the `injectStore` initializer (before Ember Data was an addon).
-  
+
     Should be removed for Ember Data 3.x
   */
 
@@ -242,7 +242,7 @@ define('fastboot-test/initializers/store', ['exports', 'ember'], function (expor
   /*
     This initializer is here to keep backwards compatibility with code depending
     on the `store` initializer (before Ember Data was an addon).
-  
+
     Should be removed for Ember Data 3.x
   */
 
@@ -257,7 +257,7 @@ define('fastboot-test/initializers/transforms', ['exports', 'ember'], function (
   /*
     This initializer is here to keep backwards compatibility with code depending
     on the `transforms` initializer (before Ember Data was an addon).
-  
+
     Should be removed for Ember Data 3.x
   */
 
@@ -297,6 +297,9 @@ define('fastboot-test/routes/application', ['exports', 'ember'], function (expor
       if (fastboot.get('isFastBoot')) {
         shoebox.put('key1', { foo: 'bar' });
         shoebox.put('key2', { zip: 'zap' });
+        shoebox.put('key3', { htmlSpecialCase: 'R&B > Jazz' });
+        shoebox.put('key4', { nastyScriptCase: "<script>alert('owned');</script></script></script>" });
+        shoebox.put('key5', { otherUnicodeChars: '&&>><<\u2028\u2028\u2029\u2029' });
       }
     }
   });
