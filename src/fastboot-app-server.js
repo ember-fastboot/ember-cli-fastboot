@@ -15,8 +15,10 @@ class FastBootAppServer {
     this.notifier = options.notifier;
     this.cache = options.cache;
     this.ui = options.ui;
-    this.gzip = options.gzip || false;
+    this.gzip = options.gzip;
     this.httpServer = options.httpServer;
+    this.preFastbootMiddlewares = options.preFastbootMiddlewares;
+    this.postFastbootMiddlewares = options.postFastbootMiddlewares;
 
     if (!this.ui) {
       let UI = require('./ui');

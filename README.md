@@ -191,7 +191,7 @@ following interface:
 
 #### `subscribe(notify)`
 
-The `subscribe()` method ony our notifier is passed a `notify` function.
+The `subscribe()` method on your notifier is passed a `notify` function.
 If you detect that a new version of your app has been deployed (whether
 via polling or a push notification), call this function to trigger a
 reload.

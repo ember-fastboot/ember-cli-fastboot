@@ -10,7 +10,9 @@ class Worker {
     this.httpServer = options.httpServer;
     this.ui = options.ui;
     this.cache = options.cache;
-    this.gzip = options.gzip || false;
+    this.gzip = options.gzip;
+    this.preFastbootMiddlewares = options.preFastbootMiddlewares;
+    this.postFastbootMiddlewares = options.postFastbootMiddlewares;
 
     if (!this.httpServer) {
       this.httpServer = new ExpressHTTPServer({

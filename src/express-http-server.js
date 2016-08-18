@@ -13,17 +13,22 @@ class ExpressHTTPServer {
     this.password = options.password;
     this.cache = options.cache;
     this.gzip = options.gzip || false;
+    this.preFastbootMiddlewares = options.preFastbootMiddlewares || [];
+    this.postFastbootMiddlewares = options.postFastbootMiddlewares || [];
 
     this.app = express();
-    if (options.gzip) {
-      this.app.use(require('compression')());
-    }
   }
 
-  serve(middleware) {
+  serve(fastbootMiddleware) {
     let app = this.app;
     let username = this.username;
     let password = this.password;
+
+    this.preFastbootMiddlewares.forEach(args => app.use(...args));
+
+    if (this.gzip) {
+      this.app.use(require('compression')());
+    }
 
     if (username !== undefined || password !== undefined) {
       this.ui.writeLine(`adding basic auth; username=${username}; password=${password}`);
@@ -35,14 +40,16 @@ class ExpressHTTPServer {
     }
 
     if (this.distPath) {
-      app.get('/', middleware);
+      app.get('/', fastbootMiddleware);
       app.use(express.static(this.distPath));
       app.get('/assets/*', function(req, res) {
         res.sendStatus(404);
       });
     }
 
-    app.get('/*', middleware);
+    app.get('/*', fastbootMiddleware);
+
+    this.postFastbootMiddlewares.forEach(args => app.use(...args));
 
     return new Promise(resolve => {
       let listener = app.listen(process.env.PORT || 3000, () => {
