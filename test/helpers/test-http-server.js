@@ -21,6 +21,13 @@ class TestHTTPServer {
 
     app.get('/*', this.middleware);
 
+    if (options.errorHandling) {
+      app.use((err, req, res, next) => {
+        res.set('x-test-error', 'error handler called');
+        next();
+      });
+    }
+
     return new Promise((resolve, reject) => {
       let port = options.port || 3000;
       let host = options.host || 'localhost';
@@ -42,9 +49,17 @@ class TestHTTPServer {
     });
   }
 
-  request(urlPath) {
+  request(urlPath, options) {
     let info = this.info;
     let url = 'http://[' + info.host + ']:' + info.port;
+
+    if (options && options.resolveWithFullResponse) {
+      return request({
+        resolveWithFullResponse: options.resolveWithFullResponse,
+        uri: url + urlPath
+      });
+    }
+
     return request(url + urlPath);
   }
 
