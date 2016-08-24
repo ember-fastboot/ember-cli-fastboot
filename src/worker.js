@@ -11,15 +11,17 @@ class Worker {
     this.ui = options.ui;
     this.cache = options.cache;
     this.gzip = options.gzip;
-    this.preFastbootMiddlewares = options.preFastbootMiddlewares;
-    this.postFastbootMiddlewares = options.postFastbootMiddlewares;
+    this.beforeMiddleware = options.beforeMiddleware;
+    this.afterMiddleware = options.afterMiddleware;
 
     if (!this.httpServer) {
       this.httpServer = new ExpressHTTPServer({
         ui: this.ui,
         distPath: this.distPath,
         cache: this.cache,
-        gzip: this.gzip
+        gzip: this.gzip,
+        beforeMiddleware: this.beforeMiddleware,
+        afterMiddleware: this.afterMiddleware,
       });
     }
 
@@ -60,7 +62,6 @@ class Worker {
   buildMiddleware() {
     this.fastboot = new FastBoot({
       distPath: this.distPath,
-      resilient: true
     });
 
     return fastbootMiddleware({

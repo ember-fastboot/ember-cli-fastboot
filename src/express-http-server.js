@@ -3,6 +3,8 @@
 const express = require('express');
 const basicAuth = require('./basic-auth');
 
+function noop() {}
+
 class ExpressHTTPServer {
   constructor(options) {
     options = options || {};
@@ -13,8 +15,8 @@ class ExpressHTTPServer {
     this.password = options.password;
     this.cache = options.cache;
     this.gzip = options.gzip || false;
-    this.preFastbootMiddlewares = options.preFastbootMiddlewares || [];
-    this.postFastbootMiddlewares = options.postFastbootMiddlewares || [];
+    this.beforeMiddleware = options.beforeMiddleware || noop;
+    this.afterMiddleware = options.afterMiddleware || noop;
 
     this.app = express();
   }
@@ -24,7 +26,7 @@ class ExpressHTTPServer {
     let username = this.username;
     let password = this.password;
 
-    this.preFastbootMiddlewares.forEach(args => app.use(...args));
+    this.beforeMiddleware(app);
 
     if (this.gzip) {
       this.app.use(require('compression')());
@@ -49,7 +51,7 @@ class ExpressHTTPServer {
 
     app.get('/*', fastbootMiddleware);
 
-    this.postFastbootMiddlewares.forEach(args => app.use(...args));
+    this.afterMiddleware(app);
 
     return new Promise(resolve => {
       let listener = app.listen(process.env.PORT || 3000, () => {
