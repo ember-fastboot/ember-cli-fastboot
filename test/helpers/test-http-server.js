@@ -24,7 +24,15 @@ class TestHTTPServer {
     if (options.errorHandling) {
       app.use((err, req, res, next) => {
         res.set('x-test-error', 'error handler called');
-        next();
+        next(err);
+      });
+    }
+
+    if (options.recoverErrors) {
+      app.use((err, req, res, next) => {
+        res.set('x-test-recovery', 'recovered response');
+        res.status(200);
+        res.send('hello world');
       });
     }
 
