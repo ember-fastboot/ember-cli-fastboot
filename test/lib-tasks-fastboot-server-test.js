@@ -60,6 +60,12 @@ describe('fastboot server task', function() {
       addon.emit('postBuild');
       expect(restartStub.called).to.be.ok;
     });
+
+    it('calls restart immediately when --build=false', function() {
+      const restartStub = this.sinon.stub(task, 'restart');
+      task.run(new CommandOptions({ build: false }));
+      expect(restartStub.called).to.be.ok;
+    });
   });
 
   describe('restart', function() {
