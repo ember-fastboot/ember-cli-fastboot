@@ -55,16 +55,16 @@ describe('fastboot server task', function() {
 
   describe('run', function() {
     it('calls restart on postBuild', function() {
-      const startStub = this.sinon.stub(task, 'start');
+      const restartStub = this.sinon.stub(task, 'restart');
       task.run(options);
       addon.emit('postBuild');
-      expect(startStub.called).to.be.ok;
+      expect(restartStub.called).to.be.ok;
     });
 
     it('calls start immediately when --build=false', function() {
-      const restartStub = this.sinon.stub(task, 'restart');
+      const startStub = this.sinon.stub(task, 'start');
       task.run(new CommandOptions({ build: false }));
-      expect(restartStub.called).to.be.ok;
+      expect(startStub.called).to.be.ok;
     });
   });
 
