@@ -61,7 +61,7 @@ describe('fastboot server task', function() {
       expect(restartStub.called).to.be.ok;
     });
 
-    it('calls restart immediately when --build=false', function() {
+    it('calls start immediately when --build=false', function() {
       const restartStub = this.sinon.stub(task, 'restart');
       task.run(new CommandOptions({ build: false }));
       expect(restartStub.called).to.be.ok;
