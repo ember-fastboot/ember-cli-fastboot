@@ -211,3 +211,14 @@ The `subscribe()` method on your notifier is passed a `notify` function.
 If you detect that a new version of your app has been deployed (whether
 via polling or a push notification), call this function to trigger a
 reload.
+
+## Basic Authentication
+
+You can enable Basic Authentication by providing `username` and `password` options:
+
+```js
+let server = new FastBootAppServer({
+  username: 'tomster',
+  password: 'zoey'
+});
+```

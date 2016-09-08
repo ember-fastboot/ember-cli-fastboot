@@ -16,6 +16,8 @@ class FastBootAppServer {
     this.cache = options.cache;
     this.ui = options.ui;
     this.gzip = options.gzip;
+    this.username = options.username;
+    this.password = options.password;
     this.httpServer = options.httpServer;
     this.beforeMiddleware = options.beforeMiddleware;
     this.afterMiddleware = options.afterMiddleware;
@@ -33,6 +35,8 @@ class FastBootAppServer {
         distPath: this.distPath || process.env.FASTBOOT_DIST_PATH,
         cache: this.cache,
         gzip: this.gzip,
+        username: this.username,
+        password: this.password,
         httpServer: this.httpServer,
         beforeMiddleware: this.beforeMiddleware,
         afterMiddleware: this.afterMiddleware
