@@ -1,8 +1,11 @@
 /* jshint node: true */
 'use strict';
 
+var path = require('path');
+
 var EventEmitter = require('events').EventEmitter;
 var mergeTrees = require('broccoli-merge-trees');
+var VersionChecker = require('ember-cli-version-checker');
 
 var patchEmberApp     = require('./lib/ext/patch-ember-app');
 var fastbootAppModule = require('./lib/utilities/fastboot-app-module');
@@ -86,6 +89,19 @@ module.exports = {
 
       return 'return FastBoot.config();';
     }
+  },
+
+  treeForApp: function(defaultTree) {
+    var checker = new VersionChecker(this);
+    var emberVersion = checker.for('ember', 'bower');
+
+    var trees = [defaultTree];
+
+    if (emberVersion.lt('2.9.0-alpha.1')) {
+      trees.push(this.treeGenerator(path.resolve(this.root, 'app-lt-2-9')));
+    }
+
+    return mergeTrees(trees, { overwrite: true });
   },
 
   /**
