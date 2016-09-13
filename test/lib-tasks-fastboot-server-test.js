@@ -61,10 +61,10 @@ describe('fastboot server task', function() {
       expect(restartStub.called).to.be.ok;
     });
 
-    it('calls start immediately when --build=false', function() {
-      const startStub = this.sinon.stub(task, 'start');
+    it('calls restart immediately when --build=false', function() {
+      const restartStub = this.sinon.stub(task, 'restart');
       task.run(new CommandOptions({ build: false }));
-      expect(startStub.called).to.be.ok;
+      expect(restartStub.called).to.be.ok;
     });
   });
 
