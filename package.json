@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-fastboot",
-  "version": "1.0.0-beta.8",
+  "version": "1.0.0-beta.9",
   "description": "Server-side rendering for Ember.js apps",
   "directories": {
     "doc": "doc",
@@ -67,9 +67,11 @@
     "broccoli-merge-trees": "^1.1.1",
     "broccoli-plugin": "^1.2.1",
     "broccoli-stew": "^1.2.0",
+    "compression": "^1.6.2",
     "core-object": "^2.0.5",
     "debug": "^2.2.0",
     "ember-cli-babel": "^5.1.5",
+    "ember-cli-version-checker": "^1.1.6",
     "ember-test-helpers": "^0.5.22",
     "express": "^4.8.5",
     "fastboot-express-middleware": "1.0.0-beta.8",
