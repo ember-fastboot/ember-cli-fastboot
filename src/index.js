@@ -36,32 +36,32 @@ function fastbootExpressMiddleware(distPath, options) {
       result.html()
         .then(html => {
           let headers = result.headers;
+          let statusMessage = result.error ? 'NOT OK ' : 'OK ';
 
           for (var pair of headers.entries()) {
             res.set(pair[0], pair[1]);
           }
 
-          log(result.statusCode, 'OK ' + path);
+          if (result.error) {
+            log("RESILIENT MODE CAUGHT:", result.error.stack);
+            next(result.error);
+          }
+
+          log(result.statusCode, statusMessage + path);
           res.status(result.statusCode);
           res.send(html);
         })
         .catch(error => {
-          console.log(error.stack);
-          res.sendStatus(500);
+          res.status(500);
+          next(error);
         });
     }
 
     function failure(error) {
-      if (error.name === "UnrecognizedURLError") {
-        next();
-      } else {
-        log(500, "Unknown Error: " + error.stack);
-        if (error.stack) {
-          res.status(500).send(error.stack);
-        } else {
-          res.sendStatus(500);
-        }
+      if (error.name !== "UnrecognizedURLError") {
+        res.status(500);
       }
+      next(error);
     }
   };
 }

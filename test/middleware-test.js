@@ -65,20 +65,6 @@ describe("FastBoot", function() {
       });
   });
 
-  it("renders an empty page if the resilient flag is set", function() {
-    let middleware = fastbootMiddleware({
-      distPath: fixture('rejected-promise'),
-      resilient: true
-    });
-    server = new TestHTTPServer(middleware);
-
-    return server.start()
-      .then(() => server.request('/'))
-      .then(html => {
-        expect(html).to.not.match(/error/);
-      });
-  });
-
   it("can be provided with a custom FastBoot instance", function() {
     let fastboot = new FastBoot({
       distPath: fixture('basic-app')
@@ -133,4 +119,103 @@ describe("FastBoot", function() {
         });
     }
   });
+
+  describe('when reslient mode is enabled', function () {
+    it("renders no FastBoot markup", function() {
+      let middleware = fastbootMiddleware({
+        distPath: fixture('rejected-promise'),
+        resilient: true
+      });
+      server = new TestHTTPServer(middleware);
+
+      return server.start()
+        .then(() => server.request('/'))
+        .then(html => {
+          expect(html).to.not.match(/error/);
+        });
+    });
+
+    it("propagates to error handling middleware", function() {
+      let middleware = fastbootMiddleware({
+        distPath: fixture('rejected-promise'),
+        resilient: true
+      });
+      server = new TestHTTPServer(middleware, { errorHandling: true });
+
+      return server.start()
+        .then(() => server.request('/', { resolveWithFullResponse: true }))
+        .then(({ body, statusCode, headers }) => {
+          expect(statusCode).to.equal(200);
+          expect(headers['x-test-error']).to.match(/error handler called/);
+          expect(body).to.match(/hello world/);
+        });
+    });
+
+    it("is does not propagate errors when and there is no error handling middleware", function() {
+      let middleware = fastbootMiddleware({
+        distPath: fixture('rejected-promise'),
+        resilient: true,
+      });
+      server = new TestHTTPServer(middleware, { errorHandling: false });
+
+      return server.start()
+        .then(() => server.request('/', { resolveWithFullResponse: true }))
+        .then(({ body, statusCode, headers }) => {
+          expect(statusCode).to.equal(200);
+          expect(headers['x-test-error']).to.not.match(/error handler called/);
+          expect(body).to.not.match(/error/);
+          expect(body).to.match(/hello world/);
+        });
+    });
+
+    it("allows post-fastboot middleware to recover the response when it fails", function() {
+      let middleware = fastbootMiddleware({
+        distPath: fixture('rejected-promise'),
+        resilient: true
+      });
+      server = new TestHTTPServer(middleware, { recoverErrors: true });
+
+      return server.start()
+        .then(() => server.request('/', { resolveWithFullResponse: true }))
+        .then(({ body, statusCode, headers }) => {
+          expect(statusCode).to.equal(200);
+          expect(headers['x-test-recovery']).to.match(/recovered response/);
+          expect(body).to.match(/hello world/);
+        });
+    });
+  });
+
+  describe('when reslient mode is disabled', function () {
+    it("propagates to error handling middleware", function() {
+      let middleware = fastbootMiddleware({
+        distPath: fixture('rejected-promise'),
+        resilient: false,
+      });
+      server = new TestHTTPServer(middleware, { errorHandling: true });
+
+      return server.start()
+        .then(() => server.request('/', { resolveWithFullResponse: true }))
+        .catch(({ statusCode, response: { headers } }) => {
+          expect(statusCode).to.equal(500);
+          expect(headers['x-test-error']).to.match(/error handler called/);
+        });
+    });
+
+    it("allows post-fastboot middleware to recover the response when it fails", function() {
+      let middleware = fastbootMiddleware({
+        distPath: fixture('rejected-promise'),
+        resilient: false
+      });
+      server = new TestHTTPServer(middleware, { recoverErrors: true });
+
+      return server.start()
+        .then(() => server.request('/', { resolveWithFullResponse: true }))
+        .then(({ body, statusCode, headers }) => {
+          expect(statusCode).to.equal(200);
+          expect(headers['x-test-recovery']).to.match(/recovered response/);
+          expect(body).to.match(/hello world/);
+        });
+    });
+  });
+
 });

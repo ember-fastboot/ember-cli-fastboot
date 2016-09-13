@@ -49,7 +49,7 @@ provide to the middleware to specify which Ember app to load and render.
 
 By default, errors during render will cause the middleware to send an
 HTTP 500 status code as the response. In order to swallow errors and
-return a `200 OK` with an empty HTML page, set the `resilient` flag to
+return a `200` status code  with an empty HTML page, set the `resilient` flag to
 true:
 
 ```js
@@ -57,6 +57,13 @@ app.get('/*', fastbootMiddleware('/path/to/dist', {
   resilient: true
 }));
 ```
+
+Resilient mode still calls `next(err)` to propagate your error to any subsequent
+middleware that you apply after this one.
+You can use this feature to track errors or log analytics.
+
+However, because FastBoot is reslient still sends the response to the client.
+***You cannot alter the `response`*** with any of your post-fastboot middleware.
 
 ## Custom FastBoot Instance
 
