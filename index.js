@@ -136,6 +136,10 @@ module.exports = {
     return fastbootBuild.toTree();
   },
 
+  outputReady: function() {
+    this.emit('outputReady');
+  },
+
   postBuild: function() {
     this.emit('postBuild');
   },
@@ -151,5 +155,4 @@ module.exports = {
     
     return checker.for('ember', 'bower');
   },
-
 };

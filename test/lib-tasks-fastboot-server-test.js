@@ -54,101 +54,33 @@ describe('fastboot server task', function() {
   });
 
   describe('run', function() {
-    it('calls restart on postBuild', function() {
-      const restartStub = this.sinon.stub(task, 'restart');
+    it('calls restart on outputReady', function() {
+      const restartStub = this.sinon.stub(task, 'outputReady', function() {});
       task.run(options);
-      addon.emit('postBuild');
+      addon.emit('outputReady');
       expect(restartStub.called).to.be.ok;
     });
   });
 
   describe('restart', function() {
-    let restartSpy, stopStub, clearRequireCacheStub, startStub;
+    let fbReloadStub, oldFb;
 
     beforeEach(function() {
-      restartSpy = this.sinon.spy(task, 'restart');
-      stopStub = this.sinon.stub(task, 'stop').returns(RSVP.resolve());
-      clearRequireCacheStub = this.sinon.stub(task, 'clearRequireCache');
-      startStub = this.sinon.stub(task, 'start');
+      oldFb = task.fastboot;
+      fbReloadStub = this.sinon.stub().returns(RSVP.resolve());
+      task.fastboot = {
+        reload: fbReloadStub
+      };
     });
 
-    it('calls stop, clearRequireCache, and start', function() {
-      return task.restart(options).then(() => {
-        expect(restartSpy.callCount).to.equal(1);
-        expect(stopStub.callCount).to.equal(1);
-        expect(clearRequireCacheStub.callCount).to.equal(1);
-        expect(startStub.callCount).to.equal(1);
-      });
+    afterEach(function() {
+      task.fastboot = oldFb;
     });
 
-    it('can restart multiple times', function() {
-      const restartPromise = task.restart(options);
-      return restartPromise
-        .then(() => task.restart(options))
+    it('calls fastboot.reload', function() {
+      return task.restart(options)
         .then(() => {
-          expect(restartSpy.callCount).to.equal(2);
-          expect(stopStub.callCount).to.equal(2);
-          expect(clearRequireCacheStub.callCount).to.equal(2);
-          expect(startStub.callCount).to.equal(2);
-        });
-    });
-
-    // when outputReady while server is starting
-    // (e.g. app file change during server npm install)
-    // - wait on start, then reload
-    // when outputReady multiple times during startup
-    // (e.g. fast app build, slow server npm install)
-    // - call reload only once
-    it('restarts again just once for all calls during startup', function() {
-      const restartPromise = task.restart(options);
-      expect(task.restartPromise).to.equal(restartPromise);
-      expect(task.restartAgain).to.equal(false);
-      task.restart(options);
-      task.restart(options);
-      expect(task.restartPromise).to.equal(restartPromise);
-      expect(task.restartAgain).to.equal(true);
-      return restartPromise
-        .then(() => {
-          expect(task.restartPromise).to.not.equal(restartPromise);
-          expect(task.restartAgain).to.equal(false);
-          return task.restartPromise;
-        })
-        .then(() => {
-          expect(task.restartPromise).to.equal(null);
-          expect(task.restartAgain).to.equal(false);
-          expect(restartSpy.callCount).to.equal(4);
-          expect(stopStub.callCount).to.equal(2);
-          expect(clearRequireCacheStub.callCount).to.equal(2);
-          expect(startStub.callCount).to.equal(2);
-        });
-    });
-
-    it('can restart again after immediate restart completes', function() {
-      const restartPromise = task.restart(options);
-      expect(task.restartPromise).to.equal(restartPromise);
-      expect(task.restartAgain).to.equal(false);
-      task.restart(options);
-      task.restart(options);
-      expect(task.restartPromise).to.equal(restartPromise);
-      expect(task.restartAgain).to.equal(true);
-      return restartPromise
-        .then(() => {
-          expect(task.restartPromise).to.not.equal(restartPromise);
-          expect(task.restartAgain).to.equal(false);
-          return task.restartPromise;
-        })
-        .then(() => {
-          expect(task.restartPromise).to.equal(null);
-          expect(task.restartAgain).to.equal(false);
-          return task.restart(options);
-        })
-        .then(() => {
-          expect(task.restartPromise).to.equal(null);
-          expect(task.restartAgain).to.equal(false);
-          expect(restartSpy.callCount).to.equal(5);
-          expect(stopStub.callCount).to.equal(3);
-          expect(clearRequireCacheStub.callCount).to.equal(3);
-          expect(startStub.callCount).to.equal(3);
+          expect(fbReloadStub.callCount).to.equal(1);
         });
     });
   });
@@ -162,6 +94,7 @@ describe('fastboot server task', function() {
     const mockRequire = (which) => {
       if (which === 'express') { return mockExpress; }
       if (which === 'fastboot-express-middleware') return () => {};
+      if (which === 'fastboot') return function fakeBoot() {};
     };
 
     beforeEach(function() {
@@ -171,21 +104,6 @@ describe('fastboot server task', function() {
       task.require = mockRequire;
       requireSpy = this.sinon.spy(task, 'require');
       useStub = this.sinon.stub(mockApp, 'use');
-    });
-
-    it('runs npm install in server root', function() {
-      return task.start(options)
-        .then(() => {
-          expect(execStub.calledWith('npm install', { cwd: 'dist' })).to.equal(true);
-        });
-    });
-
-    it('requires server dependencies', function() {
-      return task.start(options)
-        .then(() => {
-          expect(requireSpy.calledWith('fastboot-express-middleware')).to.equal(true);
-          expect(requireSpy.calledWith('express')).to.equal(true);
-        });
     });
 
     it('uses express.static when serve-assets=true', function() {
