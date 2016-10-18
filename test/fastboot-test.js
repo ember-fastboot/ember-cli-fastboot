@@ -6,6 +6,7 @@ const path             = require('path');
 const fixture          = require('./helpers/fixture-path');
 const alchemistRequire = require('broccoli-module-alchemist/require');
 const FastBoot         = alchemistRequire('index');
+const CustomSandbox    = require('./fixtures/custom-sandbox/custom-sandbox');
 
 describe("FastBoot", function() {
   it("throws an exception if no distPath is provided", function() {
@@ -88,6 +89,42 @@ describe("FastBoot", function() {
     })
       .catch((e) => {
         expect(e.message).to.equal('App instance was forcefully destroyed in 5ms');
+      });
+  });
+
+  it("can render HTML when sandboxGlobals is provided", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('custom-sandbox'),
+      sandboxGlobals: {
+        foo: 5,
+        najax: 'undefined',
+        myVar: 'undefined'
+      }
+    });
+
+    return fastboot.visit('/foo')
+      .then(r => r.html())
+      .then(html => {
+        expect(html).to.match(/foo from sandbox: 5/);
+        expect(html).to.match(/najax in sandbox: undefined/);
+      });
+  });
+
+  it("can render HTML when sandbox class is provided", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('custom-sandbox'),
+      sandboxClass: CustomSandbox,
+      sandboxGlobals: {
+        myVar: 2,
+        foo: 'undefined',
+        najax: 'undefined'
+      }
+    });
+
+    return fastboot.visit('/foo')
+      .then(r => r.html())
+      .then(html => {
+        expect(html).to.match(/myVar in sandbox: 2/);
       });
   });
 

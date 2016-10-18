@@ -15,13 +15,16 @@ const EmberApp = require('./ember-app');
  *
  * By default, this sandbox is the built-in `VMSandbox` class, which uses
  * Node's `vm` module. You may provide your own sandbox implementation by
- * passing the `sandbox` option.
+ * passing the `sandbox` option or add and/or override sandbox variables by
+ * passing the `addOrOverrideSandboxGlobals` option.
  *
  * @example
  * const FastBoot = require('fastboot');
  *
  * let app = new FastBoot({
- *   distPath: 'path/to/dist'
+ *   distPath: 'path/to/dist',
+ *   sandbox: 'path/to/sandboxClass',
+ *   sandboxGlobals: {...}
  * });
  *
  * app.visit('/photos')
@@ -36,15 +39,17 @@ class FastBoot {
    * @param {string} options.distPath the path to the built Ember application
    * @param {Boolean} [options.resilient=false] if true, errors during rendering won't reject the `visit()` promise but instead resolve to a {@link Result}
    * @param {Sandbox} [options.sandbox=VMSandbox] the sandbox to use
+   * @param {Object} [options.sandboxGlobals={}] any additional sandbox variables that an app server wants to override and/or add in the sandbox
    */
   constructor(options) {
     options = options || {};
 
     this.distPath = options.distPath;
     this.sandbox = options.sandbox;
+    this.sandboxGlobals = options.sandboxGlobals || {};
     this.resilient = !!options.resilient || false;
 
-    this._buildEmberApp(this.distPath);
+    this._buildEmberApp(this.distPath, this.sandbox, this.sandboxGlobals);
   }
 
   /**
@@ -89,7 +94,7 @@ class FastBoot {
     this._buildEmberApp(options ? options.distPath : null);
   }
 
-  _buildEmberApp(distPath) {
+  _buildEmberApp(distPath, sandbox, sandboxGlobals) {
     distPath = distPath || this.distPath;
 
     if (!distPath) {
@@ -104,7 +109,9 @@ class FastBoot {
 
     this.distPath = distPath;
     this._app = new EmberApp({
-      distPath: distPath
+      distPath: distPath,
+      sandbox: sandbox,
+      sandboxGlobals: sandboxGlobals
     });
   }
 
