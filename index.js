@@ -97,7 +97,7 @@ module.exports = {
 
     var trees = [defaultTree];
 
-    if (emberVersion.lt('2.9.0-alpha.1')) {
+    if (emberVersion.lt('2.10.0-alpha.1')) {
       trees.push(this.treeGenerator(path.resolve(this.root, 'app-lt-2-9')));
     }
 
