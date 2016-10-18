@@ -51,7 +51,6 @@
     "fs-promise": "^0.5.0",
     "mocha": "^2.4.5",
     "mocha-jshint": "^2.3.1",
-    "request-promise": "^2.0.1",
     "temp": "^0.8.3"
   }
 }
