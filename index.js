@@ -92,12 +92,9 @@ module.exports = {
   },
 
   treeForApp: function(defaultTree) {
-    var checker = new VersionChecker(this);
-    var emberVersion = checker.for('ember', 'bower');
-
     var trees = [defaultTree];
 
-    if (emberVersion.lt('2.10.0-alpha.1')) {
+    if (this._getEmberVersion().lt('2.10.0-alpha.1')) {
       trees.push(this.treeGenerator(path.resolve(this.root, 'app-lt-2-9')));
     }
 
@@ -141,6 +138,18 @@ module.exports = {
 
   postBuild: function() {
     this.emit('postBuild');
+  },
+
+  _getEmberVersion: function() {
+    var VersionChecker = require('ember-cli-version-checker');
+    var checker = new VersionChecker(this);
+    var emberVersionChecker = checker.for('ember', 'bower');
+
+    if (emberVersionChecker.version) {
+      return emberVersionChecker;
+    }
+
+    return checker.for('ember-source', 'npm');
   },
 
 };
