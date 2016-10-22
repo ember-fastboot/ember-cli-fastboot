@@ -103,6 +103,22 @@ let server = new FastBootAppServer({
 server.start();
 ```
 
+## Pre and Post FastBoot middleware hooks
+
+If you need something less than a custom server and just want to run some middleware
+before or after FastBoot runs, the server provides hooks for you to do so:
+
+```js
+// Custom Middlewares
+function modifyRequest(req, res, next) { /* do pre-fastboot stuff to `req` */ };
+function handleErrors(err, req, res, next) { /* do error recovery stuff */ };
+
+const server = FastBootAppServer({
+  beforeMiddleware: function (app) { app.use(modifyRequest); },
+  afterMiddleware: function (app) { app.use(handleErrors); }
+})
+```
+
 ## Downloaders
 
 You can point the app server at a static path that you manage, but that
@@ -191,7 +207,7 @@ following interface:
 
 #### `subscribe(notify)`
 
-The `subscribe()` method ony our notifier is passed a `notify` function.
+The `subscribe()` method on your notifier is passed a `notify` function.
 If you detect that a new version of your app has been deployed (whether
 via polling or a push notification), call this function to trigger a
 reload.

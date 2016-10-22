@@ -3,6 +3,8 @@
 const express = require('express');
 const basicAuth = require('./basic-auth');
 
+function noop() {}
+
 class ExpressHTTPServer {
   constructor(options) {
     options = options || {};
@@ -13,17 +15,22 @@ class ExpressHTTPServer {
     this.password = options.password;
     this.cache = options.cache;
     this.gzip = options.gzip || false;
+    this.beforeMiddleware = options.beforeMiddleware || noop;
+    this.afterMiddleware = options.afterMiddleware || noop;
 
     this.app = express();
-    if (options.gzip) {
-      this.app.use(require('compression')());
-    }
   }
 
-  serve(middleware) {
+  serve(fastbootMiddleware) {
     let app = this.app;
     let username = this.username;
     let password = this.password;
+
+    this.beforeMiddleware(app);
+
+    if (this.gzip) {
+      this.app.use(require('compression')());
+    }
 
     if (username !== undefined || password !== undefined) {
       this.ui.writeLine(`adding basic auth; username=${username}; password=${password}`);
@@ -35,14 +42,16 @@ class ExpressHTTPServer {
     }
 
     if (this.distPath) {
-      app.get('/', middleware);
+      app.get('/', fastbootMiddleware);
       app.use(express.static(this.distPath));
       app.get('/assets/*', function(req, res) {
         res.sendStatus(404);
       });
     }
 
-    app.get('/*', middleware);
+    app.get('/*', fastbootMiddleware);
+
+    this.afterMiddleware(app);
 
     return new Promise(resolve => {
       let listener = app.listen(process.env.PORT || 3000, () => {

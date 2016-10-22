@@ -15,8 +15,10 @@ class FastBootAppServer {
     this.notifier = options.notifier;
     this.cache = options.cache;
     this.ui = options.ui;
-    this.gzip = options.gzip || false;
+    this.gzip = options.gzip;
     this.httpServer = options.httpServer;
+    this.beforeMiddleware = options.beforeMiddleware;
+    this.afterMiddleware = options.afterMiddleware;
 
     if (!this.ui) {
       let UI = require('./ui');
@@ -31,7 +33,9 @@ class FastBootAppServer {
         distPath: this.distPath || process.env.FASTBOOT_DIST_PATH,
         cache: this.cache,
         gzip: this.gzip,
-        httpServer: this.httpServer
+        httpServer: this.httpServer,
+        beforeMiddleware: this.beforeMiddleware,
+        afterMiddleware: this.afterMiddleware
       });
 
       this.worker.start();
