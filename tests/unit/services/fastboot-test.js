@@ -16,3 +16,8 @@ test('response', function(assert) {
   let service = this.subject();
   assert.equal(service.get('response'), null, `it should be null`);
 });
+
+test('metadata', function(assert) {
+  let service = this.subject();
+  assert.equal(service.get('metadata'), null, `it should be null`);
+});
