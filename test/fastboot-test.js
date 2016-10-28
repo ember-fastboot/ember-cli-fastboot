@@ -3,8 +3,7 @@
 const expect           = require('chai').expect;
 const fs               = require('fs');
 const path             = require('path');
-const request          = require('request-promise');
-const TestHTTPServer   = require('./helpers/test-http-server');
+const fixture          = require('./helpers/fixture-path');
 const alchemistRequire = require('broccoli-module-alchemist/require');
 const FastBoot         = alchemistRequire('index');
 
@@ -51,12 +50,64 @@ describe("FastBoot", function() {
       });
   });
 
+  it("cannot not render app HTML with shouldRender set as false", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('basic-app')
+    });
+
+    return fastboot.visit('/', {
+      shouldRender: false
+    })
+      .then(r => r.html())
+      .then(html => {
+        expect(html).to.not.match(/Welcome to Ember/);
+      });
+  });
+
+  it("can serialize the head and body", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('basic-app')
+    });
+
+    return fastboot.visit('/')
+      .then((r) => {
+        let contents = r.domContents();
+
+        expect(contents.head).to.equal('');
+        expect(contents.body).to.match(/Welcome to Ember/);
+      });
+  });
+
+  it("can forcefully destroy the app instance using destroyAppInstanceInMs", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('basic-app')
+    });
+
+    return fastboot.visit('/', {
+      destroyAppInstanceInMs: 5
+    })
+      .catch((e) => {
+        expect(e.message).to.equal('App instance was forcefully destroyed in 5ms');
+      });
+  });
+
   it("rejects the promise if an error occurs", function() {
     var fastboot = new FastBoot({
       distPath: fixture('rejected-promise')
     });
 
     return expect(fastboot.visit('/')).to.be.rejected;
+  });
+
+  it("catches the error if an error occurs", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('rejected-promise')
+    });
+
+    fastboot.visit('/')
+      .catch(function(err) {
+        return expect(err).to.be.not.null;
+      });
   });
 
   it("renders an empty page if the resilient flag is set", function() {
@@ -188,7 +239,3 @@ describe("FastBoot", function() {
   });
 
 });
-
-function fixture(fixtureName) {
-  return path.join(__dirname, '/fixtures/', fixtureName);
-}

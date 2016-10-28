@@ -56,6 +56,10 @@ class FastBoot {
    * @param {Object} options
    * @param {Boolean} [options.resilient] whether to reject the returned promise if there is an error during rendering. Overrides the instance's `resilient` setting
    * @param {string} [options.html] the HTML document to insert the rendered app into. Uses the built app's index.html by default.
+   * @param {Object} [options.metadata] per request meta data that need to be exposed in the app.
+   * @param {Boolean} [options.shouldRender] whether the app should do rendering or not. If set to false, it puts the app in routing-only.
+   * @param {Boolean} [options.disableShoebox] whether we should send the API data in the shoebox. If set to false, it will not send the API data used for rendering the app on server side in the index.html.
+   * @param {Integer} [options.destroyAppInstanceInMs] whether to destroy the instance in the given number of ms. This is a failure mechanism to not wedge the Node process (See: https://github.com/ember-fastboot/fastboot/issues/90)
    * @returns {Promise<Result>} result
    */
   visit(path, options) {
