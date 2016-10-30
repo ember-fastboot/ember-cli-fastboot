@@ -123,13 +123,10 @@ class EmberApp {
   /**
    * @private
    *
-   * Initializes the sandbox by evaluating the Ember app's JavaScript
-   * code, then retrieves the application factory from the sandbox and creates a new
-   * `Ember.Application`.
+   * Loads the app and vendor files in the sandbox (Node vm).
    *
-   * @returns {Ember.Application} the Ember application from the sandbox
-   */
-  retrieveSandboxedApp() {
+  */
+  loadAppFiles() {
     let sandbox = this.sandbox;
     let appFilePath = this.appFilePath;
     let vendorFilePath = this.vendorFilePath;
@@ -146,6 +143,17 @@ class EmberApp {
 
     sandbox.eval(appFile, appFilePath);
     debug("app file evaluated");
+  }
+
+  /**
+   * @private
+   *
+   * Create the ember application in the sandbox.
+   *
+   */
+  createEmberApp() {
+    let sandbox = this.sandbox;
+    let appFilePath = this.appFilePath;
 
     // Retrieve the application factory from within the sandbox
     let AppFactory = sandbox.run(function(ctx) {
@@ -159,6 +167,21 @@ class EmberApp {
 
     // Otherwise, return a new `Ember.Application` instance
     return AppFactory['default']();
+  }
+
+  /**
+   * @private
+   *
+   * Initializes the sandbox by evaluating the Ember app's JavaScript
+   * code, then retrieves the application factory from the sandbox and creates a new
+   * `Ember.Application`.
+   *
+   * @returns {Ember.Application} the Ember application from the sandbox
+   */
+  retrieveSandboxedApp() {
+    this.loadAppFiles();
+
+    return this.createEmberApp();
   }
 
   /**
@@ -184,6 +207,39 @@ class EmberApp {
       debug('building instance');
       return app.buildInstance();
     });
+  }
+
+  /**
+   * @private
+   *
+   * Main funtion that creates the app instance for every `visit` request, boots
+   * the app instance and then visits the given route and destroys the app instance
+   * when the route is finished its render cycle.
+   *
+   * @param {string} path the URL path to render, like `/photos/1`
+   * @param {Object} fastbootInfo An object holding per request info
+   * @param {Object} bootOptions An object containing the boot options that are used by
+   *                             by ember to decide whether it needs to do rendering or not.
+   * @param {Object} result
+   * @return {Promise<instance>} instance
+   */
+  visitRoute(path, fastbootInfo, bootOptions, result) {
+    let instance;
+
+    return this.buildAppInstance()
+      .then(appInstance => {
+        instance = appInstance;
+        result.instance = instance;
+        registerFastBootInfo(fastbootInfo, instance);
+
+        return instance.boot(bootOptions);
+      })
+      .then(() => result.instanceBooted = true)
+      .then(() => instance.visit(path, bootOptions))
+      .then(() => waitForApp(instance))
+      .then(() => {
+        return instance;
+      });
   }
 
   /**
@@ -225,8 +281,6 @@ class EmberApp {
 
     let doc = bootOptions.document;
 
-    let instance;
-
     let result = new Result({
       doc: doc,
       html: html,
@@ -246,17 +300,11 @@ class EmberApp {
       }, destroyAppInstanceInMs);
     }
 
-    return this.buildAppInstance()
+    let instance;
+    return this.visitRoute(path, fastbootInfo, bootOptions, result)
       .then(appInstance => {
         instance = appInstance;
-        result.instance = instance;
-        registerFastBootInfo(fastbootInfo, instance);
-
-        return instance.boot(bootOptions);
       })
-      .then(() => result.instanceBooted = true)
-      .then(() => instance.visit(path, bootOptions))
-      .then(() => waitForApp(instance))
       .then(() => {
         if (!disableShoebox) {
           // if shoebox is not disabled, then create the shoebox and send API data

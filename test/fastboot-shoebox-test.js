@@ -66,5 +66,4 @@ describe("FastBootShoebox", function() {
         expect(html).to.not.include('<script type="fastboot/shoebox" id="shoebox-key5">{"otherUnicodeChars":"\\u0026\\u0026\\u003e\\u003e\\u003c\\u003c\\u2028\\u2028\\u2029\\u2029"}</script>');
       });
   });
-
 });
