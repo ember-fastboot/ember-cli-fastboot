@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "test": "mocha",
-    "build": "rm -rf dist && broccoli build dist",
+    "prebuild": "rimraf dist",
+    "build": "broccoli build dist",
     "preversion": "npm test",
     "prepublish": "npm run build",
     "postinstall": "broccoli-module-alchemist-install",
@@ -51,6 +52,7 @@
     "fs-promise": "^0.5.0",
     "mocha": "^2.4.5",
     "mocha-jshint": "^2.3.1",
+    "rimraf": "^2.5.4",
     "temp": "^0.8.3"
   }
 }
