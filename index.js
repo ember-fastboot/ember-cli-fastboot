@@ -2,6 +2,7 @@
 'use strict';
 
 var path = require('path');
+var fs = require('fs');
 
 var EventEmitter = require('events').EventEmitter;
 var mergeTrees = require('broccoli-merge-trees');
@@ -55,12 +56,6 @@ module.exports = {
     patchEmberApp(app);
   },
 
-  config: function() {
-    if (this.app && this.app.options.__is_building_fastboot__) {
-      return { APP: { autoboot: false } };
-    }
-  },
-
   /**
    * Inserts placeholders into index.html that are used by the FastBoot server
    * to insert the rendered content into the right spot. Also injects a module
@@ -79,15 +74,18 @@ module.exports = {
       return fastbootAppModule(config.modulePrefix);
     }
 
-    if (type === 'config-module' && this.app.options.__is_building_fastboot__) {
-      var linesToRemove = contents.length;
-      while(linesToRemove) {
-        // Clear out the default config from ember-cli
-        contents.pop();
-        linesToRemove--;
-      }
-
-      return 'return FastBoot.config();';
+    // if the fastboot addon is installed, we overwrite the config-module so that the config can be read
+    // from meta tag for browser build and from Fastboot config for fastboot target
+    if (type === 'config-module') {
+      var emberCliPath = path.join(this.app.project.nodeModulesPath, 'ember-cli');
+      contents.splice(0, contents.length);
+      contents.push('if (typeof FastBoot !== \'undefined\') {');
+      contents.push('return FastBoot.config();');
+      contents.push('} else {');
+      contents.push('var prefix = \'' + config.modulePrefix + '\';');
+      contents.push(fs.readFileSync(path.join(emberCliPath, 'lib/broccoli/app-config-from-meta.js')));
+      contents.push('}');
+      return;
     }
   },
 
