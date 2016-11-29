@@ -143,13 +143,13 @@ module.exports = {
   _getEmberVersion: function() {
     var VersionChecker = require('ember-cli-version-checker');
     var checker = new VersionChecker(this);
-    var emberVersionChecker = checker.for('ember', 'bower');
+    var emberVersionChecker = checker.for('ember-source', 'npm');
 
     if (emberVersionChecker.version) {
       return emberVersionChecker;
     }
-
-    return checker.for('ember-source', 'npm');
+    
+    return checker.for('ember', 'bower');
   },
 
 };
