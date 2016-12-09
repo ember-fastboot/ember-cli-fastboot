@@ -1,5 +1,6 @@
 /* globals najax */
 import Ember from 'ember';
+import 'ember-cli-fastboot/versions';
 
 const { get } = Ember;
 
