@@ -329,7 +329,7 @@ export default Ember.Route.extend({
         shoeboxStore[post.id] = post.toJSON();
       });
     } else {
-      return shoeboxStore && shoeboxStore.retrieve(params.post_id);
+      return shoeboxStore && shoeboxStore[params.post_id];
     }
   }
 });
