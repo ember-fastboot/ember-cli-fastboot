@@ -2,9 +2,12 @@
 'use strict';
 
 var path = require('path');
+var fs = require('fs');
 
 var EventEmitter = require('events').EventEmitter;
+var getGitInfo = require('git-repo-info');
 var mergeTrees = require('broccoli-merge-trees');
+var replace = require('broccoli-string-replace');
 var VersionChecker = require('ember-cli-version-checker');
 
 var patchEmberApp     = require('./lib/ext/patch-ember-app');
@@ -124,6 +127,26 @@ module.exports = {
     return tree;
   },
 
+  treeForAddon: function() {
+    var tree = this._super.treeForAddon.apply(this, arguments);
+
+    var replaceVersions = replace(tree, {
+      files: ['modules/ember-cli-fastboot/versions.js'],
+      patterns: [
+        {
+          match: /EMBER_CLI_FASTBOOT_VERSION/g,
+          replacement: this._getEmberCliFastBootVersion()
+        },
+        {
+          match: /FASTBOOT_VERSION/g,
+          replacement: this._getFastBootVersion()
+        }
+      ]
+    });
+
+    return replaceVersions;
+  },
+
   buildFastBootTree: function() {
     var fastbootBuild = new FastBootBuild({
       ui: this.ui,
@@ -140,6 +163,33 @@ module.exports = {
     this.emit('postBuild');
   },
 
+  _getFastBootVersion: function() {
+    var VersionChecker = require('ember-cli-version-checker');
+    var checker = new VersionChecker(this);
+    var fastbootVersionChecker = checker.for('fastboot', 'npm');
+
+    return fastbootVersionChecker.version;
+  },
+
+  _getEmberCliFastBootVersion: function() {
+    var projectPath = process.cwd() + '/node_modules/ember-cli-fastboot';
+    var packageVersion  = require(path.join(projectPath, 'package.json')).version;
+
+    if (!fs.existsSync(projectPath + '/.git')) {
+      return packageVersion;
+    } else {
+      var info = getGitInfo(projectPath);
+      if (info.tag) {
+        return info.tag.replace(/^v/, '');
+      }
+
+      var sha = info.sha || '';
+      var prefix = packageVersion + '-' + (process.env.BUILD_TYPE || info.branch || process.env.TRAVIS_BRANCH);
+
+      return prefix + '+' + sha.slice(0, 8);
+    }
+  },
+
   _getEmberVersion: function() {
     var VersionChecker = require('ember-cli-version-checker');
     var checker = new VersionChecker(this);
@@ -148,7 +198,7 @@ module.exports = {
     if (emberVersionChecker.version) {
       return emberVersionChecker;
     }
-    
+
     return checker.for('ember', 'bower');
   },
 

@@ -20,6 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.0",
+    "broccoli-string-replace": "^0.1.1",
     "chai": "^2.2.0",
     "chai-fs": "peterkc/chai-fs#31deec5232297e2887a2ffb39b9081364c8e78e1",
     "chalk": "^1.1.1",
@@ -44,6 +45,7 @@
     "exists-sync": "0.0.3",
     "fs-extra": "^0.24.0",
     "fs-promise": "^0.3.1",
+    "get-git-info": "^1.0.0",
     "glob": "^7.0.0",
     "loader.js": "^4.0.1",
     "mocha": "^2.2.4",
