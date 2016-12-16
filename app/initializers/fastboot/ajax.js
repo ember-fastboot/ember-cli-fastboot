@@ -18,7 +18,11 @@ var nodeAjax = function(options) {
     }
   }
 
-  najax(options);
+  if (najax) {
+    najax(options);
+  } else {
+    throw new Error('najax does not seem to be defined in your app. Did you override it via `addOrOverrideSandboxGlobals` in the fastboot server?');
+  }
 };
 
 export default {

@@ -60,7 +60,7 @@ const Shoebox = Ember.Object.extend({
   }
 });
 
-export default Ember.Service.extend({
+const FastBootService = Ember.Service.extend({
   cookies: deprecatingAlias('request.cookies', { id: 'fastboot.cookies-to-request', until: '0.9.9' }),
   headers: deprecatingAlias('request.headers', { id: 'fastboot.headers-to-request', until: '0.9.9' }),
 
@@ -82,14 +82,11 @@ export default Ember.Service.extend({
   }),
 
   response: readOnly('_fastbootInfo.response'),
+  metadata: readOnly('_fastbootInfo.metadata'),
 
   request: computed(function() {
-    if (!get(this, 'isFastBoot')) return null;
+    if (!this.isFastBoot) return null;
     return RequestObject.create({ request: get(this, '_fastbootInfo.request') });
-  }),
-
-  isFastBoot: computed(function() {
-    return typeof FastBoot !== 'undefined';
   }),
 
   deferRendering(promise) {
@@ -97,3 +94,11 @@ export default Ember.Service.extend({
     this._fastbootInfo.deferRendering(promise);
   }
 });
+
+Object.defineProperty(FastBootService.proto(), 'isFastBoot', {
+  writable: false,
+  enumerable: true,
+  value: typeof FastBoot !== 'undefined'
+});
+
+export default FastBootService;
