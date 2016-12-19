@@ -11,6 +11,8 @@ class Worker {
     this.ui = options.ui;
     this.cache = options.cache;
     this.gzip = options.gzip;
+    this.username = options.username;
+    this.password = options.password;
     this.beforeMiddleware = options.beforeMiddleware;
     this.afterMiddleware = options.afterMiddleware;
 
@@ -20,6 +22,8 @@ class Worker {
         distPath: this.distPath,
         cache: this.cache,
         gzip: this.gzip,
+        username: this.username,
+        password: this.password,
         beforeMiddleware: this.beforeMiddleware,
         afterMiddleware: this.afterMiddleware,
       });

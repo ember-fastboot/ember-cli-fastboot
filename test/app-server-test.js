@@ -86,7 +86,21 @@ describe("FastBootAppServer", function() {
       .then(response => {
         expect(response.body).to.not.match(/error/);
         expect(response.headers['x-test-header']).to.equal('testing');
+      });
+  });
+
+  it("returns a 401 status code for non-authenticated request", function() {
+    return runServer('auth-app-server')
+      .then(() => request('http://localhost:3000/'))
+      .then(response => {
+        expect(response.statusCode).to.equal(401);
+        expect(response.headers['www-authenticate']).equal('Basic realm=Authorization Required');
       })
+      .then(() => request({ uri: 'http://localhost:3000/', headers: { 'Authorization': 'Basic dG9tc3Rlcjp6b2V5'  }}))
+      .then(response => {
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.contain('Welcome to Ember');
+      });
   });
 
 });
