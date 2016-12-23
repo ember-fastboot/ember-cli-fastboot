@@ -1,17 +1,7 @@
 {
   "name": "ember-cli-fastboot",
   "dependencies": {
-    "jquery": "^1.11.1",
-    "ember": "canary",
-    "ember-data": "canary",
-    "ember-resolver": "~0.1.12",
-    "ember-cli-shims": "0.1.0",
-    "ember-cli-test-loader": "0.2.2",
-    "ember-qunit": "0.2.8",
-    "ember-qunit-notifications": "0.0.7",
-    "qunit": "~1.17.1"
-  },
-  "resolutions": {
-    "ember": "canary"
+    "ember": "~2.10.0",
+    "ember-cli-shims": "0.1.3"
   }
 }
