@@ -26,7 +26,7 @@ describe('FastBootLocation', function () {
 
   it('should NOT redirect when no transition is called', function () {
     return get({
-      url: 'http://localhost:49741/test-passed',
+      url: 'http://localhost:49741/my-root/test-passed',
       followRedirect: false
     })
     .then(function (response) {
@@ -35,7 +35,7 @@ describe('FastBootLocation', function () {
 
       expect(response.headers).to.not.include.keys('location');
       expect(response.headers).to.include.keys('x-fastboot-path');
-      expect(response.headers['x-fastboot-path']).to.equal('/test-passed');
+      expect(response.headers['x-fastboot-path']).to.equal('/my-root/test-passed');
 
       expect(response.body).to.contain('The Test Passed!');
     });
@@ -43,7 +43,7 @@ describe('FastBootLocation', function () {
 
   it('should NOT redirect when intermediateTransitionTo is called', function () {
     return get({
-      url: 'http://localhost:49741/redirect-on-intermediate-transition-to',
+      url: 'http://localhost:49741/my-root/redirect-on-intermediate-transition-to',
       followRedirect: false
     })
     .then(function (response) {
@@ -52,7 +52,7 @@ describe('FastBootLocation', function () {
 
       expect(response.headers).to.not.include.keys('location');
       expect(response.headers).to.include.keys('x-fastboot-path');
-      expect(response.headers['x-fastboot-path']).to.equal('/redirect-on-intermediate-transition-to');
+      expect(response.headers['x-fastboot-path']).to.equal('/my-root/redirect-on-intermediate-transition-to');
 
       expect(response.body).to.not.contain('Welcome to Ember');
       expect(response.body).to.not.contain('The Test Passed!');
@@ -61,7 +61,7 @@ describe('FastBootLocation', function () {
 
   it('should redirect when transitionTo is called', function () {
     return get({
-      url: 'http://localhost:49741/redirect-on-transition-to',
+      url: 'http://localhost:49741/my-root/redirect-on-transition-to',
       followRedirect: false
     })
     .then(function (response) {
@@ -80,7 +80,7 @@ describe('FastBootLocation', function () {
 
   it('should redirect when replaceWith is called', function () {
     return get({
-      url: 'http://localhost:49741/redirect-on-replace-with',
+      url: 'http://localhost:49741/my-root/redirect-on-replace-with',
       followRedirect: false
     })
     .then(function (response) {
