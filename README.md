@@ -1,5 +1,7 @@
 # Ember FastBoot
 
+[![npm version](https://badge.fury.io/js/ember-cli-fastboot.svg)](https://badge.fury.io/js/ember-cli-fastboot)
+
 An Ember CLI addon that allows you to render and serve Ember.js apps on
 the server. Using FastBoot, you can serve rendered HTML to browsers and
 other clients without requiring them to download JavaScript assets.
