@@ -75,7 +75,6 @@
     "request": "^2.55.0",
     "sinon": "^1.17.4",
     "symlink-or-copy": "^1.0.1",
-    "temp": "^0.8.3",
     "walk-sync": "^0.2.5"
   },
   "engines": {
