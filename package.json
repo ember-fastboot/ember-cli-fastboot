@@ -19,7 +19,7 @@
     "test:precook": "node node_modules/ember-cli-addon-tests/scripts/precook-node-modules.js"
   },
   "dependencies": {
-    "broccoli-funnel": "0.2.8",
+    "broccoli-funnel": "^1.0.0",
     "broccoli-merge-trees": "^1.1.1",
     "broccoli-plugin": "^1.2.1",
     "broccoli-stew": "^1.2.0",
