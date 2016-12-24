@@ -63,7 +63,7 @@
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
     "ember-resolver": "^2.0.3",
-    "fs-extra": "^0.24.0",
+    "fs-extra": "^1.0.0",
     "glob": "^7.0.0",
     "loader.js": "^4.0.10",
     "mocha": "^2.2.4",
