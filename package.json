@@ -68,8 +68,7 @@
     "loader.js": "^4.0.10",
     "mocha": "^3.0.0",
     "request": "^2.55.0",
-    "sinon": "^1.17.4",
-    "symlink-or-copy": "^1.0.1"
+    "sinon": "^1.17.4"
   },
   "engines": {
     "node": ">= 4.0.0"
