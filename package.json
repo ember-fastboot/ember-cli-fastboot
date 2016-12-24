@@ -67,7 +67,6 @@
     "ember-resolver": "^2.0.3",
     "exists-sync": "0.0.3",
     "fs-extra": "^0.24.0",
-    "fs-promise": "^0.3.1",
     "glob": "^7.0.0",
     "loader.js": "^4.0.10",
     "mocha": "^2.2.4",
