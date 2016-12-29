@@ -51,6 +51,18 @@ describe("FastBoot", function() {
       });
   });
 
+  it("can render HTML with array of app files defined in package.json", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('multiple-app-files')
+    });
+
+    return fastboot.visit('/')
+      .then(r => r.html())
+      .then(html => {
+        expect(html).to.match(/Welcome to Ember/);
+      });
+  });
+
   it("cannot not render app HTML with shouldRender set as false", function() {
     var fastboot = new FastBoot({
       distPath: fixture('basic-app')
