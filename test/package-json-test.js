@@ -45,7 +45,7 @@ describe('generating package.json', function() {
     it("contains a schema version", function() {
       var pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
 
-      expect(pkg.fastboot.schemaVersion).to.deep.equal(1);
+      expect(pkg.fastboot.schemaVersion).to.deep.equal(2);
     });
 
     it("contains a whitelist of allowed module names", function() {
@@ -64,9 +64,9 @@ describe('generating package.json', function() {
       var pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
 
       expect(pkg.fastboot.manifest).to.deep.equal({
-        appFile: 'fastboot/module-whitelist.js',
+        appFiles: ['fastboot/module-whitelist.js'],
         htmlFile: 'index.html',
-        vendorFile: 'fastboot/vendor.js'
+        vendorFiles: ['fastboot/vendor.js']
       });
     });
 
@@ -114,9 +114,13 @@ describe('generating package.json', function() {
 
       var manifest = pkg.fastboot.manifest;
 
-      expect(p(manifest.appFile)).to.be.a.file();
+      manifest.appFiles.forEach(function(file) {
+        expect(p(file)).to.be.a.file();
+      });
       expect(p(manifest.htmlFile)).to.be.a.file();
-      expect(p(manifest.vendorFile)).to.be.a.file();
+      manifest.vendorFiles.forEach(function(file) {
+        expect(p(file)).to.be.a.file();
+      });
     });
   });
 
@@ -141,9 +145,13 @@ describe('generating package.json', function() {
       var pkg = fs.readJsonSync(customApp.filePath('/dist/package.json'));
       var manifest = pkg.fastboot.manifest;
 
-      expect(p(manifest.appFile)).to.be.a.file();
+      manifest.appFiles.forEach(function(file) {
+        expect(p(file)).to.be.a.file();
+      });
       expect(p(manifest.htmlFile)).to.be.a.file();
-      expect(p(manifest.vendorFile)).to.be.a.file();
+      manifest.vendorFiles.forEach(function(file) {
+        expect(p(file)).to.be.a.file();
+      });
     });
 
   });
@@ -168,9 +176,13 @@ describe('generating package.json', function() {
       var pkg = fs.readJsonSync(customApp.filePath('/dist/package.json'));
       var manifest = pkg.fastboot.manifest;
 
-      expect(p(manifest.appFile)).to.be.a.file();
+      manifest.appFiles.forEach(function(file) {
+        expect(p(file)).to.be.a.file();
+      });
       expect(p(manifest.htmlFile)).to.be.a.file();
-      expect(p(manifest.vendorFile)).to.be.a.file();
+      manifest.vendorFiles.forEach(function(file) {
+        expect(p(file)).to.be.a.file();
+      });
     });
 
   });
