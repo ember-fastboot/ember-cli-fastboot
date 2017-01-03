@@ -6,7 +6,7 @@ var request = require('request');
 var get = RSVP.denodeify(request);
 
 describe('async content via deferred content', function() {
-  this.timeout(300000);
+  this.timeout(400000);
 
   var app;
 
