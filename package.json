@@ -42,7 +42,6 @@
     "broccoli-asset-rev": "^2.4.5",
     "chai": "^3.0.0",
     "chai-fs": "^1.0.0",
-    "cpr": "^1.1.1",
     "ember-ajax": "^2.4.1",
     "ember-cli": "2.10.0",
     "ember-cli-addon-tests": "^0.4.0",
