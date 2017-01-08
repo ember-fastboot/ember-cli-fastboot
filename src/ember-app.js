@@ -32,8 +32,8 @@ class EmberApp {
     let distPath = path.resolve(options.distPath);
     let config = this.readPackageJSON(distPath);
 
-    this.appFilePath = config.appFile;
-    this.vendorFilePath = config.vendorFile;
+    this.appFilePaths = config.appFiles;
+    this.vendorFilePaths = config.vendorFiles;
     this.moduleWhitelist = config.moduleWhitelist;
     this.hostWhitelist = config.hostWhitelist;
     this.appConfig = config.appConfig;
@@ -128,21 +128,26 @@ class EmberApp {
   */
   loadAppFiles() {
     let sandbox = this.sandbox;
-    let appFilePath = this.appFilePath;
-    let vendorFilePath = this.vendorFilePath;
+    let appFilePaths = this.appFilePaths;
+    let vendorFilePaths = this.vendorFilePaths;
 
     sandbox.eval('sourceMapSupport.install(Error);');
 
-    let appFile = fs.readFileSync(appFilePath, 'utf8');
-    let vendorFile = fs.readFileSync(vendorFilePath, 'utf8');
+    debug("evaluating app and vendor files");
 
-    debug("evaluating app; app=%s; vendor=%s", appFilePath, vendorFilePath);
-
-    sandbox.eval(vendorFile, vendorFilePath);
+    vendorFilePaths.forEach(function(vendorFilePath) {
+      debug("evaluating vendor file %s", vendorFilePath);
+      let vendorFile = fs.readFileSync(vendorFilePath, 'utf8');
+      sandbox.eval(vendorFile, vendorFilePath);
+    });
     debug("vendor file evaluated");
 
-    sandbox.eval(appFile, appFilePath);
-    debug("app file evaluated");
+    appFilePaths.forEach(function(appFilePath) {
+      debug("evaluating app file %s", appFilePath);
+      let appFile = fs.readFileSync(appFilePath, 'utf8');
+      sandbox.eval(appFile, appFilePath);
+    });
+    debug("app files evaluated");
   }
 
   /**
@@ -153,7 +158,6 @@ class EmberApp {
    */
   createEmberApp() {
     let sandbox = this.sandbox;
-    let appFilePath = this.appFilePath;
 
     // Retrieve the application factory from within the sandbox
     let AppFactory = sandbox.run(function(ctx) {
@@ -162,7 +166,7 @@ class EmberApp {
 
     // If the application factory couldn't be found, throw an error
     if (!AppFactory || typeof AppFactory['default'] !== 'function') {
-      throw new Error('Failed to load Ember app from ' + appFilePath + ', make sure it was built for FastBoot with the `ember fastboot:build` command.');
+      throw new Error('Failed to load Ember app from app.js, make sure it was built for FastBoot with the `ember fastboot:build` command.');
     }
 
     // Otherwise, return a new `Ember.Application` instance
@@ -349,9 +353,33 @@ class EmberApp {
       throw new Error(`${pkgPath} was malformed or did not contain a manifest. Ensure that you have a compatible version of ember-cli-fastboot.`);
     }
 
+    var appFiles = [];
+    if (manifest.appFiles) {
+      debug("reading array of app file paths from manifest");
+      manifest.appFiles.forEach(function(appFile) {
+        appFiles.push(path.join(distPath, appFile));
+      });
+    } else if (manifest.appFile) {
+      // TODO : remove after Fastboot 1.0
+      debug("reading app file path from manifest");
+      appFiles = [path.join(distPath, manifest.appFile)];
+    }
+
+    var vendorFiles = [];
+    if (manifest.vendorFiles) {
+      debug("reading array of vendor file paths from manifest");
+      manifest.vendorFiles.forEach(function(vendorFile) {
+        vendorFiles.push(path.join(distPath, vendorFile));
+      });
+    } else if (manifest.vendorFile) {
+      // TODO : remove after Fastboot 1.0
+      debug("reading vendor file path from manifest");
+      vendorFiles = [path.join(distPath, manifest.vendorFile)];
+    }
+
     return {
-      appFile:  path.join(distPath, manifest.appFile),
-      vendorFile: path.join(distPath, manifest.vendorFile),
+      appFiles:  appFiles,
+      vendorFiles: vendorFiles,
       htmlFile: path.join(distPath, manifest.htmlFile),
       moduleWhitelist: pkg.fastboot.moduleWhitelist,
       hostWhitelist: pkg.fastboot.hostWhitelist,
