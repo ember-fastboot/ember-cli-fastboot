@@ -41,7 +41,7 @@ describe('FastBootLocation', function () {
     });
   });
 
-  it.skip('should NOT redirect when intermediateTransitionTo is called', function () {
+  it('should NOT redirect when intermediateTransitionTo is called', function () {
     return get({
       url: 'http://localhost:49741/redirect-on-intermediate-transition-to',
       followRedirect: false
