@@ -12,15 +12,17 @@ export default Ember.NoneLocation.extend({
   implementation: 'fastboot',
   fastboot: service(),
 
+  _config: computed(function () {
+    return getOwner(this).resolveRegistration('config:environment');
+  }),
+
   _fastbootHeadersEnabled: computed(function () {
-    const config = getOwner(this).resolveRegistration('config:environment');
-    return !!get(config, 'fastboot.fastbootHeaders');
+    return !!get(this, '_config.fastboot.fastbootHeaders');
   }),
 
   _redirectCode: computed(function () {
     const TEMPORARY_REDIRECT_CODE = 307;
-    const config = getOwner(this).resolveRegistration('config:environment');
-    return get(config, 'fastboot.redirectCode') || TEMPORARY_REDIRECT_CODE;
+    return get(this, '_config.fastboot.redirectCode') || TEMPORARY_REDIRECT_CODE;
   }),
 
   _response: reads('fastboot.response'),
