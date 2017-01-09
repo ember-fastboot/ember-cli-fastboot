@@ -8,6 +8,8 @@ const {
   getOwner
 } = Ember;
 
+const TEMPORARY_REDIRECT_CODE = 307;
+
 export default Ember.NoneLocation.extend({
   implementation: 'fastboot',
   fastboot: service(),
@@ -21,7 +23,6 @@ export default Ember.NoneLocation.extend({
   }),
 
   _redirectCode: computed(function () {
-    const TEMPORARY_REDIRECT_CODE = 307;
     return get(this, '_config.fastboot.redirectCode') || TEMPORARY_REDIRECT_CODE;
   }),
 
