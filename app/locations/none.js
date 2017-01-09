@@ -29,9 +29,9 @@ export default Ember.NoneLocation.extend({
 
   setURL(path) {
     if (get(this, 'fastboot.isFastBoot')) {
-      const currentPath = get(this, 'path');
-      const isInitialPath = !currentPath || currentPath.length === 0;
-      const isTransitioning = currentPath !== path;
+      let currentPath = get(this, 'path');
+      let isInitialPath = !currentPath || currentPath.length === 0;
+      let isTransitioning = currentPath !== path;
       let response = get(this, '_response');
 
       if (isTransitioning && !isInitialPath) {
