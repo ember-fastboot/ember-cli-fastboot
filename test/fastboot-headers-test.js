@@ -34,7 +34,7 @@ describe('FastBootHeaders', function() {
     var headers = {
       // Express concatenates repeated keys with ', '
       // and also lowercases the keys
-      "x-test-header": "value1, value2"
+      'x-test-header': 'value1, value2'
     };
     headers = new FastBootHeaders(headers);
 
@@ -46,7 +46,7 @@ describe('FastBootHeaders', function() {
     var headers = {
       // Express concatenates repeated keys with ', '
       // and also lowercases the keys
-      "x-test-header": "value1, value2"
+      'x-test-header': 'value1, value2'
     };
     headers = new FastBootHeaders(headers);
 
@@ -58,7 +58,7 @@ describe('FastBootHeaders', function() {
     var headers = {
       // Express concatenates repeated keys with ', '
       // and also lowercases the keys
-      "x-test-header": "value1, value2"
+      'x-test-header': 'value1, value2'
     };
     headers = new FastBootHeaders(headers);
 
