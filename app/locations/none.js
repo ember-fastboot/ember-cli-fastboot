@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 const {
   computed,
-  computed: { reads },
+  computed: { readOnly },
   inject: { service },
   get,
   getOwner
@@ -26,8 +26,8 @@ export default Ember.NoneLocation.extend({
     return get(this, '_config.fastboot.redirectCode') || TEMPORARY_REDIRECT_CODE;
   }),
 
-  _response: reads('fastboot.response'),
-  _request: reads('fastboot.request'),
+  _response: readOnly('fastboot.response'),
+  _request: readOnly('fastboot.request'),
 
   setURL(path) {
     if (get(this, 'fastboot.isFastBoot')) {
