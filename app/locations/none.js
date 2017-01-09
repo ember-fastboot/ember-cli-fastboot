@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 const {
   computed,
-  computed: { readOnly },
+  computed: { bool, readOnly },
   inject: { service },
   get,
   getOwner
@@ -18,9 +18,7 @@ export default Ember.NoneLocation.extend({
     return getOwner(this).resolveRegistration('config:environment');
   }),
 
-  _fastbootHeadersEnabled: computed(function () {
-    return !!get(this, '_config.fastboot.fastbootHeaders');
-  }),
+  _fastbootHeadersEnabled: bool('_config.fastboot.fastbootHeaders'),
 
   _redirectCode: computed(function () {
     return get(this, '_config.fastboot.redirectCode') || TEMPORARY_REDIRECT_CODE;
