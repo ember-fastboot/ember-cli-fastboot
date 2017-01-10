@@ -1,6 +1,6 @@
 {
   "name": "fastboot",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0-rc.2",
   "description": "Library for rendering Ember apps in node.js",
   "main": "dist/cjs/index.js",
   "scripts": {
@@ -15,6 +15,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ember-fastboot/fastboot.git"
+  },
+  "engines": {
+    "node": ">= 4.0.0"
   },
   "keywords": [
     "ember",
