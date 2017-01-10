@@ -11,6 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/ember-fastboot/fastboot-app-server.git"
   },
+  "engines": {
+    "node": ">= 4.0.0"
+  },
   "keywords": [
     "ember",
     "fastboot",
