@@ -2,35 +2,36 @@ import Ember from 'ember';
 
 const {
   computed,
-  computed: { reads },
+  computed: { bool, readOnly },
   inject: { service },
   get,
   getOwner
 } = Ember;
 
+const TEMPORARY_REDIRECT_CODE = 307;
+
 export default Ember.NoneLocation.extend({
   implementation: 'fastboot',
   fastboot: service(),
 
-  _fastbootHeadersEnabled: computed(function () {
-    const config = getOwner(this).resolveRegistration('config:environment');
-    return !!get(config, 'fastboot.fastbootHeaders');
+  _config: computed(function () {
+    return getOwner(this).resolveRegistration('config:environment');
   }),
+
+  _fastbootHeadersEnabled: bool('_config.fastboot.fastbootHeaders'),
 
   _redirectCode: computed(function () {
-    const TEMPORARY_REDIRECT_CODE = 307;
-    const config = getOwner(this).resolveRegistration('config:environment');
-    return get(config, 'fastboot.redirectCode') || TEMPORARY_REDIRECT_CODE;
+    return get(this, '_config.fastboot.redirectCode') || TEMPORARY_REDIRECT_CODE;
   }),
 
-  _response: reads('fastboot.response'),
-  _request: reads('fastboot.request'),
+  _response: readOnly('fastboot.response'),
+  _request: readOnly('fastboot.request'),
 
   setURL(path) {
     if (get(this, 'fastboot.isFastBoot')) {
-      const currentPath = get(this, 'path');
-      const isInitialPath = !currentPath || currentPath.length === 0;
-      const isTransitioning = currentPath !== path;
+      let currentPath = get(this, 'path');
+      let isInitialPath = !currentPath || currentPath.length === 0;
+      let isTransitioning = currentPath !== path;
       let response = get(this, '_response');
 
       if (isTransitioning && !isInitialPath) {
