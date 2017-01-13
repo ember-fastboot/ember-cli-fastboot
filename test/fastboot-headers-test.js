@@ -6,11 +6,18 @@ var alchemistRequire = require('broccoli-module-alchemist/require');
 var FastBootHeaders = alchemistRequire('fastboot-headers.js');
 
 describe('FastBootHeaders', function() {
+  it('returns an array from getAll when header value is string', function() {
+    var headers = {
+      'x-test-header': 'value1, value2'
+    };
+    headers = new FastBootHeaders(headers);
+
+    expect(headers.getAll('x-test-header')).to.deep.equal(['value1, value2']);
+  });
+
   it('returns an array of header values from getAll, regardless of header name casing', function() {
     var headers = {
-      // Express concatenates repeated keys with ', '
-      // and also lowercases the keys
-      'x-test-header': 'value1, value2'
+      'x-test-header': ['value1', 'value2']
     };
     headers = new FastBootHeaders(headers);
 
@@ -20,9 +27,7 @@ describe('FastBootHeaders', function() {
 
   it('returns an emtpy array when a header is not present', function() {
     var headers = {
-      // Express concatenates repeated keys with ', '
-      // and also lowercases the keys
-      'x-test-header': 'value1, value2'
+      'x-test-header': ['value1', 'value2']
     };
     headers = new FastBootHeaders(headers);
 
@@ -32,9 +37,7 @@ describe('FastBootHeaders', function() {
 
   it('returns the first value when using get, regardless of case', function() {
     var headers = {
-      // Express concatenates repeated keys with ', '
-      // and also lowercases the keys
-      'x-test-header': 'value1, value2'
+      'x-test-header': ['value1', 'value2']
     };
     headers = new FastBootHeaders(headers);
 
@@ -44,9 +47,7 @@ describe('FastBootHeaders', function() {
 
   it('returns null when using get when a header is not present', function() {
     var headers = {
-      // Express concatenates repeated keys with ', '
-      // and also lowercases the keys
-      'x-test-header': 'value1, value2'
+      'x-test-header': ['value1', 'value2']
     };
     headers = new FastBootHeaders(headers);
 
@@ -56,9 +57,7 @@ describe('FastBootHeaders', function() {
 
   it('returns whether or not a header is present via has, regardless of casing', function() {
     var headers = {
-      // Express concatenates repeated keys with ', '
-      // and also lowercases the keys
-      'x-test-header': 'value1, value2'
+      'x-test-header': ['value1', 'value2']
     };
     headers = new FastBootHeaders(headers);
 
