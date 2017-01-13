@@ -6,6 +6,15 @@ var alchemistRequire = require('broccoli-module-alchemist/require');
 var FastBootHeaders = alchemistRequire('fastboot-headers.js');
 
 describe('FastBootHeaders', function() {
+  it('returns an array from getAll when header value is string', function() {
+    var headers = {
+      'x-test-header': 'value1, value2'
+    };
+    headers = new FastBootHeaders(headers);
+
+    expect(headers.getAll('x-test-header')).to.deep.equal(['value1, value2']);
+  });
+
   it('returns an array of header values from getAll, regardless of header name casing', function() {
     var headers = {
       'x-test-header': ['value1', 'value2']
