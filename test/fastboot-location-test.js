@@ -72,10 +72,10 @@ describe('FastBootLocation', function () {
         'location',
         'x-fastboot-path'
       ]);
-      expect(response.headers.location).to.equal('http://localhost:49741/test-passed');
-      expect(response.headers['x-fastboot-path']).to.equal('/test-passed');
+      expect(response.headers.location).to.equal('http://localhost:49741/my-root/test-passed');
+      expect(response.headers['x-fastboot-path']).to.equal('/my-root/test-passed');
       expect(response.body).to.contain('Redirecting to');
-      expect(response.body).to.contain('/test-passed');
+      expect(response.body).to.contain('/my-root/test-passed');
     });
   });
 
@@ -92,10 +92,10 @@ describe('FastBootLocation', function () {
         'location',
         'x-fastboot-path'
       ]);
-      expect(response.headers.location).to.equal('http://localhost:49741/test-passed');
-      expect(response.headers['x-fastboot-path']).to.equal('/test-passed');
+      expect(response.headers.location).to.equal('http://localhost:49741/my-root/test-passed');
+      expect(response.headers['x-fastboot-path']).to.equal('/my-root/test-passed');
       expect(response.body).to.contain('Redirecting to');
-      expect(response.body).to.contain('/test-passed');
+      expect(response.body).to.contain('/my-root/test-passed');
     });
   });
 });
