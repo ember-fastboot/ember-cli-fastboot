@@ -42,6 +42,12 @@ describe('generating package.json', function() {
       });
     });
 
+    it("contains a schema version", function() {
+      var pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
+
+      expect(pkg.fastboot.schemaVersion).to.deep.equal(1);
+    });
+
     it("contains a whitelist of allowed module names", function() {
       var pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
 
