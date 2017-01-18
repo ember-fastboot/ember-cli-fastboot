@@ -112,9 +112,12 @@ module.exports = {
   /**
    * After the entire Broccoli tree has been built for the `dist` directory,
    * adds the `fastboot-config.json` file to the root.
+   *
+   * FASTBOOT_DISABLED is a pre 1.0 power user flag to
+   * disable the fastboot build while retaining the fastboot service.
    */
   postprocessTree: function(type, tree) {
-    if (type === 'all') {
+    if (type === 'all' && !process.env.FASTBOOT_DISABLED) {
       var fastbootTree = this.buildFastBootTree();
 
       // Merge the package.json with the existing tree
@@ -148,7 +151,7 @@ module.exports = {
     if (emberVersionChecker.version) {
       return emberVersionChecker;
     }
-    
+
     return checker.for('ember', 'bower');
   },
 

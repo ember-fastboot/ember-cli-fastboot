@@ -386,6 +386,21 @@ Prototype extensions do not currently work across node "realms."  Fastboot
 applications operate in two realms, a normal node environment and a [virtual machine](https://nodejs.org/api/vm.html).  Passing objects that originated from the normal realm will not contain the extension methods
 inside of the sandbox environment. For this reason, it's encouraged to [disable prototype extensions](https://guides.emberjs.com/v2.4.0/configuring-ember/disabling-prototype-extensions/).
 
+### Double build times and no incremental builds
+
+Due to limitations in Ember CLI, builds take twice as long to generate the
+second set of FastBoot assets. This also means incremental builds with
+live reload don't work either. This aims to be resolved by FastBoot 1.0.
+In the mean time, we introduce a short-circuit evironment flag to not do
+a FastBoot build:
+
+```
+FASTBOOT_DISABLED=true ember build
+```
+
+This is useful to keep your existing workflow while in development, while
+still being able to deploy FastBoot. This flag will be removed in FastBoot
+1.0.
 
 ## Troubleshooting
 
