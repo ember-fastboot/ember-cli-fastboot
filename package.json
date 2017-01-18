@@ -29,7 +29,7 @@
     "ember-cli-babel": "^5.1.7",
     "ember-cli-version-checker": "^1.1.6",
     "express": "^4.8.5",
-    "fastboot-express-middleware": "1.0.0-rc.3",
+    "fastboot-express-middleware": "1.0.0-rc.4",
     "fastboot-filter-initializers": "0.0.2",
     "lodash.defaults": "^4.0.1",
     "lodash.uniq": "^4.2.0",
