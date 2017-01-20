@@ -35,9 +35,9 @@ describe('generating package.json', function() {
       var config = fs.readJsonSync(app.filePath('/dist/package.json'));
 
       expect(config.dependencies).to.deep.equal({
-        "foo": "1.2.3",
-        "bar": "^7.8.9",
-        "baz": "0.2.0",
+        "foo": "1.0.0",
+        "bar": "^0.1.2",
+        "baz": "0.0.0",
         "rsvp": "3.2.1"
       });
     });
