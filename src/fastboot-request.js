@@ -4,7 +4,7 @@ var FastBootHeaders = require('./fastboot-headers');
 function FastBootRequest(request, hostWhitelist) {
   this.hostWhitelist = hostWhitelist;
 
-  this.protocol = request.protocol+':';
+  this.protocol = `${request.protocol}:`;
   this.headers = new FastBootHeaders(request.headers);
   this.queryParams = request.query;
   this.path = request.url;
