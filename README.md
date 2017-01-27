@@ -470,9 +470,9 @@ of calling `node-inspector`, call `[path to node-inspector]/bin/inspector.js`
 [Node 6.3](https://nodejs.org/en/blog/release/v6.3.0/) is the first version to
 offer support for the `--inspect` flag. This is intended to replace usage of
 tools like node-inspector.  However the `--inspect` flag isn't suitable for
-debugging Fastboot apps because Node does not support debugging of code in a vm
+debugging FastBoot apps because Node does not support debugging of code in a vm
 module context (see [this issue](https://github.com/nodejs/node/issues/7593)),
-which is a module that Fastboot utilizes.
+which is a module that FastBoot utilizes.
 
 Because of this, it's recommended to use either node-inspector, or Node's
 [out-of-process debugging utility](https://nodejs.org/api/debugger.html#debugger_debugger),
