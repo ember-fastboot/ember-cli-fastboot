@@ -455,6 +455,29 @@ that, you can open a connection; any exceptions should be logged in the
 console, and you can use the tools you'd expect such as `console.log`,
 `debugger` statements, etc.
 
+#### Note Regarding Node 6.4 and above
+
+If you're using Node 6.4 and above, there's currently an
+[open issue](https://github.com/node-inspector/node-inspector/issues/905)
+involving node-inspector. [A fix](https://github.com/node-inspector/node-inspector/commit/2e5309f75099753740c4567e17fd79ee27885d71)
+has been committed, and an updated version just needs to be published to NPM.
+Until an updated version of node-inspector is published to NPM, you can clone
+node-inspector locally, and call the appropriate script.  For example, instead
+of calling `node-inspector`, call `[path to node-inspector]/bin/inspector.js`
+
+#### Incompatibility With `node --inspect`
+
+[Node 6.3](https://nodejs.org/en/blog/release/v6.3.0/) is the first version to
+offer support for the `--inspect` flag. This is intended to replace usage of
+tools like node-inspector.  However the `--inspect` flag isn't suitable for
+debugging FastBoot apps because Node does not support debugging of code in a vm
+module context (see [this issue](https://github.com/nodejs/node/issues/7593)),
+which is a module that FastBoot utilizes.
+
+Because of this, it's recommended to use either node-inspector, or Node's
+[out-of-process debugging utility](https://nodejs.org/api/debugger.html#debugger_debugger),
+until a version of Node is released that resolves the above-mentioned issue.
+
 ## Tests
 
 Run the automated tests by running `npm test`.
