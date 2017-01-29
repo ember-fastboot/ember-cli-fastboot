@@ -1,4 +1,4 @@
-/* jshint node: true */
+/* eslint-env node */
 'use strict';
 
 var path = require('path');
@@ -148,7 +148,7 @@ module.exports = {
     if (emberVersionChecker.version) {
       return emberVersionChecker;
     }
-    
+
     return checker.for('ember', 'bower');
   },
 

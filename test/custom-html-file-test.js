@@ -5,7 +5,7 @@ var request          = RSVP.denodeify(require('request'));
 var AddonTestApp     = require('ember-cli-addon-tests').AddonTestApp;
 
 describe('custom htmlFile', function() {
-  this.timeout(300000);
+  this.timeout(400000);
 
   var app;
 
@@ -15,7 +15,8 @@ describe('custom htmlFile', function() {
     return app.create('custom-html-file')
       .then(function() {
         return app.startServer({
-          command: 'fastboot'
+          command: 'fastboot',
+          additionalArguments: ['--serve-assets']
         });
       });
   });
