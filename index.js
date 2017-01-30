@@ -114,7 +114,8 @@ module.exports = {
    * adds the `fastboot-config.json` file to the root.
    */
   postprocessTree: function(type, tree) {
-    if (type === 'all') {
+    // Only merge `fastbootTree` when not running `ember serve`
+    if (type === 'all' && process.argv[process.argv.length - 1] !== 'serve') {
       var fastbootTree = this.buildFastBootTree();
 
       // Merge the package.json with the existing tree
