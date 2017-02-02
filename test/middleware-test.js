@@ -52,6 +52,17 @@ describe("FastBoot", function() {
       });
   });
 
+  it("returns 404 when navigating to a URL that doesn't exist", function() {
+    let middleware = fastbootMiddleware(fixture('basic-app'));
+    server = new TestHTTPServer(middleware);
+
+    return server.start()
+      .then(() => server.request('/foo-bar-baz/non-existent'))
+      .catch((result) => {
+        expect(result.statusCode).to.equal(404);
+      });
+  });
+
   it("returns a 500 error if an error occurs", function() {
     let middleware = fastbootMiddleware({
       distPath: fixture('rejected-promise')
