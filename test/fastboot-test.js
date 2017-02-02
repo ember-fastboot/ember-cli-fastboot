@@ -28,6 +28,17 @@ describe("FastBoot", function() {
     expect(fn).to.throw(/Couldn't find (.+)\/fixtures\/no-package-json/);
   });
 
+  it('throws an error when manifest schema version is higher than fastboot schema version', function() {
+    var distPath = fixture('higher-schema-version');
+    var fn = function() {
+      return new FastBoot({
+        distPath: distPath
+      });
+    };
+
+    expect(fn).to.throw(/An incompatible version between `ember-cli-fastboot` and `fastboot` was found/);
+  });
+
   it("doesn't throw an exception if a package.json is provided", function() {
     var distPath = fixture('empty-package-json');
     var fn = function() {

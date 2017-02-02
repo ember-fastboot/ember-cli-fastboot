@@ -2,11 +2,11 @@
   "dependencies": {},
   "fastboot": {
     "moduleWhitelist": [],
-    "schemaVersion": 2,
+    "schemaVersion": 1000,
     "manifest": {
-      "appFiles": ["assets/fastboot-test.js"],
+      "appFile": "assets/fastboot-test.js",
       "htmlFile": "index.html",
-      "vendorFiles": ["assets/vendor.js"]
+      "vendorFile": "assets/vendor.js"
     },
     "appConfig": {"modulePrefix":"fastboot-test","environment":"development","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"fastboot-test","version":"0.0.0+3e9fe92d","autoboot":false},"exportApplicationGlobal":true}
   }

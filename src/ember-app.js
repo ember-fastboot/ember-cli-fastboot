@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const RSVP = require('rsvp');
+const chalk = require('chalk');
 
 const najax = require('najax');
 const SimpleDOM = require('simple-dom');
@@ -11,6 +12,7 @@ const debug = require('debug')('fastboot:ember-app');
 
 const FastBootInfo = require('./fastboot-info');
 const Result = require('./result');
+const FastBootSchemaVersions = require('./fastboot-schema-versions');
 
 /**
  * @private
@@ -344,38 +346,43 @@ class EmberApp {
     }
 
     let manifest;
+    let schemaVersion;
     let pkg;
 
     try {
       pkg = JSON.parse(file);
       manifest = pkg.fastboot.manifest;
+      schemaVersion = pkg.fastboot.schemaVersion;
     } catch (e) {
       throw new Error(`${pkgPath} was malformed or did not contain a manifest. Ensure that you have a compatible version of ember-cli-fastboot.`);
     }
 
-    var appFiles = [];
-    if (manifest.appFiles) {
-      debug("reading array of app file paths from manifest");
-      manifest.appFiles.forEach(function(appFile) {
-        appFiles.push(path.join(distPath, appFile));
-      });
-    } else if (manifest.appFile) {
-      // TODO : remove after Fastboot 1.0
-      debug("reading app file path from manifest");
-      appFiles = [path.join(distPath, manifest.appFile)];
+    const currentSchemaVersion = FastBootSchemaVersions.latest;
+    // set schema version to 1 if not defined
+    schemaVersion = schemaVersion || FastBootSchemaVersions.base;
+    debug('Current schemaVersion from `ember-cli-fastboot` is %s while latest schema version is %s', (schemaVersion, currentSchemaVersion));
+
+    if (schemaVersion > currentSchemaVersion) {
+      let errorMsg = chalk.bold.red('An incompatible version between `ember-cli-fastboot` and `fastboot` was found. Please update the version of fastboot library that is compatible with ember-cli-fastboot.');
+      throw new Error(errorMsg);
     }
 
-    var vendorFiles = [];
-    if (manifest.vendorFiles) {
-      debug("reading array of vendor file paths from manifest");
-      manifest.vendorFiles.forEach(function(vendorFile) {
-        vendorFiles.push(path.join(distPath, vendorFile));
-      });
-    } else if (manifest.vendorFile) {
-      // TODO : remove after Fastboot 1.0
-      debug("reading vendor file path from manifest");
-      vendorFiles = [path.join(distPath, manifest.vendorFile)];
+    if (schemaVersion < FastBootSchemaVersions.manifestFileArrays) {
+      // transform app and vendor file to array of files
+      manifest = this.transformManifestFiles(manifest);
     }
+
+    var appFiles = [];
+    debug("reading array of app file paths from manifest");
+    manifest.appFiles.forEach(function(appFile) {
+      appFiles.push(path.join(distPath, appFile));
+    });
+
+    var vendorFiles = [];
+    debug("reading array of vendor file paths from manifest");
+    manifest.vendorFiles.forEach(function(vendorFile) {
+      vendorFiles.push(path.join(distPath, vendorFile));
+    });
 
     return {
       appFiles:  appFiles,
@@ -385,6 +392,16 @@ class EmberApp {
       hostWhitelist: pkg.fastboot.hostWhitelist,
       appConfig: pkg.fastboot.appConfig
     };
+  }
+
+  /**
+   * Function to transform the manifest app and vendor files to an array.
+   */
+  transformManifestFiles(manifest) {
+    manifest.appFiles = [manifest.appFile];
+    manifest.vendorFiles = [manifest.vendorFile];
+
+    return manifest;
   }
 }
 

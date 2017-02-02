@@ -2,6 +2,7 @@
   "dependencies": {},
   "fastboot": {
     "moduleWhitelist": [],
+    "schemaVersion": 1,
     "manifest": {
       "appFile": "fastboot/fastboot-test.js",
       "vendorFile": "fastboot/vendor.js",
