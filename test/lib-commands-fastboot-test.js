@@ -25,10 +25,11 @@ describe('fastboot command', function() {
         blockForever: RSVP.resolve,
         checkPort: RSVP.resolve,
         runServer: RSVP.resolve,
+        startServer: RSVP.resolve,
         tasks: {
           Build: CoreObject.extend({ run() { buildRunCalled = true; } }),
           BuildWatch: CoreObject.extend({ run() { buildWatchRunCalled = true; } }),
-        },
+        }
       });
     });
 
@@ -53,6 +54,30 @@ describe('fastboot command', function() {
       return command.run(options).then(() => {
         expect(buildRunCalled).to.equal(false);
         expect(buildWatchRunCalled).to.equal(false);
+      });
+    });
+  });
+
+  describe('run server', function() {
+    let command, serverStartCalled;
+
+    beforeEach(function() {
+      serverStartCalled = false;
+      command = new FastbootCommand({
+        blockForever: RSVP.resolve,
+        checkPort: RSVP.resolve,
+        runBuild: RSVP.resolve,
+        ServerTask: CoreObject.extend({
+          run() { },
+          start() { serverStartCalled = true; }
+        })
+      });
+    });
+
+    it('immediately starts server when build=false', function() {
+      const options = new CommandOptions({ build: false });
+      return command.run(options).then(() => {
+        expect(serverStartCalled).to.equal(true);
       });
     });
   });
