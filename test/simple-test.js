@@ -56,8 +56,8 @@ describe('simple acceptance', function() {
     return request('http://localhost:49741/boom')
       .then(function(response) {
         expect(response.statusCode).to.equal(500);
-        expect(response.headers["content-type"]).to.eq("text/plain; charset=utf-8");
-        expect(response.body).to.equal("Internal Server Error");
+        expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
+        expect(response.body).to.equal("BOOM\n");
       });
   });
 
