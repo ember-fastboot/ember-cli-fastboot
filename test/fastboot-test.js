@@ -1,12 +1,11 @@
 'use strict';
 
-const expect           = require('chai').expect;
-const fs               = require('fs');
-const path             = require('path');
-const fixture          = require('./helpers/fixture-path');
-const alchemistRequire = require('broccoli-module-alchemist/require');
-const FastBoot         = alchemistRequire('index');
-const CustomSandbox    = require('./fixtures/custom-sandbox/custom-sandbox');
+const expect = require('chai').expect;
+const fs = require('fs');
+const path = require('path');
+const fixture = require('./helpers/fixture-path');
+const FastBoot = require('./../src/index');
+const CustomSandbox = require('./fixtures/custom-sandbox/custom-sandbox');
 
 describe("FastBoot", function() {
   it("throws an exception if no distPath is provided", function() {

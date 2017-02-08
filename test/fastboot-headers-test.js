@@ -2,8 +2,7 @@
 
 var expect = require('chai').expect;
 var path = require('path');
-var alchemistRequire = require('broccoli-module-alchemist/require');
-var FastBootHeaders = alchemistRequire('fastboot-headers.js');
+var FastBootHeaders = require('./../src/fastboot-headers.js');
 
 describe('FastBootHeaders', function() {
   it('returns an array from getAll when header value is string', function() {
@@ -148,4 +147,3 @@ describe('FastBootHeaders', function() {
     expect(entriesIterator.next()).to.deep.equal({ value: undefined, done: true });
   });
 });
-
