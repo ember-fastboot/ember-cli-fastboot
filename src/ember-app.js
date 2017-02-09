@@ -251,7 +251,7 @@ class EmberApp {
   /**
    * Creates a new application instance and renders the instance at a specific
    * URL, returning a promise that resolves to a {@link Result}. The `Result`
-   * givesg you access to the rendered HTML as well as metadata about the
+   * gives you access to the rendered HTML as well as metadata about the
    * request such as the HTTP status code.
    *
    * If this call to `visit()` is to service an incoming HTTP request, you may
