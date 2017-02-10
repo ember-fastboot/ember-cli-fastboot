@@ -134,4 +134,34 @@ describe("FastBootRequest", function() {
 
     expect(fastbootRequest.cookies.test).to.equal("bar");
   });
+
+  it("captures the method from the request", function() {
+    var request = {
+      protocol: "http",
+      url: "/foo",
+      headers: {
+        host: "localhost:4200",
+        cookie: ""
+      },
+      method: "GET"
+    };
+    var fastbootRequest = new FastBootRequest(request);
+
+    expect(fastbootRequest.method).to.equal("GET");
+  });
+
+  it("captures the body from the request", function() {
+    var request = {
+      protocol: "http",
+      url: "/foo",
+      headers: {
+        host: "localhost:4200",
+        cookie: ""
+      },
+      body: "TEST"
+    };
+    var fastbootRequest = new FastBootRequest(request);
+
+    expect(fastbootRequest.body).to.equal("TEST");
+  });
 });

@@ -8,6 +8,8 @@ function FastBootRequest(request, hostWhitelist) {
   this.headers = new FastBootHeaders(request.headers);
   this.queryParams = request.query;
   this.path = request.url;
+  this.method = request.method;
+  this.body = request.body;
 
   this.cookies = this.extractCookies(request);
 }
