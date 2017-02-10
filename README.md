@@ -381,7 +381,7 @@ present.
 
 ### Prototype extensions
 
-Prototype extensions do not currently work across node "realms."  Fastboot 
+Prototype extensions do not currently work across node "realms."  Fastboot
 applications operate in two realms, a normal node environment and a [virtual machine](https://nodejs.org/api/vm.html).  Passing objects that originated from the normal realm will not contain the extension methods
 inside of the sandbox environment. For this reason, it's encouraged to [disable prototype extensions](https://guides.emberjs.com/v2.4.0/configuring-ember/disabling-prototype-extensions/).
 
@@ -417,6 +417,25 @@ DEBUG=ember-cli-fastboot:* ember fastboot
 ```
 
 PRs adding or improving logging facilities are very welcome.
+
+### Custom Middleware
+
+To define a custom middleware, place a a file at
+`server/fastboot/index.js` _Note:_ this `server` directory also
+contains your app's "http-mocks", if used. Your module will be
+passed a reference to the app as well as its options.
+
+For example:
+
+```js
+const express = require('express');
+
+module.exports = function (app, /* options */) {
+  app.use('/middleware', (req, res) => {
+    res.status(418).send("I'm a teapot");
+  });
+};
+```
 
 ### Developer Tools
 
