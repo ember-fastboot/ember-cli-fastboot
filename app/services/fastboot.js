@@ -63,6 +63,7 @@ const Shoebox = Ember.Object.extend({
 const FastBootService = Ember.Service.extend({
   cookies: deprecatingAlias('request.cookies', { id: 'fastboot.cookies-to-request', until: '0.9.9' }),
   headers: deprecatingAlias('request.headers', { id: 'fastboot.headers-to-request', until: '0.9.9' }),
+  isFastBoot: typeof FastBoot !== 'undefined',
 
   init() {
     this._super(...arguments);
@@ -93,12 +94,6 @@ const FastBootService = Ember.Service.extend({
     Ember.assert('deferRendering requires a promise or thennable object', typeof promise.then === 'function');
     this._fastbootInfo.deferRendering(promise);
   }
-});
-
-Object.defineProperty(FastBootService.proto(), 'isFastBoot', {
-  writable: false,
-  enumerable: true,
-  value: typeof FastBoot !== 'undefined'
 });
 
 export default FastBootService;
