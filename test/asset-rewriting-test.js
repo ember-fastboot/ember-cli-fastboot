@@ -5,7 +5,7 @@ var AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 var glob = require('glob');
 
 describe('rewriting HTML', function() {
-  this.timeout(300000);
+  this.timeout(400000);
 
   var app;
 
