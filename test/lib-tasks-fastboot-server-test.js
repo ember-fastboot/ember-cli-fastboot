@@ -36,6 +36,7 @@ function MockAddon() {
 MockAddon.prototype = Object.create(EventEmitter.prototype);
 
 const mockUI = { writeLine() {} };
+const mockProject = { config() {} };
 
 describe('fastboot server task', function() {
   let options, task;
@@ -44,7 +45,8 @@ describe('fastboot server task', function() {
     this.sinon = sinon.sandbox.create();
     task = new FastbootServerTask({
       ui: mockUI,
-      addon: addon
+      addon: addon,
+      project: mockProject
     });
     options = new CommandOptions();
   });
@@ -154,7 +156,7 @@ describe('fastboot server task', function() {
   });
 
   describe('start', function() {
-    let createServerStub, execStub, mockServer, requireSpy, useStub;
+    let createServerStub, execStub, mockServer, requireSpy, useStub, mockProject;
     const mockApp = { get() {}, use() {} };
     const mockExpress = () => mockApp;
     const mockExpressStatic = {};
@@ -189,10 +191,25 @@ describe('fastboot server task', function() {
     });
 
     it('uses express.static when serve-assets=true', function() {
+      const projectConfigStug = this.sinon.stub(task.project, 'config').returns({
+        baseURL: '/',
+        rootURL: '/app'
+      });
       options = new CommandOptions({ serveAssets: true });
       return task.start(options)
         .then(() => {
           expect(useStub.calledWith(mockExpressStatic)).to.equal(true);
+        });
+    });
+
+    it('uses express.static with rootURL prefixed path when serve-assets=true and baseURL is not set', function() {
+      const projectConfigStug = this.sinon.stub(task.project, 'config').returns({
+        rootURL: '/app'
+      });
+      options = new CommandOptions({ serveAssets: true });
+      return task.start(options)
+        .then(() => {
+          expect(useStub.calledWith('/app', mockExpressStatic)).to.equal(true);
         });
     });
 
