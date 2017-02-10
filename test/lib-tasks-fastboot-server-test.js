@@ -7,6 +7,7 @@ const EventEmitter = require('events').EventEmitter;
 const expect = require('chai').expect;
 const FastbootCommand = CoreObject.extend(require('../lib/commands/fastboot')());
 const FastbootServerTask = require('../lib/tasks/fastboot-server');
+const path = require('path');
 const http = require('http');
 const RSVP = require('rsvp');
 const sinon = require('sinon');
@@ -162,7 +163,9 @@ describe('fastboot server task', function() {
     const mockRequire = (which) => {
       if (which === 'express') { return mockExpress; }
       if (which === 'fastboot-express-middleware') return () => {};
+      if (which.match('server/fastboot/index.js')) return () => {};
     };
+    let middlewarePath = path.join(process.cwd(), 'server', 'fastboot', 'index.js');
 
     beforeEach(function() {
       mockServer = new MockServer();
@@ -185,6 +188,22 @@ describe('fastboot server task', function() {
         .then(() => {
           expect(requireSpy.calledWith('fastboot-express-middleware')).to.equal(true);
           expect(requireSpy.calledWith('express')).to.equal(true);
+        });
+    });
+
+    it('requires app middlewares when present', function() {
+      task.fs.existsSync = () => { return true; }
+      return task.start(options)
+        .then(() => {
+          expect(requireSpy.calledWith(middlewarePath)).to.equal(true);
+        });
+    });
+
+    it('does not require app middlewares when not present', function() {
+      task.fs.existsSync = () => { return false; }
+      return task.start(options)
+        .then(() => {
+          expect(requireSpy.calledWith(middlewarePath)).to.equal(false);
         });
     });
 
