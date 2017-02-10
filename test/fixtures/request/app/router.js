@@ -6,7 +6,9 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('show-body');
   this.route('show-host');
+  this.route('show-method');
   this.route('show-protocol');
   this.route('show-path');
   this.route('list-cookies');

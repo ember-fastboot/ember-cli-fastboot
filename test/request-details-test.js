@@ -112,4 +112,25 @@ describe('request details', function() {
         expect(response.body).to.contain('Headers from Instance Initializer: foobar');
       });
   });
+
+  it('makes method available via a service', function() {
+    return get({
+      url: 'http://localhost:49741/show-method'
+    })
+      .then(function(response) {
+        expect(response.body).to.contain('Method: GET');
+        expect(response.body).to.contain('Method from Instance Initializer: GET');
+      });
+  });
+
+  it.only('makes body available via a service', function() {
+    get.post({
+      url: 'http://localhost:49741/show-body',
+      form: 'TEST'
+    })
+      .then(function(response) {
+        expect(response.body).to.contain('Body: TEST');
+        expect(response.body).to.contain('Body from Instance Initializer: BODY');
+      });
+  });
 });
