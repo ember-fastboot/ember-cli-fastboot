@@ -1,3 +1,5 @@
+'use strict';
+
 var RSVP = require('rsvp');
 var FastBootRequest = require('./fastboot-request');
 var FastBootResponse = require('./fastboot-response');
@@ -16,7 +18,8 @@ var FastBootResponse = require('./fastboot-response');
 function FastBootInfo(request, response, options) {
 
   this.deferredPromise = RSVP.resolve();
-  let { hostWhitelist, metadata } = options;
+  let hostWhitelist = options.hostWhitelist;
+  let metadata = options.metadata;
   if (request) {
     this.request = new FastBootRequest(request, hostWhitelist);
   }
