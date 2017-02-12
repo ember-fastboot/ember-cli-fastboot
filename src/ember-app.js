@@ -60,7 +60,6 @@ class EmberApp {
    * @param {Object} [sandboxGlobals={}] any additional variables to expose in the sandbox or override existing in the sandbox
    */
   buildSandbox(distPath, sandboxClass, sandboxGlobals) {
-    let Sandbox = sandboxClass || require('./vm-sandbox');
     let sandboxRequire = this.buildWhitelistedRequire(this.moduleWhitelist, distPath);
     let config = this.appConfig;
     function appConfig() {
@@ -81,7 +80,7 @@ class EmberApp {
       }
     }
 
-    return new Sandbox({
+    return new sandboxClass({
       globals: globals
     });
   }

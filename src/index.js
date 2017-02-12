@@ -45,7 +45,7 @@ class FastBoot {
     options = options || {};
 
     this.distPath = options.distPath;
-    this.sandbox = options.sandbox;
+    this.sandbox = options.sandbox || require('./vm-sandbox');
     this.sandboxGlobals = options.sandboxGlobals || {};
     this.resilient = !!options.resilient || false;
 
@@ -91,11 +91,14 @@ class FastBoot {
       this._app.destroy();
     }
 
-    this._buildEmberApp(options ? options.distPath : null);
+    options = options || {};
+    this._buildEmberApp(options.distPath || null);
   }
 
   _buildEmberApp(distPath, sandbox, sandboxGlobals) {
     distPath = distPath || this.distPath;
+    sandbox = sandbox || this.sandbox;
+    sandboxGlobals = sandboxGlobals || this.sandboxGlobals;
 
     if (!distPath) {
       throw new Error('You must instantiate FastBoot with a distPath ' +
