@@ -202,6 +202,62 @@ describe("FastBoot", function() {
     }
   });
 
+  it("can reload the app using the same sandboxGlobals", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('basic-app'),
+      sandboxGlobals: {
+        foo: 5,
+        najax: 'undefined',
+        myVar: 'undefined'
+      }
+    });
+
+    return fastboot.visit('/')
+      .then(r => r.html())
+      .then(html => expect(html).to.match(/Welcome to Ember/))
+      .then(hotReloadApp)
+      .then(() => fastboot.visit('/foo'))
+      .then(r => r.html())
+      .then((html) => {
+        expect(html).to.match(/foo from sandbox: 5/);
+        expect(html).to.match(/najax in sandbox: undefined/);
+      });
+
+    function hotReloadApp() {
+      fastboot.reload({
+        distPath: fixture('custom-sandbox')
+      });
+    }
+  });
+
+  it("can reload the app using the same sandbox class", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('basic-app'),
+      sandbox: CustomSandbox,
+      sandboxGlobals: {
+        myVar: 2,
+        foo: 'undefined',
+        najax: 'undefined'
+      }
+    });
+
+    return fastboot.visit('/')
+      .then(r => r.html())
+      .then(html => expect(html).to.match(/Welcome to Ember/))
+      .then(hotReloadApp)
+      .then(() => fastboot.visit('/foo'))
+      .then(r => r.html())
+      .then((html) => {
+        expect(html).to.match(/myVar in sandbox: 2/);
+      });
+
+    function hotReloadApp() {
+      fastboot.reload({
+        distPath: fixture('custom-sandbox')
+      });
+    }
+  });
+
   it("reads the config from package.json", function() {
     var fastboot = new FastBoot({
       distPath: fixture('config-app')
