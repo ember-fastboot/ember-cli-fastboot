@@ -8,31 +8,65 @@ var get = RSVP.denodeify(request);
 describe('async content via deferred content', function() {
   this.timeout(400000);
 
-  var app;
+  describe('with fastboot command', function() {
+    var app;
 
-  before(function() {
+    before(function() {
 
-    app = new AddonTestApp();
+      app = new AddonTestApp();
 
-    return app.create('async-content')
-      .then(function() {
-        return app.startServer({
-          command: 'fastboot',
-          additionalArguments: ['--serve-assets']
+      return app.create('async-content')
+        .then(function() {
+          return app.startServer({
+            command: 'fastboot',
+            additionalArguments: ['--serve-assets']
+          });
         });
-      });
+    });
+
+    after(function() {
+      return app.stopServer();
+    });
+
+    it('waits for async content when using `fastboot.deferRendering`', function() {
+      return get({
+        url: 'http://localhost:49741/'
+      })
+        .then(function(response) {
+          expect(response.body).to.contain('Async content: foo');
+        });
+    });
   });
 
-  after(function() {
-    return app.stopServer();
-  });
+  describe('with serve command', function() {
+    var app;
 
-  it('waits for async content when using `fastboot.deferRendering`', function() {
-    return get({
-      url: 'http://localhost:49741/'
-    })
-      .then(function(response) {
-        expect(response.body).to.contain('Async content: foo');
-      });
+    before(function() {
+
+      app = new AddonTestApp();
+
+      return app.create('async-content')
+        .then(function() {
+          return app.startServer({
+            command: 'serve'
+          });
+        });
+    });
+
+    after(function() {
+      return app.stopServer();
+    });
+
+    it('waits for async content when using `fastboot.deferRendering`', function() {
+      return get({
+        url: 'http://localhost:49741/',
+        headers: {
+          'Accept': 'text/html'
+        }
+      })
+        .then(function(response) {
+          expect(response.body).to.contain('Async content: foo');
+        });
+    });
   });
 });

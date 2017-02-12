@@ -1,38 +1,74 @@
-var expect           = require('chai').expect;
-var RSVP             = require('rsvp');
-var request          = RSVP.denodeify(require('request'));
+var expect = require('chai').expect;
+var RSVP = require('rsvp');
+var request = RSVP.denodeify(require('request'));
 
-var AddonTestApp     = require('ember-cli-addon-tests').AddonTestApp;
+var AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 
 describe('head content acceptance', function() {
   this.timeout(300000);
 
-  var app;
+  describe('with fastboot command', function() {
+    var app;
 
-  before(function() {
-    app = new AddonTestApp();
+    before(function() {
+      app = new AddonTestApp();
 
-    return app.create('head-content')
-      .then(addDependencies)
-      .then(function() {
-        return app.startServer({
-          command: 'fastboot'
+      return app.create('head-content')
+        .then(addDependencies)
+        .then(function() {
+          return app.startServer({
+            command: 'fastboot'
+          });
         });
-      });
+    });
+
+    after(function() {
+      return app.stopServer();
+    });
+
+    it('/ Has head content replaced', function() {
+      return request('http://localhost:49741/')
+        .then(function(response) {
+          expect(response.statusCode).to.equal(200);
+          expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
+          expect(response.body).to.contain('<meta property="og:title" content="Head Data Title">');
+          expect(response.body).to.not.contain('<!-- EMBER_CLI_FASTBOOT_HEAD -->');
+        });
+    });
   });
 
-  after(function() {
-    return app.stopServer();
-  });
+  describe('with serve command', function() {
+    var app;
 
-  it('/ Has head content replaced', function() {
-    return request('http://localhost:49741/')
-      .then(function(response) {
-        expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
-        expect(response.body).to.contain('<meta property="og:title" content="Head Data Title">');
-        expect(response.body).to.not.contain('<!-- EMBER_CLI_FASTBOOT_HEAD -->');
-      });
+    before(function() {
+      app = new AddonTestApp();
+
+      return app.create('head-content')
+        .then(addDependencies)
+        .then(function() {
+          return app.startServer({
+            command: 'serve'
+          });
+        });
+    });
+
+    after(function() {
+      return app.stopServer();
+    });
+
+    it('/ Has head content replaced', function() {
+      return request({
+        url: 'http://localhost:49741/',
+        headers: {
+          'Accept': 'text/html'
+        }})
+        .then(function(response) {
+          expect(response.statusCode).to.equal(200);
+          expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
+          expect(response.body).to.contain('<meta property="og:title" content="Head Data Title">');
+          expect(response.body).to.not.contain('<!-- EMBER_CLI_FASTBOOT_HEAD -->');
+        });
+    });
   });
 });
 

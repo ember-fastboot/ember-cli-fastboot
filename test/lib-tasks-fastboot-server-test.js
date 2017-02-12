@@ -35,7 +35,11 @@ function MockAddon() {
 
 MockAddon.prototype = Object.create(EventEmitter.prototype);
 
-const mockUI = { writeLine() {} };
+const mockUI = {
+  writeLine: function() {},
+  writeDeprecateLine: function() {},
+  writeWarnLine: function() {}
+};
 
 describe('fastboot server task', function() {
   let options, task;

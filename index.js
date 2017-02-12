@@ -6,6 +6,9 @@ var path = require('path');
 var EventEmitter = require('events').EventEmitter;
 var mergeTrees = require('broccoli-merge-trees');
 var VersionChecker = require('ember-cli-version-checker');
+var FastBootExpressMiddleware = require('fastboot-express-middleware');
+var FastBoot = require('fastboot');
+var chalk = require('chalk');
 
 var patchEmberApp     = require('./lib/ext/patch-ember-app');
 var fastbootAppModule = require('./lib/utilities/fastboot-app-module');
@@ -139,12 +142,66 @@ module.exports = {
     return fastbootBuild.toTree();
   },
 
+  serverMiddleware: function(options) {
+    var emberCliVersion = this._getEmberCliVersion();
+    var app = options.app;
+    var options = options.options;
+
+    if (emberCliVersion.satisfies('>= 2.12.0-beta.1')) {
+      // only run the middleware when ember-cli version for app is above 2.12.0-beta.1 since
+      // that version contains API to hook fastboot into ember-cli
+
+      app.use((req, resp, next) => {
+        var broccoliHeader = req.headers['x-broccoli'];
+        var outputPath = broccoliHeader['outputPath'];
+
+        if (broccoliHeader['url'] === req.serveUrl) {
+          // if it is a base page request, then have fastboot serve the base page
+          // TODO(future): provide a way to turn this off without needing to uninstall this addon
+          if (!this.fastboot) {
+            // TODO(future): make this configurable for allowing apps to pass sandboxGlobals
+            // and custom sandbox class
+            this.ui.writeLine(chalk.green('App is being served by FastBoot'));
+            this.fastboot = new FastBoot({
+              distPath: outputPath
+            });
+          }
+
+          var fastbootMiddleware = FastBootExpressMiddleware({
+            fastboot: this.fastboot
+          });
+
+          fastbootMiddleware(req, resp, next);
+        } else {
+          // forward the request to the next middleware (example other assets, proxy etc)
+          next();
+        }
+      })
+    }
+  },
+
   outputReady: function() {
     this.emit('outputReady');
   },
 
-  postBuild: function() {
+  postBuild: function(result) {
     this.emit('postBuild');
+    if (this.fastboot) {
+      // should we reload fastboot if there are only css changes? Seems it maynot be needed.
+      // TODO(future): we can do a smarter reload here by running fs-tree-diff on files loaded
+      // in sandbox.
+      this.ui.writeLine(chalk.blue('Reloading FastBoot...'));
+      this.fastboot.reload({
+        distPath: result.directory
+      });
+    }
+  },
+
+  _getEmberCliVersion: function() {
+    var VersionChecker = require('ember-cli-version-checker');
+    var checker = new VersionChecker(this);
+
+    return checker.for('ember-cli', 'npm');
   },
 
   _getEmberVersion: function() {
