@@ -29,7 +29,7 @@ FastBoot App Server requires Node.js v4.2 or later.
 
 ## Quick Start
 
-Put the following in a `server.js` file:
+Put the following in a `fastboot-server.js` file:
 
 ```js
 const FastBootAppServer = require('fastboot-app-server');
@@ -48,7 +48,7 @@ your server. (See [Application Builds](#application-builds) below.)
 Run the server file:
 
 ```
-$ PORT=8000 node server.js
+$ PORT=8000 node fastboot-server.js
 ```
 
 This will start an HTTP server on port 8000. To stop the server, type
