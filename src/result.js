@@ -112,11 +112,19 @@ class Result {
   }
 }
 
+/**
+ * `String.replace()` converts '$$' to '$', so we must escape each '$' as '$$';
+ * but because we’re using `String.replace()` to do it, we must use '$$$'!
+ */
+function escapeForStringReplace(string) {
+  return string.replace(/\$/g, '$$$');
+}
+
 function insertIntoIndexHTML(html, head, body) {
-  html = html.replace("<!-- EMBER_CLI_FASTBOOT_BODY -->", body);
+  html = html.replace("<!-- EMBER_CLI_FASTBOOT_BODY -->", escapeForStringReplace(body));
 
   if (head) {
-    html = html.replace("<!-- EMBER_CLI_FASTBOOT_HEAD -->", head);
+    html = html.replace("<!-- EMBER_CLI_FASTBOOT_HEAD -->", escapeForStringReplace(head));
   }
 
   return html;

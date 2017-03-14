@@ -81,5 +81,23 @@ describe('Result', function() {
         });
       });
     });
+
+    describe('when the document has special-case content', function () {
+      var BODY = '<h1>A special response document: $$</h1>';
+
+      beforeEach(function () {
+        doc.body.appendChild(doc.createRawHTMLSection(BODY));
+
+        result._fastbootInfo.response.statusCode = 418;
+        result._finalize();
+      });
+
+      it('it should handle \'$$\' correctly (due to `String.replace()` gotcha)', function () {
+        return result.html()
+        .then(function (result) {
+          expect(result).to.include(BODY);
+        });
+      });
+    });
   });
 });
