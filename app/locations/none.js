@@ -27,32 +27,32 @@ export default Ember.NoneLocation.extend({
   _response: readOnly('fastboot.response'),
   _request: readOnly('fastboot.request'),
 
-  _normalizePath(path, isInitialPath) {
-    if (!isInitialPath) {
-        // only on redirects (transitionTo, replaceWith, etc...)
-        // incoming path does not include rootURL
-        let rootURL = get(this, 'rootURL');
-        rootURL = rootURL.substr(0, rootURL.length - 1);
-        path = `${rootURL}${path}`;
-    }
-    return path;
+  _normalizePath(path) {
+    // only on redirects (transitionTo, replaceWith, etc...)
+    // incoming path does not include rootURL
+    let rootURL = get(this, 'rootURL');
+    rootURL = rootURL.substr(0, rootURL.length - 1);
+    return `${rootURL}${path}`;
   },
 
   setURL(path) {
     if (get(this, 'fastboot.isFastBoot')) {
+      let response = get(this, '_response');
       let currentPath = get(this, 'path');
       let isInitialPath = !currentPath || currentPath.length === 0;
-      path = this._normalizePath(path, isInitialPath);
-      let isTransitioning = currentPath !== path;
-      let response = get(this, '_response');
 
-      if (isTransitioning && !isInitialPath) {
-        let protocol = get(this, '_request.protocol');
-        let host = get(this, '_request.host');
-        let redirectURL = `${protocol}://${host}${path}`;
+      if (!isInitialPath) {
+        path = this._normalizePath(path);
+        let isTransitioning = currentPath !== path;
 
-        response.statusCode = this.get('_redirectCode');
-        response.headers.set('location', redirectURL);
+        if (isTransitioning) {
+          let protocol = get(this, '_request.protocol');
+          let host = get(this, '_request.host');
+          let redirectURL = `${protocol}://${host}${path}`;
+
+          response.statusCode = this.get('_redirectCode');
+          response.headers.set('location', redirectURL);
+        }
       }
 
       // for testing and debugging
