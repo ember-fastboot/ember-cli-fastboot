@@ -98,4 +98,38 @@ describe('FastBootLocation', function () {
       expect(response.body).to.contain('/my-root/test-passed');
     });
   });
+
+  it('should NOT redirect when transitionTo is called with identical route name', function () {
+    return get({
+      url: 'http://localhost:49741/my-root/noop-transition-to',
+      followRedirect: false
+    })
+    .then(function (response) {
+      if (response.statusCode === 500) throw new Error (response.body);
+      expect(response.statusCode).to.equal(200);
+
+      expect(response.headers).to.not.include.keys('location');
+      expect(response.headers).to.include.keys('x-fastboot-path');
+      expect(response.headers['x-fastboot-path']).to.equal('/my-root/noop-transition-to');
+
+      expect(response.body).to.contain('Redirect to self');
+    });
+  });
+
+  it('should NOT redirect when replaceWith is called with identical route name', function () {
+    return get({
+      url: 'http://localhost:49741/my-root/noop-replace-with',
+      followRedirect: false
+    })
+    .then(function (response) {
+      if (response.statusCode === 500) throw new Error (response.body);
+      expect(response.statusCode).to.equal(200);
+
+      expect(response.headers).to.not.include.keys('location');
+      expect(response.headers).to.include.keys('x-fastboot-path');
+      expect(response.headers['x-fastboot-path']).to.equal('/my-root/noop-replace-with');
+
+      expect(response.body).to.contain('Redirect to self');
+    });
+  });
 });
