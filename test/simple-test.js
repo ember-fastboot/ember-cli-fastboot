@@ -57,7 +57,7 @@ describe('simple acceptance', function() {
       .then(function(response) {
         expect(response.statusCode).to.equal(500);
         expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
-        expect(response.body).to.equal("BOOM\n");
+        expect(response.body).to.contain("BOOM");
       });
   });
 
