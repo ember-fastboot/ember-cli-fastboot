@@ -27,14 +27,6 @@ export default Ember.NoneLocation.extend({
   _response: readOnly('fastboot.response'),
   _request: readOnly('fastboot.request'),
 
-  _normalizePath(path) {
-    // only on redirects (transitionTo, replaceWith, etc...)
-    // incoming path does not include rootURL
-    let rootURL = get(this, 'rootURL');
-    rootURL = rootURL.substr(0, rootURL.length - 1);
-    return `${rootURL}${path}`;
-  },
-
   setURL(path) {
     if (get(this, 'fastboot.isFastBoot')) {
       let response = get(this, '_response');
@@ -42,7 +34,7 @@ export default Ember.NoneLocation.extend({
       let isInitialPath = !currentPath || currentPath.length === 0;
 
       if (!isInitialPath) {
-        path = this._normalizePath(path);
+        path = this.formatURL(path);
         let isTransitioning = currentPath !== path;
 
         if (isTransitioning) {
