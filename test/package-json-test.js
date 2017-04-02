@@ -64,9 +64,9 @@ describe('generating package.json', function() {
       var pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
 
       expect(pkg.fastboot.manifest).to.deep.equal({
-        appFiles: ['fastboot/module-whitelist.js', 'ember-fastboot-build-example/bar.js'],
+        appFiles: ['assets/module-whitelist.js', 'assets/module-whitelist-fastboot.js', 'ember-fastboot-build-example/bar.js'],
         htmlFile: 'index.html',
-        vendorFiles: ['ember-fastboot-build-example/foo.js', 'fastboot/vendor.js']
+        vendorFiles: ['ember-fastboot-build-example/foo.js', 'assets/vendor.js']
       });
     });
 
@@ -163,7 +163,7 @@ describe('generating package.json', function() {
     before(function() {
       return customApp.create('customized-outputpaths')
         .then(function() {
-          return customApp.run('ember', 'build', '--environment', 'production');
+          return customApp.run('ember', 'build');
         });
     });
 

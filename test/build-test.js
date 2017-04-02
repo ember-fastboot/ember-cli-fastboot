@@ -26,8 +26,7 @@ describe('it builds', function() {
         expect(app.filePath('dist/index.html')).to.have.content.that.match(
           /<!-- EMBER_CLI_FASTBOOT_BODY -->/
         );
-        expect(app.filePath('dist/fastboot/dummy.js')).to.be.a.file();
-        expect(app.filePath('dist/fastboot/vendor.js')).to.be.a.file();
+        expect(app.filePath('dist/assets/dummy-fastboot.js')).to.be.a.file();
       });
   });
 
@@ -35,8 +34,6 @@ describe('it builds', function() {
     return app.runEmberCommand('build', '--environment=production')
       .then(function() {
         expect(app.filePath('dist/index.html')).to.be.a.file();
-        expect(find('dist/assets/dummy-*.js')).to.be.a.file();
-        expect(find('dist/assets/dummy-*.js')).to.match(/dummy-\w{32}/, 'file name should contain MD5 fingerprint');
 
         expect(find('dist/assets/vendor-*.js')).to.be.a.file();
         expect(find('dist/assets/vendor-*.js')).to.match(/vendor-\w{32}/, 'file name should contain MD5 fingerprint');
@@ -45,8 +42,8 @@ describe('it builds', function() {
           /<!-- EMBER_CLI_FASTBOOT_BODY -->/
         );
 
-        expect(find('dist/fastboot/dummy-*.js')).to.be.a.file();
-        expect(find('dist/fastboot/vendor-*.js')).to.be.a.file();
+        expect(find('dist/assets/dummy-fastboot-*.js')).to.be.a.file();
+        expect(find('dist/assets/dummy-fastboot-*.js')).to.match(/dummy-fastboot-\w{32}/, 'file name should contain MD5 fingerprint');
       });
   });
 
@@ -60,4 +57,3 @@ describe('it builds', function() {
   }
 
 });
-
