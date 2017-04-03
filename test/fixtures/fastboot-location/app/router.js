@@ -7,6 +7,8 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('noop-transition-to');
+  this.route('noop-replace-with');
   this.route('redirect-on-intermediate-transition-to');
   this.route('redirect-on-transition-to');
   this.route('redirect-on-replace-with');
