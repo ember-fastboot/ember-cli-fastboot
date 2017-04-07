@@ -8,6 +8,8 @@ var get = RSVP.denodeify(request);
 describe('FastBootLocation Configuration', function () {
   this.timeout(300000);
 
+  var app;
+
   before(function () {
     app = new AddonTestApp();
 

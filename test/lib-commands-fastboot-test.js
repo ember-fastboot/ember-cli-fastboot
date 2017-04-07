@@ -23,6 +23,7 @@ describe('fastboot command', function() {
       buildRunCalled = buildWatchRunCalled = false;
       command = new FastbootCommand({
         blockForever: RSVP.resolve,
+        printDeprecations: RSVP.resolve,
         checkPort: RSVP.resolve,
         runServer: RSVP.resolve,
         startServer: RSVP.resolve,
@@ -65,6 +66,7 @@ describe('fastboot command', function() {
       serverStartCalled = false;
       command = new FastbootCommand({
         blockForever: RSVP.resolve,
+        printDeprecations: RSVP.resolve,
         checkPort: RSVP.resolve,
         runBuild: RSVP.resolve,
         ServerTask: CoreObject.extend({
@@ -89,6 +91,7 @@ describe('fastboot command', function() {
       isCalled = false;
       command = new FastbootCommand({
         blockForever: RSVP.resolve,
+        printDeprecations: RSVP.resolve,
         getPort: () => RSVP.resolve(1),
         runBuild: RSVP.resolve,
         ServerTask: CoreObject.extend({ run() { isCalled = true; } }),

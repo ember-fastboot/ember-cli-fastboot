@@ -33,6 +33,8 @@ ember install ember-cli-fastboot
 * `ember fastboot --serve-assets`
 * Visit your app at `http://localhost:3000`.
 
+**Note**: If your app is running ember-cli v2.12.0-beta.1+, you can just use `ember serve` instead of `ember fastboot --serve-assets`.
+
 You may be shocked to learn that minified code runs faster in Node than
 non-minified code, so you will probably want to run the production
 environment build for anything "serious."
@@ -381,7 +383,7 @@ present.
 
 ### Prototype extensions
 
-Prototype extensions do not currently work across node "realms."  Fastboot 
+Prototype extensions do not currently work across node "realms."  Fastboot
 applications operate in two realms, a normal node environment and a [virtual machine](https://nodejs.org/api/vm.html).  Passing objects that originated from the normal realm will not contain the extension methods
 inside of the sandbox environment. For this reason, it's encouraged to [disable prototype extensions](https://guides.emberjs.com/v2.4.0/configuring-ember/disabling-prototype-extensions/).
 
