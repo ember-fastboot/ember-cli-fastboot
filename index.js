@@ -152,12 +152,13 @@ module.exports = {
       // that version contains API to hook fastboot into ember-cli
 
       app.use((req, resp, next) => {
+        var fastbootQueryParam = (req.query.hasOwnProperty('fastboot') && req.query.fastboot === 'false') ? false : true;
+        var enableFastBootServe = !process.env.FASTBOOT_DISABLED && fastbootQueryParam;
         var broccoliHeader = req.headers['x-broccoli'];
         var outputPath = broccoliHeader['outputPath'];
 
-        if (broccoliHeader['url'] === req.serveUrl) {
+        if (broccoliHeader['url'] === req.serveUrl && enableFastBootServe) {
           // if it is a base page request, then have fastboot serve the base page
-          // TODO(future): provide a way to turn this off without needing to uninstall this addon
           if (!this.fastboot) {
             // TODO(future): make this configurable for allowing apps to pass sandboxGlobals
             // and custom sandbox class
