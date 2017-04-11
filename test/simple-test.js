@@ -105,6 +105,34 @@ describe('simple acceptance', function() {
         });
     });
 
+    it('with fastboot query parameter turned on', function() {
+      return request({
+        url: 'http://localhost:49741/?fastboot=true',
+        headers: {
+          'Accept': 'text/html'
+        }
+      })
+        .then(function(response) {
+          expect(response.statusCode).to.equal(200);
+          expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
+          expect(response.body).to.contain("Welcome to Ember.js");
+        });
+    });
+
+    it('with fastboot query parameter turned off', function() {
+      return request({
+        url: 'http://localhost:49741/?fastboot=false',
+        headers: {
+          'Accept': 'text/html'
+        }
+      })
+        .then(function(response) {
+          expect(response.statusCode).to.equal(200);
+          expect(response.headers["content-type"]).to.eq("text/html; charset=UTF-8");
+          expect(response.body).to.contain("<!-- EMBER_CLI_FASTBOOT_BODY -->");
+        });
+    });
+
     it('/posts HTML contents', function() {
       return request({
         url: 'http://localhost:49741/posts',

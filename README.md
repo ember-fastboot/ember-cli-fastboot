@@ -33,7 +33,13 @@ ember install ember-cli-fastboot
 * `ember fastboot --serve-assets`
 * Visit your app at `http://localhost:3000`.
 
-**Note**: If your app is running ember-cli v2.12.0-beta.1+, you can just use `ember serve` instead of `ember fastboot --serve-assets`.
+### With `ember-cli` version 2.12.0-beta.1 and above
+If your app is running ember-cli v2.12.0-beta.1+, you can just use `ember serve` instead of `ember fastboot --serve-assets` and visit at `http://localhost:4200/`.
+
+Optionally you can even disable the fastboot serving at runtime using the `fastboot` query parameter. Example to turn off fastboot serving,
+visit your app at `http://localhost:4200/?fastboot=false`. If you want to turn on fastboot serving again, simply visit at `http://localhost:4200/?fastboot=true` or `http://localhost:4200/`.
+
+You can even disable serving fastboot with `ember serve` using an environment flag: `FASTBOOT_DISABLED=true ember serve`. If you have disabled building fastboot assets using the same flag as described [here](https://github.com/ember-fastboot/ember-cli-fastboot#double-build-times-and-no-incremental-builds), remember to also disable serving fastboot assets when using `ember serve`.
 
 You may be shocked to learn that minified code runs faster in Node than
 non-minified code, so you will probably want to run the production
@@ -392,7 +398,7 @@ inside of the sandbox environment. For this reason, it's encouraged to [disable 
 Due to limitations in Ember CLI, builds take twice as long to generate the
 second set of FastBoot assets. This also means incremental builds with
 live reload don't work either. This aims to be resolved by FastBoot 1.0.
-In the mean time, we introduce a short-circuit evironment flag to not do
+In the mean time, we introduce a short-circuit environment flag to not do
 a FastBoot build:
 
 ```
