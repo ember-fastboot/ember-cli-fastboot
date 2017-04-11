@@ -473,13 +473,10 @@ console, and you can use the tools you'd expect such as `console.log`,
 
 #### Note Regarding Node 6.4 and above
 
-If you're using Node 6.4 and above, there's currently an
-[open issue](https://github.com/node-inspector/node-inspector/issues/905)
+If you're using Node 6.4 and above, there's a recently resolved
+[issue](https://github.com/node-inspector/node-inspector/issues/905)
 involving node-inspector. [A fix](https://github.com/node-inspector/node-inspector/commit/2e5309f75099753740c4567e17fd79ee27885d71)
-has been committed, and an updated version just needs to be published to NPM.
-Until an updated version of node-inspector is published to NPM, you can clone
-node-inspector locally, and call the appropriate script.  For example, instead
-of calling `node-inspector`, call `[path to node-inspector]/bin/inspector.js`
+has been committed and published, which can be leveraged in node-inspector version ~1.0.0.
 
 #### Incompatibility With `node --inspect`
 
