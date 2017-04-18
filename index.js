@@ -55,6 +55,10 @@ module.exports = {
    * we mixin additional Ember addon hooks appropriate to the current build target.
    */
   included: function(app) {
+    if (app.app) {
+      app = app.app;
+    }
+
     patchEmberApp(app);
   },
 
