@@ -33,14 +33,6 @@ ember install ember-cli-fastboot
 * `ember fastboot --serve-assets`
 * Visit your app at `http://localhost:3000`.
 
-### With `ember-cli` version 2.12.0-beta.1 and above
-If your app is running ember-cli v2.12.0-beta.1+, you can just use `ember serve` instead of `ember fastboot --serve-assets` and visit at `http://localhost:4200/`.
-
-Optionally you can even disable the fastboot serving at runtime using the `fastboot` query parameter. Example to turn off fastboot serving,
-visit your app at `http://localhost:4200/?fastboot=false`. If you want to turn on fastboot serving again, simply visit at `http://localhost:4200/?fastboot=true` or `http://localhost:4200/`.
-
-You can even disable serving fastboot with `ember serve` using an environment flag: `FASTBOOT_DISABLED=true ember serve`. If you have disabled building fastboot assets using the same flag as described [here](https://github.com/ember-fastboot/ember-cli-fastboot#double-build-times-and-no-incremental-builds), remember to also disable serving fastboot assets when using `ember serve`.
-
 You may be shocked to learn that minified code runs faster in Node than
 non-minified code, so you will probably want to run the production
 environment build for anything "serious."
@@ -56,6 +48,14 @@ ember fastboot --port 8088
 ```
 
 See `ember help fastboot` for more.
+
+### With `ember-cli` version 2.12.0-beta.1 and above
+If your app is running ember-cli v2.12.0-beta.1+, you can just use `ember serve` instead of `ember fastboot --serve-assets` and visit at `http://localhost:4200/`.
+
+Optionally you can even disable the fastboot serving at runtime using the `fastboot` query parameter. Example to turn off fastboot serving,
+visit your app at `http://localhost:4200/?fastboot=false`. If you want to turn on fastboot serving again, simply visit at `http://localhost:4200/?fastboot=true` or `http://localhost:4200/`.
+
+You can even disable serving fastboot with `ember serve` using an environment flag: `FASTBOOT_DISABLED=true ember serve`. If you have disabled building fastboot assets using the same flag as described [here](https://github.com/ember-fastboot/ember-cli-fastboot#double-build-times-and-no-incremental-builds), remember to also disable serving fastboot assets when using `ember serve`.
 
 ## Using Node/npm Dependencies
 
@@ -364,6 +364,40 @@ if (!process.env.EMBER_CLI_FASTBOOT) {
   app.import('some/jquery.plugin.js')
 }
 ```
+
+*Note*: This is soon going to be deprecated. See [this issue](https://github.com/ember-fastboot/ember-cli-fastboot/issues/360).
+
+## Loading additional assets in FastBoot environment
+
+Often addons require to load libraries that are specific to the FastBoot environment and only need to be loaded on the server side. This can include loading
+libraries before or after the vendor file is loaded in the sandbox and/or before or after the app file is loaded in the sandbox. Since the FastBoot manifest defines
+an array of vendor and app files to load in the sandbox, an addon can define additional vendor/app files to load in the sandbox as well.
+
+If your addon requires to load something in the sandbox: you can define the `updateFastBootManifest` hook from your addon (in `index.js`):
+
+```js
+updateFastBootManifest(manifest) {
+  /**
+   * manifest is an object containing:
+   * {
+   *    vendorFiles: [<path of the vendor file to load>, ...],
+   *    appFiles: [<path of the app file to load>, ...],
+   *    htmlFile: '<path of the base page that should be served by FastBoot>'
+   * }
+   */
+
+   // This will load the foo.js before vendor.js is loaded in sandbox
+   manifest.vendorFiles.unshift('<path to foo.js under dist>');
+   // This will load bar.js after app.js is loaded in the sandbox
+   manifest.appFiles.push('<path to bar.js under dist>');
+
+   // remember to return the updated manifest, otherwise your build will fail.
+   return manifest;
+}
+```
+
+*Note*: `process.env.EMBER_CLI_FASTBOOT` is soon going to be deprecated and [eventually removed](https://github.com/ember-fastboot/ember-cli-fastboot/issues/360).
+Therefore, if you are relying on this environment variable to import something in the fastboot environment, you should instead use `updateFastBootManifest` hook.
 
 
 ## Known Limitations
