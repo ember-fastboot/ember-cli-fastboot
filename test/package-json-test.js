@@ -64,9 +64,9 @@ describe('generating package.json', function() {
       var pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
 
       expect(pkg.fastboot.manifest).to.deep.equal({
-        appFiles: ['fastboot/module-whitelist.js'],
+        appFiles: ['fastboot/module-whitelist.js', 'ember-fastboot-build-example/bar.js'],
         htmlFile: 'index.html',
-        vendorFiles: ['fastboot/vendor.js']
+        vendorFiles: ['ember-fastboot-build-example/foo.js', 'fastboot/vendor.js']
       });
     });
 
@@ -221,7 +221,8 @@ function addFastBootDeps(app) {
     pkg['devDependencies']['fake-addon-2'] = "*";
     pkg['fastbootDependencies'] = ["rsvp"];
     pkg['dependencies'] = {
-      rsvp: "3.2.1"
+      rsvp: "3.2.1",
+      "ember-fastboot-build-example": "0.1.1"
     };
   });
 }
