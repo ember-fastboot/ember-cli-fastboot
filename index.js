@@ -147,7 +147,7 @@ module.exports = {
     var app = options.app;
     var options = options.options;
 
-    if (emberCliVersion.gt('2.12.0-beta.0')) {
+    if (emberCliVersion.gte('2.12.0-beta.1')) {
       // only run the middleware when ember-cli version for app is above 2.12.0-beta.1 since
       // that version contains API to hook fastboot into ember-cli
 
