@@ -1,15 +1,17 @@
-var expect = require('chai').expect;
-var RSVP = require('rsvp');
-var request = RSVP.denodeify(require('request'));
+'use strict';
 
-var AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
+const expect = require('chai').expect;
+const RSVP = require('rsvp');
+const request = RSVP.denodeify(require('request'));
+
+const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 
 // TODO: Unskip this test once ember-cli-head is released with new fastboot build spec.
 describe.skip('head content acceptance', function() {
   this.timeout(300000);
 
   describe('with fastboot command', function() {
-    var app;
+    let app;
 
     before(function() {
       app = new AddonTestApp();
@@ -39,7 +41,7 @@ describe.skip('head content acceptance', function() {
   });
 
   describe('with serve command', function() {
-    var app;
+    let app;
 
     before(function() {
       app = new AddonTestApp();

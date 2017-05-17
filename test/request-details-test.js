@@ -1,15 +1,17 @@
-var chai = require('chai');
-var expect = chai.expect;
-var RSVP = require('rsvp');
-var AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
-var request = require('request');
-var get = RSVP.denodeify(request);
+'use strict';
+
+const chai = require('chai');
+const expect = chai.expect;
+const RSVP = require('rsvp');
+const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
+const request = require('request');
+const get = RSVP.denodeify(request);
 
 describe('request details', function() {
   this.timeout(300000);
 
   describe('with fastboot command', function() {
-    var app;
+    let app;
 
     before(function() {
 
@@ -69,8 +71,8 @@ describe('request details', function() {
     });
 
     it('makes cookies available via a service', function() {
-      var jar = request.jar();
-      var cookie = request.cookie('city=Cluj');
+      let jar = request.jar();
+      let cookie = request.cookie('city=Cluj');
 
       jar.setCookie(cookie, 'http://localhost:49741');
 
@@ -97,7 +99,7 @@ describe('request details', function() {
   });
 
   describe('with serve command', function() {
-    var app;
+    let app;
 
     before(function() {
 
@@ -168,8 +170,8 @@ describe('request details', function() {
     });
 
     it('makes cookies available via a service', function() {
-      var jar = request.jar();
-      var cookie = request.cookie('city=Cluj');
+      let jar = request.jar();
+      let cookie = request.cookie('city=Cluj');
 
       jar.setCookie(cookie, 'http://localhost:49741');
 

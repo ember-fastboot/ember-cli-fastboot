@@ -1,15 +1,17 @@
-var chai = require('chai');
-var expect = chai.expect;
+'use strict';
+
+const chai = require('chai');
+const expect = chai.expect;
 chai.use(require('chai-fs'));
 
-var glob = require('glob');
+const glob = require('glob');
 
-var AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
+const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 
 describe('it builds', function() {
   this.timeout(300000);
 
-  var app;
+  let app;
 
   before(function() {
     app = new AddonTestApp();
@@ -17,7 +19,7 @@ describe('it builds', function() {
     return app.create('dummy');
   });
 
-  it("builds into dist by default", function() {
+  it('builds into dist by default', function() {
     return app.runEmberCommand('build')
       .then(function() {
         expect(app.filePath('dist/index.html')).to.be.a.file();
@@ -30,7 +32,7 @@ describe('it builds', function() {
       });
   });
 
-  it("produces a production build with --environment=production", function() {
+  it('produces a production build with --environment=production', function() {
     return app.runEmberCommand('build', '--environment=production')
       .then(function() {
         expect(app.filePath('dist/index.html')).to.be.a.file();
@@ -49,7 +51,7 @@ describe('it builds', function() {
 
   function find(globPath) {
     globPath = app.filePath(globPath);
-    var files = glob.sync(globPath);
+    let files = glob.sync(globPath);
 
     expect(files.length).to.equal(1, globPath);
 

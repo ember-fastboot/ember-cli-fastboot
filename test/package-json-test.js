@@ -1,15 +1,17 @@
-var chai         = require('chai');
-var expect       = chai.expect;
-var fs           = require('fs-extra');
-var path         = require('path');
-var AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
+'use strict';
+
+const chai         = require('chai');
+const expect       = chai.expect;
+const fs           = require('fs-extra');
+const path         = require('path');
+const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 
 chai.use(require('chai-fs'));
 
 describe('generating package.json', function() {
   this.timeout(300000);
 
-  var app;
+  let app;
 
   before(function() {
     app = new AddonTestApp();
@@ -31,25 +33,25 @@ describe('generating package.json', function() {
       expect(app.filePath('dist/package.json')).to.be.a.file();
     });
 
-    it("merges FastBoot dependencies from multiple addons", function() {
-      var config = fs.readJsonSync(app.filePath('/dist/package.json'));
+    it('merges FastBoot dependencies from multiple addons', function() {
+      let config = fs.readJsonSync(app.filePath('/dist/package.json'));
 
       expect(config.dependencies).to.deep.equal({
-        "foo": "1.0.0",
-        "bar": "^0.1.2",
-        "baz": "0.0.0",
-        "rsvp": "3.2.1"
+        'foo': '1.0.0',
+        'bar': '^0.1.2',
+        'baz': '0.0.0',
+        'rsvp': '3.2.1'
       });
     });
 
-    it("contains a schema version", function() {
-      var pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
+    it('contains a schema version', function() {
+      let pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
 
       expect(pkg.fastboot.schemaVersion).to.deep.equal(2);
     });
 
-    it("contains a whitelist of allowed module names", function() {
-      var pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
+    it('contains a whitelist of allowed module names', function() {
+      let pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
 
       expect(pkg.fastboot.moduleWhitelist).to.deep.equal([
         'path',
@@ -60,8 +62,8 @@ describe('generating package.json', function() {
       ]);
     });
 
-    it("contains a manifest of FastBoot assets", function() {
-      var pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
+    it('contains a manifest of FastBoot assets', function() {
+      let pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
 
       expect(pkg.fastboot.manifest).to.deep.equal({
         appFiles: ['assets/module-whitelist.js', 'assets/module-whitelist-fastboot.js', 'ember-fastboot-build-example/bar.js'],
@@ -70,8 +72,8 @@ describe('generating package.json', function() {
       });
     });
 
-    it("contains a list of whitelisted hosts from environment.js", function() {
-      var pkg = fs.readJsonSync(app.filePath('dist/package.json'));
+    it('contains a list of whitelisted hosts from environment.js', function() {
+      let pkg = fs.readJsonSync(app.filePath('dist/package.json'));
 
       expect(pkg.fastboot.hostWhitelist).to.deep.equal([
         'example.com',
@@ -80,8 +82,8 @@ describe('generating package.json', function() {
       ]);
     });
 
-    it("contains the application config", function() {
-      var pkg = fs.readJsonSync(app.filePath('dist/package.json'));
+    it('contains the application config', function() {
+      let pkg = fs.readJsonSync(app.filePath('dist/package.json'));
 
       expect(pkg.fastboot.appConfig).to.deep.equal({
         modulePrefix: 'module-whitelist',
@@ -105,14 +107,14 @@ describe('generating package.json', function() {
     // https://github.com/tildeio/ember-cli-fastboot/issues/102
     // production builds have a fingerprint added to them, which was not being
     // reflected in the manifest
-    it("contains a manifest of FastBoot assets", function() {
-      var pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
+    it('contains a manifest of FastBoot assets', function() {
+      let pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
 
-      var p = function(filePath) {
+      let p = function(filePath) {
         return app.filePath(path.join('dist', filePath));
       };
 
-      var manifest = pkg.fastboot.manifest;
+      let manifest = pkg.fastboot.manifest;
 
       manifest.appFiles.forEach(function(file) {
         expect(p(file)).to.be.a.file();
@@ -126,7 +128,7 @@ describe('generating package.json', function() {
 
   describe('with customized fingerprinting options', function() {
     // Tests an app with a custom `assetMapPath` set
-    var customApp = new AddonTestApp();
+    let customApp = new AddonTestApp();
 
     before(function() {
       return customApp.create('customized-fingerprinting')
@@ -135,15 +137,15 @@ describe('generating package.json', function() {
         });
     });
 
-    it("respects a custom asset map path and prepended URLs", function() {
+    it('respects a custom asset map path and prepended URLs', function() {
       expect(customApp.filePath('dist/totally-customized-asset-map.json')).to.be.a.file();
 
-      var p = function(filePath) {
+      function p(filePath) {
         return customApp.filePath(path.join('dist', filePath));
-      };
+      }
 
-      var pkg = fs.readJsonSync(customApp.filePath('/dist/package.json'));
-      var manifest = pkg.fastboot.manifest;
+      let pkg = fs.readJsonSync(customApp.filePath('/dist/package.json'));
+      let manifest = pkg.fastboot.manifest;
 
       manifest.appFiles.forEach(function(file) {
         expect(p(file)).to.be.a.file();
@@ -158,7 +160,7 @@ describe('generating package.json', function() {
 
   describe('with customized outputPaths options', function() {
     // Tests an app with a custom `outputPaths` set
-    var customApp = new AddonTestApp();
+    let customApp = new AddonTestApp();
 
     before(function() {
       return customApp.create('customized-outputpaths')
@@ -167,14 +169,13 @@ describe('generating package.json', function() {
         });
     });
 
-    it("respects custom output paths and maps to them in the manifest", function() {
-
-      var p = function(filePath) {
+    it('respects custom output paths and maps to them in the manifest', function() {
+      function p(filePath) {
         return customApp.filePath(path.join('dist', filePath));
-      };
+      }
 
-      var pkg = fs.readJsonSync(customApp.filePath('/dist/package.json'));
-      var manifest = pkg.fastboot.manifest;
+      let pkg = fs.readJsonSync(customApp.filePath('/dist/package.json'));
+      let manifest = pkg.fastboot.manifest;
 
       manifest.appFiles.forEach(function(file) {
         expect(p(file)).to.be.a.file();
@@ -190,7 +191,7 @@ describe('generating package.json', function() {
   describe('with custom htmlFile', function() {
     this.timeout(300000);
 
-    var customApp = new AddonTestApp();
+    let customApp = new AddonTestApp();
 
     before(function() {
       return customApp.create('custom-html-file')
@@ -199,14 +200,13 @@ describe('generating package.json', function() {
         });
     });
 
-    it("uses custom htmlFile in the manifest", function() {
-
-      var p = function(filePath) {
+    it('uses custom htmlFile in the manifest', function() {
+      function p(filePath) {
         return customApp.filePath(path.join('dist', filePath));
-      };
+      }
 
-      var pkg = fs.readJsonSync(customApp.filePath('/dist/package.json'));
-      var manifest = pkg.fastboot.manifest;
+      let pkg = fs.readJsonSync(customApp.filePath('/dist/package.json'));
+      let manifest = pkg.fastboot.manifest;
 
       expect(manifest.htmlFile).to.equal('custom-index.html');
       expect(p(manifest.htmlFile)).to.be.a.file();
@@ -217,12 +217,12 @@ describe('generating package.json', function() {
 
 function addFastBootDeps(app) {
   return app.editPackageJSON(function(pkg) {
-    pkg['devDependencies']['fake-addon'] = "*";
-    pkg['devDependencies']['fake-addon-2'] = "*";
+    pkg['devDependencies']['fake-addon'] = '*';
+    pkg['devDependencies']['fake-addon-2'] = '*';
     pkg['fastbootDependencies'] = ["rsvp"];
     pkg['dependencies'] = {
-      rsvp: "3.2.1",
-      "ember-fastboot-build-example": "0.1.1"
+      rsvp: '3.2.1',
+      'ember-fastboot-build-example': '0.1.1'
     };
   });
 }

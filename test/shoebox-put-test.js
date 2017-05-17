@@ -1,14 +1,16 @@
-var expect = require('chai').expect;
-var RSVP = require('rsvp');
-var request = RSVP.denodeify(require('request'));
+'use strict';
 
-var AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
+const expect = require('chai').expect;
+const RSVP = require('rsvp');
+const request = RSVP.denodeify(require('request'));
+
+const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 
 describe('shoebox - put', function() {
   this.timeout(300000);
 
   describe('with fastboot command', function() {
-    var app;
+    let app;
 
     before(function() {
       app = new AddonTestApp();
@@ -31,12 +33,12 @@ describe('shoebox - put', function() {
           expect(response.statusCode).to.equal(200);
           expect(response.body).to.contain(
             '<script type="fastboot/shoebox" id="shoebox-key1">' +
-              '{"foo":"bar"}' +
+            '{"foo":"bar"}' +
             '</script>'
           );
           expect(response.body).to.contain(
             '<script type="fastboot/shoebox" id="shoebox-key2">' +
-              '{"zip":"zap"}' +
+            '{"zip":"zap"}' +
             '</script>'
           );
         });
@@ -44,7 +46,7 @@ describe('shoebox - put', function() {
   });
 
   describe('with serve command', function() {
-    var app;
+    let app;
 
     before(function() {
       app = new AddonTestApp();
@@ -72,12 +74,12 @@ describe('shoebox - put', function() {
           expect(response.statusCode).to.equal(200);
           expect(response.body).to.contain(
             '<script type="fastboot/shoebox" id="shoebox-key1">' +
-              '{"foo":"bar"}' +
+            '{"foo":"bar"}' +
             '</script>'
           );
           expect(response.body).to.contain(
             '<script type="fastboot/shoebox" id="shoebox-key2">' +
-              '{"zip":"zap"}' +
+            '{"zip":"zap"}' +
             '</script>'
           );
         });
