@@ -1,15 +1,17 @@
-var chai = require('chai');
-var expect = chai.expect;
-var RSVP = require('rsvp');
-var AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
-var request = require('request');
-var get = RSVP.denodeify(request);
+'use strict';
+
+const chai = require('chai');
+const expect = chai.expect;
+const RSVP = require('rsvp');
+const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
+const request = require('request');
+const get = RSVP.denodeify(request);
 
 describe('response details', function() {
   this.timeout(300000);
 
   describe('with fastboot command', function() {
-    var app;
+    let app;
 
     before(function() {
 
@@ -50,7 +52,7 @@ describe('response details', function() {
   });
 
   describe('with serve command', function() {
-    var app;
+    let app;
 
     before(function() {
 

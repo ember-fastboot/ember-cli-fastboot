@@ -1,25 +1,27 @@
-var chai = require('chai');
-var expect = chai.expect;
-var RSVP = require('rsvp');
-var AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
-var request = require('request');
-var get = RSVP.denodeify(request);
+'use strict';
+
+const chai = require('chai');
+const expect = chai.expect;
+const RSVP = require('rsvp');
+const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
+const request = require('request');
+const get = RSVP.denodeify(request);
 
 describe('FastBootLocation Configuration', function () {
   this.timeout(300000);
 
-  var app;
+  let app;
 
   before(function () {
     app = new AddonTestApp();
 
     return app.create('fastboot-location-config')
-    .then(function () {
-      return app.startServer({
-        command: 'fastboot',
-        additionalArguments: ['--serve-assets']
+      .then(function () {
+        return app.startServer({
+          command: 'fastboot',
+          additionalArguments: ['--serve-assets']
+        });
       });
-    });
   });
 
   after(function () {
@@ -31,10 +33,10 @@ describe('FastBootLocation Configuration', function () {
       url: 'http://localhost:49741/redirect-on-transition-to',
       followRedirect: false
     })
-    .then(function (response) {
-      if (response.statusCode === 500) throw new Error (response.body);
-      expect(response.statusCode).to.equal(302);
-    });
+      .then(function (response) {
+        if (response.statusCode === 500) throw new Error (response.body);
+        expect(response.statusCode).to.equal(302);
+      });
   });
 
   describe('when fastboot.fastbootHeaders is false', function () {
@@ -43,12 +45,12 @@ describe('FastBootLocation Configuration', function () {
         url: 'http://localhost:49741/redirect-on-transition-to',
         followRedirect: false
       })
-      .then(function (response) {
-        if (response.statusCode === 500) throw new Error (response.body);
-        expect(response.headers).to.not.include.keys([
-          'x-fastboot-path'
-        ]);
-      });
+        .then(function (response) {
+          if (response.statusCode === 500) throw new Error (response.body);
+          expect(response.headers).to.not.include.keys([
+            'x-fastboot-path'
+          ]);
+        });
     });
   });
 });

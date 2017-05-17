@@ -1,14 +1,16 @@
-var expect = require('chai').expect;
-var RSVP = require('rsvp');
-var request = RSVP.denodeify(require('request'));
+'use strict';
 
-var AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
+const expect = require('chai').expect;
+const RSVP = require('rsvp');
+const request = RSVP.denodeify(require('request'));
+
+const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 
 describe('simple acceptance', function() {
   this.timeout(300000);
 
   describe('with fastboot command', function() {
-    var app;
+    let app;
 
     before(function() {
       app = new AddonTestApp();
@@ -74,7 +76,7 @@ describe('simple acceptance', function() {
   });
 
   describe('with serve command', function() {
-    var app;
+    let app;
 
     before(function() {
       app = new AddonTestApp();
@@ -181,7 +183,7 @@ describe('simple acceptance', function() {
         .then(function(response) {
           // Asset serving is on by default
           expect(response.statusCode).to.equal(200);
-          expect(response.headers["content-type"]).to.eq("application/javascript");
+          expect(response.headers["content-type"]).to.eq("application/javascript; charset=UTF-8");
           expect(response.body).to.contain("Ember =");
         });
     });
