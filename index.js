@@ -4,7 +4,6 @@
 const path = require('path');
 const fs = require('fs');
 
-const EventEmitter = require('events').EventEmitter;
 const MergeTrees = require('broccoli-merge-trees');
 const FastBootExpressMiddleware = require('fastboot-express-middleware');
 const FastBoot = require('fastboot');
@@ -28,26 +27,13 @@ module.exports = {
 
   init() {
     this._super.init && this._super.init.apply(this, arguments);
-
-    // TODO remove once serve PR is checked in
-    this.emitter = new EventEmitter();
   },
 
-  // TODO remove once serve PR is checked in
+  // TODO remove after few ember-cli-fastboot rc builds
   includedCommands: function() {
     return {
       'fastboot':       require('./lib/commands/fastboot')(this),
     };
-  },
-
-  // TODO remove once serve PR is checked in
-  on: function() {
-    this.emitter.on.apply(this.emitter, arguments);
-  },
-
-  // TODO remove once serve PR is checked in
-  emit: function() {
-    this.emitter.emit.apply(this.emitter, arguments);
   },
 
   /**
@@ -263,14 +249,7 @@ module.exports = {
     }
   },
 
-  // TODO remove once serve PR is checked in
-  outputReady: function() {
-    this.emit('outputReady');
-  },
-
-  // TODO remove once serve PR is checked in
   postBuild: function(result) {
-    this.emit('postBuild');
     if (this.fastboot) {
       // should we reload fastboot if there are only css changes? Seems it maynot be needed.
       // TODO(future): we can do a smarter reload here by running fs-tree-diff on files loaded
