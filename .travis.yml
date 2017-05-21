@@ -1,8 +1,10 @@
 ---
 language: node_js
 node_js:
-  - "4"
-  - "stable"
+  # disabled while we refactor tests
+  # - "4"
+  - "6"
+  # - "7"
 
 env:
   - CXX=g++-4.8 WORKER_COUNT=2
@@ -16,21 +18,20 @@ addons:
 sudo: false
 
 cache:
-  directories:
-    - $HOME/.npm
-    - $HOME/.cache # includes bowers cache
+  yarn: false # switch to yarn once ember-cli-addon-tests is removed
 
 before_install:
-  - npm config set spin false
-  - npm install -g npm@^3
-  - npm --version
-  - npm install -g bower phantomjs-prebuilt
-  - bower --version
+  # Once we no longer support Node.js 0.12 we can drop this entire section.
+  # prevent the npm loading indicator
+  - npm config --global set spin false
+  # if npm version is less than 3.0.0, upgrade to 3
+  - if [[ $(npm -v | cut -d '.' -f 1) -lt 3 ]]; then npm i -g npm@^3; fi
+  - npm i -g phantomjs-prebuilt
+  - npm i -g bower # for ember-cli-addon-tests
   - phantomjs --version
 
 install:
   - npm install
-  - bower install
 
 script:
   - npm test

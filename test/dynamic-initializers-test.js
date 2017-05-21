@@ -21,7 +21,7 @@ describe('dynamic initializers', function() {
   });
 
   it('filters FastBoot initializers from browser build', function() {
-    let  appPath = app.filePath('dist/assets/dynamic-initializers.js');
+    let appPath = app.filePath('dist/assets/dynamic-initializers.js');
     expect(appPath).to.not.have.content.that.match(
       /But I warn you, if you don't tell me that this means war/);
     expect(appPath).to.have.content.that.match(
@@ -29,7 +29,7 @@ describe('dynamic initializers', function() {
   });
 
   it('filters browser initializers from FastBoot build', function() {
-    let  appPath = app.filePath('dist/assets/dynamic-initializers-fastboot.js');
+    let appPath = app.filePath('dist/assets/dynamic-initializers-fastboot.js');
     expect(appPath).to.have.content.that.match(
       /But I warn you, if you don't tell me that this means war/);
     expect(appPath).to.not.have.content.that.match(
@@ -37,7 +37,7 @@ describe('dynamic initializers', function() {
   });
 
   it('filters FastBoot instance initializers from browser build', function() {
-    let  appPath = app.filePath('dist/assets/dynamic-initializers.js');
+    let appPath = app.filePath('dist/assets/dynamic-initializers.js');
     expect(appPath).to.not.have.content.that.match(/It was in July, 1805/);
     expect(appPath).to.have.content.that.match(/But how do you do/);
   });

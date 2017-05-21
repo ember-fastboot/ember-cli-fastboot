@@ -24,7 +24,6 @@ const existsSync = require('exists-sync');
 module.exports = {
   name: 'ember-cli-fastboot',
 
-
   init() {
     this._super.init && this._super.init.apply(this, arguments);
   },
