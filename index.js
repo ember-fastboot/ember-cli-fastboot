@@ -94,7 +94,7 @@ module.exports = {
   treeForFastBoot: function(tree) {
     let fastbootHtmlBarsTree;
 
-    // check the ember-cli version and conditionally patch the DOM api
+    // check the ember version and conditionally patch the DOM api
     if (this._getEmberVersion().lt('2.10.0-alpha.1')) {
       fastbootHtmlBarsTree = this.treeGenerator(path.resolve(__dirname, 'fastboot-app-lt-2-9'));
       return tree ? new MergeTrees([tree, fastbootHtmlBarsTree]) : fastbootHtmlBarsTree;

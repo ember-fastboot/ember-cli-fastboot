@@ -21,7 +21,7 @@ your production app and have FastBoot work.
 
 ## Installation
 
-FastBoot requires Ember 2.3 or higher.
+FastBoot requires Ember 2.3 or higher. It is also preferable that your app is running `ember-cli` 2.12.0 and higher.
 
 From within your Ember CLI application, run the following command:
 
@@ -31,32 +31,37 @@ ember install ember-cli-fastboot
 
 ## Running
 
-* `ember fastboot --serve-assets`
-* Visit your app at `http://localhost:3000`.
+If your app is running `ember-cli` 2.12.0-beta.1+ you can run as follows:
+
+* `ember serve`
+* Visit your app at `http://localhost:42000`
 
 You may be shocked to learn that minified code runs faster in Node than
 non-minified code, so you will probably want to run the production
 environment build for anything "serious."
 
 ```
-ember fastboot --environment production
+ember serve --environment production
 ```
 
 You can also specify the port (default is 3000):
 
 ```
-ember fastboot --port 8088
+ember serve --port 8088
 ```
 
-See `ember help fastboot` for more.
+See `ember help` for more.
 
-### With `ember-cli` version 2.12.0-beta.1 and above
-If your app is running ember-cli v2.12.0-beta.1+, you can just use `ember serve` instead of `ember fastboot --serve-assets` and visit at `http://localhost:4200/`.
+### Disabling FastBoot with `ember serve`
 
 Optionally you can even disable the fastboot serving at runtime using the `fastboot` query parameter. Example to turn off fastboot serving,
 visit your app at `http://localhost:4200/?fastboot=false`. If you want to turn on fastboot serving again, simply visit at `http://localhost:4200/?fastboot=true` or `http://localhost:4200/`.
 
 You can even disable serving fastboot with `ember serve` using an environment flag: `FASTBOOT_DISABLED=true ember serve`. If you have disabled building fastboot assets using the same flag as described [here](https://github.com/ember-fastboot/ember-cli-fastboot#double-build-times-and-no-incremental-builds), remember to also disable serving fastboot assets when using `ember serve`.
+
+### Deprecation of `ember fastboot`
+
+`ember fastboot` which was earlier required to run your app in FastBoot is now deprecated and is removed in the RC builds of `ember-cli-fastboot`. With FastBoot 1.0 to be released soon, this command will no longer exists and will be replaced by `ember serve`. It is recommended that your upgrade the `ember-cli` version of your app to be 2.12.0 and above.
 
 ## Using Node/npm Dependencies
 
@@ -347,7 +352,9 @@ export default Ember.Route.extend({
 });
 ```
 
-## Disabling incompatible dependencies
+## Build Hooks for FastBoot
+
+### Disabling incompatible dependencies
 
 There are two places where the inclusion of incompatible JavaScript libraries could
 occur:
@@ -355,20 +362,28 @@ occur:
  1. `app.import` in the application's `ember-cli-build.js`
  2. `app.import` in an addon's `included` hook
 
-`ember-cli-fastboot` sets the `EMBER_CLI_FASTBOOT` environment variable when it is
-building the FastBoot version of the application. You can use this to prevent the
-inclusion of the library at build time:
+You can include the incompatible Javascript libraries by wrapping them with a `FastBoot` variable check. In the browser, `FastBoot` global variable is not defined.
 
 ```js
-if (!process.env.EMBER_CLI_FASTBOOT) {
-  // This will only be included in the browser build
-  app.import('some/jquery.plugin.js')
+var map = require('broccoli-stew').map;
+
+treeForVendor(defaultTree) {
+  var browserVendorLib = new Funnel(...);
+
+  browserVendorLib = map(browserVendorLib, (content) => `if (typeof FastBoot === 'undefined') { ${content} }`);
+
+  return new mergeTrees([defaultTree, browserVendorLib]);
+}
+
+included() {
+  // this file will be loaded in FastBoot but will not be eval'd
+  app.import('vendor/<browserLibName>.js');
 }
 ```
 
-*Note*: This is soon going to be deprecated. See [this issue](https://github.com/ember-fastboot/ember-cli-fastboot/issues/360).
+*Note*: `ember-cli-fastboot` will no longer provide the `EMBER_CLI_FASTBOOT` environment variable to differentiate browser and fastboot builds with rc builds and FastBoot 1.0 and above.
 
-## Loading additional assets in FastBoot environment
+### Loading additional assets in FastBoot environment
 
 Often addons require to load libraries that are specific to the FastBoot environment and only need to be loaded on the server side. This can include loading
 libraries before or after the vendor file is loaded in the sandbox and/or before or after the app file is loaded in the sandbox. Since the FastBoot manifest defines
@@ -397,8 +412,28 @@ updateFastBootManifest(manifest) {
 }
 ```
 
-*Note*: `process.env.EMBER_CLI_FASTBOOT` is soon going to be deprecated and [eventually removed](https://github.com/ember-fastboot/ember-cli-fastboot/issues/360).
+*Note*: `process.env.EMBER_CLI_FASTBOOT` will be removed in RC builds and FastBoot 1.0.
 Therefore, if you are relying on this environment variable to import something in the fastboot environment, you should instead use `updateFastBootManifest` hook.
+
+### Conditionally include assets in FastBoot asset
+
+Often your addon may need to conditionally include additional app trees based on ember version. Example, Ember changed an API and in order to have your addon be backward compatible for the API changes you want to include an asset when the ember version is x. For such usecases you could define the `treeForFastBoot` hook in your addon's `index.js` as below:
+
+```js
+treeForFastBoot: function(tree) {
+  let fastbootHtmlBarsTree;
+
+  // check the ember version and conditionally patch the DOM api
+  if (this._getEmberVersion().lt('2.10.0-alpha.1')) {
+    fastbootHtmlBarsTree = this.treeGenerator(path.resolve(__dirname, 'fastboot-app-lt-2-9'));
+    return tree ? new MergeTrees([tree, fastbootHtmlBarsTree]) : fastbootHtmlBarsTree;
+  }
+
+  return tree;
+},
+```
+
+The `tree` is the additional fastboot asset that gets generated and contains the fastboot overrides.
 
 
 ## Known Limitations
@@ -428,22 +463,6 @@ Prototype extensions do not currently work across node "realms."  Fastboot
 applications operate in two realms, a normal node environment and a [virtual machine](https://nodejs.org/api/vm.html).  Passing objects that originated from the normal realm will not contain the extension methods
 inside of the sandbox environment. For this reason, it's encouraged to [disable prototype extensions](https://guides.emberjs.com/v2.4.0/configuring-ember/disabling-prototype-extensions/).
 
-### Double build times and no incremental builds
-
-Due to limitations in Ember CLI, builds take twice as long to generate the
-second set of FastBoot assets. This also means incremental builds with
-live reload don't work either. This aims to be resolved by FastBoot 1.0.
-In the mean time, we introduce a short-circuit environment flag to not do
-a FastBoot build:
-
-```
-FASTBOOT_DISABLED=true ember build
-```
-
-This is useful to keep your existing workflow while in development, while
-still being able to deploy FastBoot. This flag will be removed in FastBoot
-1.0.
-
 ## Troubleshooting
 
 Because your app is now running in Node.js, not the browser, you'll
@@ -456,7 +475,7 @@ Enable verbose logging by running the FastBoot server with the following
 environment variables set:
 
 ```sh
-DEBUG=ember-cli-fastboot:* ember fastboot
+DEBUG=ember-cli-fastboot:* ember serve
 ```
 
 PRs adding or improving logging facilities are very welcome.
@@ -487,14 +506,10 @@ node-inspector --no-preload
 
 Once the debug server is running, you'll want to start up the FastBoot
 server with Node in debug mode. One thing about debug mode: it makes
-everything much slower. Since the `ember fastboot` command does a full
-build when launched, this becomes agonizingly slow in debug mode.
-
-Avoid the slowness by manually running the build in normal mode, then
-running FastBoot in debug mode without doing a build:
+everything much slower.
 
 ```sh
-ember build && node --debug-brk ./node_modules/.bin/ember fastboot --no-build
+ember build && node --debug-brk ./node_modules/.bin/ember serve
 ```
 
 This does a full rebuild and then starts the FastBoot server in debug
@@ -551,3 +566,7 @@ Run the tests with the `DEBUG` environment variable set to
 ```sh
 DEBUG=fastboot-test npm test
 ```
+
+### Questions
+
+Reach out to us in Ember community slack in the `#-fastboot` channel.
