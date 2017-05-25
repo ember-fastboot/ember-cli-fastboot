@@ -34,7 +34,7 @@ ember install ember-cli-fastboot
 If your app is running `ember-cli` 2.12.0-beta.1+ you can run as follows:
 
 * `ember serve`
-* Visit your app at `http://localhost:42000`
+* Visit your app at `http://localhost:4200`
 
 You may be shocked to learn that minified code runs faster in Node than
 non-minified code, so you will probably want to run the production
