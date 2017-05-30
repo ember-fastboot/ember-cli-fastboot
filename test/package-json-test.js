@@ -18,9 +18,6 @@ describe('generating package.json', function() {
 
     return app.create('module-whitelist')
       .then(addFastBootDeps)
-      .then(function() {
-        return app.run('npm', 'install');
-      });
   });
 
   describe('with FastBoot builds', function() {
