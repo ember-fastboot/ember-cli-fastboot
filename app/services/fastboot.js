@@ -1,7 +1,7 @@
 /* global FastBoot */
 import Ember from "ember";
 
-const { deprecate, computed, get } = Ember;
+const { deprecate, computed, get, assert } = Ember;
 const { deprecatingAlias, readOnly } = computed;
 
 const RequestObject = Ember.Object.extend({
@@ -28,8 +28,8 @@ const RequestObject = Ember.Object.extend({
 
 const Shoebox = Ember.Object.extend({
   put(key, value) {
-    Ember.assert('shoebox.put is only invoked from the FastBoot rendered application', this.get('fastboot.isFastBoot'));
-    Ember.assert('the provided key is a string', typeof key === 'string');
+    assert('shoebox.put is only invoked from the FastBoot rendered application', this.get('fastboot.isFastBoot'));
+    assert('the provided key is a string', typeof key === 'string');
 
     let fastbootInfo = this.get('fastboot._fastbootInfo');
     if (!fastbootInfo.shoebox) { fastbootInfo.shoebox = {}; }
@@ -91,7 +91,7 @@ const FastBootService = Ember.Service.extend({
   }),
 
   deferRendering(promise) {
-    Ember.assert('deferRendering requires a promise or thennable object', typeof promise.then === 'function');
+    assert('deferRendering requires a promise or thennable object', typeof promise.then === 'function');
     this._fastbootInfo.deferRendering(promise);
   }
 });
