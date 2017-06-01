@@ -76,6 +76,10 @@
   dependencies:
     "@glimmer/util" "^0.22.1"
 
+"@types/rsvp@^3.0.0":
+  version "3.3.0"
+  resolved "https://registry.npmjs.org/@types/rsvp/-/rsvp-3.3.0.tgz#20c97372ebf32bda6a4817f7182ec672893947e6"
+
 abbrev@1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"
@@ -1277,6 +1281,10 @@ broccoli-middleware@^1.0.0-beta.8:
     handlebars "^4.0.4"
     mime "^1.2.11"
 
+broccoli-node-info@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/broccoli-node-info/-/broccoli-node-info-1.1.0.tgz#3aa2e31e07e5bdb516dd25214f7c45ba1c459412"
+
 broccoli-persistent-filter@^1.0.1, broccoli-persistent-filter@^1.0.3, broccoli-persistent-filter@^1.1.6, broccoli-persistent-filter@^1.2.0:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/broccoli-persistent-filter/-/broccoli-persistent-filter-1.3.1.tgz#d02556a135c77dfb859bba7844bc3539be7168e1"
@@ -1312,6 +1320,10 @@ broccoli-plugin@^1.0.0, broccoli-plugin@^1.1.0, broccoli-plugin@^1.2.0, broccoli
     quick-temp "^0.1.3"
     rimraf "^2.3.4"
     symlink-or-copy "^1.1.8"
+
+broccoli-slow-trees@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/broccoli-slow-trees/-/broccoli-slow-trees-2.0.0.tgz#9741afe992787add64aec7f7c8211dfcc058278d"
 
 broccoli-slow-trees@^3.0.1:
   version "3.0.1"
@@ -1352,6 +1364,19 @@ broccoli-stew@^1.2.0, broccoli-stew@^1.3.3:
     symlink-or-copy "^1.1.8"
     walk-sync "^0.3.0"
 
+broccoli-test-helper@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/broccoli-test-helper/-/broccoli-test-helper-1.1.0.tgz#7ec8a5efc33e2299b6592ca066f6f58645480bda"
+  dependencies:
+    "@types/rsvp" "^3.0.0"
+    broccoli "^1.1.0"
+    fixturify "^0.3.2"
+    fs-tree-diff "^0.5.6"
+    mktemp "^0.4.0"
+    rimraf "^2.5.4"
+    rsvp "^3.3.3"
+    walk-sync "^0.3.1"
+
 broccoli-uglify-sourcemap@^1.0.0:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/broccoli-uglify-sourcemap/-/broccoli-uglify-sourcemap-1.5.2.tgz#04f84ab0db539031fa868ccfa563c9932d50cedb"
@@ -1372,6 +1397,26 @@ broccoli-writer@~0.1.1:
   dependencies:
     quick-temp "^0.1.0"
     rsvp "^3.0.6"
+
+broccoli@^1.1.0:
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/broccoli/-/broccoli-1.1.2.tgz#9657bcee3b1e81f3a2fdbf6050355ba9163c7c11"
+  dependencies:
+    broccoli-node-info "1.1.0"
+    broccoli-slow-trees "^2.0.0"
+    broccoli-source "^1.1.0"
+    commander "^2.5.0"
+    connect "^3.3.3"
+    copy-dereference "^1.0.0"
+    findup-sync "^1.0.0"
+    handlebars "^4.0.4"
+    heimdalljs-logger "^0.1.7"
+    mime "^1.2.11"
+    rimraf "^2.4.3"
+    rsvp "^3.0.17"
+    sane "^1.4.1"
+    tmp "0.0.28"
+    underscore.string "^3.2.2"
 
 browser-stdout@1.3.0:
   version "1.3.0"
@@ -1594,7 +1639,7 @@ clone@^2.0.0:
 
 co@^4.6.0:
   version "4.6.0"
-  resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
+  resolved "https://registry.npmjs.org/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
 
 code-point-at@^1.0.0:
   version "1.1.0"
@@ -1695,6 +1740,15 @@ configstore@^3.0.0:
     unique-string "^1.0.0"
     write-file-atomic "^2.0.0"
     xdg-basedir "^3.0.0"
+
+connect@^3.3.3:
+  version "3.6.2"
+  resolved "https://registry.npmjs.org/connect/-/connect-3.6.2.tgz#694e8d20681bfe490282c8ab886be98f09f42fe7"
+  dependencies:
+    debug "2.6.7"
+    finalhandler "1.0.3"
+    parseurl "~1.3.1"
+    utils-merge "1.0.0"
 
 console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   version "1.1.0"
@@ -2896,7 +2950,7 @@ fill-range@^2.1.0:
     repeat-element "^1.1.2"
     repeat-string "^1.5.2"
 
-finalhandler@~1.0.3:
+finalhandler@1.0.3, finalhandler@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/finalhandler/-/finalhandler-1.0.3.tgz#ef47e77950e999780e86022a560e3217e0d0cc89"
   dependencies:
@@ -2945,6 +2999,12 @@ fireworm@^0.7.0:
     lodash.debounce "^3.1.1"
     lodash.flatten "^3.0.2"
     minimatch "^3.0.2"
+
+fixturify@^0.3.2:
+  version "0.3.3"
+  resolved "https://registry.npmjs.org/fixturify/-/fixturify-0.3.3.tgz#842eaa120564c9881e099ed06dc082a81e97fa71"
+  dependencies:
+    fs-extra "^0.30.0"
 
 flat-cache@^1.2.1:
   version "1.2.2"
@@ -3749,7 +3809,7 @@ json-schema@0.2.3:
 
 json-stable-stringify@^1.0.0, json-stable-stringify@^1.0.1:
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/json-stable-stringify/-/json-stable-stringify-1.0.1.tgz#9a759d39c5f2ff503fd5300646ed445f88c4f9af"
+  resolved "https://registry.npmjs.org/json-stable-stringify/-/json-stable-stringify-1.0.1.tgz#9a759d39c5f2ff503fd5300646ed445f88c4f9af"
   dependencies:
     jsonify "~0.0.0"
 
@@ -4260,7 +4320,7 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   dependencies:
     minimist "0.0.8"
 
-mktemp@~0.4.0:
+mktemp@^0.4.0, mktemp@~0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/mktemp/-/mktemp-0.4.0.tgz#6d0515611c8a8c84e484aa2000129b98e981ff0b"
 
@@ -5068,7 +5128,7 @@ samsam@1.x, samsam@^1.1.3:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/samsam/-/samsam-1.2.1.tgz#edd39093a3184370cb859243b2bdf255e7d8ea67"
 
-sane@^1.1.1, sane@^1.6.0:
+sane@^1.1.1, sane@^1.4.1, sane@^1.6.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/sane/-/sane-1.7.0.tgz#b3579bccb45c94cf20355cc81124990dfd346e30"
   dependencies:
@@ -5683,7 +5743,7 @@ ultron@1.0.x:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.0.2.tgz#ace116ab557cd197386a4e88f4685378c8b2e4fa"
 
-underscore.string@~3.3.4:
+underscore.string@^3.2.2, underscore.string@~3.3.4:
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/underscore.string/-/underscore.string-3.3.4.tgz#2c2a3f9f83e64762fdc45e6ceac65142864213db"
   dependencies:
