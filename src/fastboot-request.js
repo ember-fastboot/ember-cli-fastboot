@@ -23,18 +23,14 @@ class FastBootRequest {
     }
 
     var host = this.headers.get('host');
-
-    var matchFound = this.hostWhitelist.reduce(function(previous, currentEntry) {
-      if (currentEntry[0] === '/' &&
-          currentEntry.slice(-1) === '/') {
-        // RegExp as string
-        var regexp = new RegExp(currentEntry.slice(1, -1));
-
-        return previous || regexp.test(host);
+    var matchFound = this.hostWhitelist.some(function(entry) {
+      if (entry[0] === '/' && entry.slice(-1) === '/') {
+        var regexp = new RegExp(entry.slice(1, -1));
+        return regexp.test(host);
       } else {
-        return previous || currentEntry === host;
+        return entry === host;
       }
-    }, false);
+    });
 
     if (!matchFound) {
       throw new Error(`The host header did not match a hostWhitelist entry. Host header: ${host}`);
