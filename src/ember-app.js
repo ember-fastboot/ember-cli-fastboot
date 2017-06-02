@@ -242,9 +242,7 @@ class EmberApp {
       .then(() => result.instanceBooted = true)
       .then(() => instance.visit(path, bootOptions))
       .then(() => waitForApp(instance))
-      .then(() => {
-        return instance;
-      });
+      .then(() => instance);
   }
 
   /**
@@ -427,10 +425,7 @@ function buildBootOptions(shouldRender) {
  */
 function waitForApp(instance) {
   let fastbootInfo = instance.lookup('info:-fastboot');
-
-  return fastbootInfo.deferredPromise.then(function() {
-    return instance;
-  });
+  return fastbootInfo.deferredPromise;
 }
 
 /*
