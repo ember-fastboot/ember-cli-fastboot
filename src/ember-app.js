@@ -68,21 +68,16 @@ class EmberApp {
 
     // add any additional user provided variables or override the default globals in the sandbox
     let globals = {
-      najax: najax,
+      najax,
       FastBoot: {
         require: sandboxRequire,
         config: appConfig
       }
     };
-    for (let key in sandboxGlobals) {
-      if (sandboxGlobals.hasOwnProperty(key)) {
-        globals[key] = sandboxGlobals[key];
-      }
-    }
 
-    return new sandboxClass({
-      globals: globals
-    });
+    globals = Object.assign(globals, sandboxGlobals);
+
+    return new sandboxClass({ globals });
   }
 
   /**
