@@ -12,14 +12,6 @@ moduleFor('service:fastboot', 'Unit | Service | fastboot | shoebox', {
   }
 });
 
-test('retrieve returns value if isFastBoot false and key is cached', function(assert) {
-  let service = this.subject();
-
-  service.set('shoebox.foo', 'bar');
-
-  assert.strictEqual(service.get('shoebox').retrieve('foo'), 'bar');
-});
-
 test('retrieve returns undefined if isFastBoot false and shoebox is missing', function(assert) {
   let service = this.subject();
 

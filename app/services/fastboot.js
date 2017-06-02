@@ -27,26 +27,33 @@ const RequestObject = Ember.Object.extend({
 });
 
 const Shoebox = Ember.Object.extend({
+
+  init() {
+    this._super(...arguments);
+
+    this.isFastBoot = this.get('fastboot.isFastBoot');
+    this.fastbootInfo = this.get('fastboot._fastbootInfo');
+    this._cache = Object.create(null);
+  },
+
   put(key, value) {
-    assert('shoebox.put is only invoked from the FastBoot rendered application', this.get('fastboot.isFastBoot'));
+    assert('shoebox.put is only invoked from the FastBoot rendered application', this.isFastBoot);
     assert('the provided key is a string', typeof key === 'string');
 
-    let fastbootInfo = this.get('fastboot._fastbootInfo');
+    let fastbootInfo = this.fastbootInfo;
     if (!fastbootInfo.shoebox) { fastbootInfo.shoebox = {}; }
 
     fastbootInfo.shoebox[key] = value;
   },
 
   retrieve(key) {
-    if (this.get('fastboot.isFastBoot')) {
-      let shoebox = this.get('fastboot._fastbootInfo.shoebox');
-      if (!shoebox) { return; }
-
-      return shoebox[key];
+    if (this.isFastBoot) {
+      let shoebox = this.fastbootInfo.shoebox;
+      return shoebox ? shoebox[key] : undefined;
     }
 
-    let shoeboxItem = this.get(key);
-    if (shoeboxItem) { return shoeboxItem; }
+    let shoeboxItem = this._cache[key];
+    if (shoeboxItem !== undefined) { return shoeboxItem; }
 
     let el = document.querySelector(`#shoebox-${key}`);
     if (!el) { return; }
@@ -54,10 +61,11 @@ const Shoebox = Ember.Object.extend({
     if (!valueString) { return; }
 
     shoeboxItem = JSON.parse(valueString);
-    this.set(key, shoeboxItem);
+    this._cache[key] = shoeboxItem;
 
     return shoeboxItem;
   }
+
 });
 
 const FastBootService = Ember.Service.extend({
