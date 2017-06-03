@@ -32,7 +32,9 @@ const Shoebox = Ember.Object.extend({
     assert('the provided key is a string', typeof key === 'string');
 
     let fastbootInfo = this.get('fastboot._fastbootInfo');
-    if (!fastbootInfo.shoebox) { fastbootInfo.shoebox = {}; }
+    if (!fastbootInfo.shoebox) {
+      fastbootInfo.shoebox = Object.create(null);
+    }
 
     fastbootInfo.shoebox[key] = value;
   },
