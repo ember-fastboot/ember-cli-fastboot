@@ -2,7 +2,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const RSVP = require('rsvp');
 const chalk = require('chalk');
 
 const najax = require('najax');
@@ -433,7 +432,7 @@ function waitForApp(instance) {
  */
 function createShoebox(doc, fastbootInfo) {
   let shoebox = fastbootInfo.shoebox;
-  if (!shoebox) { return RSVP.resolve(); }
+  if (!shoebox) { return; }
 
   for (let key in shoebox) {
     if (!shoebox.hasOwnProperty(key)) { continue; }
@@ -450,8 +449,6 @@ function createShoebox(doc, fastbootInfo) {
     scriptEl.appendChild(scriptText);
     doc.body.appendChild(scriptEl);
   }
-
-  return RSVP.resolve();
 }
 
 const JSON_ESCAPE = {
