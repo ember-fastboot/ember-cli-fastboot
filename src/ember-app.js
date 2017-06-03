@@ -363,20 +363,18 @@ class EmberApp {
       manifest = this.transformManifestFiles(manifest);
     }
 
-    var appFiles = [];
     debug("reading array of app file paths from manifest");
-    manifest.appFiles.forEach(function(appFile) {
-      appFiles.push(path.join(distPath, appFile));
+    var appFiles = manifest.appFiles.map(function(appFile) {
+      return path.join(distPath, appFile);
     });
 
-    var vendorFiles = [];
     debug("reading array of vendor file paths from manifest");
-    manifest.vendorFiles.forEach(function(vendorFile) {
-      vendorFiles.push(path.join(distPath, vendorFile));
+    var vendorFiles = manifest.vendorFiles.map(function(vendorFile) {
+      return path.join(distPath, vendorFile);
     });
 
     return {
-      appFiles:  appFiles,
+      appFiles: appFiles,
       vendorFiles: vendorFiles,
       htmlFile: path.join(distPath, manifest.htmlFile),
       moduleWhitelist: pkg.fastboot.moduleWhitelist,
