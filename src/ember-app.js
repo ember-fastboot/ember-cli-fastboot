@@ -435,8 +435,6 @@ function createShoebox(doc, fastbootInfo) {
   if (!shoebox) { return; }
 
   for (let key in shoebox) {
-    if (!shoebox.hasOwnProperty(key)) { continue; }
-
     let value = shoebox[key];
     let textValue = JSON.stringify(value);
     textValue = escapeJSONString(textValue);
