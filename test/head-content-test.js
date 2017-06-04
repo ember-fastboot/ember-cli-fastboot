@@ -6,8 +6,7 @@ const request = RSVP.denodeify(require('request'));
 
 const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 
-// TODO: Unskip this test once ember-cli-head is released with new fastboot build spec.
-describe.skip('head content acceptance', function() {
+describe('head content acceptance', function() {
   this.timeout(300000);
 
   let app;
