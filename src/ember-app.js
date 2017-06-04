@@ -215,6 +215,10 @@ class EmberApp {
    * the app instance and then visits the given route and destroys the app instance
    * when the route is finished its render cycle.
    *
+   * Ember apps can manually defer rendering in FastBoot mode if they're waiting
+   * on something async the router doesn't know about. This function fetches
+   * that promise for deferred rendering from the app.
+   *
    * @param {string} path the URL path to render, like `/photos/1`
    * @param {Object} fastbootInfo An object holding per request info
    * @param {Object} bootOptions An object containing the boot options that are used by
@@ -235,7 +239,7 @@ class EmberApp {
       })
       .then(() => result.instanceBooted = true)
       .then(() => instance.visit(path, bootOptions))
-      .then(() => waitForApp(instance))
+      .then(() => fastbootInfo.deferredPromise)
       .then(() => instance);
   }
 
@@ -410,16 +414,6 @@ function buildBootOptions(shouldRender) {
     rootElement,
     shouldRender
   };
-}
-
-/*
- * Ember apps can manually defer rendering in FastBoot mode if they're waiting
- * on something async the router doesn't know about.  This function fetches
- * that promise for deferred rendering from the app.
- */
-function waitForApp(instance) {
-  let fastbootInfo = instance.lookup('info:-fastboot');
-  return fastbootInfo.deferredPromise;
 }
 
 /*
