@@ -11,7 +11,7 @@ const HTMLSerializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
 class Result {
   constructor(options) {
     this.instanceBooted = false;
-    this.instanceDestroyed = false;
+    this._instanceDestroyed = false;
     this._doc = options.doc;
     this._html = options.html;
     this._fastbootInfo = options.fastbootInfo;
@@ -95,6 +95,15 @@ class Result {
       this.headers = response.headers;
       this.statusCode = response.statusCode;
     }
+  }
+
+  _destroyAppInstance() {
+    if (this.instance && !this._instanceDestroyed) {
+      this._instanceDestroyed = true;
+      this.instance.destroy();
+      return true;
+    }
+    return false;
   }
 
   _finalizeHTML() {

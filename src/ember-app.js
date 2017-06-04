@@ -270,7 +270,7 @@ class EmberApp {
     let res = options.response;
     let html = options.html || this.html;
     let disableShoebox = options.disableShoebox || false;
-    let destroyAppInstanceInMs = options.destroyAppInstanceInMs;
+    let destroyAppInstanceInMs = parseInt(options.destroyAppInstanceInMs, 10);
 
     let shouldRender = (options.shouldRender !== undefined) ? options.shouldRender : true;
     let bootOptions = buildBootOptions(shouldRender);
@@ -289,23 +289,17 @@ class EmberApp {
     });
 
     let destroyAppInstanceTimer;
-    if (parseInt(destroyAppInstanceInMs, 10) > 0) {
+    if (destroyAppInstanceInMs > 0) {
       // start a timer to destroy the appInstance forcefully in the given ms.
       // This is a failure mechanism so that node process doesn't get wedged if the `visit` never completes.
       destroyAppInstanceTimer = setTimeout(function() {
-        if (instance && !result.instanceDestroyed) {
-          result.instanceDestroyed = true;
+        if (result._destroyAppInstance()) {
           result.error = new Error('App instance was forcefully destroyed in ' + destroyAppInstanceInMs + 'ms');
-          instance.destroy();
         }
       }, destroyAppInstanceInMs);
     }
 
-    let instance;
     return this.visitRoute(path, fastbootInfo, bootOptions, result)
-      .then(appInstance => {
-        instance = appInstance;
-      })
       .then(() => {
         if (!disableShoebox) {
           // if shoebox is not disabled, then create the shoebox and send API data
@@ -315,10 +309,7 @@ class EmberApp {
       .catch(error => result.error = error)
       .then(() => result._finalize())
       .finally(() => {
-        if (instance && !result.instanceDestroyed) {
-          result.instanceDestroyed = true;
-          instance.destroy();
-
+        if (result._destroyAppInstance()) {
           if (destroyAppInstanceTimer) {
             clearTimeout(destroyAppInstanceTimer);
           }
