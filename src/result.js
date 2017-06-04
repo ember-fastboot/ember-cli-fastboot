@@ -10,7 +10,6 @@ const HTMLSerializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
  */
 class Result {
   constructor(options) {
-    this.instanceBooted = false;
     this._instanceDestroyed = false;
     this._doc = options.doc;
     this._html = options.html;
@@ -85,7 +84,7 @@ class Result {
   }
 
   _finalizeMetadata(instance) {
-    if (this.instanceBooted) {
+    if (instance._booted) {
       this.url = instance.getURL();
     }
 
