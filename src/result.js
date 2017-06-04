@@ -43,7 +43,7 @@ class Result {
       }
     }
 
-    return Promise.resolve(insertIntoIndexHTML(this._html, this._head, this._body));
+    return insertIntoIndexHTML(this._html, this._head, this._body);
   }
 
   /**
@@ -112,22 +112,38 @@ class Result {
   }
 }
 
-/**
- * `String.replace()` converts '$$' to '$', so we must escape each '$' as '$$';
- * but because we’re using `String.replace()` to do it, we must use '$$$'!
- */
-function escapeForStringReplace(string) {
-  return string.replace(/\$/g, '$$$');
+function missingTag(tag) {
+  return Promise.reject(new Error(`Fastboot was not able to find ${tag} in base HTML. It could not replace the contents.`));
 }
 
 function insertIntoIndexHTML(html, head, body) {
-  html = html.replace("<!-- EMBER_CLI_FASTBOOT_BODY -->", escapeForStringReplace(body));
+  if (!html) { return Promise.resolve(html); }
 
-  if (head) {
-    html = html.replace("<!-- EMBER_CLI_FASTBOOT_HEAD -->", escapeForStringReplace(head));
+  if (body) {
+    let isBodyReplaced = false;
+    html = html.replace("<!-- EMBER_CLI_FASTBOOT_BODY -->", function() {
+      isBodyReplaced = true;
+      return body;
+    });
+
+    if (!isBodyReplaced) {
+      return missingTag('<!--EMBER_CLI_FASTBOTT_BODY-->');
+    }
   }
 
-  return html;
+  if (head) {
+    let isHeadReplaced = false;
+    html = html.replace("<!-- EMBER_CLI_FASTBOOT_HEAD -->", function() {
+      isHeadReplaced = true;
+      return head;
+    });
+
+    if (!isHeadReplaced) {
+      return missingTag('<!--EMBER_CLI_FASTBOTT_HEAD-->');
+    }
+  }
+
+  return Promise.resolve(html);
 }
 
 module.exports = Result;

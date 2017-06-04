@@ -29,6 +29,38 @@ describe('Result', function() {
 
   describe('html()', function () {
 
+    describe('reject when body insert comment missing', function () {
+      beforeEach(function () {
+        result._html = '<head></head><body></body>';
+        result._body = '<h1>news</h2>';
+      });
+
+      it('rejects when body insert comment missing', function (done) {
+        return result.html()
+          .catch(function (e) {
+            expect(e).to.be.an('error');
+            expect(e.message).to.equal("Fastboot was not able to find <!--EMBER_CLI_FASTBOTT_BODY--> in base HTML. It could not replace the contents.");
+            done();
+          });
+      });
+    });
+
+    describe('reject when head insert comment missing', function () {
+      beforeEach(function () {
+        result._html = '<head></head><body><!-- EMBER_CLI_FASTBOOT_BODY --></body>';
+        result._head = '<title>news</title>';
+      });
+
+      it('rejects when head insert comment missing', function (done) {
+        return result.html()
+          .catch(function (e) {
+            expect(e).to.be.an('error');
+            expect(e.message).to.equal("Fastboot was not able to find <!--EMBER_CLI_FASTBOTT_HEAD--> in base HTML. It could not replace the contents.");
+            done();
+          });
+      });
+    });
+
     describe('when the response status code is 204', function () {
       beforeEach(function () {
         result._fastbootInfo.response.statusCode = 204;
@@ -37,9 +69,9 @@ describe('Result', function() {
 
       it('should return an empty message body', function () {
         return result.html()
-        .then(function (result) {
-          expect(result).to.equal('');
-        });
+          .then(function (result) {
+            expect(result).to.equal('');
+          });
       });
     });
 
