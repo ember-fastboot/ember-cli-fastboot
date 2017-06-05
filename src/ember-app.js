@@ -430,11 +430,14 @@ function waitForApp(instance) {
  * parse the specific item at the time it is needed instead of everything
  * all at once.
  */
+const hasOwnProperty = Object.prototype.hasOwnProperty; // jshint ignore:line
+
 function createShoebox(doc, fastbootInfo) {
   let shoebox = fastbootInfo.shoebox;
   if (!shoebox) { return; }
 
   for (let key in shoebox) {
+    if (!hasOwnProperty.call(shoebox, key)) { continue; } // TODO: remove this later #144, ember-fastboot/ember-cli-fastboot/pull/417
     let value = shoebox[key];
     let textValue = JSON.stringify(value);
     textValue = escapeJSONString(textValue);
