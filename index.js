@@ -98,7 +98,35 @@ module.exports = {
 
     return tree;
   },
+  
+  _processAddons(addons, fastbootTrees) {
+    addons.forEach((addon) => {
+      this._processAddon(addon, fastbootTrees);
+    });
+  },
+  
+  _processAddon(addon, fastbootTrees) {
+    // walk through each addon and grab its fastboot tree
+    const currentAddonFastbootPath = path.join(addon.root, 'fastboot');
+    
+    let fastbootTree;
+    if (existsSync(currentAddonFastbootPath)) {
+      fastbootTree = this.treeGenerator(currentAddonFastbootPath);
+    }
 
+    // invoke addToFastBootTree for every addon
+    if (addon.treeForFastBoot) {
+      let additionalFastBootTree = addon.treeForFastBoot(fastbootTree);
+      if (additionalFastBootTree) {
+        fastbootTrees.push(additionalFastBootTree);
+      }
+    } else if (fastbootTree !== undefined) {
+      fastbootTrees.push(fastbootTree);
+    }
+    
+    this._processAddons(addon.addons, fastbootTrees);
+  },
+  
   /**
    * Function that builds the fastboot tree from all fastboot complaint addons
    * and project and transpiles it into appname-fastboot.js
@@ -107,23 +135,7 @@ module.exports = {
     const appName = this._name;
     
     let fastbootTrees = [];
-    this.project.addons.forEach((addon) => {
-      // walk through each addon and grab its fastboot tree
-      const currentAddonFastbootPath = path.join(addon.root, 'fastboot');
-      let fastbootTree;
-      if (existsSync(currentAddonFastbootPath)) {
-        fastbootTree = this.treeGenerator(currentAddonFastbootPath);
-        fastbootTrees.push(fastbootTree);
-      }
-
-      // invoke addToFastBootTree for every addon
-      if (addon.treeForFastBoot) {
-        let additionalFastBootTree = addon.treeForFastBoot(fastbootTree);
-        if (additionalFastBootTree) {
-          fastbootTrees.push(additionalFastBootTree);
-        }
-      }
-    });
+    this._processAddons(this.project.addons, fastbootTrees);
 
     // check the parent containing the fastboot directory
     const projectFastbootPath = path.join(this.project.root, 'fastboot');
