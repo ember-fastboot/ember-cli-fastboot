@@ -13,7 +13,7 @@ export default {
   name: "clear-double-boot",
 
   initialize: function(instance) {
-    if (typeof FastBoot === 'undefined') {
+    if (FastBoot === undefined) {
       var originalDidCreateRootView = instance.didCreateRootView;
 
       instance.didCreateRootView = function() {
