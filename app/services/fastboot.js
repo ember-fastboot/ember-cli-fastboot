@@ -61,8 +61,6 @@ const Shoebox = Ember.Object.extend({
 });
 
 const FastBootService = Ember.Service.extend({
-  cookies: deprecatingAlias('request.cookies', { id: 'fastboot.cookies-to-request', until: '0.9.9' }),
-  headers: deprecatingAlias('request.headers', { id: 'fastboot.headers-to-request', until: '0.9.9' }),
   isFastBoot: typeof FastBoot !== 'undefined',
 
   init() {
@@ -71,16 +69,6 @@ const FastBootService = Ember.Service.extend({
     let shoebox = Shoebox.create({ fastboot: this });
     this.set('shoebox', shoebox);
   },
-
-  host: computed(function() {
-    deprecate(
-      'Usage of fastboot service\'s `host` property is deprecated.  Please use `request.host` instead.',
-      false,
-      { id: 'fastboot.host-to-request', until: '0.9.9' }
-    );
-
-    return this._fastbootInfo.request.host();
-  }),
 
   response: readOnly('_fastbootInfo.response'),
   metadata: readOnly('_fastbootInfo.metadata'),
