@@ -51,10 +51,6 @@ module.exports = {
     this._appRegistry = app.registry;
     this._name = app.name;
 
-    // set a environment variable to allow addons to use `fastboot-filter-initializers`
-    // for old versions.
-    process.env.FASTBOOT_NEW_BUILD = true;
-
     migrateInitializers(this.project);
   },
 
