@@ -109,12 +109,11 @@ module.exports = {
    */
   _getFastbootTree: function() {
     const appName = this._name;
-    const nodeModulesPath = this.project.nodeModulesPath;
-
+    
     let fastbootTrees = [];
     this.project.addons.forEach((addon) => {
       // walk through each addon and grab its fastboot tree
-      const currentAddonFastbootPath = path.join(nodeModulesPath, addon.name, 'fastboot');
+      const currentAddonFastbootPath = path.join(addon.root, 'fastboot');
       let fastbootTree;
       if (existsSync(currentAddonFastbootPath)) {
         fastbootTree = this.treeGenerator(currentAddonFastbootPath);
