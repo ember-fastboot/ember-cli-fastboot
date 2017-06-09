@@ -73,15 +73,14 @@ module.exports = {
     }
 
     // if the fastboot addon is installed, we overwrite the config-module so that the config can be read
-    // from meta tag for browser build and from Fastboot config for fastboot target
+    // from meta tag/directly for browser build and from Fastboot config for fastboot target.
     if (type === 'config-module') {
-      const emberCliPath = path.join(this.app.project.nodeModulesPath, 'ember-cli');
+      var originalContents = contents.join('');
       contents.splice(0, contents.length);
       contents.push('if (typeof FastBoot !== \'undefined\') {');
       contents.push('return FastBoot.config();');
       contents.push('} else {');
-      contents.push('var prefix = \'' + config.modulePrefix + '\';');
-      contents.push(fs.readFileSync(path.join(emberCliPath, 'lib/broccoli/app-config-from-meta.js')));
+      contents.push(originalContents);
       contents.push('}');
       return;
     }
