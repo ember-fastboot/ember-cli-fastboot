@@ -127,29 +127,25 @@ function missingTag(tag) {
 
 function insertIntoIndexHTML(html, head, body) {
   if (!html) { return Promise.resolve(html); }
+  let isBodyReplaced = false;
+  let isHeadReplaced = false;
 
-  if (body) {
-    let isBodyReplaced = false;
-    html = html.replace("<!-- EMBER_CLI_FASTBOOT_BODY -->", function() {
-      isBodyReplaced = true;
-      return body;
-    });
-
-    if (!isBodyReplaced) {
-      return missingTag('<!--EMBER_CLI_FASTBOTT_BODY-->');
-    }
-  }
-
-  if (head) {
-    let isHeadReplaced = false;
-    html = html.replace("<!-- EMBER_CLI_FASTBOOT_HEAD -->", function() {
+  html = html.replace(/<\!-- EMBER_CLI_FASTBOOT_(HEAD|BODY) -->/g, function(match, tag) {
+    if (tag === 'HEAD' && head && !isHeadReplaced) {
       isHeadReplaced = true;
       return head;
-    });
-
-    if (!isHeadReplaced) {
-      return missingTag('<!--EMBER_CLI_FASTBOTT_HEAD-->');
+    } else if (tag === 'BODY' && body && !isBodyReplaced) {
+      isBodyReplaced = true;
+      return body;
     }
+    return '';
+  });
+
+  if (head && !isHeadReplaced) {
+    return missingTag('<!--EMBER_CLI_FASTBOOT_HEAD-->');
+  }
+  if (body && !isBodyReplaced) {
+    return missingTag('<!--EMBER_CLI_FASTBOOT_BODY-->');
   }
 
   return Promise.resolve(html);
