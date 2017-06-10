@@ -1,7 +1,7 @@
 'use strict';
 
-var cookie = require('cookie');
-var FastBootHeaders = require('./fastboot-headers');
+const cookie = require('cookie');
+const FastBootHeaders = require('./fastboot-headers');
 
 class FastBootRequest {
   constructor(request, hostWhitelist) {
