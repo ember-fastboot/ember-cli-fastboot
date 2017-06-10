@@ -1,8 +1,8 @@
 'use strict';
 
-var RSVP = require('rsvp');
-var FastBootRequest = require('./fastboot-request');
-var FastBootResponse = require('./fastboot-response');
+const RSVP = require('rsvp');
+const FastBootRequest = require('./fastboot-request');
+const FastBootResponse = require('./fastboot-response');
 
 /*
  * A class that encapsulates information about the

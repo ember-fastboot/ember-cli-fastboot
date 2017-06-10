@@ -1,6 +1,6 @@
 'use strict';
 
-var FastBootHeaders = require('./fastboot-headers');
+const FastBootHeaders = require('./fastboot-headers');
 
 class FastbootResponse {
   constructor(response) {

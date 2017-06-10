@@ -1,4 +1,4 @@
-var sourceMapSupport = require('source-map-support');
+const sourceMapSupport = require('source-map-support');
 
 function prepareStackTrace(error, stack) {
   return error + stack.map(function(frame) {

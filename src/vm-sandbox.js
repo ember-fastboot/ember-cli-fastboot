@@ -1,7 +1,7 @@
 'use strict';
 
-var vm = require('vm');
-var Sandbox = require('./sandbox');
+const vm = require('vm');
+const Sandbox = require('./sandbox');
 
 class VMSandbox extends Sandbox {
   constructor(options) {
