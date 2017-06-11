@@ -97,17 +97,17 @@ module.exports = {
 
     return tree;
   },
-  
+
   _processAddons(addons, fastbootTrees) {
     addons.forEach((addon) => {
       this._processAddon(addon, fastbootTrees);
     });
   },
-  
+
   _processAddon(addon, fastbootTrees) {
     // walk through each addon and grab its fastboot tree
     const currentAddonFastbootPath = path.join(addon.root, 'fastboot');
-    
+
     let fastbootTree;
     if (existsSync(currentAddonFastbootPath)) {
       fastbootTree = this.treeGenerator(currentAddonFastbootPath);
@@ -122,17 +122,17 @@ module.exports = {
     } else if (fastbootTree !== undefined) {
       fastbootTrees.push(fastbootTree);
     }
-    
+
     this._processAddons(addon.addons, fastbootTrees);
   },
-  
+
   /**
    * Function that builds the fastboot tree from all fastboot complaint addons
    * and project and transpiles it into appname-fastboot.js
    */
   _getFastbootTree: function() {
     const appName = this._name;
-    
+
     let fastbootTrees = [];
     this._processAddons(this.project.addons, fastbootTrees);
 
@@ -223,7 +223,7 @@ module.exports = {
     if (emberCliVersion.gte('2.12.0-beta.1')) {
       // only run the middleware when ember-cli version for app is above 2.12.0-beta.1 since
       // that version contains API to hook fastboot into ember-cli
-
+      let fastbootMiddleware;
       app.use((req, resp, next) => {
         const fastbootQueryParam = (req.query.hasOwnProperty('fastboot') && req.query.fastboot === 'false') ? false : true;
         const enableFastBootServe = !process.env.FASTBOOT_DISABLED && fastbootQueryParam;
@@ -239,11 +239,11 @@ module.exports = {
             this.fastboot = new FastBoot({
               distPath: outputPath
             });
-          }
 
-          let fastbootMiddleware = FastBootExpressMiddleware({
-            fastboot: this.fastboot
-          });
+            fastbootMiddleware = FastBootExpressMiddleware({
+              fastboot: this.fastboot
+            });
+          }
 
           fastbootMiddleware(req, resp, next);
         } else {
