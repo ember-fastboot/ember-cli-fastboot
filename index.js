@@ -224,7 +224,7 @@ module.exports = {
     if (emberCliVersion.gte('2.12.0-beta.1')) {
       // only run the middleware when ember-cli version for app is above 2.12.0-beta.1 since
       // that version contains API to hook fastboot into ember-cli
-
+      let fastbootMiddleware;
       app.use((req, resp, next) => {
         const fastbootQueryParam = (req.query.hasOwnProperty('fastboot') && req.query.fastboot === 'false') ? false : true;
         const enableFastBootServe = !process.env.FASTBOOT_DISABLED && fastbootQueryParam;
@@ -240,11 +240,11 @@ module.exports = {
             this.fastboot = new FastBoot({
               distPath: outputPath
             });
-          }
 
-          let fastbootMiddleware = FastBootExpressMiddleware({
-            fastboot: this.fastboot
-          });
+            fastbootMiddleware = FastBootExpressMiddleware({
+              fastboot: this.fastboot
+            });
+          }
 
           fastbootMiddleware(req, resp, next);
         } else {
