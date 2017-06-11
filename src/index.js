@@ -2,8 +2,6 @@
 
 
 function fastbootExpressMiddleware(distPath, options) {
-  const FastBoot = require('fastboot');
-
   let opts = options;
 
   if (arguments.length === 1) {
@@ -21,6 +19,7 @@ function fastbootExpressMiddleware(distPath, options) {
   let fastboot = opts.fastboot;
 
   if (!fastboot) {
+    let FastBoot = require('fastboot');
     fastboot = new FastBoot({
       distPath: opts.distPath,
       resilient: opts.resilient
