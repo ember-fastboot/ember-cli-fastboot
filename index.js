@@ -29,9 +29,9 @@ module.exports = {
   },
 
   // TODO remove after few ember-cli-fastboot rc builds
-  includedCommands: function() {
+  includedCommands() {
     return {
-      'fastboot':       require('./lib/commands/fastboot')(this),
+      'fastboot': require('./lib/commands/fastboot')(this),
     };
   },
 
@@ -42,7 +42,7 @@ module.exports = {
    *
    * See: https://ember-cli.com/user-guide/#integration
    */
-  included: function(app) {
+  included(app) {
     // set autoRun to false since we will conditionally include creating app when app files
     // is eval'd in app-boot
     app.options.autoRun = false;
@@ -59,7 +59,7 @@ module.exports = {
    * to insert the rendered content into the right spot. Also injects a module
    * for FastBoot application boot.
    */
-  contentFor: function(type, config, contents) {
+  contentFor(type, config, contents) {
     if (type === 'body') {
       return "<!-- EMBER_CLI_FASTBOOT_BODY -->";
     }
@@ -77,16 +77,18 @@ module.exports = {
     if (type === 'config-module') {
       var originalContents = contents.join('');
       contents.splice(0, contents.length);
-      contents.push('if (typeof FastBoot !== \'undefined\') {');
-      contents.push('return FastBoot.config();');
-      contents.push('} else {');
-      contents.push(originalContents);
-      contents.push('}');
+      contents.push(
+        'if (typeof FastBoot !== \'undefined\') {',
+          'return FastBoot.config();',
+        '} else {',
+          originalContents,
+        '}'
+      );
       return;
     }
   },
 
-  treeForFastBoot: function(tree) {
+  treeForFastBoot(tree) {
     let fastbootHtmlBarsTree;
 
     // check the ember version and conditionally patch the DOM api
@@ -97,17 +99,17 @@ module.exports = {
 
     return tree;
   },
-  
+
   _processAddons(addons, fastbootTrees) {
     addons.forEach((addon) => {
       this._processAddon(addon, fastbootTrees);
     });
   },
-  
+
   _processAddon(addon, fastbootTrees) {
     // walk through each addon and grab its fastboot tree
     const currentAddonFastbootPath = path.join(addon.root, 'fastboot');
-    
+
     let fastbootTree;
     if (existsSync(currentAddonFastbootPath)) {
       fastbootTree = this.treeGenerator(currentAddonFastbootPath);
@@ -122,17 +124,17 @@ module.exports = {
     } else if (fastbootTree !== undefined) {
       fastbootTrees.push(fastbootTree);
     }
-    
+
     this._processAddons(addon.addons, fastbootTrees);
   },
-  
+
   /**
    * Function that builds the fastboot tree from all fastboot complaint addons
    * and project and transpiles it into appname-fastboot.js
    */
-  _getFastbootTree: function() {
+  _getFastbootTree() {
     const appName = this._name;
-    
+
     let fastbootTrees = [];
     this._processAddons(this.project.addons, fastbootTrees);
 
@@ -180,7 +182,7 @@ module.exports = {
    * adds the `fastboot-config.json` file to the root.
    *
    */
-  postprocessTree: function(type, tree) {
+  postprocessTree(type, tree) {
     if (type === 'all') {
       let fastbootConfigTree = this._buildFastbootConfigTree(tree);
 
@@ -191,18 +193,17 @@ module.exports = {
     return tree;
   },
 
-  _buildFastbootConfigTree : function(tree) {
+  _buildFastbootConfigTree(tree) {
     let env = this.app.env;
     let config = this.project.config(env);
     let fastbootConfig = config.fastboot;
     // do not boot the app automatically in fastboot. The instance is booted and
     // lives for the lifetime of the request.
-    if ('APP' in config) {
-      config['APP']['autoboot'] = false;
+    let APP = config.APP;
+    if (APP) {
+      APP.autoboot = false;
     } else {
-      config['APP'] = {
-        'autoboot': false
-      }
+      config.APP = { autoboot: false };
     }
 
     return new FastBootConfig(tree, {
@@ -216,7 +217,7 @@ module.exports = {
     });
   },
 
-  serverMiddleware: function(options) {
+  serverMiddleware(options) {
     let emberCliVersion = this._getEmberCliVersion();
     let app = options.app;
 
@@ -254,7 +255,7 @@ module.exports = {
     }
   },
 
-  postBuild: function(result) {
+  postBuild(result) {
     if (this.fastboot) {
       // should we reload fastboot if there are only css changes? Seems it maynot be needed.
       // TODO(future): we can do a smarter reload here by running fs-tree-diff on files loaded
@@ -266,14 +267,14 @@ module.exports = {
     }
   },
 
-  _getEmberCliVersion: function() {
+  _getEmberCliVersion() {
     const VersionChecker = require('ember-cli-version-checker');
     const checker = new VersionChecker(this);
 
     return checker.for('ember-cli', 'npm');
   },
 
-  _getEmberVersion: function() {
+  _getEmberVersion() {
     const VersionChecker = require('ember-cli-version-checker');
     const checker = new VersionChecker(this);
     const emberVersionChecker = checker.for('ember-source', 'npm');
