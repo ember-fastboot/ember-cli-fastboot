@@ -1,6 +1,6 @@
 {
   "name": "fastboot",
-  "version": "1.0.0-rc.6",
+  "version": "1.0.0-rc.7",
   "description": "Library for rendering Ember apps in node.js",
   "main": "src/index.js",
   "scripts": {
