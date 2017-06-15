@@ -46,6 +46,13 @@ module.exports = {
     // set autoRun to false since we will conditionally include creating app when app files
     // is eval'd in app-boot
     app.options.autoRun = false;
+
+    if (app.options.fingerprint) {
+      // set generateAssetMap to be true so that manifest files can be correctly written
+      // in package.json
+      app.options.fingerprint.generateAssetMap = true;
+    }
+
     // get the app registry object and app name so that we can build the fastboot
     // tree
     this._appRegistry = app.registry;
