@@ -237,7 +237,6 @@ class EmberApp {
 
         return instance.boot(bootOptions);
       })
-      .then(() => result.instanceBooted = true)
       .then(() => instance.visit(path, bootOptions))
       .then(() => fastbootInfo.deferredPromise)
       .then(() => instance);
