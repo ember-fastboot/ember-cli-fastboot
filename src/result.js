@@ -10,8 +10,7 @@ const HTMLSerializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
  */
 class Result {
   constructor(options) {
-    this.instanceBooted = false;
-    this.instanceDestroyed = false;
+    this._instanceDestroyed = false;
     this._doc = options.doc;
     this._html = options.html;
     this._fastbootInfo = options.fastbootInfo;
@@ -43,7 +42,7 @@ class Result {
       }
     }
 
-    return Promise.resolve(insertIntoIndexHTML(this._html, this._head, this._body));
+    return insertIntoIndexHTML(this._html, this._head, this._body);
   }
 
   /**
@@ -85,7 +84,7 @@ class Result {
   }
 
   _finalizeMetadata(instance) {
-    if (this.instanceBooted) {
+    if (instance._booted) {
       this.url = instance.getURL();
     }
 
@@ -95,6 +94,15 @@ class Result {
       this.headers = response.headers;
       this.statusCode = response.statusCode;
     }
+  }
+
+  _destroyAppInstance() {
+    if (this.instance && !this._instanceDestroyed) {
+      this._instanceDestroyed = true;
+      this.instance.destroy();
+      return true;
+    }
+    return false;
   }
 
   _finalizeHTML() {
@@ -112,14 +120,34 @@ class Result {
   }
 }
 
-function insertIntoIndexHTML(html, head, body) {
-  html = html.replace("<!-- EMBER_CLI_FASTBOOT_BODY -->", body);
+function missingTag(tag) {
+  return Promise.reject(new Error(`Fastboot was not able to find ${tag} in base HTML. It could not replace the contents.`));
+}
 
-  if (head) {
-    html = html.replace("<!-- EMBER_CLI_FASTBOOT_HEAD -->", head);
+function insertIntoIndexHTML(html, head, body) {
+  if (!html) { return Promise.resolve(html); }
+  let isBodyReplaced = false;
+  let isHeadReplaced = false;
+
+  html = html.replace(/<\!-- EMBER_CLI_FASTBOOT_(HEAD|BODY) -->/g, function(match, tag) {
+    if (tag === 'HEAD' && head && !isHeadReplaced) {
+      isHeadReplaced = true;
+      return head;
+    } else if (tag === 'BODY' && body && !isBodyReplaced) {
+      isBodyReplaced = true;
+      return body;
+    }
+    return '';
+  });
+
+  if (head && !isHeadReplaced) {
+    return missingTag('<!--EMBER_CLI_FASTBOOT_HEAD-->');
+  }
+  if (body && !isBodyReplaced) {
+    return missingTag('<!--EMBER_CLI_FASTBOOT_BODY-->');
   }
 
-  return html;
+  return Promise.resolve(html);
 }
 
 module.exports = Result;

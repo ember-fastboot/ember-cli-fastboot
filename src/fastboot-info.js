@@ -1,6 +1,8 @@
-var RSVP = require('rsvp');
-var FastBootRequest = require('./fastboot-request');
-var FastBootResponse = require('./fastboot-response');
+'use strict';
+
+const RSVP = require('rsvp');
+const FastBootRequest = require('./fastboot-request');
+const FastBootResponse = require('./fastboot-response');
 
 /*
  * A class that encapsulates information about the
@@ -13,32 +15,35 @@ var FastBootResponse = require('./fastboot-response');
  * @param {Array} [options.hostWhitelist] expected hosts in your application
  * @param {Object} [options.metaData] per request meta data
  */
-function FastBootInfo(request, response, options) {
+class FastBootInfo {
+  constructor(request, response, options) {
+    this.deferredPromise = RSVP.resolve();
+    let hostWhitelist = options.hostWhitelist;
+    let metadata = options.metadata;
+    if (request) {
+      this.request = new FastBootRequest(request, hostWhitelist);
+    }
 
-  this.deferredPromise = RSVP.resolve();
-  let { hostWhitelist, metadata } = options;
-  if (request) {
-    this.request = new FastBootRequest(request, hostWhitelist);
+    this.response = new FastBootResponse(response || {});
+    this.metadata = metadata;
   }
 
-  this.response = new FastBootResponse(response || {});
-  this.metadata = metadata;
+  deferRendering(promise) {
+    this.deferredPromise = this.deferredPromise.then(function() {
+      return promise;
+    });
+  }
+
+  /*
+   * Registers this FastBootInfo instance in the registry of an Ember
+   * ApplicationInstance. It is configured to be injected into the FastBoot
+   * service, ensuring it is available inside instance initializers.
+   */
+  register(instance) {
+    instance.register('info:-fastboot', this, { instantiate: false });
+    instance.inject('service:fastboot', '_fastbootInfo', 'info:-fastboot');
+  }
 }
 
-FastBootInfo.prototype.deferRendering = function(promise) {
-  this.deferredPromise = this.deferredPromise.then(function() {
-    return promise;
-  });
-};
-
-/*
- * Registers this FastBootInfo instance in the registry of an Ember
- * ApplicationInstance. It is configured to be injected into the FastBoot
- * service, ensuring it is available inside instance initializers.
- */
-FastBootInfo.prototype.register = function(instance) {
-  instance.register('info:-fastboot', this, { instantiate: false });
-  instance.inject('service:fastboot', '_fastbootInfo', 'info:-fastboot');
-};
 
 module.exports = FastBootInfo;

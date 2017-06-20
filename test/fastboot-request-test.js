@@ -1,7 +1,6 @@
 var expect = require('chai').expect;
 var path = require('path');
-var alchemistRequire = require('broccoli-module-alchemist/require');
-var FastBootRequest = alchemistRequire('fastboot-request.js');
+var FastBootRequest = require('./../src/fastboot-request.js');
 
 describe("FastBootRequest", function() {
   it("throws an exception if no hostWhitelist is provided", function() {
@@ -134,5 +133,35 @@ describe("FastBootRequest", function() {
     var fastbootRequest = new FastBootRequest(request);
 
     expect(fastbootRequest.cookies.test).to.equal("bar");
+  });
+
+  it("captures the method from the request", function() {
+    var request = {
+      protocol: "http",
+      url: "/foo",
+      headers: {
+        host: "localhost:4200",
+        cookie: ""
+      },
+      method: "GET"
+    };
+    var fastbootRequest = new FastBootRequest(request);
+
+    expect(fastbootRequest.method).to.equal("GET");
+  });
+
+  it("captures the body from the request", function() {
+    var request = {
+      protocol: "http",
+      url: "/foo",
+      headers: {
+        host: "localhost:4200",
+        cookie: ""
+      },
+      body: "TEST"
+    };
+    var fastbootRequest = new FastBootRequest(request);
+
+    expect(fastbootRequest.body).to.equal("TEST");
   });
 });
