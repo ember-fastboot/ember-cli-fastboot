@@ -1,8 +1,7 @@
 'use strict';
 
 var path = require('path');
-var alchemistRequire = require('broccoli-module-alchemist/require');
-var FastBootAppServer = alchemistRequire('fastboot-app-server');
+const FastBootAppServer = require('../../src/fastboot-app-server');
 
 function setStatusCode418(req, res, next) {
   res.status(418);

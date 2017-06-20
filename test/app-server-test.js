@@ -3,8 +3,7 @@
 const path              = require('path');
 const fork              = require('child_process').fork;
 const expect            = require('chai').expect;
-const alchemistRequire  = require('broccoli-module-alchemist/require');
-const FastBootAppServer = alchemistRequire('fastboot-app-server');
+const FastBootAppServer = require('../src/fastboot-app-server');
 const request           = require('request-promise').defaults({ simple: false, resolveWithFullResponse: true });
 
 let server;

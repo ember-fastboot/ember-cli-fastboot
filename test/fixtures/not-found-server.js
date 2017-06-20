@@ -1,7 +1,6 @@
 'use strict';
 
-var alchemistRequire = require('broccoli-module-alchemist/require');
-var FastBootAppServer = alchemistRequire('fastboot-app-server.js');
+const FastBootAppServer = require('../../src/fastboot-app-server');
 
 var server = new FastBootAppServer({
   downloader: {
