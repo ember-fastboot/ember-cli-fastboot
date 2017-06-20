@@ -23,10 +23,14 @@ FastBoot requires Node.js v4 or later.
 const FastBoot = require('fastboot');
 
 let app = new FastBoot({
-  distPath: 'path/to/dist'
+  distPath: 'path/to/dist',
+  // optional boolean flag when set to true does not reject the promise if there are rendering errors (defaults to false)
+  resilient: <boolean>,
+  sandbox: 'path/to/sandbox/class', // optional sandbox class (defaults to vm-sandbox)
+  sandboxGlobals: {...} // optional map of key value pairs to expose in the sandbox
 });
 
-app.visit('/photos')
+app.visit('/photos', options)
   .then(result => result.html())
   .then(html => res.send(html));
 ```
@@ -34,6 +38,18 @@ app.visit('/photos')
 In order to get a `dist` directory, you will first need to build your
 Ember application, which packages it up for using in both the browser
 and in Node.js.
+
+### Additional configuration
+
+`app.visit` takes a second parameter as `options` above which a map and allows to define additional optional per request
+configuration:
+
+- `resilient`: whether to reject the returned promise if there is an error during rendering. If not defined, defaults to the app's resilient setting.
+- `html`: the HTML document to insert the rendered app into. Uses the built app's index.html by default.
+- `metadata`: per request meta data that is exposed in the app via the [fastboot service](https://github.com/ember-fastboot/ember-cli-fastboot/blob/master/app/services/fastboot.js).
+- `shouldRender`: boolean to indicate whether the app should do rendering or not. If set to false, it puts the app in routing-only. Defaults to true.
+- `disableShoebox`: boolean to indicate whether we should send the API data in the shoebox. If set to false, it will not send the API data used for rendering the app on server side in the index.html. Defaults to false.
+- `destroyAppInstanceInMs`: whether to destroy the instance in the given number of ms. This is a failure mechanism to not wedge the Node process
 
 ### Build Your App
 
@@ -57,11 +73,7 @@ server.
 ### Command Line
 
 You can start a simple HTTP server that responds to incoming requests by
-rendering your Ember.js application using the `ember-fastboot` command:
-
-```
-$ ember-fastboot path/to/dist --port 80
-```
+rendering your Ember.js application using the [FastBoot App Server](https://github.com/ember-fastboot/fastboot-app-server#ember-fastboot-app-server)
 
 ### Debugging
 
