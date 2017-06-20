@@ -7,7 +7,7 @@ class FastBootRequest {
   constructor(request, hostWhitelist) {
     this.hostWhitelist = hostWhitelist;
 
-    this.protocol = request.protocol;
+    this.protocol = `${request.protocol}:`;
     this.headers = new FastBootHeaders(request.headers);
     this.queryParams = request.query;
     this.path = request.url;

@@ -118,7 +118,7 @@ describe("FastBootRequest", function() {
     };
     var fastbootRequest = new FastBootRequest(request);
 
-    expect(fastbootRequest.protocol).to.equal("http");
+    expect(fastbootRequest.protocol).to.equal("http:");
   });
 
   it("captures the cookies from the request", function() {
