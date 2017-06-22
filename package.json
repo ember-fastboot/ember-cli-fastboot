@@ -30,7 +30,6 @@
     "cookie": "^0.2.3",
     "debug": "^2.1.0",
     "exists-sync": "0.0.3",
-    "express": "^4.13.3",
     "express-cluster": "0.0.4",
     "minimist": "^1.2.0",
     "najax": "^1.0.2",
@@ -41,6 +40,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-as-promised": "^5.2.0",
+    "express": "^4.13.3",
     "fs-promise": "^0.5.0",
     "mocha": "^2.4.5",
     "mocha-jshint": "^2.3.1",
