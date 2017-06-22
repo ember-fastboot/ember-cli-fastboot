@@ -30,8 +30,6 @@
     "cookie": "^0.2.3",
     "debug": "^2.1.0",
     "exists-sync": "0.0.3",
-    "express-cluster": "0.0.4",
-    "minimist": "^1.2.0",
     "najax": "^1.0.2",
     "rsvp": "^3.0.16",
     "simple-dom": "^0.3.0",
