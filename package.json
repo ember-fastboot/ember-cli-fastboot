@@ -26,7 +26,6 @@
   },
   "homepage": "https://github.com/ember-fastboot/fastboot-app-server#readme",
   "dependencies": {
-    "aws-sdk": "^2.3.4",
     "basic-auth": "^1.0.3",
     "chalk": "^1.1.3",
     "compression": "^1.6.2",
