@@ -4,10 +4,9 @@
 environment:
   MOCHA_REPORTER: "mocha-appveyor-reporter"
   matrix:
-    # disabled while we refactor tests
-    # - nodejs_version: "4"
+    - nodejs_version: "4"
     - nodejs_version: "6"
-    # - nodejs_version: "7"
+    - nodejs_version: "7"
 
 # Install scripts. (runs after repo cloning)
 install:
