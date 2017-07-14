@@ -238,7 +238,7 @@ module.exports = {
         const broccoliHeader = req.headers['x-broccoli'];
         const outputPath = broccoliHeader['outputPath'];
 
-        if (broccoliHeader['url'] === req.serveUrl && enableFastBootServe) {
+        if (req.serveUrl && enableFastBootServe) {
           // if it is a base page request, then have fastboot serve the base page
           if (!this.fastboot) {
             // TODO(future): make this configurable for allowing apps to pass sandboxGlobals
