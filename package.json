@@ -31,7 +31,8 @@
     "express": "^4.13.3",
     "fastboot": "^1.0.0-rc.0",
     "fastboot-express-middleware": "^1.0.0-rc.4",
-    "fs-promise": "^2.0.3"
+    "fs-promise": "^2.0.3",
+    "request": "^2.81.0"
   },
   "devDependencies": {
     "babel-core": "^6.10.4",
