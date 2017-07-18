@@ -5,6 +5,12 @@ node_js:
   - "6"
   - "7"
 
+branches:
+  only:
+    - master
+    - beta
+    - /^greenkeeper.*$/
+
 env:
   - CXX=g++-4.8 WORKER_COUNT=2
 addons:
