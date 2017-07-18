@@ -1,5 +1,7 @@
 # FastBoot Express Middleware
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ember-fastboot/fastboot-express-middleware.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/ember-fastboot/fastboot-express-middleware.svg?branch=master)](https://travis-ci.org/ember-fastboot/fastboot-express-middleware)
 
 This middleware is a small wrapper around the
