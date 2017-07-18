@@ -36,7 +36,7 @@ describe('Result', function() {
       });
 
       it('rejects when body insert comment missing', function (done) {
-        return result.html()
+        result.html()
           .catch(function (e) {
             expect(e).to.be.an('error');
             expect(e.message).to.equal("Fastboot was not able to find <!--EMBER_CLI_FASTBOOT_BODY--> in base HTML. It could not replace the contents.");
@@ -52,7 +52,7 @@ describe('Result', function() {
       });
 
       it('rejects when head insert comment missing', function (done) {
-        return result.html()
+        result.html()
           .catch(function (e) {
             expect(e).to.be.an('error');
             expect(e.message).to.equal("Fastboot was not able to find <!--EMBER_CLI_FASTBOOT_HEAD--> in base HTML. It could not replace the contents.");
