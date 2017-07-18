@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "chalk": "^2.0.1",
-    "fastboot": "^1.0.0-rc.5"
+    "fastboot": "^1.0.0-rc.5",
+    "request": "^2.81.0"
   }
 }
