@@ -1240,13 +1240,9 @@ cookie-signature@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
 
-cookie@0.3.1:
+cookie@0.3.1, cookie@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
-
-cookie@^0.2.3:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.2.4.tgz#a8c155aa7b9b2cf2c4d32ebc7b9a0aa288ccc6bd"
 
 core-js@^2.4.0:
   version "2.4.1"
@@ -1794,11 +1790,7 @@ expand-tilde@^1.2.2:
   dependencies:
     os-homedir "^1.0.1"
 
-express-cluster@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/express-cluster/-/express-cluster-0.0.4.tgz#7aa5c39779bbc7550a30525d02b4c022e40b8798"
-
-express@^4.10.7, express@^4.12.3, express@^4.13.3, express@^4.13.4:
+express@^4.10.7, express@^4.12.3, express@^4.13.4:
   version "4.15.3"
   resolved "https://registry.yarnpkg.com/express/-/express-4.15.3.tgz#bab65d0f03aa80c358408972fc700f916944b662"
   dependencies:
@@ -1872,20 +1864,17 @@ fast-sourcemap-concat@^1.0.1:
     source-map "^0.4.2"
     source-map-url "^0.3.0"
 
-fastboot@^1.0.0-rc.5:
-  version "1.0.0-rc.7"
-  resolved "https://registry.yarnpkg.com/fastboot/-/fastboot-1.0.0-rc.7.tgz#9c7e9e5f14b95aa74e5556b55e2ecce692ae2a00"
+fastboot@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/fastboot/-/fastboot-1.0.0.tgz#478b610235fd3400fb32400cb292b700d36cfd96"
   dependencies:
-    chalk "^0.5.1"
-    cookie "^0.2.3"
+    chalk "^2.0.1"
+    cookie "^0.3.1"
     debug "^2.1.0"
-    exists-sync "0.0.3"
-    express "^4.13.3"
-    express-cluster "0.0.4"
-    minimist "^1.2.0"
+    exists-sync "0.0.4"
     najax "^1.0.2"
     rsvp "^3.0.16"
-    simple-dom "^0.3.0"
+    simple-dom "^1.0.0"
     source-map-support "^0.4.0"
 
 faye-websocket@~0.10.0:
@@ -2946,7 +2935,7 @@ minimist@0.0.8, minimist@~0.0.1:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
 
-minimist@^1.1.1, minimist@^1.2.0:
+minimist@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
 
@@ -3646,9 +3635,9 @@ silent-error@^1.0.0, silent-error@^1.0.1:
   dependencies:
     debug "^2.2.0"
 
-simple-dom@^0.3.0:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/simple-dom/-/simple-dom-0.3.2.tgz#0663d10f1556f1500551d518f56e3aba0871371d"
+simple-dom@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/simple-dom/-/simple-dom-1.0.0.tgz#6349e429d7eeb665a4f67ab1c93a95a66e3d53c9"
 
 slash@^1.0.0:
   version "1.0.0"
