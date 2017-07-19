@@ -32,7 +32,7 @@
     "exists-sync": "0.0.4",
     "najax": "^1.0.2",
     "rsvp": "^3.0.16",
-    "simple-dom": "^0.3.0",
+    "simple-dom": "^1.0.0",
     "source-map-support": "^0.4.0"
   },
   "devDependencies": {
