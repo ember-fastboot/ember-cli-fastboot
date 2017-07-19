@@ -81,7 +81,7 @@ describe('FastBootLocation', function() {
 
       expect(response.headers).to.include.keys(['location', 'x-fastboot-path']);
       expect(response.headers.location).to.equal(
-        'http://localhost:49741/my-root/test-passed'
+        '//localhost:49741/my-root/test-passed'
       );
       expect(response.headers['x-fastboot-path']).to.equal(
         '/my-root/test-passed'
@@ -104,7 +104,7 @@ describe('FastBootLocation', function() {
 
       expect(response.headers).to.include.keys(['location', 'x-fastboot-path']);
       expect(response.headers.location).to.equal(
-        'http://localhost:49741/my-root/test-passed'
+        '//localhost:49741/my-root/test-passed'
       );
       expect(response.headers['x-fastboot-path']).to.equal(
         '/my-root/test-passed'
