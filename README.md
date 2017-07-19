@@ -1,7 +1,6 @@
 # FastBoot
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/ember-fastboot/fastboot.svg)](https://greenkeeper.io/)
-
 [![npm version](https://badge.fury.io/js/fastboot.svg)](https://badge.fury.io/js/fastboot)
 [![Build Status](https://travis-ci.org/ember-fastboot/fastboot.svg?branch=master)](https://travis-ci.org/ember-fastboot/ember-fastboot-server)
 ![Ember Version](https://embadge.io/v1/badge.svg?start=2.3.0)
