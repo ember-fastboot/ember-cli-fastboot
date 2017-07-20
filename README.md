@@ -1,5 +1,7 @@
 # Ember FastBoot
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ember-fastboot/ember-cli-fastboot.svg)](https://greenkeeper.io/)
+
 [![npm version](https://badge.fury.io/js/ember-cli-fastboot.svg)](https://badge.fury.io/js/ember-cli-fastboot)
 [![Build Status](https://travis-ci.org/ember-fastboot/ember-cli-fastboot.svg?branch=master)](https://travis-ci.org/ember-fastboot/ember-cli-fastboot)
 [![Build status](https://ci.appveyor.com/api/projects/status/6qcpp4ndy3ao4yv8/branch/master?svg=true)](https://ci.appveyor.com/project/embercli/ember-cli-fastboot/branch/master)
