@@ -276,7 +276,7 @@ export default Ember.Route.extend({
 
 ### Protocol
 
-You can access the protocol (`http` or `https`) of the request that the
+You can access the protocol (`http:` or `https:`) of the request that the
 current FastBoot server is responding to via `fastboot.request` in the
 `fastboot` service.
 
