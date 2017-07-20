@@ -2,7 +2,8 @@
 
 module.exports = function(environment) {
   var ENV = {
-    baseUrl: '/',
+    rootURL: '/',
+    locationType: 'auto',
     environment: environment,
     modulePrefix: 'fastboot-location-config',
     fastboot: {
