@@ -6,7 +6,7 @@ const { get } = Ember;
 var nodeAjax = function(options) {
   let httpRegex = /^https?:\/\//;
   let protocolRelativeRegex = /^\/\//;
-  let protocol = get(this, 'fastboot.request.protocol') + ':';
+  let protocol = get(this, 'fastboot.request.protocol');
 
   if (protocolRelativeRegex.test(options.url)) {
     options.url = protocol + options.url;

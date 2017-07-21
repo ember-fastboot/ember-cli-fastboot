@@ -49,8 +49,8 @@ describe('request details', function() {
       }
     })
       .then(function(response) {
-        expect(response.body).to.contain('Protocol: http');
-        expect(response.body).to.contain('Protocol from Instance Initializer: http');
+        expect(response.body).to.contain('Protocol: http:');
+        expect(response.body).to.contain('Protocol from Instance Initializer: http:');
       });
   });
 
