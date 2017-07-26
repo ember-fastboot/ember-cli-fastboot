@@ -102,6 +102,15 @@ describe("FastBootAppServer", function() {
       });
   });
 
+  it("responds on the configured host and port", function() {
+    return runServer('ipv4-app-server')
+      .then(() => request('http://127.0.0.1:4100/'))
+      .then((response) => {
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.contain('Welcome to Ember');
+      });
+  });
+
 });
 
 function runServer(name) {

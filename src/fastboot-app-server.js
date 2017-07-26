@@ -16,6 +16,8 @@ class FastBootAppServer {
     this.cache = options.cache;
     this.ui = options.ui;
     this.gzip = options.gzip;
+    this.host = options.host;
+    this.port = options.port;
     this.username = options.username;
     this.password = options.password;
     this.httpServer = options.httpServer;
@@ -35,6 +37,8 @@ class FastBootAppServer {
         distPath: this.distPath || process.env.FASTBOOT_DIST_PATH,
         cache: this.cache,
         gzip: this.gzip,
+        host: this.host,
+        port: this.port,
         username: this.username,
         password: this.password,
         httpServer: this.httpServer,

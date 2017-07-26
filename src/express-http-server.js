@@ -15,6 +15,8 @@ class ExpressHTTPServer {
     this.password = options.password;
     this.cache = options.cache;
     this.gzip = options.gzip || false;
+    this.host = options.host;
+    this.port = options.port;
     this.beforeMiddleware = options.beforeMiddleware || noop;
     this.afterMiddleware = options.afterMiddleware || noop;
 
@@ -54,7 +56,7 @@ class ExpressHTTPServer {
     this.afterMiddleware(app);
 
     return new Promise(resolve => {
-      let listener = app.listen(process.env.PORT || 3000, () => {
+      let listener = app.listen(this.port || process.env.PORT || 3000, this.host || process.env.HOST, () => {
         let host = listener.address().address;
         let port = listener.address().port;
 
