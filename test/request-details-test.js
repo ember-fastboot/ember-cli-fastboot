@@ -6,6 +6,18 @@ const RSVP = require('rsvp');
 const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 const request = require('request');
 const get = RSVP.denodeify(request);
+const post = RSVP.denodeify(request.post);
+
+function injectMiddlewareAddon(app) {
+  app.editPackageJSON(function(pkg) {
+    pkg.devDependencies['body-parser'] = '1.17.1';
+    pkg['ember-addon'] = {
+      paths: [
+        'lib/post-middleware'
+      ]
+    };
+  });
+}
 
 describe('request details', function() {
   this.timeout(300000);
@@ -123,8 +135,8 @@ describe('request details', function() {
       });
   });
 
-  it.only('makes body available via a service', function() {
-    get.post({
+  it('makes body available via a service', function() {
+    return post({
       url: 'http://localhost:49741/show-body',
       form: 'TEST'
     })

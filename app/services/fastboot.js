@@ -11,8 +11,8 @@ const RequestObject = Ember.Object.extend({
     let request = this.request;
     delete this.request;
 
-    this.method  = request.method;
-    this.body    = request.body;
+    this.method = request.method;
+    this.body = request.body;
     this.cookies = request.cookies;
     this.headers = request.headers;
     this.queryParams = request.queryParams;
