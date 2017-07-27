@@ -12,7 +12,6 @@ module.exports = {
       var broccoliHeader = req.headers['x-broccoli'];
       var outputPath = broccoliHeader['outputPath'];
 
-      debugger;
       if (req.method === 'POST') {
         if (!this.fastboot) {
           this.fastboot = new FastBoot({

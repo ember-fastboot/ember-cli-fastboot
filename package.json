@@ -42,7 +42,7 @@
     "silent-error": "^1.0.0"
   },
   "devDependencies": {
-    "body-parser": "^1.17.1",
+    "body-parser": "1.17.2",
     "broccoli-asset-rev": "^2.4.5",
     "broccoli-test-helper": "^1.1.0",
     "chai": "^4.1.0",
