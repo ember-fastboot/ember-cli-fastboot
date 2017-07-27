@@ -7,12 +7,13 @@ module.exports = {
 
   serverMiddleware: function(options) {
     var app = options.app;
-    app.use(bodyParser.json());
+    app.use(bodyParser.text());
     app.use(function(req, resp, next) {
       var broccoliHeader = req.headers['x-broccoli'];
       var outputPath = broccoliHeader['outputPath'];
 
       if (req.method === 'POST') {
+
         if (!this.fastboot) {
           this.fastboot = new FastBoot({
             distPath: outputPath
