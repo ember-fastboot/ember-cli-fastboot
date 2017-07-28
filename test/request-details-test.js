@@ -4,8 +4,21 @@ const chai = require('chai');
 const expect = chai.expect;
 const RSVP = require('rsvp');
 const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
-const request = require('request');
-const get = RSVP.denodeify(request);
+const request = RSVP.denodeify(require('request'));
+
+function injectMiddlewareAddon(app) {
+  app.editPackageJSON(function(pkg) {
+    pkg.devDependencies['body-parser'] = '1.17.2';
+    pkg.dependencies = pkg.dependencies || {}
+    pkg.dependencies['fastboot-express-middleware'] = '^1.0.0';
+    pkg['ember-addon'] = {
+      paths: [
+        'lib/post-middleware'
+      ]
+    };
+  });
+  return app.run('npm', 'install')
+}
 
 describe('request details', function() {
   this.timeout(300000);
@@ -13,10 +26,10 @@ describe('request details', function() {
   let app;
 
   before(function() {
-
     app = new AddonTestApp();
 
     return app.create('request')
+      .then(() => injectMiddlewareAddon(app))
       .then(function() {
         return app.startServer({
           command: 'serve'
@@ -29,7 +42,7 @@ describe('request details', function() {
   });
 
   it('makes host available via a service', function() {
-    return get({
+    return request({
       url: 'http://localhost:49741/show-host',
       headers: {
         'Accept': 'text/html'
@@ -42,7 +55,7 @@ describe('request details', function() {
   });
 
   it('makes protocol available via a service', function() {
-    return get({
+    return request({
       url: 'http://localhost:49741/show-protocol',
       headers: {
         'Accept': 'text/html'
@@ -55,7 +68,7 @@ describe('request details', function() {
   });
 
   it('makes path available via a service', function() {
-    return get({
+    return request({
       url: 'http://localhost:49741/show-path',
       headers: {
         'Accept': 'text/html'
@@ -68,7 +81,7 @@ describe('request details', function() {
   });
 
   it('makes query params available via a service', function() {
-    return get({
+    return request({
       url: 'http://localhost:49741/list-query-params?foo=bar',
       headers: {
         'Accept': 'text/html'
@@ -86,7 +99,7 @@ describe('request details', function() {
 
     jar.setCookie(cookie, 'http://localhost:49741');
 
-    return get({
+    return request({
       url: 'http://localhost:49741/list-cookies',
       headers: {
         'Accept': 'text/html'
@@ -100,7 +113,7 @@ describe('request details', function() {
   });
 
   it('makes headers available via a service', function() {
-    return get({
+    return request({
       url: 'http://localhost:49741/list-headers',
       headers: {
         'X-FastBoot-info': 'foobar',
@@ -110,6 +123,35 @@ describe('request details', function() {
       .then(function(response) {
         expect(response.body).to.contain('Headers: foobar');
         expect(response.body).to.contain('Headers from Instance Initializer: foobar');
+      });
+  });
+
+  it('makes method available via a service', function() {
+    return request({
+      url: 'http://localhost:49741/show-method',
+      headers: {
+        'Accept': 'text/html'
+      }
+    })
+      .then(function(response) {
+        expect(response.body).to.contain('Method: GET');
+        expect(response.body).to.contain('Method from Instance Initializer: GET');
+      });
+  });
+
+  it('makes body available via a service', function() {
+    return request({
+      url: 'http://localhost:49741/show-body',
+      method: 'POST',
+      headers: {
+        'Accept': 'text/html',
+        'Content-Type': 'text/plain'
+      },
+      body: 'TEST'
+    })
+      .then(function(response) {
+        expect(response.body).to.contain('Body: TEST');
+        expect(response.body).to.contain('Body from Instance Initializer: TEST');
       });
   });
 });
