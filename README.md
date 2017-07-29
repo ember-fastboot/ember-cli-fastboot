@@ -45,7 +45,7 @@ environment build for anything "serious."
 ember serve --environment production
 ```
 
-You can also specify the port (default is 3000):
+You can also specify the port (default is 4200):
 
 ```
 ember serve --port 8088
