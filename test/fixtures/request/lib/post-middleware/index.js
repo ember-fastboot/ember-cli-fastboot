@@ -8,17 +8,13 @@ module.exports = {
     var app = options.app;
     app.use(bodyParser.text());
     app.use(function(req, resp, next) {
-      if (req.serveUrl) {
-        var outputPath = req.headers['x-broccoli']['outputPath']
+      var outputPath = req.headers['x-broccoli']['outputPath']
 
-        var fastbootMiddleware = FastBootExpressMiddleware({
-          distPath: outputPath
-        });
+      var fastbootMiddleware = FastBootExpressMiddleware({
+        distPath: outputPath
+      });
 
-        fastbootMiddleware(req, resp, next);
-      } else {
-        next();
-      }
+      fastbootMiddleware(req, resp, next);
     });
   }
 };
