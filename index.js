@@ -16,6 +16,7 @@ const migrateInitializers = require('./lib/build-utilities/migrate-initializers'
 const Concat = require('broccoli-concat');
 const Funnel = require('broccoli-funnel');
 const p = require('ember-cli-preprocess-registry/preprocessors');
+const fastbootTransform = require('fastboot-transform');
 const existsSync = fs.existsSync;
 
 let checker;
@@ -26,6 +27,8 @@ function getVersionChecker(context) {
   }
   return checker;
 }
+
+
 
 /*
  * Main entrypoint for the Ember CLI addon.
@@ -61,6 +64,17 @@ module.exports = {
     this._name = app.name;
 
     migrateInitializers(this.project);
+  },
+
+  /**
+   * Registers the fastboot shim that allows apps and addons to wrap non-compatible
+   * libraries in Node with a FastBoot check using `app.import`.
+   *
+   */
+  importTransforms() {
+    return {
+      fastbootShim: fastbootTransform
+    }
   },
 
   /**
@@ -206,8 +220,8 @@ module.exports = {
   /**
    * Need to handroll our own clone algorithm since JSON.stringy changes regex
    * to empty objects which breaks hostWhiteList property of fastboot.
-   * 
-   * @param {Object} config 
+   *
+   * @param {Object} config
    */
   _cloneConfigObject(config) {
     if (config === null || typeof config !== 'object') {

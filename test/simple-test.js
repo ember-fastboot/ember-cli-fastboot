@@ -111,6 +111,21 @@ describe('simple acceptance', function() {
       });
   });
 
+  it('/imports HTML contents', function() {
+    return request({
+      url: 'http://localhost:49741/imports',
+      headers: {
+        'Accept': 'text/html'
+      }
+    })
+      .then(function(response) {
+        console.log(response.body);
+        expect(response.statusCode).to.equal(200);
+        expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
+        expect(response.body).to.contain("FastBoot compatible vendor file: FastBoot default default value");
+      });
+  });
+
   it('/assets/vendor.js', function() {
     return request('http://localhost:49741/assets/vendor.js')
       .then(function(response) {
