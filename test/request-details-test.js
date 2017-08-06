@@ -28,7 +28,9 @@ describe('request details', function() {
   before(function() {
     app = new AddonTestApp();
 
-    return app.create('request')
+    return app.create('request', {
+      skipNpm: true
+    })
       .then(() => injectMiddlewareAddon(app))
       .then(function() {
         return app.startServer({

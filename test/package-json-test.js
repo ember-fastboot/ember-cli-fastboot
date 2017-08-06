@@ -16,7 +16,9 @@ describe('generating package.json', function() {
   before(function() {
     app = new AddonTestApp();
 
-    return app.create('module-whitelist')
+    return app.create('module-whitelist', {
+      skipNpm: true
+    })
       .then(addFastBootDeps)
       .then(function() {
         return app.run('npm', 'install');

@@ -14,7 +14,9 @@ describe('head content acceptance', function() {
   before(function() {
     app = new AddonTestApp();
 
-    return app.create('head-content')
+    return app.create('head-content', {
+      skipNpm: true
+    })
       .then(addDependencies)
       .then(function() {
         return app.startServer({
