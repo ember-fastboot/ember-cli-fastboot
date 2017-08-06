@@ -28,13 +28,6 @@ module.exports = {
     this._super.init && this._super.init.apply(this, arguments);
   },
 
-  // TODO remove after few ember-cli-fastboot rc builds
-  includedCommands() {
-    return {
-      'fastboot': require('./lib/commands/fastboot')(this),
-    };
-  },
-
   /**
    * Called at the start of the build process to let the addon know it will be
    * used. Sets the auto run on app to be false so that we create and route app
