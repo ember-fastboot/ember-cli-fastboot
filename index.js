@@ -18,6 +18,17 @@ const Funnel = require('broccoli-funnel');
 const p = require('ember-cli-preprocess-registry/preprocessors');
 const existsSync = require('exists-sync');
 
+// Backport of _findHost for ember-cli < 2.7
+// See https://github.com/ember-cli/ember-cli/blob/0d17e839ca7a5128d1b95b9981a7e77ed0e55ead/lib/models/addon.js#L615
+function findHostShim() {
+  let current = this;
+  let app;
+  do {
+    app = current.app || app;
+  } while (current.parent.parent && (current = current.parent));
+  return app;
+}
+
 /*
  * Main entrypoint for the Ember CLI addon.
  */
@@ -42,7 +53,11 @@ module.exports = {
    *
    * See: https://ember-cli.com/user-guide/#integration
    */
-  included(app) {
+  included() {
+    let findHost = this._findHost || findHostShim;
+    let app = findHost.call(this);
+    this.app = app;
+
     // set autoRun to false since we will conditionally include creating app when app files
     // is eval'd in app-boot
     app.options.autoRun = false;
