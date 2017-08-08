@@ -157,6 +157,18 @@ describe('generating package.json', function() {
         expect(p(file)).to.be.a.file();
       });
     });
+
+    it('respects individual files being excluded from fingerprinting', function() {
+      expect(customApp.filePath('dist/totally-customized-asset-map.json')).to.be.a.file();
+
+      let pkg = fs.readJsonSync(customApp.filePath('/dist/package.json'));
+      let manifest = pkg.fastboot.manifest;
+
+      // customized-fingerprinting-fastboot.js is excluded from fingerprinting
+      expect(manifest.appFiles).to.include('assets/customized-fingerprinting-fastboot.js');
+      // vendor.js is excluded from fingerprinting
+      expect(manifest.vendorFiles).to.include('assets/vendor.js');
+    });
   });
 
   describe('with customized outputPaths options', function() {
