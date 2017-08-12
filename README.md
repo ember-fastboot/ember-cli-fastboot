@@ -60,10 +60,6 @@ visit your app at `http://localhost:4200/?fastboot=false`. If you want to turn o
 
 You can even disable serving fastboot with `ember serve` using an environment flag: `FASTBOOT_DISABLED=true ember serve`. If you have disabled building fastboot assets using the same flag as described [here](https://github.com/ember-fastboot/ember-cli-fastboot#double-build-times-and-no-incremental-builds), remember to also disable serving fastboot assets when using `ember serve`.
 
-### Deprecation of `ember fastboot`
-
-`ember fastboot` which was earlier required to run your app in FastBoot is now deprecated and is removed in the RC builds of `ember-cli-fastboot`. With FastBoot 1.0 to be released soon, this command will no longer exists and will be replaced by `ember serve`. It is recommended that your upgrade the `ember-cli` version of your app to be 2.12.0 and above.
-
 ## Using Node/npm Dependencies
 
 ### Whitelisting Packages
