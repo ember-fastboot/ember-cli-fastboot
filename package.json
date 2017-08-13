@@ -30,7 +30,6 @@
     "debug": "^3.0.0",
     "ember-cli-babel": "^6.7.2",
     "ember-cli-version-checker": "^2.0.0",
-    "exists-sync": "0.0.4",
     "express": "^4.8.5",
     "fastboot": "^1.0.0",
     "fastboot-express-middleware": "^1.0.0",
