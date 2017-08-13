@@ -37,7 +37,6 @@
     "lodash.defaults": "^4.0.1",
     "lodash.uniq": "^4.2.0",
     "md5-hex": "^2.0.0",
-    "rsvp": "^3.0.16",
     "silent-error": "^1.0.0"
   },
   "devDependencies": {
@@ -71,6 +70,7 @@
     "loader.js": "^4.1.0",
     "mocha": "^3.0.0",
     "request": "^2.55.0",
+    "rsvp": "^3.0.16",
     "sinon": "^3.0.0"
   },
   "engines": {
