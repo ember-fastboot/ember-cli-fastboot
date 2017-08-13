@@ -8,9 +8,9 @@ const request = RSVP.denodeify(require('request'));
 
 function injectMiddlewareAddon(app) {
   app.editPackageJSON(function(pkg) {
-    pkg.devDependencies['body-parser'] = '1.17.2';
+    pkg.devDependencies['body-parser'] = process.env.npm_package_devDependencies_body_parser;
     pkg.dependencies = pkg.dependencies || {}
-    pkg.dependencies['fastboot-express-middleware'] = '^1.0.0';
+    pkg.dependencies['fastboot-express-middleware'] = process.env.npm_package_dependencies_fastboot_express_middleware;
     pkg['ember-addon'] = {
       paths: [
         'lib/post-middleware'
