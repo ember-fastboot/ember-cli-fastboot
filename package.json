@@ -35,7 +35,6 @@
     "fastboot": "^1.0.0",
     "fastboot-express-middleware": "^1.0.0",
     "json-stable-stringify": "^1.0.1",
-    "lodash.defaults": "^4.0.1",
     "lodash.uniq": "^4.2.0",
     "md5-hex": "^2.0.0",
     "rsvp": "^3.0.16",
