@@ -16,7 +16,7 @@ const migrateInitializers = require('./lib/build-utilities/migrate-initializers'
 const Concat = require('broccoli-concat');
 const Funnel = require('broccoli-funnel');
 const p = require('ember-cli-preprocess-registry/preprocessors');
-const existsSync = require('exists-sync');
+const existsSync = fs.existsSync;
 
 /*
  * Main entrypoint for the Ember CLI addon.
