@@ -18,6 +18,15 @@ const Funnel = require('broccoli-funnel');
 const p = require('ember-cli-preprocess-registry/preprocessors');
 const existsSync = require('exists-sync');
 
+let checker;
+function getVersionChecker(context) {
+  if (!checker) {
+    const VersionChecker = require('ember-cli-version-checker');
+    checker = new VersionChecker(context);
+  }
+  return checker;
+}
+
 /*
  * Main entrypoint for the Ember CLI addon.
  */
@@ -268,15 +277,13 @@ module.exports = {
   },
 
   _getEmberCliVersion() {
-    const VersionChecker = require('ember-cli-version-checker');
-    const checker = new VersionChecker(this);
+    const checker = getVersionChecker(this);
 
     return checker.for('ember-cli', 'npm');
   },
 
   _getEmberVersion() {
-    const VersionChecker = require('ember-cli-version-checker');
-    const checker = new VersionChecker(this);
+    const checker = getVersionChecker(this);
     const emberVersionChecker = checker.for('ember-source', 'npm');
 
     if (emberVersionChecker.version) {
