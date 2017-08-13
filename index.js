@@ -99,17 +99,17 @@ module.exports = {
 
     return tree;
   },
-  
+
   _processAddons(addons, fastbootTrees) {
     addons.forEach((addon) => {
       this._processAddon(addon, fastbootTrees);
     });
   },
-  
+
   _processAddon(addon, fastbootTrees) {
     // walk through each addon and grab its fastboot tree
     const currentAddonFastbootPath = path.join(addon.root, 'fastboot');
-    
+
     let fastbootTree;
     if (existsSync(currentAddonFastbootPath)) {
       fastbootTree = this.treeGenerator(currentAddonFastbootPath);
@@ -124,17 +124,17 @@ module.exports = {
     } else if (fastbootTree !== undefined) {
       fastbootTrees.push(fastbootTree);
     }
-    
+
     this._processAddons(addon.addons, fastbootTrees);
   },
-  
+
   /**
    * Function that builds the fastboot tree from all fastboot complaint addons
    * and project and transpiles it into appname-fastboot.js
    */
   _getFastbootTree() {
     const appName = this._name;
-    
+
     let fastbootTrees = [];
     this._processAddons(this.project.addons, fastbootTrees);
 
