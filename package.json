@@ -25,6 +25,7 @@
     "broccoli-plugin": "^1.2.1",
     "chalk": "^2.0.1",
     "ember-cli-babel": "^6.7.2",
+    "ember-cli-preprocess-registry": "^3.1.1",
     "ember-cli-version-checker": "^2.0.0",
     "fastboot": "^1.0.0",
     "fastboot-express-middleware": "^1.0.0",
