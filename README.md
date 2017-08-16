@@ -482,22 +482,19 @@ PRs adding or improving logging facilities are very welcome.
 Thanks to recent improvements in NodeJS it is now possible to get a
 debugging environment that you can connect to with Chrome DevTools (version 55+).
 You can find more information on the new debugging method on Node's
-[official documentation](https://nodejs.org/en/docs/inspector/) but here
-is a quick-start guide:
-
+[official documentation](https://nodejs.org/en/docs/inspector/) but here is a quick-start guide:
 
 First let's start up the FastBoot server with Node in debug mode. One thing
 about debug mode: it makes everything much slower.
 
 ```sh
-ember build && node --debug-brk --inspect ./node_modules/.bin/ember serve
+node --debug-brk --inspect ./node_modules/.bin/ember serve
 ```
 
-This does a full rebuild and then starts the FastBoot server in debug
-mode. Note that the `--debug-brk` flag will cause your app to start
-paused to give you a chance to open the debugger.
+This starts the FastBoot server in debug mode. Note that the `--debug-brk` flag will cause your
+app to start paused to give you a chance to open the debugger.
 
-Once you see the output `Debugger listening on ws://127.0.0.1:<port>/<id>`, open Chrome
+Once you see the output `Debugger listening on ws://127.0.0.1:<port>/<guid>`, open Chrome
 and visit [chrome://inspect](chrome://inspect). Once it loads you should see an Ember target
 with a link "inspect" underneath. Click inspect and it should pop up a Chrome inspector
 window and you can click the ▶︎ icon to let FastBoot continue loading.
@@ -511,9 +508,8 @@ console, and you can use the tools you'd expect such as `console.log`,
 #### Note Regarding Node Versions
 
 The above method only started working for the v8.x track of Node after version v8.4.0,
-which is a fix to [this issue](https://github.com/nodejs/node/issues/7593) was merged and
-released. If you are using any versions between v8.0 and v8.4 we would recommend upgrading
-to at least v8.4.0
+which has a fix to [this issue](https://github.com/nodejs/node/issues/7593). If you
+are using any versions between v8.0 and v8.4 we would recommend upgrading to at least v8.4.0
 
 For any versions prior to 6.4 the previous version of this documentation is still valid.
 Please follow those instructions [here](https://github.com/ember-fastboot/ember-cli-fastboot/tree/v1.0.4#developer-tools)
