@@ -202,17 +202,58 @@ module.exports = {
     return tree;
   },
 
+  /**
+   * Need to handroll our own clone algorithm since JSON.stringy changes regex
+   * to empty objects which breaks hostWhiteList property of fastboot.
+   * 
+   * @param {Object} config 
+   */
+  _cloneConfigObject(config) {
+    if (config === null || typeof config !== 'object') {
+      return config;
+    }
+
+    if (config instanceof Array) {
+      let copy = [];
+      for (let i=0; i< config.length; i++) {
+        copy[i] = this._cloneConfigObject(config[i]);
+      }
+
+      return copy;
+    }
+
+    if (config instanceof RegExp) {
+      // converting explicitly to string since we create a new regex object
+      // in fastboot: https://github.com/ember-fastboot/fastboot/blob/master/src/fastboot-request.js#L28
+      return config.toString();
+    }
+
+    if (config instanceof Object) {
+      let copy = {};
+      for (let attr in config) {
+        if (config.hasOwnProperty(attr)) {
+          copy[attr] = this._cloneConfigObject(config[attr]);
+        }
+      }
+
+      return copy;
+    }
+
+    throw new Error('App config cannot be cloned for FastBoot.');
+  },
+
   _buildFastbootConfigTree(tree) {
     let env = this.app.env;
-    let config = this.project.config(env);
-    let fastbootConfig = config.fastboot;
+    // clone the config object
+    let appConfig = this._cloneConfigObject(this.project.config(env));
+    let fastbootConfig = appConfig.fastboot;
     // do not boot the app automatically in fastboot. The instance is booted and
     // lives for the lifetime of the request.
-    let APP = config.APP;
+    let APP = appConfig.APP;
     if (APP) {
       APP.autoboot = false;
     } else {
-      config.APP = { autoboot: false };
+      appConfig.APP = { autoboot: false };
     }
 
     return new FastBootConfig(tree, {
@@ -222,7 +263,7 @@ module.exports = {
       outputPaths: this.app.options.outputPaths,
       ui: this.ui,
       fastbootAppConfig: fastbootConfig,
-      appConfig: config
+      appConfig: appConfig
     });
   },
 
