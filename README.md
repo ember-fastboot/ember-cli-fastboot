@@ -479,44 +479,28 @@ PRs adding or improving logging facilities are very welcome.
 
 ### Developer Tools
 
-You can get a debugging environment similar to the Chrome developer
-tools running with a FastBoot app, although it's not (yet) as easy as
-in the browser.
+Thanks to recent improvements in NodeJS it is now possible to get a
+debugging environment that you can connect to with Chrome DevTools (version 55+).
+You can find more information on the new debugging method on Node's
+[official documentation](https://nodejs.org/en/docs/inspector/) but here
+is a quick-start guide:
 
-First, install the Node Inspector:
 
-```sh
-npm install node-inspector -g
-```
-
-Make sure you install a recent release; in our experience, older
-versions will segfault when used in conjunction with Contextify, which
-FastBoot uses for sandboxing.
-
-Next, start the inspector server. We found the experience too slow to be
-usable until we discovered the `--no-preload` flag, which waits to
-fetch the source code for a given file until it's actually needed.
+First let's start up the FastBoot server with Node in debug mode. One thing
+about debug mode: it makes everything much slower.
 
 ```sh
-node-inspector --no-preload
-```
-
-Once the debug server is running, you'll want to start up the FastBoot
-server with Node in debug mode. One thing about debug mode: it makes
-everything much slower.
-
-```sh
-ember build && node --debug-brk ./node_modules/.bin/ember serve
+ember build && node --debug-brk --inspect ./node_modules/.bin/ember serve
 ```
 
 This does a full rebuild and then starts the FastBoot server in debug
 mode. Note that the `--debug-brk` flag will cause your app to start
 paused to give you a chance to open the debugger.
 
-Once you see the output `debugger listening on port 5858`, visit
-[http://127.0.0.1:8080/debug?port=5858](http://127.0.0.1:8080/debug?port=5858)
-in your browser. Once it loads, click the "Resume script execution"
-button (it has a ▶︎ icon) to let FastBoot continue loading.
+Once you see the output `Debugger listening on ws://127.0.0.1:<port>/<id>`, open Chrome
+and visit [chrome://inspect](chrome://inspect). Once it loads you should see an Ember target
+with a link "inspect" underneath. Click inspect and it should pop up a Chrome inspector
+window and you can click the ▶︎ icon to let FastBoot continue loading.
 
 Assuming your app loads without an exception, after a few seconds you
 will see a message that FastBoot is listening on port 3000. Once you see
@@ -524,25 +508,15 @@ that, you can open a connection; any exceptions should be logged in the
 console, and you can use the tools you'd expect such as `console.log`,
 `debugger` statements, etc.
 
-#### Note Regarding Node 6.4 and above
+#### Note Regarding Node Versions
 
-If you're using Node 6.4 and above, there's a recently resolved
-[issue](https://github.com/node-inspector/node-inspector/issues/905)
-involving node-inspector. [A fix](https://github.com/node-inspector/node-inspector/commit/2e5309f75099753740c4567e17fd79ee27885d71)
-has been committed and published, which can be leveraged in node-inspector version ~1.0.0.
+The above method only started working for the v8.x track of Node after version v8.4.0,
+which is a fix to [this issue](https://github.com/nodejs/node/issues/7593) was merged and
+released. If you are using any versions between v8.0 and v8.4 we would recommend upgrading
+to at least v8.4.0
 
-#### Incompatibility With `node --inspect`
-
-[Node 6.3](https://nodejs.org/en/blog/release/v6.3.0/) is the first version to
-offer support for the `--inspect` flag. This is intended to replace usage of
-tools like node-inspector.  However the `--inspect` flag isn't suitable for
-debugging FastBoot apps because Node does not support debugging of code in a vm
-module context (see [this issue](https://github.com/nodejs/node/issues/7593)),
-which is a module that FastBoot utilizes.
-
-Because of this, it's recommended to use either node-inspector, or Node's
-[out-of-process debugging utility](https://nodejs.org/api/debugger.html#debugger_debugger),
-until a version of Node is released that resolves the above-mentioned issue.
+For any versions prior to 6.4 the previous version of this documentation is still valid.
+Please follow those instructions [here](https://github.com/ember-fastboot/ember-cli-fastboot/tree/v1.0.4#developer-tools)
 
 ## Tests
 
