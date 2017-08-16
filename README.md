@@ -55,7 +55,8 @@ return a `200` status code  with an empty HTML page, set the `resilient` flag to
 true:
 
 ```js
-app.get('/*', fastbootMiddleware('/path/to/dist', {
+app.get('/*', fastbootMiddleware({
+  distPath: '/path/to/dist',
   resilient: true
 }));
 ```
