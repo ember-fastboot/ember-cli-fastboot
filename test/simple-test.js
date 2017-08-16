@@ -120,4 +120,14 @@ describe('simple acceptance', function() {
         expect(response.body).to.contain("Ember =");
       });
   });
+
+  it('/assets/dummy.js', function() {
+    return request('http://localhost:49741/assets/dummy.js')
+      .then(function(response) {
+        // Asset serving is on by default
+        expect(response.statusCode).to.equal(200);
+        expect(response.headers["content-type"]).to.eq("application/javascript; charset=UTF-8");
+        expect(response.body).to.not.contain("autoBoot: false");
+      });
+  });
 });

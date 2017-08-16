@@ -94,7 +94,7 @@ describe('generating package.json', function() {
         locationType: 'auto',
         EmberENV: { FEATURES: {} },
         APP: { name: 'module-whitelist', version: '0.0.0+', autoboot: false },
-        fastboot: { hostWhitelist: [ 'example.com', 'subdomain.example.com', {} ] },
+        fastboot: { hostWhitelist: [ 'example.com', 'subdomain.example.com', '/localhost:\\d+/' ] },
         exportApplicationGlobal: true
       });
     });
