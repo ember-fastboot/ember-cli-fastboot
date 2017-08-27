@@ -84,11 +84,12 @@ module.exports = {
     // if the fastboot addon is installed, we overwrite the config-module so that the config can be read
     // from meta tag/directly for browser build and from Fastboot config for fastboot target.
     if (type === 'config-module') {
-      var originalContents = contents.join('');
+      const originalContents = contents.join('');
+      const appConfigModule = `${config.modulePrefix}`;
       contents.splice(0, contents.length);
       contents.push(
         'if (typeof FastBoot !== \'undefined\') {',
-          'return FastBoot.config();',
+          'return FastBoot.config(\'' + appConfigModule + '\');',
         '} else {',
           originalContents,
         '}'
@@ -242,11 +243,11 @@ module.exports = {
     throw new Error('App config cannot be cloned for FastBoot.');
   },
 
-  _buildFastbootConfigTree(tree) {
+  _getHostAppConfig() {
     let env = this.app.env;
     // clone the config object
     let appConfig = this._cloneConfigObject(this.project.config(env));
-    let fastbootConfig = appConfig.fastboot;
+
     // do not boot the app automatically in fastboot. The instance is booted and
     // lives for the lifetime of the request.
     let APP = appConfig.APP;
@@ -256,13 +257,20 @@ module.exports = {
       appConfig.APP = { autoboot: false };
     }
 
+    return appConfig;
+  },
+
+  _buildFastbootConfigTree(tree) {
+    let appConfig = this._getHostAppConfig();
+    let fastbootAppConfig = appConfig.fastboot;
+
     return new FastBootConfig(tree, {
       assetMapPath: this.assetMapPath,
       project: this.project,
       name: this.app.name,
       outputPaths: this.app.options.outputPaths,
       ui: this.ui,
-      fastbootAppConfig: fastbootConfig,
+      fastbootAppConfig: fastbootAppConfig,
       appConfig: appConfig
     });
   },

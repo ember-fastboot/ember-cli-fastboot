@@ -49,7 +49,7 @@ describe('generating package.json', function() {
     it('contains a schema version', function() {
       let pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
 
-      expect(pkg.fastboot.schemaVersion).to.deep.equal(2);
+      expect(pkg.fastboot.schemaVersion).to.deep.equal(3);
     });
 
     it('contains a whitelist of allowed module names', function() {
@@ -87,7 +87,7 @@ describe('generating package.json', function() {
     it('contains the application config', function() {
       let pkg = fs.readJsonSync(app.filePath('dist/package.json'));
 
-      expect(pkg.fastboot.appConfig).to.deep.equal({
+      expect(pkg.fastboot.config['module-whitelist']).to.deep.equal({
         modulePrefix: 'module-whitelist',
         environment: 'development',
         baseURL: '/',
@@ -97,6 +97,18 @@ describe('generating package.json', function() {
         fastboot: { hostWhitelist: [ 'example.com', 'subdomain.example.com', '/localhost:\\d+/' ] },
         exportApplicationGlobal: true
       });
+    });
+
+    it('contains additional config from addons', function() {
+      let pkg = fs.readJsonSync(app.filePath('dist/package.json'));
+
+      expect(pkg.fastboot.config['foo']).to.equal('bar');
+    });
+
+    it('contains app name', function() {
+      let pkg = fs.readJsonSync(app.filePath('dist/package.json'));
+      
+      expect(pkg.fastboot.appName).to.equal('module-whitelist');
     });
   });
 
@@ -233,7 +245,7 @@ function addFastBootDeps(app) {
     pkg['fastbootDependencies'] = ["rsvp"];
     pkg['dependencies'] = {
       rsvp: '3.2.1',
-      'ember-fastboot-build-example': '0.1.1'
+      'ember-fastboot-build-example': '0.1.2'
     };
   });
 }

@@ -46,7 +46,7 @@ describe('head content acceptance', function() {
 
 function addDependencies(app) {
   app.editPackageJSON(function(pkg) {
-    pkg['devDependencies']['ember-cli-head'] = "*";
+    pkg['devDependencies']['ember-cli-head'] = "0.3.1";
   });
   return app.run('npm', 'install');
 }
