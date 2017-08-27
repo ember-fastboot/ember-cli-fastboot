@@ -365,4 +365,17 @@ describe("FastBoot", function() {
       });
   });
 
+  it("can read multiple configs", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('app-with-multiple-config')
+    });
+
+    return fastboot.visit('/')
+    .then(r => r.html())
+    .then(html => {
+      expect(html).to.match(/App Name: app-with-multiple-configs/);
+      expect(html).to.match(/Other Config {"default":"bar"}/);
+    });
+  });
+
 });
