@@ -111,6 +111,14 @@ describe("FastBootAppServer", function() {
       });
   });
 
+  it("allows setting sandbox globals", function() {
+    return runServer('sandbox-globals-app-server')
+      .then(() => request('http://localhost:3000/'))
+      .then((response) => {
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.contain('Welcome to Ember from MY GLOBAL!');
+      });
+  });
 });
 
 function runServer(name) {
