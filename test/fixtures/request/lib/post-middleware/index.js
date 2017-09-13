@@ -1,33 +1,20 @@
 var bodyParser = require('body-parser');
 var FastBootExpressMiddleware = require('fastboot-express-middleware');
-var FastBoot = require('fastboot');
 
 module.exports = {
   name: 'post-middleware',
 
-  serverMiddleware: function(options) {
+  serverMiddleware(options) {
     var app = options.app;
     app.use(bodyParser.text());
     app.use(function(req, resp, next) {
-      var broccoliHeader = req.headers['x-broccoli'];
-      var outputPath = broccoliHeader['outputPath'];
+      var outputPath = req.headers['x-broccoli']['outputPath']
 
-      if (req.method === 'POST') {
+      var fastbootMiddleware = FastBootExpressMiddleware({
+        distPath: outputPath
+      });
 
-        if (!this.fastboot) {
-          this.fastboot = new FastBoot({
-            distPath: outputPath
-          });
-        }
-
-        var fastbootMiddleware = FastBootExpressMiddleware({
-          fastboot: this.fastboot
-        });
-
-        fastbootMiddleware(req, resp, next);
-      } else {
-        next();
-      }
+      fastbootMiddleware(req, resp, next);
     });
   }
 };
