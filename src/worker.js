@@ -17,6 +17,7 @@ class Worker {
     this.password = options.password;
     this.beforeMiddleware = options.beforeMiddleware;
     this.afterMiddleware = options.afterMiddleware;
+    this.sandboxGlobals = options.sandboxGlobals;
 
     if (!this.httpServer) {
       this.httpServer = new ExpressHTTPServer({
@@ -30,6 +31,7 @@ class Worker {
         password: this.password,
         beforeMiddleware: this.beforeMiddleware,
         afterMiddleware: this.afterMiddleware,
+        sandboxGlobals: options.sandboxGlobals,
       });
     }
 
@@ -70,6 +72,7 @@ class Worker {
   buildMiddleware() {
     this.fastboot = new FastBoot({
       distPath: this.distPath,
+      sandboxGlobals: this.sandboxGlobals,
     });
 
     return fastbootMiddleware({
