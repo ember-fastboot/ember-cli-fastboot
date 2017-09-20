@@ -1,5 +1,9 @@
 # FastBoot Changelog
 
+### 1.1.0
+
+* Add the ability to support configuration for multiple namespaces to `FastBoot.config`.
+
 ### 1.0.0-rc.3
 
 * Remove Node 0.12 support.
