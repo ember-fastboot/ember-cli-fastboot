@@ -37,10 +37,20 @@ class EmberApp {
     this.vendorFilePaths = config.vendorFiles;
     this.moduleWhitelist = config.moduleWhitelist;
     this.hostWhitelist = config.hostWhitelist;
-    this.appConfig = config.appConfig;
+    this.config = config.config;
+    this.appName = config.appName;
 
     if (process.env.APP_CONFIG) {
-      this.appConfig = JSON.parse(process.env.APP_CONFIG);
+      let appConfig = JSON.parse(process.env.APP_CONFIG);
+      let appConfigKey = this.appName;
+      if (!appConfig.hasOwnProperty(appConfigKey)) {
+        this.config[appConfigKey] = appConfig;
+      }
+    }
+
+    if (process.env.ALL_CONFIG) {
+      let allConfig = JSON.parse(process.env.ALL_CONFIG);
+      this.config = allConfig;
     }
 
     this.html = fs.readFileSync(config.htmlFile, 'utf8');
@@ -60,9 +70,19 @@ class EmberApp {
    */
   buildSandbox(distPath, sandboxClass, sandboxGlobals) {
     let sandboxRequire = this.buildWhitelistedRequire(this.moduleWhitelist, distPath);
-    let config = this.appConfig;
-    function appConfig() {
-      return { default: config };
+    const config = this.config;
+    const appName = this.appName;
+    function fastbootConfig(key) {
+      if (!key) {
+        // default to app key
+        key = appName;
+      }
+
+      if (config) {
+        return { default: config[key] };
+      } else {
+        return { default: undefined };
+      }
     }
 
     // add any additional user provided variables or override the default globals in the sandbox
@@ -70,7 +90,7 @@ class EmberApp {
       najax,
       FastBoot: {
         require: sandboxRequire,
-        config: appConfig
+        config: fastbootConfig
       }
     };
 
@@ -357,6 +377,17 @@ class EmberApp {
       manifest = this.transformManifestFiles(manifest);
     }
 
+    let config = pkg.fastboot.config;
+    let appName = pkg.fastboot.appName;
+    if (schemaVersion < FastBootSchemaVersions.configExtension) {
+      // read from the appConfig tree
+      if (pkg.fastboot.appConfig) {
+        appName = pkg.fastboot.appConfig.modulePrefix;
+        config = {};
+        config[appName] = pkg.fastboot.appConfig;
+      }
+    }
+
     debug("reading array of app file paths from manifest");
     var appFiles = manifest.appFiles.map(function(appFile) {
       return path.join(distPath, appFile);
@@ -373,7 +404,8 @@ class EmberApp {
       htmlFile: path.join(distPath, manifest.htmlFile),
       moduleWhitelist: pkg.fastboot.moduleWhitelist,
       hostWhitelist: pkg.fastboot.hostWhitelist,
-      appConfig: pkg.fastboot.appConfig
+      config: config,
+      appName: appName,
     };
   }
 
