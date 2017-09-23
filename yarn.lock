@@ -1328,6 +1328,12 @@ debug@2.6.8, debug@^2.1.0, debug@^2.1.1, debug@^2.1.3, debug@^2.2.0, debug@^2.4.
   dependencies:
     ms "2.0.0"
 
+debug@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-3.0.1.tgz#0564c612b521dc92d9f2988f0549e34f9c98db64"
+  dependencies:
+    ms "2.0.0"
+
 decamelize@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
@@ -1864,18 +1870,18 @@ fast-sourcemap-concat@^1.0.1:
     source-map "^0.4.2"
     source-map-url "^0.3.0"
 
-fastboot@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/fastboot/-/fastboot-1.0.0.tgz#478b610235fd3400fb32400cb292b700d36cfd96"
+fastboot@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/fastboot/-/fastboot-1.1.0.tgz#a15338220268f6c08282a76107bc3265a21bd233"
   dependencies:
     chalk "^2.0.1"
     cookie "^0.3.1"
-    debug "^2.1.0"
+    debug "^3.0.0"
     exists-sync "0.0.4"
     najax "^1.0.2"
     rsvp "^3.0.16"
     simple-dom "^1.0.0"
-    source-map-support "^0.4.0"
+    source-map-support "^0.4.18"
 
 faye-websocket@~0.10.0:
   version "0.10.0"
@@ -3707,7 +3713,13 @@ sort-package-json@^1.4.0:
   dependencies:
     sort-object-keys "^1.1.1"
 
-source-map-support@^0.4.0, source-map-support@^0.4.2:
+source-map-support@^0.4.18:
+  version "0.4.18"
+  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.18.tgz#0286a6de8be42641338594e97ccea75f0a2c585f"
+  dependencies:
+    source-map "^0.5.6"
+
+source-map-support@^0.4.2:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.15.tgz#03202df65c06d2bd8c7ec2362a193056fef8d3b1"
   dependencies:
