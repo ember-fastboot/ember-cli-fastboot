@@ -432,6 +432,25 @@ treeForFastBoot: function(tree) {
 
 The `tree` is the additional fastboot asset that gets generated and contains the fastboot overrides.
 
+### Providing additional config
+
+By default `ember-cli-fastboot` reads the app's config and provides it in the FastBoot sandbox as a JSON object. For the app in browser, it respects `storeConfigInMeta` and either reads it from the config meta tag or inlines it as JSON object in the `app-name/config/environment` AMD module.
+
+Addons like ember-engines may split the app in different bundles that are loaded asynchronously. Since each bundle is loaded asynchronously, it can have its own configuration as well. In order to allow FastBoot to provide this config in the sandbox, it exposes a `fastbootConfigTree` build hook.
+
+Addons wishing to use this hook simply need to return a unique identifier for the configuration with the configuration.
+
+```js
+fastbootConfigTree() {
+  return {
+    '<engine-name>': {
+      'foo': 'bar'
+    }
+  }
+}
+```
+
+The above configuration will be available in Node via the `FastBoot.config()` function. Therefore, in order to get the above config, the addon/app can call `FastBoot.config('<engine-name>')`.
 
 ## Known Limitations
 
