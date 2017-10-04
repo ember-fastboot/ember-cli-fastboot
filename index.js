@@ -92,7 +92,9 @@ module.exports = {
     }
 
     if (type === 'app-boot') {
-      return fastbootAppModule(config.modulePrefix, JSON.stringify(config.APP || {}));
+      const moduleToRequire = config.EmberENV && config.EmberENV.FEATURES &&
+        config.EmberENV.FEATURES['ember-module-unification'] ? 'src/main' : 'app';
+      return fastbootAppModule(config.modulePrefix, moduleToRequire, JSON.stringify(config.APP || {}));
     }
 
     // if the fastboot addon is installed, we overwrite the config-module so that the config can be read
