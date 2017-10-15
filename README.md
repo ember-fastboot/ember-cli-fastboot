@@ -129,15 +129,42 @@ handled by FastBoot
 By default, FastBoot waits for the `beforeModel`, `model`, and
 `afterModel` hooks to resolve before sending the response back to the
 client. If you have asynchrony that runs outside of those contexts, your
-response may not reflect the state that you want. To solve this, the
-`fastboot` service has `deferRendering` function that accepts a promise.
-It will chain all promises passed to it, and the FastBoot server will
+response may not reflect the state that you want.
+
+To solve this, the `fastboot` service has `deferRendering` method that accepts 
+a promise. It will chain all promises passed to it, and the FastBoot server will
 wait until all of these promises resolve before sending the response to
 the client. These promises must be chained before the rendering is
 complete after the model hooks. For example, if a component that is
 rendered into the page makes an async call for data, registering a
 promise to be resolved in its `init` hook would allow the component to
 defer the rendering of the page.
+
+The following example demonstrates how the `deferRendering` method can be
+used to ensure posts data has been loaded asynchronously by a component before
+rendering the entire page. Note how the call should be wrapped in a `fastboot.isFastboot` 
+check since the method will throw an exception outside of that context:
+
+```js
+import Ember from 'ember';
+
+export default Ember.Component.extend({
+  fastboot: Ember.inject.service(),
+  model: Ember.inject.service(),
+
+  init() {
+    this._super(...arguments);
+
+    let promise = this.get('store').findAll('post').then((posts) => {
+      this.set('posts', posts);
+    });
+
+    if (this.get('fastboot.isFastBoot')) {
+      this.get('fastboot').deferRendering(promise);
+    }
+  }
+});
+```
 
 ### Cookies
 
