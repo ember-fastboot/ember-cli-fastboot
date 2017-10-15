@@ -1,6 +1,6 @@
 {
   "name": "fastboot-app-server",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A production-ready app server for running Ember FastBoot apps",
   "main": "src/fastboot-app-server.js",
   "scripts": {
