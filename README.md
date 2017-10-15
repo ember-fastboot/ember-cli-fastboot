@@ -82,6 +82,9 @@ will automatically reload with the newest version.
 You can customize HTTP server (add middlewares, subdomains, etc.), either directly:
 ```js
 // start.js
+const FastBootAppServer = require('fastboot-app-server');
+const ExpressHTTPServer = require('fastboot-app-server/lib/express-http-server');
+
 const httpServer = new ExpressHTTPServer(/* {options} */);
 const app = httpServer.app;
 app.use('/api', apiRoutes);
@@ -94,7 +97,9 @@ server.start();
 or extend the provided HTTP server and override any methods you need:
 ```js
 // my-custom-express-server.js
+const FastBootAppServer = require('fastboot-app-server');
 const ExpressHTTPServer = require('fastboot-app-server/lib/express-http-server');
+
 class MyCustomExpressServer extends ExpressHTTPServer {
   serve(middleware) {
     // put your custom code here, don't forget to add fastboot etc.
@@ -224,6 +229,8 @@ reload.
 You can enable Basic Authentication by providing `username` and `password` options:
 
 ```js
+const FastBootAppServer = require('fastboot-app-server');
+
 let server = new FastBootAppServer({
   username: 'tomster',
   password: 'zoey'
