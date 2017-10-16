@@ -8,12 +8,12 @@ module.exports = function(defaults) {
       app: {
         html: 'index.html',
         css: {
-          'app': '/assets/app.css',
+          'app': '/some-assets/path/app.css',
         },
-        js: '/assets/app.js'
+        js: '/some-assets/path/app-file.js'
       },
       vendor: {
-        js: '/assets/lib.js'
+        js: '/some-assets/path/lib.js'
       }
     }
   });

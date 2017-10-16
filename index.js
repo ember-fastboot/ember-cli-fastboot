@@ -166,9 +166,13 @@ module.exports = {
       registry: this._appRegistry
     });
 
-    let fileAppName = path.basename(this.app.options.outputPaths.app.js).split('.')[0];
+    function stripLeadingSlash(filePath) {
+      return filePath.replace(/^\//, '');
+    }
+
+    let appFilePath = stripLeadingSlash(this.app.options.outputPaths.app.js);
     let finalFastbootTree = new Concat(processExtraTree, {
-      outputFile: 'assets/' + fileAppName + '-fastboot.js'
+      outputFile: appFilePath.replace(/\.js$/, '-fastboot.js')
     });
 
     return finalFastbootTree;
@@ -206,8 +210,8 @@ module.exports = {
   /**
    * Need to handroll our own clone algorithm since JSON.stringy changes regex
    * to empty objects which breaks hostWhiteList property of fastboot.
-   * 
-   * @param {Object} config 
+   *
+   * @param {Object} config
    */
   _cloneConfigObject(config) {
     if (config === null || typeof config !== 'object') {
