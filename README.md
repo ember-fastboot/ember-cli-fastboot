@@ -380,7 +380,7 @@ export default Ember.Route.extend({
 
 Shoebox gives you great capabilities, but using in in the real app is pretty rough. Have you ever thought that such kind of logic should be done behind the scenes? In a large codebase, defining `fastboot.isFastboot` conditionals can be a daunting task. Furthermore, it generates a lot of boilerplate code, which obscures the solution. Sooner or later coupling with `shoebox` will spread over all routes.
 
-That's why [ember-cashed-shoe](https://www.npmjs.com/ember-cached-shoe) was born.
+That's why [ember-cached-shoe](https://www.npmjs.com/ember-cached-shoe) was born.
 
 After installing and applying it, your routes can look like this:
 
