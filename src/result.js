@@ -42,7 +42,7 @@ class Result {
       }
     }
 
-    return insertIntoIndexHTML(this._html, this._head, this._body);
+    return insertIntoIndexHTML(this._html, this._head, this._body, this._bodyAttributes);
   }
 
   /**
@@ -109,6 +109,12 @@ class Result {
     let head = this._doc.head;
     let body = this._doc.body;
 
+    if (body.attributes.length > 0) {
+      this._bodyAttributes = HTMLSerializer.attributes(body.attributes);
+    } else {
+      this._bodyAttributes = null;
+    }
+
     if (head) {
       head = HTMLSerializer.serializeChildren(head);
     }
@@ -124,7 +130,7 @@ function missingTag(tag) {
   return Promise.reject(new Error(`Fastboot was not able to find ${tag} in base HTML. It could not replace the contents.`));
 }
 
-function insertIntoIndexHTML(html, head, body) {
+function insertIntoIndexHTML(html, head, body, bodyAttributes) {
   if (!html) { return Promise.resolve(html); }
   let isBodyReplaced = false;
   let isHeadReplaced = false;
@@ -139,6 +145,12 @@ function insertIntoIndexHTML(html, head, body) {
     }
     return '';
   });
+
+  if (bodyAttributes) {
+    html = html.replace(/<body[^>]*/i, function(match) {
+      return match + ' ' + bodyAttributes;
+    });
+  }
 
   if (head && !isHeadReplaced) {
     return missingTag('<!--EMBER_CLI_FASTBOOT_HEAD-->');
