@@ -84,6 +84,12 @@ describe('generating package.json', function() {
       ]);
     });
 
+    it('contains app name', function() {
+      let pkg = fs.readJsonSync(app.filePath('dist/package.json'));
+
+      expect(pkg.fastboot.appName).to.equal('module-whitelist');
+    });
+
     it('contains the application config', function() {
       let pkg = fs.readJsonSync(app.filePath('dist/package.json'));
 
@@ -138,12 +144,6 @@ describe('generating package.json', function() {
           exportApplicationGlobal: true
         });
       });
-    });
-
-    it('contains app name', function() {
-      let pkg = fs.readJsonSync(app.filePath('dist/package.json'));
-
-      expect(pkg.fastboot.appName).to.equal('module-whitelist');
     });
   });
 
