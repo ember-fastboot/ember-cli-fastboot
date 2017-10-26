@@ -87,6 +87,18 @@ describe("FastBoot", function() {
       });
   });
 
+  it("outputs body attributes from the fastboot app", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('custom-body-attrs')
+    });
+
+    return fastboot.visit('/')
+      .then(r => r.html())
+      .then(html => {
+        expect(html).to.match(/<body data-foo=1 +class="it-works"/);
+      });
+  });
+
   it("can serialize the head and body", function() {
     var fastboot = new FastBoot({
       distPath: fixture('basic-app')
