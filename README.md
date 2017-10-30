@@ -380,13 +380,14 @@ export default Ember.Route.extend({
 
 ### Disabling incompatible dependencies
 
-There are two places where the inclusion of incompatible JavaScript libraries could
-occur:
+There are two places where the inclusion of incompatible JavaScript libraries could occur:
 
  1. `app.import` in the application's `ember-cli-build.js`
  2. `app.import` in an addon's `included` hook
+ 
+There is no way to exclude incompatible libraries imported from the application's `ember-cli-build.js`. Instead, you will need to create an in-repo addon and include your libraries from there.    
 
-You can include the incompatible Javascript libraries by wrapping them with a `FastBoot` variable check. In the browser, `FastBoot` global variable is not defined.
+Within your addon, you can include the incompatible Javascript libraries by wrapping them with a `FastBoot` variable check. In the browser, `FastBoot` global variable is not defined.
 
 ```js
 var map = require('broccoli-stew').map;
