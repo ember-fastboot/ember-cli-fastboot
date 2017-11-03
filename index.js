@@ -12,6 +12,7 @@ const chalk = require('chalk');
 const fastbootAppModule = require('./lib/utilities/fastboot-app-module');
 const FastBootConfig = require('./lib/broccoli/fastboot-config');
 const migrateInitializers = require('./lib/build-utilities/migrate-initializers');
+const SilentError = require('silent-error');
 
 const Concat = require('broccoli-concat');
 const Funnel = require('broccoli-funnel');
@@ -48,17 +49,18 @@ module.exports = {
    * See: https://ember-cli.com/user-guide/#integration
    */
   included(app) {
+
+    let assetRev = this.project.addons.find(addon => addon.name === 'broccoli-asset-rev');
+    if(assetRev && !assetRev.supportsFastboot) {
+      throw new SilentError("This version of ember-cli-fastboot requires a newer version of broccoli-asset-rev");
+    }
+
     // set autoRun to false since we will conditionally include creating app when app files
     // is eval'd in app-boot
     app.options.autoRun = false;
 
-    if (app.options.fingerprint) {
-      // set generateAssetMap to be true so that manifest files can be correctly written
-      // in package.json
-      app.options.fingerprint.generateAssetMap = true;
-    }
-
     app.import('vendor/experimental-render-mode-rehydrate.js');
+
     // get the app registry object and app name so that we can build the fastboot
     // tree
     this._appRegistry = app.registry;
@@ -285,7 +287,6 @@ module.exports = {
     let fastbootAppConfig = appConfig.fastboot;
 
     return new FastBootConfig(tree, {
-      assetMapPath: this.assetMapPath,
       project: this.project,
       name: this.app.name,
       outputPaths: this.app.options.outputPaths,
