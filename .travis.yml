@@ -5,15 +5,6 @@ node_js:
   - "6"
   - "8"
 
-branches:
-  only:
-    - master
-    - beta
-    - /^greenkeeper.*$/
-
-env:
-  - CXX=g++-4.8 WORKER_COUNT=2
-
 sudo: false
 dist: trusty
 
@@ -25,12 +16,26 @@ addons:
       - g++-4.8
   chrome: stable
 
+branches:
+  only:
+    - master
+    - beta
+    - /^greenkeeper.*$/
+
 cache:
   directories:
     - $HOME/.npm
   yarn: false # switch to yarn once ember-cli-addon-tests is removed
 
+env:
+  global:
+    # See https://git.io/vdao3 for details.
+    - JOBS=1
+  matrix:
+    - CXX=g++-4.8 WORKER_COUNT=2
+
 before_install:
   - npm config set spin false
   - npm install -g npm@4
+  - npm --version
   - npm i -g bower # for ember-cli-addon-tests
