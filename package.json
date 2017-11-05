@@ -25,12 +25,12 @@
     "broccoli-plugin": "^1.2.1",
     "chalk": "^2.0.1",
     "ember-cli-babel": "^6.7.2",
+    "ember-cli-lodash-subset": "2.0.1",
     "ember-cli-version-checker": "^2.0.0",
     "fastboot": "^1.1.0",
     "fastboot-express-middleware": "^1.1.0",
     "fs-extra": "^4.0.0",
     "json-stable-stringify": "^1.0.1",
-    "lodash.uniq": "^4.2.0",
     "md5-hex": "^2.0.0",
     "silent-error": "^1.0.0"
   },

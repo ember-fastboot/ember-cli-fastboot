@@ -84,6 +84,12 @@ describe('generating package.json', function() {
       ]);
     });
 
+    it('contains app name', function() {
+      let pkg = fs.readJsonSync(app.filePath('dist/package.json'));
+
+      expect(pkg.fastboot.appName).to.equal('module-whitelist');
+    });
+
     it('contains the application config', function() {
       let pkg = fs.readJsonSync(app.filePath('dist/package.json'));
 
@@ -99,16 +105,45 @@ describe('generating package.json', function() {
       });
     });
 
-    it('contains additional config from addons', function() {
+    it('contains additional config from ember-fastboot-build-example addon', function() {
       let pkg = fs.readJsonSync(app.filePath('dist/package.json'));
 
       expect(pkg.fastboot.config['foo']).to.equal('bar');
     });
 
-    it('contains app name', function() {
-      let pkg = fs.readJsonSync(app.filePath('dist/package.json'));
-      
-      expect(pkg.fastboot.appName).to.equal('module-whitelist');
+    describe('with addon that implements fastbootConfigTree', function() {
+      let app;
+
+      before(function() {
+        app = new AddonTestApp();
+
+        return app.create('fastboot-config', {
+          skipNpm: true
+        })
+          .then(addFastBootDeps)
+          .then(function() {
+            return app.run('npm', 'install');
+          })
+          .then(function() {
+            return app.runEmberCommand('build');
+          });
+      });
+
+      it('it extends the application config', function() {
+        let pkg = fs.readJsonSync(app.filePath('dist/package.json'));
+
+        expect(pkg.fastboot.config['fastboot-config']).to.deep.equal({
+          foo: 'bar',
+          modulePrefix: 'fastboot-config',
+          environment: 'development',
+          baseURL: '/',
+          locationType: 'auto',
+          EmberENV: { FEATURES: {} },
+          APP: { name: 'fastboot-config', version: '0.0.0+', autoboot: false },
+          fastboot: { hostWhitelist: [ 'example.com', 'subdomain.example.com', '/localhost:\\d+/' ] },
+          exportApplicationGlobal: true
+        });
+      });
     });
   });
 
