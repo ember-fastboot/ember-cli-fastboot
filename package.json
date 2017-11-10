@@ -38,6 +38,7 @@
   "devDependencies": {
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
+    "ember-source": "2.16.2",
     "express": "^4.15.4",
     "fs-promise": "^2.0.3",
     "mocha": "^4.0.0",

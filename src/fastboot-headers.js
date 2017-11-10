@@ -92,7 +92,7 @@ class FastBootHeaders {
   }
 
   unknownProperty(maybeHeader) {
-    console.warn(`You called \`Ember.get(headers, '${maybeHeader}')\` with a FastBootHeaders instance as first argument. FastBootHeader is not an Ember object and you should use \`headers.get('${maybeHeader}')\` instead.`)
+    console.warn(`You called \`Ember.get(headers, '${maybeHeader}')\` with a FastBootHeaders instance as first argument. FastBootHeader is not an Ember object and you should use \`headers.get('${maybeHeader}')\` instead.`);
     return this.get(maybeHeader);
   }
 }
