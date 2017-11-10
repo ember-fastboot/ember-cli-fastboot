@@ -3,6 +3,7 @@
 var expect = require('chai').expect;
 var path = require('path');
 var FastBootHeaders = require('./../src/fastboot-headers.js');
+var Ember = require('ember-source/dist');
 
 describe('FastBootHeaders', function() {
   it('returns an array from getAll when header value is string', function() {
@@ -145,5 +146,13 @@ describe('FastBootHeaders', function() {
     expect(entriesIterator.next()).to.deep.equal({ value: 'baz', done: false });
     expect(entriesIterator.next()).to.deep.equal({ value: 'bar', done: false });
     expect(entriesIterator.next()).to.deep.equal({ value: undefined, done: true });
+  });
+
+  it('when mistakenly used `Ember.get` with an unknown property, it attempts to get the header with that name and warns the user to use `headers.get` instead', function () {
+    var headers = {
+      'x-test-header': ['value1', 'value2']
+    };
+    headers = new FastBootHeaders(headers);
+    expect(Ember.get(headers, 'x-test-header')).to.eq(headers.get('x-test-header'));
   });
 });
