@@ -1,5 +1,9 @@
 # FastBoot Changelog
 
+### 1.1.1
+
+* Implement `unknownProperty` in FastbootHeaders to prevent users mistakenly use `Ember.get(headers, headerName)`
+
 ### 1.1.0
 
 * Add the ability to support configuration for multiple namespaces to `FastBoot.config`.
