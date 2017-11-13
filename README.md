@@ -376,6 +376,29 @@ export default Ember.Route.extend({
 });
 ```
 
+### Think out of the Shoebox
+
+Shoebox gives you great capabilities, but using it in the real app is pretty rough. Have you ever thought that such kind of logic should be done behind the scenes? In a large codebase, defining `fastboot.isFastboot` conditionals can be a daunting task. Furthermore, it generates a lot of boilerplate code, which obscures the solution. Sooner or later coupling with `shoebox` will spread over all routes.
+
+That's why [ember-cached-shoe](https://www.npmjs.com/ember-cached-shoe) was born.
+
+After installing and applying it, your routes can look like this:
+
+`app/routes/my-route.js`:
+
+```javascript
+import Ember from 'ember'
+
+export default  Ember.Route.extend({
+  model() {
+    // first call in a server makes actual ajax request.
+    // second call in a browser serves cached response
+    return this.store.findAll('posts')
+  }
+})
+```
+And they still take advantage of caching in the `shoebox`. No more redundant AJAX for already acquired data. Installation details are available in the addon [README](https://github.com/appchance/ember-cached-shoe#ember-cached-shoe).
+
 ## Build Hooks for FastBoot
 
 ### Disabling incompatible dependencies
