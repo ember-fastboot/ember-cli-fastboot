@@ -8,6 +8,7 @@ var Router = Ember.Router.extend({
 Router.map(function() {
   this.route('posts');
   this.route('boom');
+  this.route('imports');
 });
 
 export default Router;

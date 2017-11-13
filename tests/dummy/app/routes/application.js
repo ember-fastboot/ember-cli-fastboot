@@ -1,8 +1,10 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { inject } from '@ember/service';
+import { readOnly } from '@ember/object/computed';
 
-export default Ember.Route.extend({
-  fastboot: Ember.inject.service(),
-  shoebox: Ember.computed.readOnly('fastboot.shoebox'),
+export default Route.extend({
+  fastboot: inject(),
+  shoebox: readOnly('fastboot.shoebox'),
 
   model() {
     let fastboot = this.get('fastboot');

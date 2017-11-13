@@ -131,7 +131,7 @@ By default, FastBoot waits for the `beforeModel`, `model`, and
 client. If you have asynchrony that runs outside of those contexts, your
 response may not reflect the state that you want.
 
-To solve this, the `fastboot` service has `deferRendering` method that accepts 
+To solve this, the `fastboot` service has `deferRendering` method that accepts
 a promise. It will chain all promises passed to it, and the FastBoot server will
 wait until all of these promises resolve before sending the response to
 the client. These promises must be chained before the rendering is
@@ -142,7 +142,7 @@ defer the rendering of the page.
 
 The following example demonstrates how the `deferRendering` method can be
 used to ensure posts data has been loaded asynchronously by a component before
-rendering the entire page. Note how the call should be wrapped in a `fastboot.isFastboot` 
+rendering the entire page. Note how the call should be wrapped in a `fastboot.isFastboot`
 check since the method will throw an exception outside of that context:
 
 ```js
@@ -383,8 +383,20 @@ export default Ember.Route.extend({
 There are two places where the inclusion of incompatible JavaScript libraries could
 occur:
 
- 1. `app.import` in the application's `ember-cli-build.js`
- 2. `app.import` in an addon's `included` hook
+#### `app.import` in the application's `ember-cli-build.js`
+
+If your Ember application is importing an incompatible Javascript library,you can use `app.import` with the `using` API.
+
+```js
+app.import('vendor/fastboot-incompatible.js', {
+  using: [
+    {
+      transformation: 'fastbootShim'
+    }
+  ]
+});
+```
+#### `app.import` in an addon's `included` hook
 
 You can include the incompatible Javascript libraries by wrapping them with a `FastBoot` variable check. In the browser, `FastBoot` global variable is not defined.
 
