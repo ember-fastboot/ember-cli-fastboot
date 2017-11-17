@@ -292,6 +292,8 @@ module.exports = {
   serverMiddleware(options) {
     let emberCliVersion = this._getEmberCliVersion();
     let app = options.app;
+    let appConfig = this._getHostAppConfig();
+    let fastbootConfig = appConfig.fastboot;
 
     if (emberCliVersion.gte('2.12.0-beta.1')) {
       // only run the middleware when ember-cli version for app is above 2.12.0-beta.1 since
@@ -310,7 +312,8 @@ module.exports = {
             // and custom sandbox class
             this.ui.writeLine(chalk.green('App is being served by FastBoot'));
             this.fastboot = new FastBoot({
-              distPath: outputPath
+              distPath: outputPath,
+              sandboxGlobals: fastbootConfig && fastbootConfig.sandboxGlobals
             });
           }
 
