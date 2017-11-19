@@ -53,7 +53,7 @@ describe('FastbootConfig', function() {
     expect(
       output.read()
     ).to.deep.equal({
-      'package.json': `{"dependencies":{},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"manifest":{"appFiles":["assets/app.js","assets/app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["assets/vendor.js"]},"moduleWhitelist":[],"schemaVersion":3}}`
+      'package.json': `{"dependencies":{},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleWhitelist":[],"schemaVersion":3}}`
     });
 
     yield output.build();
@@ -84,7 +84,7 @@ describe('FastbootConfig', function() {
     expect(
       output.read()
     ).to.deep.equal({
-      'package.json': `{"dependencies":{"apple":"*","orange":"^1.0.0"},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"manifest":{"appFiles":["assets/app.js","assets/app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["assets/vendor.js"]},"moduleWhitelist":["apple","orange"],"schemaVersion":3}}`
+      'package.json': `{"dependencies":{"apple":"*","orange":"^1.0.0"},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleWhitelist":["apple","orange"],"schemaVersion":3}}`
     });
 
     project.pkg.fastbootDependencies = [
@@ -107,7 +107,7 @@ describe('FastbootConfig', function() {
     expect(
       output.read()
     ).to.deep.equal({
-      'package.json': `{"dependencies":{"apple":"^3.0.0","orange":"^1.0.0"},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"manifest":{"appFiles":["assets/app.js","assets/app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["assets/vendor.js"]},"moduleWhitelist":["apple","orange"],"schemaVersion":3}}`
+      'package.json': `{"dependencies":{"apple":"^3.0.0","orange":"^1.0.0"},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleWhitelist":["apple","orange"],"schemaVersion":3}}`
     });
   }));
 });

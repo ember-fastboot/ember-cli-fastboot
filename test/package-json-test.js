@@ -237,10 +237,13 @@ describe('generating package.json', function() {
       let pkg = fs.readJsonSync(customApp.filePath('/dist/package.json'));
       let manifest = pkg.fastboot.manifest;
 
+      expect(manifest.appFiles).to.include('some-assets/path/app-file.js');
       manifest.appFiles.forEach(function(file) {
         expect(p(file)).to.be.a.file();
       });
       expect(p(manifest.htmlFile)).to.be.a.file();
+
+      expect(manifest.vendorFiles).to.include('some-assets/path/lib.js');
       manifest.vendorFiles.forEach(function(file) {
         expect(p(file)).to.be.a.file();
       });

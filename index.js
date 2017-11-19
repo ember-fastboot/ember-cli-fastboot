@@ -180,9 +180,13 @@ module.exports = {
       registry: this._appRegistry
     });
 
-    let fileAppName = path.basename(this.app.options.outputPaths.app.js).split('.')[0];
+    function stripLeadingSlash(filePath) {
+      return filePath.replace(/^\//, '');
+    }
+
+    let appFilePath = stripLeadingSlash(this.app.options.outputPaths.app.js);
     let finalFastbootTree = new Concat(processExtraTree, {
-      outputFile: 'assets/' + fileAppName + '-fastboot.js'
+      outputFile: appFilePath.replace(/\.js$/, '-fastboot.js')
     });
 
     return finalFastbootTree;
