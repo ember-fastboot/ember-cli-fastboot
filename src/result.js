@@ -46,6 +46,34 @@ class Result {
   }
 
   /**
+   * Returns the HTML representation of the rendered route, inserted
+   * into the application's `index.html`, split into chunks.
+   * The first chunk contains the document's head, the second contains the body
+   * until just before the shoebox tags (if there are any) and the last chunk
+   * contains the shoebox tags and the closing `body` tag. If there are no
+   * shoebox tags, there are only 2 chunks and the second one contains the
+   * complete document body, including the closing `body` tag.
+   *
+   * @returns {Promise<Array<String>>} the application's DOM serialized to HTML, split into chunks
+   */
+  chunks() {
+    return insertIntoIndexHTML(this._html, this._head, this._body, this._bodyAttributes).then((html) => {
+      let [, head, body] = html.match(/^([\s\S]*<\/head>)([\s\S]*)/);
+      let chunks = [head];
+      if (/<script type="fastboot\/shoebox"/.test(body)) {
+        let [strippedBody, shoeboxes] = body.match(/^([\s\S]*?)(<script type="fastboot\/shoebox"[\s\S]*)/).splice(1);
+        chunks.push(strippedBody);
+        shoeboxes.split(/<script type="fastboot\/shoebox"/).splice(1).forEach((shoebox) => {
+          chunks.push(`<script type="fastboot/shoebox"${shoebox}`);
+        });
+      } else {
+        chunks.push(body);
+      }
+      return chunks;
+    });
+  }
+
+  /**
    * Returns the serialized representation of DOM HEAD and DOM BODY
    *
    * @returns {Object} serialized version of DOM
