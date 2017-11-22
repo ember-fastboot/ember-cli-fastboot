@@ -51,6 +51,20 @@ describe("FastBoot", function() {
       });
   });
 
+  it("responds with a chunked response", function() {
+    let middleware = fastbootMiddleware({
+      distPath: fixture('basic-app')
+    });
+    server = new TestHTTPServer(middleware, { errorHandling: true });
+
+    return server.start()
+      .then(() => server.request('/', { resolveWithFullResponse: true }))
+      .then(({ body, _, headers }) => {
+        expect(headers['transfer-encoding']).to.eq('chunked');
+        expect(body).to.match(/Welcome to Ember/);
+      });
+  });
+
   it("returns 404 when navigating to a URL that doesn't exist", function() {
     let middleware = fastbootMiddleware(fixture('basic-app'));
     server = new TestHTTPServer(middleware);
