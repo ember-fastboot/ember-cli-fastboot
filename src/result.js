@@ -61,15 +61,20 @@ class Result {
    */
   chunks() {
     return insertIntoIndexHTML(this._html, this._head, this._body, this._bodyAttributes).then((html) => {
-      let [, head, body] = html.match(HTML_HEAD_REGEX);
+      let docParts = html.match(HTML_HEAD_REGEX);
+      let head = docParts[1];
+      let body = docParts[2];
 
       if (!head || !body) {
         throw new Error('Could not idenfity head and body of the document! Make sure the document is well formed.');
       }
 
       let chunks = [head];
-      let [plainBody, ...shoeboxes] = body.split(SHOEBOX_TAG_PATTERN);
+      let bodyParts = body.split(SHOEBOX_TAG_PATTERN);
+      let plainBody = bodyParts[0];
       chunks.push(plainBody);
+
+      let shoeboxes = bodyParts.splice(1);
       shoeboxes.forEach((shoebox) => {
         chunks.push(`${SHOEBOX_TAG_PATTERN}${shoebox}`);
       });

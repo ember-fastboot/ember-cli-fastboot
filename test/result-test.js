@@ -134,8 +134,8 @@ describe('Result', function() {
   });
 
   describe('chunks()', function() {
-    let HEAD = '<meta name="foo" content="bar">';
-    let BODY = '<h1>A normal response document</h1>';
+    var HEAD = '<meta name="foo" content="bar">';
+    var BODY = '<h1>A normal response document</h1>';
 
     beforeEach(function() {
       result._fastbootInfo.response.statusCode = 200;
