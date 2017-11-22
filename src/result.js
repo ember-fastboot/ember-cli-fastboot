@@ -3,6 +3,9 @@
 const SimpleDOM = require('simple-dom');
 const HTMLSerializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
 
+const SHOEBOX_TAG_PATTERN = '<script type="fastboot/shoebox"';
+const HTML_HEAD_REGEX = /^([\s\S]*<\/head>)([\s\S]*)/;
+
 /**
  * Represents the rendered result of visiting an Ember app at a particular URL.
  * A `Result` object is returned from calling {@link FastBoot}'s `visit()`
@@ -58,17 +61,15 @@ class Result {
    */
   chunks() {
     return insertIntoIndexHTML(this._html, this._head, this._body, this._bodyAttributes).then((html) => {
-      let [, head, body] = html.match(/^([\s\S]*<\/head>)([\s\S]*)/);
+      let [, head, body] = html.match(HTML_HEAD_REGEX);
       let chunks = [head];
-      if (/<script type="fastboot\/shoebox"/.test(body)) {
-        let [strippedBody, shoeboxes] = body.match(/^([\s\S]*?)(<script type="fastboot\/shoebox"[\s\S]*)/).splice(1);
-        chunks.push(strippedBody);
-        shoeboxes.split(/<script type="fastboot\/shoebox"/).splice(1).forEach((shoebox) => {
-          chunks.push(`<script type="fastboot/shoebox"${shoebox}`);
-        });
-      } else {
-        chunks.push(body);
-      }
+
+      let [plainBody, ...shoeboxes] = body.split(SHOEBOX_TAG_PATTERN);
+      chunks.push(plainBody);
+      shoeboxes.forEach((shoebox) => {
+        chunks.push(`${SHOEBOX_TAG_PATTERN}${shoebox}`);
+      });
+
       return chunks;
     });
   }

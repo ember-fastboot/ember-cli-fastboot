@@ -137,12 +137,17 @@ describe('Result', function() {
     let HEAD = '<meta name="foo" content="bar">';
     let BODY = '<h1>A normal response document</h1>';
 
+    beforeEach(function() {
+      result._fastbootInfo.response.statusCode = 200;
+      result._html = `<html><head><!-- EMBER_CLI_FASTBOOT_HEAD --></head>
+                      <body><!-- EMBER_CLI_FASTBOOT_BODY --></body></html>`;
+    });
+
     describe('when there is no shoebox', function() {
       beforeEach(function () {
         doc.head.appendChild(doc.createRawHTMLSection(HEAD));
         doc.body.appendChild(doc.createRawHTMLSection(BODY));
 
-        result._fastbootInfo.response.statusCode = 200;
         result._finalize();
       });
 
@@ -150,8 +155,8 @@ describe('Result', function() {
         return result.chunks()
         .then(function (result) {
           expect(result.length).to.eq(2);
-          expect(result[0]).to.eq('<html><head><meta name="foo" content="bar"></head>');
-          expect(result[1]).to.eq('\n            <body><h1>A normal response document</h1></body></html>');
+          expect(result[0]).to.eq(`<html><head>${HEAD}</head>`);
+          expect(result[1]).to.eq(`\n                      <body>${BODY}</body></html>`);
         });
       });
     });
@@ -162,7 +167,6 @@ describe('Result', function() {
         doc.body.appendChild(doc.createRawHTMLSection(BODY));
         doc.body.appendChild(doc.createRawHTMLSection('<script type="fastboot/shoebox" id="shoebox-something">{ "some": "data" }</script>'));
 
-        result._fastbootInfo.response.statusCode = 200;
         result._finalize();
       });
 
@@ -170,8 +174,8 @@ describe('Result', function() {
         return result.chunks()
         .then(function (result) {
           expect(result.length).to.eq(3);
-          expect(result[0]).to.eq('<html><head><meta name="foo" content="bar"></head>');
-          expect(result[1]).to.eq('\n            <body><h1>A normal response document</h1>');
+          expect(result[0]).to.eq(`<html><head>${HEAD}</head>`);
+          expect(result[1]).to.eq(`\n                      <body>${BODY}`);
           expect(result[2]).to.eq('<script type="fastboot/shoebox" id="shoebox-something">{ "some": "data" }</script></body></html>');
         });
       });
@@ -185,7 +189,6 @@ describe('Result', function() {
         doc.body.appendChild(doc.createRawHTMLSection('<script type="fastboot/shoebox" id="shoebox-something-b">{ "some": "data" }</script>'));
         doc.body.appendChild(doc.createRawHTMLSection('<script type="fastboot/shoebox" id="shoebox-something-c">{ "some": "data" }</script>'));
 
-        result._fastbootInfo.response.statusCode = 200;
         result._finalize();
       });
 
@@ -193,8 +196,8 @@ describe('Result', function() {
         return result.chunks()
         .then(function (result) {
           expect(result.length).to.eq(5);
-          expect(result[0]).to.eq('<html><head><meta name="foo" content="bar"></head>');
-          expect(result[1]).to.eq('\n            <body><h1>A normal response document</h1>');
+          expect(result[0]).to.eq(`<html><head>${HEAD}</head>`);
+          expect(result[1]).to.eq(`\n                      <body>${BODY}`);
           expect(result[2]).to.eq('<script type="fastboot/shoebox" id="shoebox-something-a">{ "some": "data" }</script>');
           expect(result[3]).to.eq('<script type="fastboot/shoebox" id="shoebox-something-b">{ "some": "data" }</script>');
           expect(result[4]).to.eq('<script type="fastboot/shoebox" id="shoebox-something-c">{ "some": "data" }</script></body></html>');
