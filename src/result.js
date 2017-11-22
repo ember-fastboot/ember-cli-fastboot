@@ -62,8 +62,12 @@ class Result {
   chunks() {
     return insertIntoIndexHTML(this._html, this._head, this._body, this._bodyAttributes).then((html) => {
       let [, head, body] = html.match(HTML_HEAD_REGEX);
-      let chunks = [head];
 
+      if (!head || !body) {
+        throw new Error('Could not idenfity head and body of the document! Make sure the document is well formed.');
+      }
+
+      let chunks = [head];
       let [plainBody, ...shoeboxes] = body.split(SHOEBOX_TAG_PATTERN);
       chunks.push(plainBody);
       shoeboxes.forEach((shoebox) => {

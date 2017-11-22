@@ -143,6 +143,16 @@ describe('Result', function() {
                       <body><!-- EMBER_CLI_FASTBOOT_BODY --></body></html>`;
     });
 
+    it('rejects when the document does not have <head> and/or <body> tags', function() {
+      result._html = `<!-- EMBER_CLI_FASTBOOT_HEAD -->
+                      <!-- EMBER_CLI_FASTBOOT_BODY -->`;
+
+      return result.chunks()
+      .catch(function (err) {
+        return expect(err).to.be.not.null;
+      });
+    });
+
     describe('when there is no shoebox', function() {
       beforeEach(function () {
         doc.head.appendChild(doc.createRawHTMLSection(HEAD));
