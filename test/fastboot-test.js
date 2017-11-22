@@ -194,6 +194,20 @@ describe("FastBoot", function() {
       });
   });
 
+  it("returns only one chunk if the resilient flag is set", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('rejected-promise'),
+      resilient: true
+    });
+
+    return fastboot.visit('/')
+      .then(r => r.chunks())
+      .then(chunks => {
+        expect(chunks.length).to.eq(1);
+        expect(chunks[0]).to.match(/<body>/);
+      });
+  });
+
   it("can reload the distPath", function() {
     var fastboot = new FastBoot({
       distPath: fixture('basic-app')

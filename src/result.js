@@ -62,6 +62,10 @@ class Result {
   chunks() {
     return insertIntoIndexHTML(this._html, this._head, this._body, this._bodyAttributes).then((html) => {
       let docParts = html.match(HTML_HEAD_REGEX);
+      if (!docParts || docParts.length === 1) {
+        return [html];
+      }
+
       let head = docParts[1];
       let body = docParts[2];
 
