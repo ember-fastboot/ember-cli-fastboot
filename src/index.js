@@ -32,6 +32,7 @@ function fastbootExpressMiddleware(distPath, options) {
       .then(success, failure);
 
     function success(result) {
+      if (opts.chunkedResponse) {
         result.chunks()
           .then(chunks => {
             let headers = result.headers;
@@ -59,6 +60,30 @@ function fastbootExpressMiddleware(distPath, options) {
             res.status(500);
             next(error);
           });
+      } else {
+        result.html()
+          .then(html => {
+            let headers = result.headers;
+            let statusMessage = result.error ? 'NOT OK ' : 'OK ';
+          
+            for (var pair of headers.entries()) {
+              res.set(pair[0], pair[1]);
+            }
+          
+            if (result.error) {
+              log("RESILIENT MODE CAUGHT:", result.error.stack);
+              next(result.error);
+            }
+          
+            log(result.statusCode, statusMessage + path);
+            res.status(result.statusCode);
+            res.send(html);
+          })
+          .catch(error => {
+            res.status(500);
+            next(error);
+          });
+      }
     }
 
     function failure(error) {
