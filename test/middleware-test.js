@@ -51,6 +51,61 @@ describe("FastBoot", function() {
       });
   });
 
+  it("can be provided with a custom FastBoot instance", function() {
+    let fastboot = new FastBoot({
+      distPath: fixture('basic-app')
+    });
+
+    let middleware = fastbootMiddleware({
+      fastboot: fastboot
+    });
+
+    server = new TestHTTPServer(middleware);
+
+    return server.start()
+      .then(() => server.request('/'))
+      .then(html => {
+        expect(html).to.match(/Welcome to Ember/);
+      });
+  });
+
+  it("can reload the FastBoot instance", function() {
+    let fastboot = new FastBoot({
+      distPath: fixture('basic-app')
+    });
+
+    let middleware = fastbootMiddleware({
+      fastboot: fastboot
+    });
+
+    server = new TestHTTPServer(middleware);
+
+    return server.start()
+      .then(requestFirstApp)
+      .then(hotReloadApp)
+      .then(requestSecondApp);
+
+    function requestFirstApp(info) {
+      return server.request('/')
+        .then(function(html) {
+          expect(html).to.match(/Welcome to Ember/);
+        });
+    }
+
+    function hotReloadApp() {
+      fastboot.reload({
+        distPath: fixture('hot-swap-app')
+      });
+    }
+
+    function requestSecondApp(info) {
+      return server.request('/')
+        .then(function(html) {
+          expect(html).to.match(/Goodbye from Ember/);
+        });
+    }
+  });
+
   [true, false].forEach((chunkedResponse) => {
     describe(`when chunked response is ${chunkedResponse ? 'enabled' : 'disabled'}`, function() {
       if (chunkedResponse) {
@@ -96,63 +151,6 @@ describe("FastBoot", function() {
           .catch(err => {
             expect(err.message).to.match(/Rejected on purpose/);
           });
-      });
-
-      it("can be provided with a custom FastBoot instance", function() {
-        let fastboot = new FastBoot({
-          distPath: fixture('basic-app')
-        });
-
-        let middleware = fastbootMiddleware({
-          fastboot: fastboot,
-          chunkedResponse
-        });
-
-        server = new TestHTTPServer(middleware);
-
-        return server.start()
-          .then(() => server.request('/'))
-          .then(html => {
-            expect(html).to.match(/Welcome to Ember/);
-          });
-      });
-
-      it("can reload the FastBoot instance", function() {
-        let fastboot = new FastBoot({
-          distPath: fixture('basic-app')
-        });
-
-        let middleware = fastbootMiddleware({
-          fastboot: fastboot,
-          chunkedResponse
-        });
-
-        server = new TestHTTPServer(middleware);
-
-        return server.start()
-          .then(requestFirstApp)
-          .then(hotReloadApp)
-          .then(requestSecondApp);
-
-        function requestFirstApp(info) {
-          return server.request('/')
-            .then(function(html) {
-              expect(html).to.match(/Welcome to Ember/);
-            });
-        }
-
-        function hotReloadApp() {
-          fastboot.reload({
-            distPath: fixture('hot-swap-app')
-          });
-        }
-
-        function requestSecondApp(info) {
-          return server.request('/')
-            .then(function(html) {
-              expect(html).to.match(/Goodbye from Ember/);
-            });
-        }
       });
 
       describe('when reslient mode is enabled', function () {
