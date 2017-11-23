@@ -89,6 +89,22 @@ app.get('/*', middleware);
 fastboot.reload();
 ```
 
+## Response chunking
+
+By default, the middleware writes the complete response at once but response
+chunking (aka HTTP Streaming) is available via a config switch:
+
+```js
+app.get('/*', fastbootMiddleware({
+  distPath: '/path/to/dist',
+  chunkedResponse: true
+}));
+```
+
+Enabling response chunking will result in the response being delivered in
+multiple chunks (one for the head, one for the body and one for each shoebox)
+which helps getting the HTML to clients faster.
+
 [ember-cli-fastboot]: https://github.com/ember-fastboot/ember-cli-fastboot
 
 ## Tests
