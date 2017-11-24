@@ -24,6 +24,7 @@ class FastBootAppServer {
     this.beforeMiddleware = options.beforeMiddleware;
     this.afterMiddleware = options.afterMiddleware;
     this.sandboxGlobals = options.sandboxGlobals;
+    this.chunkedResponse = options.chunkedResponse;
 
     if (!this.ui) {
       let UI = require('./ui');
@@ -45,7 +46,8 @@ class FastBootAppServer {
         httpServer: this.httpServer,
         beforeMiddleware: this.beforeMiddleware,
         afterMiddleware: this.afterMiddleware,
-        sandboxGlobals: this.sandboxGlobals
+        sandboxGlobals: this.sandboxGlobals,
+        chunkedResponse: this.chunkedResponse,
       });
 
       this.worker.start();
