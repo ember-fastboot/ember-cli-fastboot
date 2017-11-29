@@ -3,6 +3,9 @@
 const SimpleDOM = require('simple-dom');
 const HTMLSerializer = new SimpleDOM.HTMLSerializer(SimpleDOM.voidMap);
 
+const SHOEBOX_TAG_PATTERN = '<script type="fastboot/shoebox"';
+const HTML_HEAD_REGEX = /^([\s\S]*<\/head>)([\s\S]*)/;
+
 /**
  * Represents the rendered result of visiting an Ember app at a particular URL.
  * A `Result` object is returned from calling {@link FastBoot}'s `visit()`
@@ -43,6 +46,45 @@ class Result {
     }
 
     return insertIntoIndexHTML(this._html, this._head, this._body, this._bodyAttributes);
+  }
+
+  /**
+   * Returns the HTML representation of the rendered route, inserted
+   * into the application's `index.html`, split into chunks.
+   * The first chunk contains the document's head, the second contains the body
+   * until just before the shoebox tags (if there are any) and the last chunk
+   * contains the shoebox tags and the closing `body` tag. If there are no
+   * shoebox tags, there are only 2 chunks and the second one contains the
+   * complete document body, including the closing `body` tag.
+   *
+   * @returns {Promise<Array<String>>} the application's DOM serialized to HTML, split into chunks
+   */
+  chunks() {
+    return insertIntoIndexHTML(this._html, this._head, this._body, this._bodyAttributes).then((html) => {
+      let docParts = html.match(HTML_HEAD_REGEX);
+      if (!docParts || docParts.length === 1) {
+        return [html];
+      }
+
+      let head = docParts[1];
+      let body = docParts[2];
+
+      if (!head || !body) {
+        throw new Error('Could not idenfity head and body of the document! Make sure the document is well formed.');
+      }
+
+      let chunks = [head];
+      let bodyParts = body.split(SHOEBOX_TAG_PATTERN);
+      let plainBody = bodyParts[0];
+      chunks.push(plainBody);
+
+      let shoeboxes = bodyParts.splice(1);
+      shoeboxes.forEach((shoebox) => {
+        chunks.push(`${SHOEBOX_TAG_PATTERN}${shoebox}`);
+      });
+
+      return chunks;
+    });
   }
 
   /**

@@ -132,4 +132,87 @@ describe('Result', function() {
       });
     });
   });
+
+  describe('chunks()', function() {
+    var HEAD = '<meta name="foo" content="bar">';
+    var BODY = '<h1>A normal response document</h1>';
+
+    beforeEach(function() {
+      result._fastbootInfo.response.statusCode = 200;
+      result._html = `<html><head><!-- EMBER_CLI_FASTBOOT_HEAD --></head>
+                      <body><!-- EMBER_CLI_FASTBOOT_BODY --></body></html>`;
+    });
+
+    it('rejects when the document does not have <head> and/or <body> tags', function() {
+      result._html = `<!-- EMBER_CLI_FASTBOOT_HEAD -->
+                      <!-- EMBER_CLI_FASTBOOT_BODY -->`;
+
+      return result.chunks()
+      .catch(function (err) {
+        return expect(err).to.be.not.null;
+      });
+    });
+
+    describe('when there is no shoebox', function() {
+      beforeEach(function () {
+        doc.head.appendChild(doc.createRawHTMLSection(HEAD));
+        doc.body.appendChild(doc.createRawHTMLSection(BODY));
+
+        result._finalize();
+      });
+
+      it('returns chunks for the head and body', function() {
+        return result.chunks()
+        .then(function (result) {
+          expect(result.length).to.eq(2);
+          expect(result[0]).to.eq(`<html><head>${HEAD}</head>`);
+          expect(result[1]).to.eq(`\n                      <body>${BODY}</body></html>`);
+        });
+      });
+    });
+
+    describe('when there is a shoebox', function() {
+      beforeEach(function () {
+        doc.head.appendChild(doc.createRawHTMLSection(HEAD));
+        doc.body.appendChild(doc.createRawHTMLSection(BODY));
+        doc.body.appendChild(doc.createRawHTMLSection('<script type="fastboot/shoebox" id="shoebox-something">{ "some": "data" }</script>'));
+
+        result._finalize();
+      });
+
+      it('returns a chunks for the head, body and shoebox', function() {
+        return result.chunks()
+        .then(function (result) {
+          expect(result.length).to.eq(3);
+          expect(result[0]).to.eq(`<html><head>${HEAD}</head>`);
+          expect(result[1]).to.eq(`\n                      <body>${BODY}`);
+          expect(result[2]).to.eq('<script type="fastboot/shoebox" id="shoebox-something">{ "some": "data" }</script></body></html>');
+        });
+      });
+    });
+
+    describe('when there are multiple shoeboxes', function() {
+      beforeEach(function () {
+        doc.head.appendChild(doc.createRawHTMLSection(HEAD));
+        doc.body.appendChild(doc.createRawHTMLSection(BODY));
+        doc.body.appendChild(doc.createRawHTMLSection('<script type="fastboot/shoebox" id="shoebox-something-a">{ "some": "data" }</script>'));
+        doc.body.appendChild(doc.createRawHTMLSection('<script type="fastboot/shoebox" id="shoebox-something-b">{ "some": "data" }</script>'));
+        doc.body.appendChild(doc.createRawHTMLSection('<script type="fastboot/shoebox" id="shoebox-something-c">{ "some": "data" }</script>'));
+
+        result._finalize();
+      });
+
+      it('returns a chunks for the head, body and shoebox', function() {
+        return result.chunks()
+        .then(function (result) {
+          expect(result.length).to.eq(5);
+          expect(result[0]).to.eq(`<html><head>${HEAD}</head>`);
+          expect(result[1]).to.eq(`\n                      <body>${BODY}`);
+          expect(result[2]).to.eq('<script type="fastboot/shoebox" id="shoebox-something-a">{ "some": "data" }</script>');
+          expect(result[3]).to.eq('<script type="fastboot/shoebox" id="shoebox-something-b">{ "some": "data" }</script>');
+          expect(result[4]).to.eq('<script type="fastboot/shoebox" id="shoebox-something-c">{ "some": "data" }</script></body></html>');
+        });
+      });
+    });
+  });
 });
