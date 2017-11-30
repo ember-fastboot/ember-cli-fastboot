@@ -1,5 +1,9 @@
 # FastBoot Changelog
 
+### 1.1.2
+
+* Adds API to allow chunking shoebox responses for better performance.
+
 ### 1.1.1
 
 * Implement `unknownProperty` in FastbootHeaders to prevent users mistakenly use `Ember.get(headers, headerName)`
