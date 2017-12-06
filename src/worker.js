@@ -18,6 +18,7 @@ class Worker {
     this.beforeMiddleware = options.beforeMiddleware;
     this.afterMiddleware = options.afterMiddleware;
     this.sandboxGlobals = options.sandboxGlobals;
+    this.chunkedResponse = options.chunkedResponse;
 
     if (!this.httpServer) {
       this.httpServer = new ExpressHTTPServer({
@@ -76,7 +77,8 @@ class Worker {
     });
 
     return fastbootMiddleware({
-      fastboot: this.fastboot
+      fastboot: this.fastboot,
+      chunkedResponse: this.chunkedResponse,
     });
   }
 
