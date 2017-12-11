@@ -30,7 +30,7 @@
     "fastboot": "^1.1.0",
     "fastboot-express-middleware": "^1.1.0",
     "fastboot-transform": "^0.1.2",
-    "fs-extra": "^4.0.2",
+    "fs-extra": "^5.0.0",
     "json-stable-stringify": "^1.0.1",
     "md5-hex": "^2.0.0",
     "silent-error": "^1.0.0"
