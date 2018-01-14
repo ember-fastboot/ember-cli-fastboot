@@ -1,16 +1,12 @@
-import Ember from 'ember';
-
-const {
-  computed,
-  computed: { bool, readOnly },
-  inject: { service },
-  get,
-  getOwner
-} = Ember;
+import { computed, get } from '@ember/object';
+import { bool, readOnly } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { getOwner } from '@ember/application'
+import NoneLocation from '@ember/routing/none-location'
 
 const TEMPORARY_REDIRECT_CODE = 307;
 
-export default Ember.NoneLocation.extend({
+export default NoneLocation.extend({
   implementation: 'fastboot',
   fastboot: service(),
 

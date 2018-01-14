@@ -1,10 +1,12 @@
 /* global FastBoot */
-import Ember from "ember";
+import { deprecate } from '@ember/application/deprecations';
+import { computed, get } from '@ember/object';
+import { deprecatingAlias, readOnly } from '@ember/object/computed';
+import { assert } from '@ember/debug';
+import EObject from '@ember/object';
+import Service from '@ember/service';
 
-const { deprecate, computed, get, assert } = Ember;
-const { deprecatingAlias, readOnly } = computed;
-
-const RequestObject = Ember.Object.extend({
+const RequestObject = EObject.extend({
   init() {
     this._super(...arguments);
 
@@ -28,7 +30,7 @@ const RequestObject = Ember.Object.extend({
   })
 });
 
-const Shoebox = Ember.Object.extend({
+const Shoebox = EObject.extend({
   put(key, value) {
     assert('shoebox.put is only invoked from the FastBoot rendered application', this.get('fastboot.isFastBoot'));
     assert('the provided key is a string', typeof key === 'string');
@@ -62,7 +64,7 @@ const Shoebox = Ember.Object.extend({
   }
 });
 
-const FastBootService = Ember.Service.extend({
+const FastBootService = Service.extend({
   cookies: deprecatingAlias('request.cookies', { id: 'fastboot.cookies-to-request', until: '0.9.9' }),
   headers: deprecatingAlias('request.headers', { id: 'fastboot.headers-to-request', until: '0.9.9' }),
   isFastBoot: typeof FastBoot !== 'undefined',
