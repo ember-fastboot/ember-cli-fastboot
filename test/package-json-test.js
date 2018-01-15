@@ -99,7 +99,7 @@ describe('generating package.json', function() {
         baseURL: '/',
         locationType: 'auto',
         EmberENV: { FEATURES: {} },
-        APP: { name: 'module-whitelist', version: '0.0.0+', autoboot: false },
+        APP: { name: 'module-whitelist', version: '0.0.0', autoboot: false },
         fastboot: { hostWhitelist: [ 'example.com', 'subdomain.example.com', '/localhost:\\d+/' ] },
         exportApplicationGlobal: true
       });
@@ -139,7 +139,7 @@ describe('generating package.json', function() {
           baseURL: '/',
           locationType: 'auto',
           EmberENV: { FEATURES: {} },
-          APP: { name: 'fastboot-config', version: '0.0.0+', autoboot: false },
+          APP: { name: 'fastboot-config', version: '0.0.0', autoboot: false },
           fastboot: { hostWhitelist: [ 'example.com', 'subdomain.example.com', '/localhost:\\d+/' ] },
           exportApplicationGlobal: true
         });
