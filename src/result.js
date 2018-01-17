@@ -183,7 +183,7 @@ function insertIntoIndexHTML(html, head, body, bodyAttributes) {
       return head;
     } else if (tag === 'BODY' && body && !isBodyReplaced) {
       isBodyReplaced = true;
-      return body;
+      return '<script type="x/boundary" id="fastboot-body-start"></script>' + body + '<script type="x/boundary" id="fastboot-body-end"></script>';
     }
     return '';
   });

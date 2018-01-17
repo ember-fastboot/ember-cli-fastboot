@@ -166,7 +166,7 @@ describe('Result', function() {
         .then(function (result) {
           expect(result.length).to.eq(2);
           expect(result[0]).to.eq(`<html><head>${HEAD}</head>`);
-          expect(result[1]).to.eq(`\n                      <body>${BODY}</body></html>`);
+          expect(result[1]).to.eq(`\n                      <body><script type="x/boundary" id="fastboot-body-start"></script>${BODY}<script type="x/boundary" id="fastboot-body-end"></script></body></html>`);
         });
       });
     });
@@ -185,8 +185,8 @@ describe('Result', function() {
         .then(function (result) {
           expect(result.length).to.eq(3);
           expect(result[0]).to.eq(`<html><head>${HEAD}</head>`);
-          expect(result[1]).to.eq(`\n                      <body>${BODY}`);
-          expect(result[2]).to.eq('<script type="fastboot/shoebox" id="shoebox-something">{ "some": "data" }</script></body></html>');
+          expect(result[1]).to.eq(`\n                      <body><script type="x/boundary" id="fastboot-body-start"></script>${BODY}`);
+          expect(result[2]).to.eq('<script type="fastboot/shoebox" id="shoebox-something">{ "some": "data" }</script><script type="x/boundary" id="fastboot-body-end"></script></body></html>');
         });
       });
     });
@@ -207,10 +207,10 @@ describe('Result', function() {
         .then(function (result) {
           expect(result.length).to.eq(5);
           expect(result[0]).to.eq(`<html><head>${HEAD}</head>`);
-          expect(result[1]).to.eq(`\n                      <body>${BODY}`);
+          expect(result[1]).to.eq(`\n                      <body><script type="x/boundary" id="fastboot-body-start"></script>${BODY}`);
           expect(result[2]).to.eq('<script type="fastboot/shoebox" id="shoebox-something-a">{ "some": "data" }</script>');
           expect(result[3]).to.eq('<script type="fastboot/shoebox" id="shoebox-something-b">{ "some": "data" }</script>');
-          expect(result[4]).to.eq('<script type="fastboot/shoebox" id="shoebox-something-c">{ "some": "data" }</script></body></html>');
+          expect(result[4]).to.eq('<script type="fastboot/shoebox" id="shoebox-something-c">{ "some": "data" }</script><script type="x/boundary" id="fastboot-body-end"></script></body></html>');
         });
       });
     });
