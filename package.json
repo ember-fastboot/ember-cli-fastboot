@@ -29,7 +29,7 @@
     "ember-cli-lodash-subset": "2.0.1",
     "ember-cli-version-checker": "^2.1.0",
     "ember-cli-preprocess-registry": "^3.1.0",
-    "fastboot": "^1.1.0",
+    "fastboot": "git+https://git@github.com/ember-fastboot/fastboot.git#f17668a7bbb57f8f45acd279b704de9ba716f39c",
     "fastboot-express-middleware": "^1.1.0",
     "fastboot-transform": "^0.1.2",
     "fs-extra": "^4.0.2",
