@@ -1,5 +1,9 @@
 # FastBoot Changelog
 
+### 1.1.3
+
+* Add markers before and after the body to be able to remove rootless apps
+
 ### 1.1.2
 
 * Adds API to allow chunking shoebox responses for better performance.
