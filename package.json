@@ -39,7 +39,7 @@
     "babel-preset-es2015": "^6.9.0",
     "chai": "^4.1.0",
     "ember-cli": "^2.6.2",
-    "mocha": "^4.0.0",
+    "mocha": "^5.0.0",
     "request-promise": "^4.2.1"
   }
 }
