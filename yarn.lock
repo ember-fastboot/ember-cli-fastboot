@@ -2904,9 +2904,22 @@ fastboot-transform@^0.1.2:
   dependencies:
     broccoli-stew "^1.5.0"
 
-fastboot@^1.1.2, "fastboot@git+https://git@github.com/ember-fastboot/fastboot.git#f17668a7bbb57f8f45acd279b704de9ba716f39c":
+fastboot@^1.1.2:
   version "1.1.2"
   resolved "git+https://git@github.com/ember-fastboot/fastboot.git#f17668a7bbb57f8f45acd279b704de9ba716f39c"
+  dependencies:
+    chalk "^2.0.1"
+    cookie "^0.3.1"
+    debug "^3.0.0"
+    exists-sync "0.0.4"
+    najax "^1.0.2"
+    rsvp "^4.7.0"
+    simple-dom "^1.0.0"
+    source-map-support "^0.5.0"
+
+fastboot@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/fastboot/-/fastboot-1.1.3.tgz#56c5f56415c5ae8de2db539c0d3ecbcd65538f8b"
   dependencies:
     chalk "^2.0.1"
     cookie "^0.3.1"
