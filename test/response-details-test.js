@@ -53,4 +53,17 @@ describe('response details', function() {
         expect(response.statusCode).to.equal(418);
       });
   });
+
+  it('the body is contained between markers', function () {
+    return get({
+      url: 'http://localhost:49741/',
+      headers: {
+        'Accept': 'text/html'
+      }
+    })
+      .then(function (response) {
+        expect(response.body).to.contain('<script type="x/boundary" id="fastboot-body-start"></script>')
+        expect(response.body).to.contain('<script type="x/boundary" id="fastboot-body-end"></script>')
+      });
+  });
 });
