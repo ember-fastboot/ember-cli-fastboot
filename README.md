@@ -84,7 +84,7 @@ You can customize HTTP server (add middlewares, subdomains, etc.), either direct
 ```js
 // start.js
 const FastBootAppServer = require('fastboot-app-server');
-const ExpressHTTPServer = require('fastboot-app-server/lib/express-http-server');
+const ExpressHTTPServer = require('fastboot-app-server/src/express-http-server');
 
 const httpServer = new ExpressHTTPServer(/* {options} */);
 const app = httpServer.app;
@@ -99,7 +99,7 @@ or extend the provided HTTP server and override any methods you need:
 ```js
 // my-custom-express-server.js
 const FastBootAppServer = require('fastboot-app-server');
-const ExpressHTTPServer = require('fastboot-app-server/lib/express-http-server');
+const ExpressHTTPServer = require('fastboot-app-server/src/express-http-server');
 
 class MyCustomExpressServer extends ExpressHTTPServer {
   serve(middleware) {
