@@ -22,7 +22,7 @@
   "dependencies": {
     "broccoli-concat": "^3.2.2",
     "broccoli-funnel": "^2.0.0",
-    "broccoli-merge-trees": "^2.0.0",
+    "broccoli-merge-trees": "^3.0.0",
     "broccoli-plugin": "^1.2.1",
     "chalk": "^2.0.1",
     "ember-cli-babel": "^6.7.2",
