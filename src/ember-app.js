@@ -427,12 +427,14 @@ class EmberApp {
 function buildBootOptions(shouldRender) {
   let doc = new SimpleDOM.Document();
   let rootElement = doc.body;
+  let _renderMode = process.env.EXPERIMENTAL_RENDER_MODE_SERIALIZE ? 'serialize' : undefined;
 
   return {
     isBrowser: false,
     document: doc,
     rootElement,
-    shouldRender
+    shouldRender,
+    _renderMode
   };
 }
 
