@@ -6,15 +6,24 @@
 //
 // This removes any pre-rendered ember-view elements, so that the booting
 // application will replace the pre-rendered output
+//
+const START = 'fastboot-body-start';
+const END = 'fastboot-body-end';
 export function clearHtml() {
-  let current = document.getElementById('fastboot-body-start');
+  let current = document.getElementById(START);
   if (current) {
-    let endMarker = document.getElementById('fastboot-body-end');
+    let endMarker = document.getElementById(END);
     let parent = current.parentElement;
     let nextNode;
     do {
-      nextNode = current.nextSibling;
-      parent.removeChild(current);
+      nextNode = current.nextElementSibling;
+      if (
+        current.classList.contains('ember-view')
+        || current.id === START
+        || current.id === END
+      ) {
+        parent.removeChild(current);
+      }
       current = nextNode;
     } while (nextNode && nextNode !== endMarker);
     parent.removeChild(endMarker);
