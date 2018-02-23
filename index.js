@@ -58,6 +58,7 @@ module.exports = {
       app.options.fingerprint.generateAssetMap = true;
     }
 
+    app.import('vendor/experimental-render-mode-rehydrate.js');
     // get the app registry object and app name so that we can build the fastboot
     // tree
     this._appRegistry = app.registry;
