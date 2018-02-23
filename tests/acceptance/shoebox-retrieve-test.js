@@ -1,13 +1,14 @@
-import { test } from 'qunit';
-import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
+import { module, test } from 'qunit';
+import { visit, currentURL } from '@ember/test-helpers';
+import { setupApplicationTest } from 'ember-qunit';
 
-moduleForAcceptance('browser acceptance test | shoebox retrieve');
+module('browser acceptance test | shoebox retrieve', function(hooks) {
+  setupApplicationTest(hooks);
 
-test('it can retrieve items from the shoebox', function(assert) {
-  visit('/');
+  test('it can retrieve items from the shoebox', async function(assert) {
+    await visit('/');
 
-  andThen(function() {
     assert.equal(currentURL(), '/');
-    assert.equal(find('.shoebox').text().replace(/\s+/g, ' ').trim(), 'bar zap', 'the data was retreived from the shoebox');
+    assert.equal(this.element.querySelector('.shoebox').textContent.replace(/\s+/g, ' ').trim(), 'bar zap', 'the data was retreived from the shoebox');
   });
 });
