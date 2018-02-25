@@ -572,7 +572,7 @@ about debug mode: it makes everything much slower.
 node --inspect-brk ./node_modules/.bin/ember serve
 ```
 
-This starts the FastBoot server in debug mode. Note that the `--debug-brk` flag will cause your
+This starts the FastBoot server in debug mode. Note that the `--inspect-brk` flag will cause your
 app to start paused to give you a chance to open the debugger.
 
 Once you see the output `Debugger listening on ws://127.0.0.1:<port>/<guid>`, open Chrome
