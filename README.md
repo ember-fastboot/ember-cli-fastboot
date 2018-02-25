@@ -569,7 +569,7 @@ First let's start up the FastBoot server with Node in debug mode. One thing
 about debug mode: it makes everything much slower.
 
 ```sh
-node --debug-brk --inspect ./node_modules/.bin/ember serve
+node --inspect-brk ./node_modules/.bin/ember serve
 ```
 
 This starts the FastBoot server in debug mode. Note that the `--debug-brk` flag will cause your
