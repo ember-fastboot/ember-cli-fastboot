@@ -2,7 +2,7 @@
   if (typeof FastBoot === 'undefined') {
     var current = document.getElementById('fastboot-body-start');
 
-    if (current && current.nextSibling.nodeValue === '%+b:0%') {
+    if (current && Ember.ViewUtils.isSerializationFirstNode(current.nextSibling)) {
       Ember.ApplicationInstance.reopen({
         _bootSync: function(options) {
           if (options === undefined) {
