@@ -2355,9 +2355,9 @@ ember-qunit@^3.3.0:
     ember-cli-test-loader "^2.2.0"
     qunit "^2.5.0"
 
-ember-resolver@^4.3.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/ember-resolver/-/ember-resolver-4.5.0.tgz#9248bf534dfc197fafe3118fff538d436078bf99"
+ember-resolver@^4.5.4:
+  version "4.5.4"
+  resolved "https://registry.yarnpkg.com/ember-resolver/-/ember-resolver-4.5.4.tgz#39c06599b6859d6b476fb24ab31d850f2d1a74af"
   dependencies:
     "@glimmer/resolver" "^0.4.1"
     babel-plugin-debug-macros "^0.1.10"
