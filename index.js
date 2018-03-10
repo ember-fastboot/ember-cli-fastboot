@@ -92,7 +92,8 @@ module.exports = {
     }
 
     if (type === 'app-boot') {
-      return fastbootAppModule(config.modulePrefix, JSON.stringify(config.APP || {}));
+      const isModuleUnification = (typeof this.project.isModuleUnification === 'function') && this.project.isModuleUnification();
+      return fastbootAppModule(config.modulePrefix, JSON.stringify(config.APP || {}), isModuleUnification);
     }
 
     // if the fastboot addon is installed, we overwrite the config-module so that the config can be read
