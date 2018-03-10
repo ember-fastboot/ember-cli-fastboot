@@ -63,7 +63,7 @@ describe('simple acceptance', function() {
     })
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("text/html; charset=UTF-8");
+        expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
         expect(response.body).to.contain("<!-- EMBER_CLI_FASTBOOT_BODY -->");
       });
   });
@@ -92,7 +92,7 @@ describe('simple acceptance', function() {
     })
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("text/html; charset=UTF-8");
+        expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
         expect(response.body).to.contain("<!-- EMBER_CLI_FASTBOOT_BODY -->");
       });
   });
@@ -131,7 +131,7 @@ describe('simple acceptance', function() {
       .then(function(response) {
         // Asset serving is on by default
         expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("application/javascript; charset=UTF-8");
+        expect(response.headers["content-type"]).to.eq("application/javascript; charset=utf-8");
         expect(response.body).to.contain("Ember =");
       });
   });
@@ -141,7 +141,7 @@ describe('simple acceptance', function() {
       .then(function(response) {
         // Asset serving is on by default
         expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("application/javascript; charset=UTF-8");
+        expect(response.headers["content-type"]).to.eq("application/javascript; charset=utf-8");
         expect(response.body).to.not.contain("autoBoot: false");
       });
   });
