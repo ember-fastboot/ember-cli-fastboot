@@ -43,6 +43,7 @@
     "broccoli-test-helper": "^1.1.0",
     "chai": "^4.1.0",
     "chai-fs": "^2.0.0",
+    "chai-string": "^1.4.0",
     "co": "^4.6.0",
     "ember-ajax": "^3.0.0",
     "ember-cli": "~3.0.0",

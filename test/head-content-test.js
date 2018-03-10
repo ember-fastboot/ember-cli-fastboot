@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const expect = require('chai').use(require('chai-string')).expect;
 const RSVP = require('rsvp');
 const request = RSVP.denodeify(require('request'));
 
@@ -37,7 +37,7 @@ describe('head content acceptance', function() {
       }})
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
+        expect(response.headers["content-type"]).to.equalIgnoreCase("text/html; charset=utf-8");
         expect(response.body).to.contain('<meta property="og:title" content="Head Data Title">');
         expect(response.body).to.not.contain('<!-- EMBER_CLI_FASTBOOT_HEAD -->');
       });
