@@ -2,7 +2,11 @@
   if (typeof FastBoot === 'undefined') {
     var current = document.getElementById('fastboot-body-start');
 
-    if (current && Ember.ViewUtils.isSerializationFirstNode(current.nextSibling)) {
+    if (
+      current &&
+      typeof Ember.ViewUtils.isSerializationFirstNode === 'function' &&
+      Ember.ViewUtils.isSerializationFirstNode(current.nextSibling)
+    ) {
       Ember.ApplicationInstance.reopen({
         _bootSync: function(options) {
           if (options === undefined) {
