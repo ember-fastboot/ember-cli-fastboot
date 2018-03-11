@@ -1,5 +1,8 @@
 # FastBoot Changelog
 
+### 1.1.4-beta.1
+
+* Enable rehydration from glimmer-vm as opt-in
 ### 1.1.3
 
 * Add markers before and after the body to be able to remove rootless apps
