@@ -434,6 +434,8 @@ it to know whether or not the DOM it received in the browser side was generated
 by the serialization builder.  If it was, it tells the Ember.js Application to
 use the rehydration builder and your application will be using rehydration.
 
+Rehydration is only compatible with fastboot > 1.1.4, and Ember.js > 3.2.
+
 ## Build Hooks for FastBoot
 
 ### Disabling incompatible dependencies
