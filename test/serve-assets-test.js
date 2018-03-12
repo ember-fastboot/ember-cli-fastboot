@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const expect = require('chai').use(require('chai-string')).expect;
 const RSVP = require('rsvp');
 const request = RSVP.denodeify(require('request'));
 
@@ -30,7 +30,7 @@ describe('serve assets acceptance', function() {
     return request('http://localhost:49741/assets/vendor.js')
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("application/javascript; charset=utf-8");
+        expect(response.headers["content-type"]).to.equalIgnoreCase("application/javascript; charset=utf-8");
         expect(response.body).to.contain("Ember =");
       });
   });
@@ -39,7 +39,7 @@ describe('serve assets acceptance', function() {
     return request('http://localhost:49741/assets/dummy.js')
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("application/javascript; charset=utf-8");
+        expect(response.headers["content-type"]).to.equalIgnoreCase("application/javascript; charset=utf-8");
         expect(response.body).to.contain("this.route('posts')");
       });
   });

@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const expect = require('chai').use(require('chai-string')).expect;
 const RSVP = require('rsvp');
 const request = RSVP.denodeify(require('request'));
 
@@ -35,7 +35,7 @@ describe('simple acceptance', function() {
     })
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
+        expect(response.headers["content-type"]).to.equalIgnoreCase("text/html; charset=utf-8");
         expect(response.body).to.contain("Welcome to Ember.js");
       });
   });
@@ -49,7 +49,7 @@ describe('simple acceptance', function() {
     })
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
+        expect(response.headers["content-type"]).to.equalIgnoreCase("text/html; charset=utf-8");
         expect(response.body).to.contain("Welcome to Ember.js");
       });
   });
@@ -63,7 +63,7 @@ describe('simple acceptance', function() {
     })
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
+        expect(response.headers["content-type"]).to.equalIgnoreCase("text/html; charset=utf-8");
         expect(response.body).to.contain("<!-- EMBER_CLI_FASTBOOT_BODY -->");
       });
   });
@@ -77,7 +77,7 @@ describe('simple acceptance', function() {
     })
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
+        expect(response.headers["content-type"]).to.equalIgnoreCase("text/html; charset=utf-8");
         expect(response.body).to.contain("Welcome to Ember.js");
         expect(response.body).to.contain("Posts Route!");
       });
@@ -92,7 +92,7 @@ describe('simple acceptance', function() {
     })
       .then(function(response) {
         expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
+        expect(response.headers["content-type"]).to.equalIgnoreCase("text/html; charset=utf-8");
         expect(response.body).to.contain("<!-- EMBER_CLI_FASTBOOT_BODY -->");
       });
   });
@@ -106,7 +106,7 @@ describe('simple acceptance', function() {
     })
       .then(function(response) {
         expect(response.statusCode).to.equal(500);
-        expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
+        expect(response.headers["content-type"]).to.equalIgnoreCase("text/html; charset=utf-8");
         expect(response.body).to.contain("BOOM");
       });
   });
@@ -121,7 +121,7 @@ describe('simple acceptance', function() {
       .then(function(response) {
         console.log(response.body);
         expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("text/html; charset=utf-8");
+        expect(response.headers["content-type"]).to.equalIgnoreCase("text/html; charset=utf-8");
         expect(response.body).to.contain("FastBoot compatible vendor file: FastBoot default default value");
       });
   });
@@ -131,7 +131,7 @@ describe('simple acceptance', function() {
       .then(function(response) {
         // Asset serving is on by default
         expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("application/javascript; charset=utf-8");
+        expect(response.headers["content-type"]).to.equalIgnoreCase("application/javascript; charset=utf-8");
         expect(response.body).to.contain("Ember =");
       });
   });
@@ -141,7 +141,7 @@ describe('simple acceptance', function() {
       .then(function(response) {
         // Asset serving is on by default
         expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.eq("application/javascript; charset=utf-8");
+        expect(response.headers["content-type"]).to.equalIgnoreCase("application/javascript; charset=utf-8");
         expect(response.body).to.not.contain("autoBoot: false");
       });
   });
