@@ -60,7 +60,7 @@
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.0.0",
     "ember-maybe-import-regenerator-for-testing": "^1.0.0",
-    "ember-resolver": "^4.3.0",
+    "ember-resolver": "^4.5.4",
     "ember-sinon": "^1.0.0",
     "ember-source": "~3.0.0",
     "eslint-plugin-ember": "^5.0.0",
