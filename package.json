@@ -29,7 +29,7 @@
     "chalk": "^2.0.1",
     "compression": "^1.6.2",
     "express": "^4.13.3",
-    "fastboot": "^1.1.3",
+    "fastboot": "^1.1.4-beta.1",
     "fastboot-express-middleware": "^1.1.1",
     "fs-promise": "^2.0.3",
     "request": "^2.81.0"
