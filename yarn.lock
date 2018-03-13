@@ -2869,9 +2869,9 @@ fastboot@^1.1.2:
     simple-dom "^1.0.0"
     source-map-support "^0.5.0"
 
-fastboot@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/fastboot/-/fastboot-1.1.3.tgz#56c5f56415c5ae8de2db539c0d3ecbcd65538f8b"
+fastboot@^1.1.4-beta.1:
+  version "1.1.4-beta.1"
+  resolved "https://registry.yarnpkg.com/fastboot/-/fastboot-1.1.4-beta.1.tgz#860f8af2bd032b3a7477fdf6e1a64b034a02829f"
   dependencies:
     chalk "^2.0.1"
     cookie "^0.3.1"

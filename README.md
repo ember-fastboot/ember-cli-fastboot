@@ -399,6 +399,43 @@ export default  Ember.Route.extend({
 ```
 And they still take advantage of caching in the `shoebox`. No more redundant AJAX for already acquired data. Installation details are available in the addon [README](https://github.com/appchance/ember-cached-shoe#ember-cached-shoe).
 
+### Rehydration
+
+What is Rehydration?
+
+The rehydration feature means that the Glimmer VM can take a DOM tree
+created using Server Side Rendering (SSR) and use it as the starting
+point for the append pass.
+
+See details here:
+
+https://github.com/glimmerjs/glimmer-vm/commit/316805b9175e01698120b9566ec51c88d075026a
+
+In order to utilize rehydration in Ember.js applications we need to ensure that
+both server side renderers (like fastboot) properly encode the DOM they send to
+the browser with the serialization format (introduced in the commit above) AND
+that the browser instantiated Ember.js application knows to use the rehydration
+builder to consume that DOM.
+
+Rehydration is 100% opt-in, if you do not specify the environment flag your
+application will behave as it did before!
+
+We can opt-in to the rehydration filter by setting the following environment
+flag:
+
+```
+EXPERIMENTAL_RENDER_MODE_SERIALIZE=true
+```
+
+This flag is read by Ember CLI Fastboot's dependency; fastboot to alert it to
+produce DOM with the glimmer-vm's serialization element builder.  This addon
+(Ember CLI Fastboot) then uses a utility function from glimmer-vm that allows
+it to know whether or not the DOM it received in the browser side was generated
+by the serialization builder.  If it was, it tells the Ember.js Application to
+use the rehydration builder and your application will be using rehydration.
+
+Rehydration is only compatible with fastboot > 1.1.4-beta.1, and Ember.js > 3.2.
+
 ## Build Hooks for FastBoot
 
 ### Disabling incompatible dependencies
