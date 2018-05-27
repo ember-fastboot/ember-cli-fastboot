@@ -1,8 +1,13 @@
 # FastBoot Changelog
 
+### 1.2.0
+
+* Add support for setting attributes on the `<html>` element (e.g. `<html lang="fr">`).
+
 ### 1.1.4-beta.1
 
 * Enable rehydration from glimmer-vm as opt-in
+
 ### 1.1.3
 
 * Add markers before and after the body to be able to remove rootless apps
