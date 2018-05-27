@@ -45,7 +45,7 @@ class Result {
       }
     }
 
-    return insertIntoIndexHTML(this._html, this._head, this._body, this._bodyAttributes);
+    return insertIntoIndexHTML(this._html, this._htmlAttributes, this._head, this._body, this._bodyAttributes);
   }
 
   /**
@@ -60,7 +60,7 @@ class Result {
    * @returns {Promise<Array<String>>} the application's DOM serialized to HTML, split into chunks
    */
   chunks() {
-    return insertIntoIndexHTML(this._html, this._head, this._body, this._bodyAttributes).then((html) => {
+    return insertIntoIndexHTML(this._html, this._htmlAttributes, this._head, this._body, this._bodyAttributes).then((html) => {
       let docParts = html.match(HTML_HEAD_REGEX);
       if (!docParts || docParts.length === 1) {
         return [html];
@@ -148,8 +148,15 @@ class Result {
   }
 
   _finalizeHTML() {
+    let htmlElement = this._doc.documentElement;
     let head = this._doc.head;
     let body = this._doc.body;
+
+    if (htmlElement.attributes.length > 0) {
+      this._htmlAttributes = HTMLSerializer.attributes(htmlElement.attributes);
+    } else {
+      this._htmlAttributes = null;
+    }
 
     if (body.attributes.length > 0) {
       this._bodyAttributes = HTMLSerializer.attributes(body.attributes);
@@ -172,7 +179,7 @@ function missingTag(tag) {
   return Promise.reject(new Error(`Fastboot was not able to find ${tag} in base HTML. It could not replace the contents.`));
 }
 
-function insertIntoIndexHTML(html, head, body, bodyAttributes) {
+function insertIntoIndexHTML(html, htmlAttributes, head, body, bodyAttributes) {
   if (!html) { return Promise.resolve(html); }
   let isBodyReplaced = false;
   let isHeadReplaced = false;
@@ -187,6 +194,12 @@ function insertIntoIndexHTML(html, head, body, bodyAttributes) {
     }
     return '';
   });
+
+  if (htmlAttributes) {
+    html = html.replace(/<html[^>]*/i, function(match) {
+      return match + ' ' + htmlAttributes;
+    });
+  }
 
   if (bodyAttributes) {
     html = html.replace(/<body[^>]*/i, function(match) {

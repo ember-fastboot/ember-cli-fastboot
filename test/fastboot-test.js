@@ -87,6 +87,18 @@ describe("FastBoot", function() {
       });
   });
 
+  it("outputs html attributes from the fastboot app", function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('custom-html-attrs')
+    });
+
+    return fastboot.visit('/')
+      .then(r => r.html())
+      .then(html => {
+        expect(html).to.match(/<html data-foo=1 +class="it-works"/);
+      });
+  });
+
   it("outputs body attributes from the fastboot app", function() {
     var fastboot = new FastBoot({
       distPath: fixture('custom-body-attrs')
