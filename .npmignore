@@ -3,3 +3,4 @@ test
 .jshintignore
 .jshintrc
 .travis.yml
+yarn.lock
