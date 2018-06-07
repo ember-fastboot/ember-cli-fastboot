@@ -1,6 +1,7 @@
 'use strict';
 
 const vm = require('vm');
+const fs = require('fs');
 const Sandbox = require('./../../../src/sandbox');
 
 /**
