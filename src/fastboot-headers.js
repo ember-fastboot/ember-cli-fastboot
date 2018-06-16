@@ -17,7 +17,7 @@ class FastBootHeaders {
         value = [value];
       }
 
-      this.headers[header] = value;
+      this.headers[header.toLowerCase()] = value;
     }
   }
 
