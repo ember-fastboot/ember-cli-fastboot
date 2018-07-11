@@ -6,6 +6,15 @@ var FastBootHeaders = require('./../src/fastboot-headers.js');
 var Ember = require('ember-source/dist');
 
 describe('FastBootHeaders', function() {
+  it('lower normalizes the headers to lowercase', function() {
+    var headers = {
+      'X-Test-Header': 'value1, value2'
+    };
+    headers = new FastBootHeaders(headers);
+
+    expect(headers.getAll('x-test-header')).to.deep.equal(['value1, value2']);
+  });
+
   it('returns an array from getAll when header value is string', function() {
     var headers = {
       'x-test-header': 'value1, value2'
