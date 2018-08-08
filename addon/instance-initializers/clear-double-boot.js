@@ -29,7 +29,7 @@ export default {
 
       instance.didCreateRootView = function() {
         clearHtml();
-        originalDidCreateRootView.apply(instance, arguments);
+        originalDidCreateRootView.apply(this, arguments);
       };
     }
   }
