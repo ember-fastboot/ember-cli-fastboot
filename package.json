@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "body-parser": "^1.18.1",
-    "broccoli-asset-rev": "^2.4.5",
+    "broccoli-asset-rev": "^2.7.0",
     "broccoli-test-helper": "^1.1.0",
     "chai": "^4.1.0",
     "chai-fs": "^2.0.0",
@@ -77,9 +77,6 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "after": [
-      "broccoli-asset-rev"
-    ],
     "before": [
       "broccoli-serve-files"
     ]
