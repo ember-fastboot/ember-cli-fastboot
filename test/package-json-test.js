@@ -97,6 +97,9 @@ describe('generating package.json', function() {
         modulePrefix: 'module-whitelist',
         environment: 'development',
         baseURL: '/',
+        emberData: {
+          enableRecordDataRFCBuild: false
+        },
         locationType: 'auto',
         EmberENV: { FEATURES: {} },
         APP: { name: 'module-whitelist', version: '0.0.0', autoboot: false },
@@ -137,6 +140,9 @@ describe('generating package.json', function() {
           modulePrefix: 'fastboot-config',
           environment: 'development',
           baseURL: '/',
+          emberData: {
+            enableRecordDataRFCBuild: false
+          },
           locationType: 'auto',
           EmberENV: { FEATURES: {} },
           APP: { name: 'fastboot-config', version: '0.0.0', autoboot: false },
