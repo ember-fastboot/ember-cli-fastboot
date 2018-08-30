@@ -1,5 +1,10 @@
 # ember-cli-fastboot changelog
 
+## 2.0.0
+
+* Drop Node 4 support.
+* Disentangle from broccoli-asset-rev (requires broccoli-asset-rev@3.0.0).
+
 ## 1.1.3
 
 Support without rootElement
