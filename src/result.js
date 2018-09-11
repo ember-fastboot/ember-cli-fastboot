@@ -171,7 +171,9 @@ class Result {
     body = HTMLSerializer.serializeChildren(body);
 
     this._head = head;
-    this._body = body;
+    
+    // Adding script boundary around the body
+    this._body = `<script type="x/boundary" id="fastboot-body-start"></script>${body}<script type="x/boundary" id="fastboot-body-end"></script>`;
   }
 }
 
@@ -190,7 +192,7 @@ function insertIntoIndexHTML(html, htmlAttributes, head, body, bodyAttributes) {
       return head;
     } else if (tag === 'BODY' && body && !isBodyReplaced) {
       isBodyReplaced = true;
-      return '<script type="x/boundary" id="fastboot-body-start"></script>' + body + '<script type="x/boundary" id="fastboot-body-end"></script>';
+      return body;
     }
     return '';
   });

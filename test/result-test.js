@@ -215,4 +215,27 @@ describe('Result', function() {
       });
     });
   });
+
+  describe('domContents()', function() {
+    var HEAD = '<meta name="foo" content="bar">';
+    var BODY = '<h1>A normal response document</h1>';
+    var boundaryStartTag = '<script type="x/boundary" id="fastboot-body-start"></script>';
+    var boundaryEndTag = '<script type="x/boundary" id="fastboot-body-end"></script>';
+
+    beforeEach(function () {
+      doc.head.appendChild(doc.createRawHTMLSection(HEAD));
+      doc.body.appendChild(doc.createRawHTMLSection(BODY));
+      
+      result._finalize();
+    });
+
+    it('should return the FastBoot-rendered document body', function () {
+      var domContents = result.domContents();
+      expect(domContents.head).to.include(HEAD);
+      expect(domContents.body).to.include(BODY);
+      expect(domContents.body).to.include(boundaryStartTag);
+      expect(domContents.body).to.include(boundaryEndTag);
+      expect(domContents.body).to.equal(boundaryStartTag+BODY+boundaryEndTag);
+    });
+  });
 });
