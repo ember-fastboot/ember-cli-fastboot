@@ -231,7 +231,7 @@ class EmberApp {
   /**
    * @private
    *
-   * Main funtion that creates the app instance for every `visit` request, boots
+   * Main function that creates the app instance for every `visit` request, boots
    * the app instance and then visits the given route and destroys the app instance
    * when the route is finished its render cycle.
    *
