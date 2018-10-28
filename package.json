@@ -30,6 +30,7 @@
     "cookie": "^0.3.1",
     "debug": "^3.0.0",
     "najax": "^1.0.2",
+    "resolve": "^1.8.1",
     "rsvp": "^4.7.0",
     "simple-dom": "^1.0.0",
     "source-map-support": "^0.5.0"

@@ -6,11 +6,13 @@ const chalk = require('chalk');
 
 const najax = require('najax');
 const SimpleDOM = require('simple-dom');
+const resolve = require('resolve');
 const debug = require('debug')('fastboot:ember-app');
 
 const FastBootInfo = require('./fastboot-info');
 const Result = require('./result');
 const FastBootSchemaVersions = require('./fastboot-schema-versions');
+const getPackageName = require('./utils/get-package-name');
 
 /**
  * @private
@@ -38,6 +40,7 @@ class EmberApp {
     this.hostWhitelist = config.hostWhitelist;
     this.config = config.config;
     this.appName = config.appName;
+    this.schemaVersion = config.schemaVersion;
 
     if (process.env.APP_CONFIG) {
       let appConfig = JSON.parse(process.env.APP_CONFIG);
@@ -114,23 +117,45 @@ class EmberApp {
    * @param {string} distPath path to the built Ember app
    */
   buildWhitelistedRequire(whitelist, distPath) {
+    let isLegacyWhitelist = this.schemaVersion < FastBootSchemaVersions.strictWhitelist;
+
     whitelist.forEach(function(whitelistedModule) {
       debug("module whitelisted; module=%s", whitelistedModule);
+
+      if (isLegacyWhitelist) {
+        let packageName = getPackageName(whitelistedModule);
+
+        if (packageName !== whitelistedModule && whitelist.indexOf(packageName) === -1) {
+          console.error("Package '" + packageName +  "' is required to be in the whitelist.");
+        }
+      }
     });
 
     return function(moduleName) {
-      if (whitelist.indexOf(moduleName) > -1) {
-        let nodeModulesPath = path.join(distPath, 'node_modules', moduleName);
+      let packageName = getPackageName(moduleName);
+      let isWhitelisted = whitelist.indexOf(packageName) > -1;
 
-        if (fs.existsSync(nodeModulesPath)) {
-          return require(nodeModulesPath);
-        } else {
-          // If it's not on disk, assume it's a built-in node package
-          return require(moduleName);
-        }
-      } else {
-        throw new Error("Unable to require module '" + moduleName + "' because it was not in the whitelist.");
+      if (isWhitelisted) {
+        let resolvedModulePath = resolve.sync(moduleName, { basedir: distPath });
+        return require(resolvedModulePath);
       }
+
+      if (isLegacyWhitelist) {
+        if (whitelist.indexOf(moduleName) > -1) {
+          let nodeModulesPath = path.join(distPath, 'node_modules', moduleName);
+
+          if (fs.existsSync(nodeModulesPath)) {
+            return require(nodeModulesPath);
+          } else {
+            // If it's not on disk, assume it's a built-in node package
+            return require(moduleName);
+          }
+        } else {
+          throw new Error("Unable to require module '" + moduleName + "' because it was not in the whitelist.");
+        }
+      }
+
+      throw new Error("Unable to require module '" + moduleName + "' because its package '" + packageName + "' was not in the whitelist.");
     };
   }
 
@@ -405,6 +430,7 @@ class EmberApp {
       hostWhitelist: pkg.fastboot.hostWhitelist,
       config: config,
       appName: appName,
+      schemaVersion: schemaVersion,
     };
   }
 

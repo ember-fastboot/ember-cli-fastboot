@@ -7,10 +7,11 @@
  * should be added in fastboot lib) everytime fastboot addon schema version is bumped.
  */
 const FastBootSchemaVersions = {
-  'latest': 3, // latest schema version supported by fastboot library
+  'latest': 4, // latest schema version supported by fastboot library
   'base': 1, // first schema version supported by fastboot library
   'manifestFileArrays': 2, // schema version when app and vendor in manifest supported an array of files
-  'configExtension': 3 // schema version when FastBoot.config can read arbitrary indexed config
+  'configExtension': 3, // schema version when FastBoot.config can read arbitrary indexed config
+  'strictWhitelist': 4 // schema version when fastbootDependencies and whitelist support only package names
 };
 
 module.exports = FastBootSchemaVersions;
