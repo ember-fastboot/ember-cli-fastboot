@@ -13,7 +13,7 @@
     "url": "git+https://github.com/ember-fastboot/fastboot.git"
   },
   "engines": {
-    "node": ">= 4.0.0"
+    "node": ">= 6.0.0"
   },
   "keywords": [
     "ember",
@@ -22,7 +22,7 @@
   "author": "Tom Dale and FastBoot contributors",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ember-fastboot/fastboot-fastboot-server/issues"
+    "url": "https://github.com/ember-fastboot/fastboot/issues"
   },
   "homepage": "https://github.com/ember-fastboot/fastboot#readme",
   "dependencies": {
