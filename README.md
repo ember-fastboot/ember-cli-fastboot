@@ -2,7 +2,7 @@
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/ember-fastboot/fastboot.svg)](https://greenkeeper.io/)
 [![npm version](https://badge.fury.io/js/fastboot.svg)](https://badge.fury.io/js/fastboot)
-[![Build Status](https://travis-ci.org/ember-fastboot/fastboot.svg?branch=master)](https://travis-ci.org/ember-fastboot/ember-fastboot-server)
+[![Build Status](https://travis-ci.org/ember-fastboot/fastboot.svg?branch=master)](https://travis-ci.org/ember-fastboot/fastboot)
 ![Ember Version](https://embadge.io/v1/badge.svg?start=2.3.0)
 
 FastBoot is a library for rendering Ember.js applications in Node.js.
@@ -17,7 +17,7 @@ To serve server-rendered versions of your Ember app over HTTP, see the
 [FastBoot App
 Server](https://github.com/ember-fastboot/fastboot-app-server).
 
-FastBoot requires Node.js v4 or later.
+FastBoot requires Node.js v6 or later.
 
 ## Usage
 
