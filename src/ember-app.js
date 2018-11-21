@@ -6,7 +6,6 @@ const chalk = require('chalk');
 
 const najax = require('najax');
 const SimpleDOM = require('simple-dom');
-const existsSync = require('exists-sync');
 const debug = require('debug')('fastboot:ember-app');
 
 const FastBootInfo = require('./fastboot-info');
@@ -123,7 +122,7 @@ class EmberApp {
       if (whitelist.indexOf(moduleName) > -1) {
         let nodeModulesPath = path.join(distPath, 'node_modules', moduleName);
 
-        if (existsSync(nodeModulesPath)) {
+        if (fs.existsSync(nodeModulesPath)) {
           return require(nodeModulesPath);
         } else {
           // If it's not on disk, assume it's a built-in node package
