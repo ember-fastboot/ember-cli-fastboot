@@ -81,17 +81,17 @@ To allow your app to require a package, add it to the
     // ...
   },
   "dependencies": {
-    // ...
+    "lodash": "..."
   },
   "fastbootDependencies": [
-    "rsvp",
+    "lodash",
     "path"
   ]
 }
 ```
 
 The `fastbootDependencies` in the above example means the only node
-modules your Ember app can use are `rsvp` and `path`.
+modules your Ember app can use are `lodash` and `path`.
 
 If the package you are using is not built-in to Node, **you must also
 specify the package and a version in the `package.json` `dependencies`
@@ -101,15 +101,18 @@ hash.** Built-in modules (`path`, `fs`, etc.) only need to be added to
 ### Using Dependencies
 
 From your Ember.js app, you can run `FastBoot.require()` to require a
-package. This is identical to the CommonJS `require` except it checks
+package or its submodule. This is identical to the CommonJS `require` except it checks
 all requests against the whitelist first.
 
 ```js
 let path = FastBoot.require('path');
 let filePath = path.join('tmp', session.getID());
+
+let _ = FastBoot.require('lodash');
+let at = FastBoot.require('lodash/at');
 ```
 
-If you attempt to require a package that is not in the whitelist,
+If you attempt to require a package or submodule from package that is not in the whitelist,
 FastBoot will raise an exception.
 
 Note that the `FastBoot` global is **only** available when running in
