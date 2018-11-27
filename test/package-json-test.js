@@ -42,6 +42,7 @@ describe('generating package.json', function() {
         'foo': '1.0.0',
         'bar': '^0.1.2',
         'baz': '0.0.0',
+        "najax": "^1.0.3",
         'rsvp': '3.2.1'
       });
     });
@@ -56,6 +57,8 @@ describe('generating package.json', function() {
       let pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
 
       expect(pkg.fastboot.moduleWhitelist).to.deep.equal([
+        'najax',
+        'url',
         'path',
         'foo',
         'bar',
@@ -97,9 +100,6 @@ describe('generating package.json', function() {
         modulePrefix: 'module-whitelist',
         environment: 'development',
         baseURL: '/',
-        emberData: {
-          enableRecordDataRFCBuild: false
-        },
         locationType: 'auto',
         EmberENV: { FEATURES: {} },
         APP: { name: 'module-whitelist', version: '0.0.0', autoboot: false },
@@ -140,9 +140,6 @@ describe('generating package.json', function() {
           modulePrefix: 'fastboot-config',
           environment: 'development',
           baseURL: '/',
-          emberData: {
-            enableRecordDataRFCBuild: false
-          },
           locationType: 'auto',
           EmberENV: { FEATURES: {} },
           APP: { name: 'fastboot-config', version: '0.0.0', autoboot: false },
@@ -159,9 +156,6 @@ describe('generating package.json', function() {
       return app.runEmberCommand('build', '--environment=production');
     });
 
-    // https://github.com/tildeio/ember-cli-fastboot/issues/102
-    // production builds have a fingerprint added to them, which was not being
-    // reflected in the manifest
     it('contains a manifest of FastBoot assets', function() {
       let pkg = fs.readJsonSync(app.filePath('/dist/package.json'));
 
