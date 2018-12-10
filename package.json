@@ -4,6 +4,7 @@
   "description": "Library for rendering Ember apps in node.js",
   "main": "src/index.js",
   "scripts": {
+    "changelog": "lerna-changelog",
     "test": "mocha",
     "preversion": "npm test",
     "postversion": "git push origin master --tags"
@@ -40,6 +41,7 @@
     "chai-as-promised": "^7.1.1",
     "ember-source": "3.2.0",
     "express": "^4.15.4",
+    "lerna-changelog": "^0.8.2",
     "mocha": "^5.2.0",
     "mocha-jshint": "^2.3.1",
     "rimraf": "^2.6.2",
