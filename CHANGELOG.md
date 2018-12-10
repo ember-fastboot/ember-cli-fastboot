@@ -1,5 +1,32 @@
 # FastBoot Changelog
 
+## v2.0.0 (2018-12-10)
+
+#### :boom: Breaking Change
+* [#202](https://github.com/ember-fastboot/fastboot/pull/202) Update Node.js support matrix ([@bobisjan](https://github.com/bobisjan))
+
+#### :rocket: Enhancement
+* [#188](https://github.com/ember-fastboot/fastboot/pull/188) Update various dependencies to latest. ([@izelnakri](https://github.com/izelnakri))
+* [#206](https://github.com/ember-fastboot/fastboot/pull/206) Update minimum version of simple-dom to 1.4.0. ([@rwjblue](https://github.com/rwjblue))
+
+#### :bug: Bug Fix
+* [#200](https://github.com/ember-fastboot/fastboot/pull/200) Allow to require module path from whitelisted dependency ([@bobisjan](https://github.com/bobisjan))
+* [#201](https://github.com/ember-fastboot/fastboot/pull/201) Remove usage of deprecated exists-sync ([@SergeAstapov](https://github.com/SergeAstapov))
+
+#### :memo: Documentation
+* [#197](https://github.com/ember-fastboot/fastboot/pull/197) Fixed small typo ([@kiwiupover](https://github.com/kiwiupover))
+
+#### :house: Internal
+* [#204](https://github.com/ember-fastboot/fastboot/pull/204) fix(package): update debug to version 4.1.0 ([@rwjblue](https://github.com/rwjblue))
+* [#203](https://github.com/ember-fastboot/fastboot/pull/203) Remove .babelrc configuration file ([@bobisjan](https://github.com/bobisjan))
+
+#### Committers: 5
+- David Laird ([@kiwiupover](https://github.com/kiwiupover))
+- Izel Nakri ([@izelnakri](https://github.com/izelnakri))
+- Jan Bobisud ([@bobisjan](https://github.com/bobisjan))
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))
+
 ### 1.2.0
 
 * Add support for setting attributes on the `<html>` element (e.g. `<html lang="fr">`).
