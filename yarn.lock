@@ -1114,7 +1114,7 @@ silent-error@^1.0.0:
   dependencies:
     debug "^2.2.0"
 
-simple-dom@^1.0.0:
+simple-dom@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/simple-dom/-/simple-dom-1.4.0.tgz#78ad1f41b8b70d16f82b7e0d458441c9262565b7"
   integrity sha512-TnBPkmOyjdaOqyBMb4ick+n8c0Xv9Iwg1PykFV7hz9Se3UCiacTbRb+25cPmvozFNJLBUNvUzX/KsPfXF14ivA==
