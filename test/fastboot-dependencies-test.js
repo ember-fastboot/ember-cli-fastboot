@@ -6,7 +6,7 @@ const path = require('path');
 const fixture = require('./helpers/fixture-path');
 const FastBoot = require('./../src/index');
 
-describe.only("FastBoot with dependencies", function() {
+describe("FastBoot with dependencies", function() {
   it("it works with dependencies", function() {
     var fastboot = new FastBoot({
       distPath: fixture('app-with-dependencies')

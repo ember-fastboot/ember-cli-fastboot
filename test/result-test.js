@@ -21,8 +21,8 @@ describe('Result', function() {
   });
 
   it('constructor', function () {
-    expect(result).to.be.an.instanceOf(Result);
-    expect(result._doc).to.be.an.instanceOf(SimpleDOM.Document);
+    expect(result).to.be.a('object');
+    expect(result._doc).to.be.a('object');
     expect(result._html).to.be.a('string');
     expect(result._fastbootInfo).to.be.an.instanceOf(FastBootInfo);
   });
@@ -225,7 +225,7 @@ describe('Result', function() {
     beforeEach(function () {
       doc.head.appendChild(doc.createRawHTMLSection(HEAD));
       doc.body.appendChild(doc.createRawHTMLSection(BODY));
-      
+
       result._finalize();
     });
 
