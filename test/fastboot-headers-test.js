@@ -1,7 +1,6 @@
 /* jshint expr:true */
 
 var expect = require('chai').expect;
-var path = require('path');
 var FastBootHeaders = require('./../src/fastboot-headers.js');
 var Ember = require('ember-source/dist/ember.debug');
 
