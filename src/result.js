@@ -171,7 +171,7 @@ class Result {
     body = HTMLSerializer.serializeChildren(body);
 
     this._head = head;
-    
+
     // Adding script boundary around the body
     this._body = `<script type="x/boundary" id="fastboot-body-start"></script>${body}<script type="x/boundary" id="fastboot-body-end"></script>`;
   }
@@ -186,7 +186,7 @@ function insertIntoIndexHTML(html, htmlAttributes, head, body, bodyAttributes) {
   let isBodyReplaced = false;
   let isHeadReplaced = false;
 
-  html = html.replace(/<\!-- EMBER_CLI_FASTBOOT_(HEAD|BODY) -->/g, function(match, tag) {
+  html = html.replace(/<!-- EMBER_CLI_FASTBOOT_(HEAD|BODY) -->/g, function(match, tag) {
     if (tag === 'HEAD' && head && !isHeadReplaced) {
       isHeadReplaced = true;
       return head;

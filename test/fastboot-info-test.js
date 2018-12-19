@@ -1,5 +1,4 @@
 var expect = require('chai').expect;
-var path = require('path');
 var FastBootInfo = require('./../src/fastboot-info.js');
 var FastBootResponse = require('./../src/fastboot-response.js');
 var FastBootRequest = require('./../src/fastboot-request.js');

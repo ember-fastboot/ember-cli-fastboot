@@ -1,8 +1,6 @@
 'use strict';
 
 const expect = require('chai').expect;
-const fs = require('fs');
-const path = require('path');
 const fixture = require('./helpers/fixture-path');
 const FastBoot = require('./../src/index');
 
