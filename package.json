@@ -5,9 +5,9 @@
   "main": "src/index.js",
   "scripts": {
     "changelog": "lerna-changelog",
-    "lint": "node_modules/.bin/eslint src test",
-    "test": "mocha",
-    "preversion": "npm lint && npm test",
+    "lint:js": "node_modules/.bin/eslint src test",
+    "test": "npm run-script lint:js && mocha",
+    "preversion": "npm test",
     "postversion": "git push origin master --tags"
   },
   "repository": {
