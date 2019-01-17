@@ -1,5 +1,8 @@
 # ember-cli-fastboot changelog
 
+## 2.0.1
+* Fixes issue where shoebox data was being cleared when clearing the server side content.
+
 ## 2.0.0
 
 * Drop Node 4 support.
