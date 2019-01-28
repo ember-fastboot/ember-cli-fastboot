@@ -11,13 +11,17 @@ export function clearHtml() {
   if (current) {
     let endMarker = document.getElementById('fastboot-body-end');
     let shoeboxNodes = document.querySelectorAll('[type="fastboot/shoebox"]');
+    let shoeboxNodesArray = []; // Note that IE11 doesn't support more concise options like Array.from, so we have to do something like this
+    for(let i=0; i < shoeboxNodes.length; i++){
+      shoeboxNodesArray.push(shoeboxNodes[i]);
+    }
     let parent = current.parentElement;
     let nextNode;
     do {
       nextNode = current.nextSibling;
       parent.removeChild(current);
       current = nextNode;
-    } while (nextNode && nextNode !== endMarker && !Array.from(shoeboxNodes).includes(nextNode));
+    } while (nextNode && nextNode !== endMarker && shoeboxNodesArray.indexOf(nextNode) < 0);
     parent.removeChild(endMarker);
   }
 }
