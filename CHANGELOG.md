@@ -1,5 +1,9 @@
 # ember-cli-fastboot changelog
 
+## 2.0.4
+
+* Fix issue in IE11 when using `Array.from`
+
 ## 2.0.1
 * Fixes issue where shoebox data was being cleared when clearing the server side content.
 
