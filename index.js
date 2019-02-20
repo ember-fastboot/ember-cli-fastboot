@@ -29,7 +29,21 @@ function getVersionChecker(context) {
   return checker;
 }
 
+function getClosestHost(node) {
+  const projectReference = node.parent && node.parent.parent;
 
+  if (
+    projectReference &&
+    !node.app &&
+    !projectReference.parent &&
+    node.parent.app &&
+    node.parent.app.constructor.name === 'EmberAddon'
+  ) {
+    return node.parent.app;
+  }
+
+  return node.app;
+}
 
 /*
  * Main entrypoint for the Ember CLI addon.
@@ -161,6 +175,8 @@ module.exports = {
    * and project and transpiles it into appname-fastboot.js
    */
   _getFastbootTree() {
+    const host = getClosestHost(this);
+
     const appName = this._name;
 
     let fastbootTrees = [];
@@ -188,7 +204,7 @@ module.exports = {
       return filePath.replace(/^\//, '');
     }
 
-    let appFilePath = stripLeadingSlash(this.app.options.outputPaths.app.js);
+    let appFilePath = stripLeadingSlash(host.options.outputPaths.app.js);
     let finalFastbootTree = new Concat(processExtraTree, {
       outputFile: appFilePath.replace(/\.js$/, '-fastboot.js')
     });
@@ -266,7 +282,9 @@ module.exports = {
   },
 
   _getHostAppConfig() {
-    let env = this.app.env;
+    const host = getClosestHost(this);
+
+    let env = host.env;
     // clone the config object
     let appConfig = this._cloneConfigObject(this.project.config(env));
 
@@ -283,13 +301,15 @@ module.exports = {
   },
 
   _buildFastbootConfigTree(tree) {
+    const host = getClosestHost(this);
+
     let appConfig = this._getHostAppConfig();
     let fastbootAppConfig = appConfig.fastboot;
 
     return new FastBootConfig(tree, {
       project: this.project,
-      name: this.app.name,
-      outputPaths: this.app.options.outputPaths,
+      name: host.name,
+      outputPaths: host.options.outputPaths,
       ui: this.ui,
       fastbootAppConfig: fastbootAppConfig,
       appConfig: appConfig
