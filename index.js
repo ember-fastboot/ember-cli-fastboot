@@ -39,6 +39,18 @@ module.exports = {
 
   init() {
     this._super.init && this._super.init.apply(this, arguments);
+    this._existsCache = new Map();
+  },
+
+  existsSync(path) {
+    if (this._existsCache.has(path)) {
+      return this._existsCache.get(path);
+    }
+
+    const exists = existsSync(path);
+
+    this._existsCache.set(path, exists);
+    return exists;
   },
 
   /**
@@ -139,7 +151,7 @@ module.exports = {
     const currentAddonFastbootPath = path.join(addon.root, 'fastboot');
 
     let fastbootTree;
-    if (existsSync(currentAddonFastbootPath)) {
+    if (this.existsSync(currentAddonFastbootPath)) {
       fastbootTree = this.treeGenerator(currentAddonFastbootPath);
     }
 
@@ -168,7 +180,7 @@ module.exports = {
 
     // check the parent containing the fastboot directory
     const projectFastbootPath = path.join(this.project.root, 'fastboot');
-    if (existsSync(projectFastbootPath)) {
+    if (this.existsSync(projectFastbootPath)) {
       let fastbootTree = this.treeGenerator(projectFastbootPath);
       fastbootTrees.push(fastbootTree);
     }
