@@ -1,8 +1,9 @@
 ---
 language: node_js
 node_js:
-  - "6"
   - "8"
+  - "10"
+  - "11"
 
 branches:
   only:
@@ -28,7 +29,3 @@ cache:
   directories:
     - $HOME/.npm
   yarn: false # switch to yarn once ember-cli-addon-tests is removed
-
-before_install:
-  - npm config set spin false
-  - npm install -g npm@4

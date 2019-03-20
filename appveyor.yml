@@ -4,8 +4,9 @@
 environment:
   MOCHA_REPORTER: "mocha-appveyor-reporter"
   matrix:
-    - nodejs_version: "6"
     - nodejs_version: "8"
+    - nodejs_version: "10"
+    - nodejs_version: "11"
 
 branches:
   only:
@@ -16,8 +17,7 @@ branches:
 # Install scripts. (runs after repo cloning)
 install:
   - ps: Install-Product node $env:nodejs_version
-  - npm config set spin false
-  - appveyor-retry npm install -g npm@^3
+  - appveyor-retry npm install -g npm@^6
   - appveyor-retry npm i -g bower # for ember-cli-addon-tests
   - npm --version
   - appveyor-retry choco install phantomjs
