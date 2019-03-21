@@ -2640,6 +2640,7 @@ ember-ajax@^3.1.0:
 ember-cli-addon-tests@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/ember-cli-addon-tests/-/ember-cli-addon-tests-0.11.0.tgz#7f5a07ce91317b9b06c792274e6d6a2cc43f1ee9"
+  integrity sha1-f1oHzpExe5sGx5InTm1qLMQ/Huk=
   dependencies:
     chalk "^2.0.1"
     debug "^3.0.0"
