@@ -3,6 +3,7 @@ language: node_js
 node_js:
   - "6"
   - "8"
+  - "10"
 
 branches:
   only:
@@ -30,5 +31,6 @@ cache:
   yarn: false # switch to yarn once ember-cli-addon-tests is removed
 
 before_install:
-  - npm config set spin false
-  - npm install -g npm@4
+
+  # TODO: remove when we stop testing against node 6
+  - if [[ `npm -v` < 6* ]]; then npm i -g npm@6; fi
