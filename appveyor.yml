@@ -6,7 +6,6 @@ environment:
   matrix:
     - nodejs_version: "6"
     - nodejs_version: "8"
-    - nodejs_version: "10"
 
 branches:
   only:
@@ -17,7 +16,8 @@ branches:
 # Install scripts. (runs after repo cloning)
 install:
   - ps: Install-Product node $env:nodejs_version
-  - appveyor-retry npm install -g npm@^6
+  - npm config set spin false
+  - appveyor-retry npm install -g npm@^3
   - appveyor-retry npm i -g bower # for ember-cli-addon-tests
   - npm --version
   - appveyor-retry choco install phantomjs
