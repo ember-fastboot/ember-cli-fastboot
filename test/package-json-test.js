@@ -277,11 +277,9 @@ describe('generating package.json', function() {
 });
 
 function addFastBootDeps(app) {
-  let pathName = app.path;
-
   return app.editPackageJSON(pkg => {
-    pkg['devDependencies']['fake-addon'] = `${pathName}/lib/fake-addon`;
-    pkg['devDependencies']['fake-addon-2'] = `${pathName}/lib/fake-addon-2`;
+    pkg['devDependencies']['fake-addon'] = `*`;
+    pkg['devDependencies']['fake-addon-2'] = `*`;
     pkg['fastbootDependencies'] = ["rsvp"];
     pkg['dependencies'] = {
       rsvp: '3.2.1',

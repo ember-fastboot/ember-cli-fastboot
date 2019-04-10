@@ -2639,7 +2639,7 @@ ember-ajax@^3.1.0:
 
 "ember-cli-addon-tests@github:kiwiupover/ember-cli-addon-tests#test-against-ember-data-release":
   version "0.11.0"
-  resolved "https://codeload.github.com/kiwiupover/ember-cli-addon-tests/tar.gz/207d5154f0b662799424e103fc56e97ff7465795"
+  resolved "https://codeload.github.com/kiwiupover/ember-cli-addon-tests/tar.gz/da206399dadd81d5c2253515b0bc12ff127f1eed"
   dependencies:
     chalk "^2.0.1"
     debug "^3.0.0"
