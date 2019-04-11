@@ -2637,9 +2637,10 @@ ember-ajax@^3.1.0:
   dependencies:
     ember-cli-babel "^6.6.0"
 
-"ember-cli-addon-tests@github:kiwiupover/ember-cli-addon-tests#test-against-ember-data-release":
-  version "0.11.0"
-  resolved "https://codeload.github.com/kiwiupover/ember-cli-addon-tests/tar.gz/da206399dadd81d5c2253515b0bc12ff127f1eed"
+ember-cli-addon-tests@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/ember-cli-addon-tests/-/ember-cli-addon-tests-0.11.1.tgz#70c9164cb4126b2d17bbf9588ff34d97d4bfbad1"
+  integrity sha512-PI3ht9NrgfAwBgh3aPCVecajndvDKltTqRdtxt5bgfQJ3+AMs6moXhijKygwuAeT5btyhhLbceTfHRL/K8pX2w==
   dependencies:
     chalk "^2.0.1"
     debug "^3.0.0"

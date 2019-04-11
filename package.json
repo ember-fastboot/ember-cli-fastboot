@@ -47,7 +47,7 @@
     "co": "^4.6.0",
     "ember-ajax": "^3.1.0",
     "ember-cli": "~3.3.0",
-    "ember-cli-addon-tests": "github:kiwiupover/ember-cli-addon-tests#test-against-ember-data-release",
+    "ember-cli-addon-tests": "^0.11.1",
     "ember-cli-dependency-checker": "^3.0.0",
     "ember-cli-eslint": "^4.2.3",
     "ember-cli-htmlbars": "^3.0.0",
