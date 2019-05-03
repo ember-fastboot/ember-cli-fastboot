@@ -15,6 +15,7 @@
   "scripts": {
     "build": "ember build",
     "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",
+    "release": "release-it",
     "start": "ember serve",
     "test": "mocha && ember test",
     "test:precook": "node node_modules/ember-cli-addon-tests/scripts/precook-node-modules.js"
@@ -70,16 +71,34 @@
     "loader.js": "^4.7.0",
     "mocha": "^5.2.0",
     "qunit-dom": "^0.8.0",
+    "release-it": "^12.0.1",
+    "release-it-lerna-changelog": "^1.0.2",
     "request": "^2.88.0",
     "rsvp": "^4.8.3"
   },
   "engines": {
     "node": "6.* || 8.* || >= 10.*"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "ember-addon": {
     "configPath": "tests/dummy/config",
     "before": [
       "broccoli-serve-files"
     ]
+  },
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md"
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true
+    }
   }
 }
