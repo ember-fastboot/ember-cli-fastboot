@@ -218,23 +218,10 @@ module.exports = {
 
     let newTree = new MergeTrees(trees);
 
-    return newTree;
-  },
+    let fastbootConfigTree = this._buildFastbootConfigTree(newTree);
 
-  /**
-   * After the entire Broccoli tree has been built for the `dist` directory,
-   * adds the `fastboot-config.json` file to the root.
-   *
-   */
-  postprocessTree(type, tree) {
-    if (type === 'all') {
-      let fastbootConfigTree = this._buildFastbootConfigTree(tree);
-
-      // Merge the package.json with the existing tree
-      return new MergeTrees([tree, fastbootConfigTree], {overwrite: true});
-    }
-
-    return tree;
+    // Merge the package.json with the existing tree
+    return new MergeTrees([newTree, fastbootConfigTree], {overwrite: true});
   },
 
   /**
