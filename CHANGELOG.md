@@ -1,3 +1,26 @@
+## v2.1.0 (2019-05-28)
+
+#### :rocket: Enhancement
+* [#666](https://github.com/ember-fastboot/ember-cli-fastboot/pull/666) memoize existsSync calls on the fastboot instance itself ([@stefanpenner](https://github.com/stefanpenner))
+
+#### :bug: Bug Fix
+* [#692](https://github.com/ember-fastboot/ember-cli-fastboot/pull/692) Fix deprecation warning for Ember.Logger usage ([@rileyhilliard](https://github.com/rileyhilliard))
+* [#690](https://github.com/ember-fastboot/ember-cli-fastboot/pull/690) Moved building fastboot config tree from postProcessTree to treeForPublic ([@dnalagatla](https://github.com/dnalagatla))
+
+#### :memo: Documentation
+* [#694](https://github.com/ember-fastboot/ember-cli-fastboot/pull/694) Add automated release setup. ([@rwjblue](https://github.com/rwjblue))
+
+#### :house: Internal
+* [#694](https://github.com/ember-fastboot/ember-cli-fastboot/pull/694) Add automated release setup. ([@rwjblue](https://github.com/rwjblue))
+* [#679](https://github.com/ember-fastboot/ember-cli-fastboot/pull/679) Get tests passing again by testing against ember-data@3.8.0 instead of master ([@kiwiupover](https://github.com/kiwiupover))
+
+#### Committers: 5
+- David Laird ([@kiwiupover](https://github.com/kiwiupover))
+- Dinesh Nalagatla ([@dnalagatla](https://github.com/dnalagatla))
+- Riley Hilliard ([@rileyhilliard](https://github.com/rileyhilliard))
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+- Stefan Penner ([@stefanpenner](https://github.com/stefanpenner))
+
 ## 2.0.4
 
 * Fix issue in IE11 when using `Array.from`
