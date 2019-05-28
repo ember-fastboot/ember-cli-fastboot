@@ -21,8 +21,8 @@ install:
   - appveyor-retry npm i -g bower # for ember-cli-addon-tests
   - npm --version
   - appveyor-retry choco install phantomjs
-  - appveyor-retry yarn
-  - appveyor-retry yarn add mocha-appveyor-reporter # must be installed locally.
+  - appveyor-retry yarn --ignore-engines
+  - appveyor-retry yarn add mocha-appveyor-reporter --ignore-engines # must be installed locally.
 
 
 # Post-install test scripts.

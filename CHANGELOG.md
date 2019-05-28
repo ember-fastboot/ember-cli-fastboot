@@ -1,5 +1,3 @@
-# ember-cli-fastboot changelog
-
 ## 2.0.4
 
 * Fix issue in IE11 when using `Array.from`
