@@ -22,7 +22,7 @@ export function clearHtml() {
       parent.removeChild(current);
       current = nextNode;
     } while (nextNode && nextNode !== endMarker && shoeboxNodesArray.indexOf(nextNode) < 0);
-    parent.removeChild(endMarker);
+    endMarker.parentElement.removeChild(endMarker);
   }
 }
 export default {
