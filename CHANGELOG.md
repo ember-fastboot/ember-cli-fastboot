@@ -1,3 +1,11 @@
+## v2.1.1 (2019-06-03)
+
+#### :bug: Bug Fix
+* [#699](https://github.com/ember-fastboot/ember-cli-fastboot/pull/699) Ensure FastBoot rendered content is cleared even if the server rendered application contains malformed HTML. ([@noslouch](https://github.com/noslouch))
+
+#### Committers: 1
+- Brian Whitton ([@noslouch](https://github.com/noslouch))
+
 ## v2.1.0 (2019-05-28)
 
 #### :rocket: Enhancement
