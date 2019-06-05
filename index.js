@@ -20,7 +20,11 @@ const Funnel = require('broccoli-funnel');
 const p = require('ember-cli-preprocess-registry/preprocessors');
 const fastbootTransform = require('fastboot-transform');
 const existsSync = fs.existsSync;
+<<<<<<< HEAD
 const updateManifestFromHtml = require('./lib/embroider/update-manifest-from-html');
+=======
+const cheerio = require('cheerio');
+>>>>>>> Added support to update manifest appfiles from index.html
 
 let checker;
 function getVersionChecker(context) {
@@ -376,7 +380,45 @@ module.exports = {
 
     return checker.for('ember', 'bower');
   },
+
   _isModuleUnification() {
     return (typeof this.project.isModuleUnification === 'function') && this.project.isModuleUnification();
+  },
+
+  _updateAppFilesInManifest(appDir) {
+    const appFiles = this._getAppFilesFromIndexHtml(appDir);
+    const pkgPath = path.join(appDir, 'package.json');
+    const pkg = require(pkgPath);
+    const {
+      fastboot
+    } = pkg;
+
+    // Update manifest.appFiles in package.json, with appFiles defined in index.html
+    if(fastboot) {
+      const { manifest: { appFiles: manifestAppFiles } } = fastboot;
+      manifestAppFiles.splice(0, 1, ...appFiles);
+      fs.writeFileSync(pkgPath, JSON.stringify(pkg));
+    }
+  },
+
+  _getAppFilesFromIndexHtml(appDir) {
+    const indexHtml = fs.readFileSync(path.join(appDir, 'index.html'));
+    const $ = cheerio.load(indexHtml);
+    const scriptFileNameRegEx = /([a-zA-Z0-9_\.\-\(\):])+(\.js)/ig;
+    const filesToSkipRgex = /^vendor|^vendor-static|^ember-cli-live-reload/gi;
+    const appFiles = [];
+
+    $('script').each(function(i, elem) {
+      const src = $(elem).attr('src');
+      if (src) {
+        const fileName = src.match(scriptFileNameRegEx)[0];
+        const filePath = path.join(appDir, 'assets', fileName);
+        if (fileName && existsSync(filePath) && !filesToSkipRgex.test(fileName)) {
+          appFiles.push(path.relative(appDir, filePath));
+        }
+      }
+    });
+
+    return appFiles;
   }
 };
