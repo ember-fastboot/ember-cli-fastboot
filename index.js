@@ -346,6 +346,7 @@ module.exports = {
   },
 
   postBuild(result) {
+    this._updateAppFilesInManifest(result.directory);
     if (this.fastboot) {
       // should we reload fastboot if there are only css changes? Seems it maynot be needed.
       // TODO(future): we can do a smarter reload here by running fs-tree-diff on files loaded
@@ -376,5 +377,51 @@ module.exports = {
   
   _isModuleUnification() {
     return (typeof this.project.isModuleUnification === 'function') && this.project.isModuleUnification();
+  },
+
+  _updateAppFilesInManifest(appDir) {
+    const pkgPath = path.join(appDir, 'package.json');
+    const pkg = require(pkgPath);
+    const {
+      fastboot
+    } = pkg;
+
+    if(fastboot) {
+      const { manifest: { appFiles: manifestAppFiles } } = fastboot;
+      let appFilePath = '';
+      if(Array.isArray(manifestAppFiles) && typeof manifestAppFiles[0] === 'string') {
+        appFilePath = path.resolve(appDir, manifestAppFiles[0]);
+      }
+      // If app file in package.json doesn't exist, update manifest.appFiles in package.json
+      // with appFiles defined in index.html. This check will ensure the existing behavior is intact and
+      // only update from index.html for embroider flow.
+      if(appFilePath && !existsSync(appFilePath)) {
+        const appFiles = this._getAppFilesFromIndexHtml(appDir);
+        manifestAppFiles.splice(0, 1, ...appFiles);
+        fs.writeFileSync(pkgPath, JSON.stringify(pkg));
+      }
+    }
+  },
+
+  _getAppFilesFromIndexHtml(appDir) {
+    const cheerio = require('cheerio');
+    const indexHtml = fs.readFileSync(path.join(appDir, 'index.html'));
+    const $ = cheerio.load(indexHtml);
+    const scriptFileNameRegEx = /([a-zA-Z0-9_\.\-\(\):])+(\.js)/ig;
+    const filesToSkipRgex = /^vendor|^vendor-static|^ember-cli-live-reload/gi;
+    const appFiles = [];
+
+    $('script').each(function(i, elem) {
+      const src = $(elem).attr('src');
+      if (src) {
+        const fileName = src.match(scriptFileNameRegEx)[0];
+        const filePath = path.join(appDir, 'assets', fileName);
+        if (fileName && existsSync(filePath) && !filesToSkipRgex.test(fileName)) {
+          appFiles.push(path.relative(appDir, filePath));
+        }
+      }
+    });
+
+    return appFiles;
   }
 };
