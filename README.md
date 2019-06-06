@@ -237,3 +237,9 @@ let server = new FastBootAppServer({
   password: 'zoey'
 });
 ```
+
+## Scraper Issues
+
+### Twitter and LinkedIn
+
+As of 2019-06-06, Twitter and LinkedIn's scrapers have a hard time extracting your site's metadata for sharing if `chunkedResponse` is set to `true` in your `server.js` file. Set `chunkedResponse: false` if your meta tags are in place but the [Twitter card validator](https://cards-dev.twitter.com/validator) shows "Card not found" or [LinkedIn's Post Inspector](https://www.linkedin.com/post-inspector/) shows a 500 error.
