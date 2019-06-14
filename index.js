@@ -29,7 +29,9 @@ function getVersionChecker(context) {
   return checker;
 }
 
-
+function stripLeadingSlash(filePath) {
+  return filePath.replace(/^\//, '');
+}
 
 /*
  * Main entrypoint for the Ember CLI addon.
@@ -104,11 +106,6 @@ module.exports = {
 
     if (type === 'head') {
       return "<!-- EMBER_CLI_FASTBOOT_TITLE --><!-- EMBER_CLI_FASTBOOT_HEAD -->";
-    }
-
-    if (type === 'app-boot') {
-      const isModuleUnification = (typeof this.project.isModuleUnification === 'function') && this.project.isModuleUnification();
-      return fastbootAppModule(config.modulePrefix, JSON.stringify(config.APP || {}), isModuleUnification);
     }
 
     // if the fastboot addon is installed, we overwrite the config-module so that the config can be read
@@ -195,10 +192,6 @@ module.exports = {
     const processExtraTree = p.preprocessJs(funneledFastbootTrees, '/', this._name, {
       registry: this._appRegistry
     });
-
-    function stripLeadingSlash(filePath) {
-      return filePath.replace(/^\//, '');
-    }
 
     let appFilePath = stripLeadingSlash(this.app.options.outputPaths.app.js);
     let finalFastbootTree = new Concat(processExtraTree, {
@@ -334,6 +327,8 @@ module.exports = {
   },
 
   postBuild(result) {
+    let appFilePath = stripLeadingSlash(this.app.options.outputPaths.app.js);
+    this._appendAppBoot(result.directory, appFilePath);
     if (this.fastboot) {
       // should we reload fastboot if there are only css changes? Seems it maynot be needed.
       // TODO(future): we can do a smarter reload here by running fs-tree-diff on files loaded
@@ -361,4 +356,14 @@ module.exports = {
 
     return checker.for('ember', 'bower');
   },
+
+  _appendAppBoot(appDir, appFilePath) {
+    let env = this.app.env;
+    let config = this.project.config(env);
+    const isModuleUnification = (typeof this.project.isModuleUnification === 'function') && this.project.isModuleUnification();
+    const appBoot = fastbootAppModule(config.modulePrefix, JSON.stringify(config.APP || {}), isModuleUnification);
+
+    appFilePath = path.resolve(appDir, appFilePath);
+    fs.appendFileSync(appFilePath, appBoot);
+  }
 };
