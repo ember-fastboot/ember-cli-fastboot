@@ -1,5 +1,8 @@
 # fastboot-express-middleware Changelog
 
+### 2.0.0
+* [BREAKING CHANGE] Bump FastBoot 1.x -> 2.x
+
 ### 1.2.0
 
 * Bump `fastboot` version to 1.2.0.
