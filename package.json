@@ -30,7 +30,7 @@
     "compression": "^1.6.2",
     "express": "^4.13.3",
     "fastboot": "^2.0.0",
-    "fastboot-express-middleware": "^1.2.0",
+    "fastboot-express-middleware": "^2.0.0",
     "fs-promise": "^2.0.3",
     "request": "^2.81.0"
   },
