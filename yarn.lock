@@ -606,6 +606,37 @@
     universal-user-agent "^2.0.0"
     url-template "^2.0.8"
 
+"@simple-dom/document@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@simple-dom/document/-/document-1.4.0.tgz#af60855f957f284d436983798ef1006cca1a1678"
+  integrity sha512-/RUeVH4kuD3rzo5/91+h4Z1meLSLP66eXqpVAw/4aZmYozkeqUkMprq0znL4psX/adEed5cBgiNJcfMz/eKZLg==
+  dependencies:
+    "@simple-dom/interface" "^1.4.0"
+
+"@simple-dom/interface@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@simple-dom/interface/-/interface-1.4.0.tgz#e8feea579232017f89b0138e2726facda6fbb71f"
+  integrity sha512-l5qumKFWU0S+4ZzMaLXFU8tQZsicHEMEyAxI5kDFGhJsRqDwe0a7/iPA/GdxlGyDKseQQAgIz5kzU7eXTrlSpA==
+
+"@simple-dom/parser@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@simple-dom/parser/-/parser-1.4.0.tgz#b1fee1a23f48a37d6bdd98f5242db0cab5b67abc"
+  integrity sha512-TNjDkOehueRIKr1df416qk9ELj+qWuVVJNIT25y1aZg3pQvxv4UPGrgaDFte7dsWBTbF3V8NYPNQ5FDUZQ8Wlg==
+  dependencies:
+    "@simple-dom/interface" "^1.4.0"
+
+"@simple-dom/serializer@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@simple-dom/serializer/-/serializer-1.4.0.tgz#98470f357f418d72b1a1ec78d68191e60aefe215"
+  integrity sha512-mI1yRahsVs8atXLiQksineDsFEFqeG7RHwnnBTDOK6inbzl4tZQgjR+Z7edjgIJq5j5RhZvwPI6EuCji9B3eQw==
+  dependencies:
+    "@simple-dom/interface" "^1.4.0"
+
+"@simple-dom/void-map@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@simple-dom/void-map/-/void-map-1.4.0.tgz#f15f07568fe1076740407266aa5e6eac249bc78c"
+  integrity sha512-VDhLEyVCbuhOBBgHol9ShzIv9O8UCzdXeH4FoXu2DOcu/nnvTjLTck+BgXsCLv5ynDiUdoqsREEVFnoyPpFKVw==
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
@@ -2755,7 +2786,7 @@ debug@3.1.0, debug@^3.0.0, debug@^3.1.0, debug@~3.1.0:
   dependencies:
     ms "2.0.0"
 
-debug@4.1.1:
+debug@4.1.1, debug@^4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
   dependencies:
@@ -3878,12 +3909,13 @@ fast-sourcemap-concat@^1.4.0:
     source-map-url "^0.3.0"
     sourcemap-validator "^1.1.0"
 
-fastboot-express-middleware@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/fastboot-express-middleware/-/fastboot-express-middleware-1.2.0.tgz#3f32fb21d8d01ad7c0c7d876b278601665ea17fa"
+fastboot-express-middleware@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/fastboot-express-middleware/-/fastboot-express-middleware-2.0.0.tgz#3cb2c4b744e738a709b4336c4166f1a059ab0ffb"
+  integrity sha512-sJHZrHpo/8jh56t+DTzaDcg6cnHbmXlTSAdfhRZbBa8XDY3TfN+TjHsHd4Z7vouLFU+ISuaZkzKfwGwipW5xwQ==
   dependencies:
     chalk "^2.0.1"
-    fastboot "^1.2.0"
+    fastboot "^2.0.1"
     request "^2.81.0"
 
 fastboot-transform@^0.1.3:
@@ -3893,17 +3925,18 @@ fastboot-transform@^0.1.3:
     broccoli-stew "^1.5.0"
     convert-source-map "^1.5.1"
 
-fastboot@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/fastboot/-/fastboot-1.2.0.tgz#35c5747db1943d082f2ba619226d16cd7281e946"
+fastboot@^2.0.0, fastboot@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/fastboot/-/fastboot-2.0.1.tgz#f8fc0d14379e69a250045708f58268c98943f115"
+  integrity sha512-NH6viW7oo8oDbWXqQ1aJNP5ey3gPYKIVBCX9ByqGxdPISXo5iOEKblyijN+HrPpbidPdQx8PNqHH8mtqo9rY/g==
   dependencies:
     chalk "^2.0.1"
     cookie "^0.3.1"
-    debug "^3.0.0"
-    exists-sync "0.0.4"
-    najax "^1.0.2"
-    rsvp "^4.7.0"
-    simple-dom "^1.0.0"
+    debug "^4.1.0"
+    najax "^1.0.3"
+    resolve "^1.8.1"
+    rsvp "^4.8.0"
+    simple-dom "^1.4.0"
     source-map-support "^0.5.0"
 
 faye-websocket@~0.10.0:
@@ -6153,7 +6186,7 @@ mz@^2.4.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
-najax@^1.0.2:
+najax@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/najax/-/najax-1.0.4.tgz#63fd8dbf15d18f24dc895b3a16fec66c136b8084"
   dependencies:
@@ -7307,6 +7340,11 @@ rsvp@^4.6.1, rsvp@^4.7.0, rsvp@^4.8.2, rsvp@^4.8.3:
   version "4.8.3"
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-4.8.3.tgz#25d4b9fdd0f95e216eb5884d9b3767d3fbfbe2cd"
 
+rsvp@^4.8.0:
+  version "4.8.5"
+  resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-4.8.5.tgz#c8f155311d167f68f21e168df71ec5b083113734"
+  integrity sha512-nfMOlASu9OnRJo1mbEk2cz0D56a1MBNrJ7orjRZQG10XDyuvwksKbuXNp6qa+kbn839HwjwhBzhFmdsaEAfauA==
+
 rsvp@~3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-3.2.1.tgz#07cb4a5df25add9e826ebc67dcc9fd89db27d84a"
@@ -7515,9 +7553,16 @@ silent-error@^1.0.0, silent-error@^1.0.1, silent-error@^1.1.0:
   dependencies:
     debug "^2.2.0"
 
-simple-dom@^1.0.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/simple-dom/-/simple-dom-1.3.0.tgz#8473e0d34e340544b061410dba3faf4f1b7aa282"
+simple-dom@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/simple-dom/-/simple-dom-1.4.0.tgz#78ad1f41b8b70d16f82b7e0d458441c9262565b7"
+  integrity sha512-TnBPkmOyjdaOqyBMb4ick+n8c0Xv9Iwg1PykFV7hz9Se3UCiacTbRb+25cPmvozFNJLBUNvUzX/KsPfXF14ivA==
+  dependencies:
+    "@simple-dom/document" "^1.4.0"
+    "@simple-dom/interface" "^1.4.0"
+    "@simple-dom/parser" "^1.4.0"
+    "@simple-dom/serializer" "^1.4.0"
+    "@simple-dom/void-map" "^1.4.0"
 
 sinon@^6.0.1:
   version "6.1.5"
