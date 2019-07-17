@@ -291,6 +291,7 @@ module.exports = {
   serverMiddleware(options) {
     let emberCliVersion = this._getEmberCliVersion();
     let app = options.app;
+    let appConfig = this._getHostAppConfig();
 
     if (emberCliVersion.gte('2.12.0-beta.1')) {
       // only run the middleware when ember-cli version for app is above 2.12.0-beta.1 since
@@ -305,11 +306,12 @@ module.exports = {
         if (req.serveUrl && enableFastBootServe) {
           // if it is a base page request, then have fastboot serve the base page
           if (!this.fastboot) {
-            // TODO(future): make this configurable for allowing apps to pass sandboxGlobals
-            // and custom sandbox class
+            let fastbootConfig = appConfig.fastboot || {};
             this.ui.writeLine(chalk.green('App is being served by FastBoot'));
             this.fastboot = new FastBoot({
-              distPath: outputPath
+              distPath: outputPath,
+              sandbox: fastbootConfig.sandbox,
+              sandboxGlobals: fastbootConfig.sandboxGlobals
             });
           }
 
