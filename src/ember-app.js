@@ -140,7 +140,11 @@ class EmberApp {
           let resolvedModulePath = resolve.sync(moduleName, { basedir: distPath });
           return require(resolvedModulePath);
         } catch (error) {
-          return require(moduleName);
+          if (error.code === 'MODULE_NOT_FOUND') {
+            return require(moduleName);
+          } else {
+            throw error;
+          }
         }
       }
 
