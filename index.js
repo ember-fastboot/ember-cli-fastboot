@@ -11,7 +11,7 @@ const chalk = require('chalk');
 
 const fastbootAppBoot = require('./lib/utilities/fastboot-app-boot');
 const FastBootConfig = require('./lib/broccoli/fastboot-config');
-const fastbootAppFactoryModule = require('./lib/utilities/fastboot-app-factory-module');
+const FastBootAppFactory = require('./lib/broccoli/fastboot-app-factory-plugin');
 const migrateInitializers = require('./lib/build-utilities/migrate-initializers');
 const SilentError = require('silent-error');
 
@@ -201,8 +201,10 @@ module.exports = {
     });
 
     // FastBoot app factory module
-    const writeFile = require('broccoli-file-creator');
-    let appFactoryModuleTree = writeFile("app-factory.js", fastbootAppFactoryModule(appName, this._isModuleUnification()));
+    let appFactoryModuleTree = new FastBootAppFactory(processExtraTree, {
+      appName,
+      isModuleUnification
+    });
 
     let newProcessExtraTree = new MergeTrees([processExtraTree, appFactoryModuleTree], {
       overwrite: true
@@ -374,7 +376,6 @@ module.exports = {
 
     return checker.for('ember', 'bower');
   },
-
   _isModuleUnification() {
     return (typeof this.project.isModuleUnification === 'function') && this.project.isModuleUnification();
   }
