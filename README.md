@@ -436,6 +436,14 @@ use the rehydration builder and your application will be using rehydration.
 
 Rehydration is only compatible with fastboot > 1.1.4-beta.1, and Ember.js > 3.2.
 
+### Update manifest from HTML
+
+This is an opt-in feature that allows updating app files information in fastboot manifest from `index.html`. Enabling this feature is required when using Embroider for building the application. We can opt-in into this feature by setting the following environmental variable:
+
+```
+FASTBOOT_HTML_MANIFEST=true
+```
+
 ## Build Hooks for FastBoot
 
 ### Disabling incompatible dependencies

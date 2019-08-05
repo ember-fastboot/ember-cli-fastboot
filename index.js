@@ -11,7 +11,7 @@ const chalk = require('chalk');
 
 const fastbootAppBoot = require('./lib/utilities/fastboot-app-boot');
 const FastBootConfig = require('./lib/broccoli/fastboot-config');
-const FastBootAppFactory = require('./lib/broccoli/fastboot-app-factory-plugin');
+const fastbootAppFactoryModule = require('./lib/utilities/fastboot-app-factory-module');
 const migrateInitializers = require('./lib/build-utilities/migrate-initializers');
 const SilentError = require('silent-error');
 
@@ -20,11 +20,7 @@ const Funnel = require('broccoli-funnel');
 const p = require('ember-cli-preprocess-registry/preprocessors');
 const fastbootTransform = require('fastboot-transform');
 const existsSync = fs.existsSync;
-<<<<<<< HEAD
 const updateManifestFromHtml = require('./lib/embroider/update-manifest-from-html');
-=======
-const cheerio = require('cheerio');
->>>>>>> Added support to update manifest appfiles from index.html
 
 let checker;
 function getVersionChecker(context) {
@@ -205,10 +201,8 @@ module.exports = {
     });
 
     // FastBoot app factory module
-    let appFactoryModuleTree = new FastBootAppFactory(processExtraTree, {
-      appName,
-      isModuleUnification
-    });
+    const writeFile = require('broccoli-file-creator');
+    let appFactoryModuleTree = writeFile("app-factory.js", fastbootAppFactoryModule(appName, this._isModuleUnification()));
 
     let newProcessExtraTree = new MergeTrees([processExtraTree, appFactoryModuleTree], {
       overwrite: true
@@ -353,6 +347,13 @@ module.exports = {
   },
 
   postBuild(result) {
+    // Need to update manifest from html file.
+    // Set environment variable `FASTBOOT_HTML_MANIFEST` to `true`
+    // Usage `FASTBOOT_HTML_MANIFEST=true ember s`
+    if(process.env.FASTBOOT_HTML_MANIFEST === 'true') {
+      updateManifestFromHtml(result.directory);
+    }
+
     if (this.fastboot) {
       // should we reload fastboot if there are only css changes? Seems it maynot be needed.
       // TODO(future): we can do a smarter reload here by running fs-tree-diff on files loaded
@@ -383,42 +384,5 @@ module.exports = {
 
   _isModuleUnification() {
     return (typeof this.project.isModuleUnification === 'function') && this.project.isModuleUnification();
-  },
-
-  _updateAppFilesInManifest(appDir) {
-    const appFiles = this._getAppFilesFromIndexHtml(appDir);
-    const pkgPath = path.join(appDir, 'package.json');
-    const pkg = require(pkgPath);
-    const {
-      fastboot
-    } = pkg;
-
-    // Update manifest.appFiles in package.json, with appFiles defined in index.html
-    if(fastboot) {
-      const { manifest: { appFiles: manifestAppFiles } } = fastboot;
-      manifestAppFiles.splice(0, 1, ...appFiles);
-      fs.writeFileSync(pkgPath, JSON.stringify(pkg));
-    }
-  },
-
-  _getAppFilesFromIndexHtml(appDir) {
-    const indexHtml = fs.readFileSync(path.join(appDir, 'index.html'));
-    const $ = cheerio.load(indexHtml);
-    const scriptFileNameRegEx = /([a-zA-Z0-9_\.\-\(\):])+(\.js)/ig;
-    const filesToSkipRgex = /^vendor|^vendor-static|^ember-cli-live-reload/gi;
-    const appFiles = [];
-
-    $('script').each(function(i, elem) {
-      const src = $(elem).attr('src');
-      if (src) {
-        const fileName = src.match(scriptFileNameRegEx)[0];
-        const filePath = path.join(appDir, 'assets', fileName);
-        if (fileName && existsSync(filePath) && !filesToSkipRgex.test(fileName)) {
-          appFiles.push(path.relative(appDir, filePath));
-        }
-      }
-    });
-
-    return appFiles;
   }
 };
