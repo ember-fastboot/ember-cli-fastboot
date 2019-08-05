@@ -63,14 +63,22 @@ build command:
 $ ember build --environment production
 ```
 
-(You will need to have already set up the Ember CLI FastBoot addon. For
-more information, see the [FastBoot quickstart][quickstart].)
+(You will need to have already set up the [ember-cli-fastboot](https://github.com/ember-fastboot/ember-cli-fastboot) addon.
+For more information, see the [FastBoot quickstart][quickstart].)
 
 [quickstart]: https://www.ember-fastboot.com/quickstart
 
 Once this is done, you will have a `dist` directory that contains the
-multi-environment build of your app. Upload this file to your FastBoot
-server.
+multi-environment build of your app.
+
+Run the command to install run time node modules:
+
+```sh
+$ cd dist/
+$ npm install
+```
+
+Upload the `dist/` folder including `node_modules` to your FastBoot server.
 
 ### Command Line
 

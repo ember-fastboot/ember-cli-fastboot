@@ -136,8 +136,16 @@ class EmberApp {
       let isWhitelisted = whitelist.indexOf(packageName) > -1;
 
       if (isWhitelisted) {
-        let resolvedModulePath = resolve.sync(moduleName, { basedir: distPath });
-        return require(resolvedModulePath);
+        try {
+          let resolvedModulePath = resolve.sync(moduleName, { basedir: distPath });
+          return require(resolvedModulePath);
+        } catch (error) {
+          if (error.code === 'MODULE_NOT_FOUND') {
+            return require(moduleName);
+          } else {
+            throw error;
+          }
+        }
       }
 
       if (isLegacyWhitelist) {
@@ -147,7 +155,6 @@ class EmberApp {
           if (fs.existsSync(nodeModulesPath)) {
             return require(nodeModulesPath);
           } else {
-            // If it's not on disk, assume it's a built-in node package
             return require(moduleName);
           }
         } else {
@@ -390,7 +397,6 @@ class EmberApp {
     // set schema version to 1 if not defined
     schemaVersion = schemaVersion || FastBootSchemaVersions.base;
     debug('Current schemaVersion from `ember-cli-fastboot` is %s while latest schema version is %s', schemaVersion, currentSchemaVersion);
-  
     if (schemaVersion > currentSchemaVersion) {
       let errorMsg = chalk.bold.red('An incompatible version between `ember-cli-fastboot` and `fastboot` was found. Please update the version of fastboot library that is compatible with ember-cli-fastboot.');
       throw new Error(errorMsg);
