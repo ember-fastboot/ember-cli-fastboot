@@ -380,16 +380,16 @@ export default Ember.Route.extend({
 
 Shoebox gives you great capabilities, but using it in the real app is pretty rough. Have you ever thought that such kind of logic should be done behind the scenes? In a large codebase, defining `fastboot.isFastboot` conditionals can be a daunting task. Furthermore, it generates a lot of boilerplate code, which obscures the solution. Sooner or later coupling with `shoebox` will spread over all routes.
 
-That's why [ember-cached-shoe](https://www.npmjs.com/ember-cached-shoe) was born.
+Fortunately, there is an addon called [ember-data-storefront](https://embermap.github.io/ember-data-storefront/) that can help to alleviate this pain, thanks to its Fastboot mixin: https://embermap.github.io/ember-data-storefront/docs/guides/fastboot.
 
-After installing and applying it, your routes can look like this:
+After installing the addon and applying the mixin, your routes can look like this:
 
 `app/routes/my-route.js`:
 
 ```javascript
-import Ember from 'ember'
+import Route from '@ember/routing/route';
 
-export default  Ember.Route.extend({
+export default  Route.extend({
   model() {
     // first call in a server makes actual ajax request.
     // second call in a browser serves cached response
@@ -397,7 +397,7 @@ export default  Ember.Route.extend({
   }
 })
 ```
-And they still take advantage of caching in the `shoebox`. No more redundant AJAX for already acquired data. Installation details are available in the addon [README](https://github.com/appchance/ember-cached-shoe#ember-cached-shoe).
+And they still take advantage of caching in the `shoebox`. No more redundant AJAX for already acquired data. Installation details are available in the addon [documentation](https://embermap.github.io/ember-data-storefront/docs).
 
 ### Rehydration
 
