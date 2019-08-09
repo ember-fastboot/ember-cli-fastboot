@@ -40,6 +40,18 @@ describe('rootUrl acceptance', function() {
       });
   });
 
+  it('Out of scope requests', function() {
+    return request({
+      url: 'http://localhost:49741/foo-bar/',
+      headers: {
+        'Accept': 'text/html'
+      }
+    })
+      .then(function(response) {
+        expect(response.statusCode).to.equal(404);
+      });
+  });
+
   it('with fastboot query parameter turned on', function() {
     return request({
       url: 'http://localhost:49741/my-root/?fastboot=true',
