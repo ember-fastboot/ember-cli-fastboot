@@ -306,12 +306,13 @@ module.exports = {
       app.use((req, resp, next) => {
         const fastbootQueryParam = (req.query.hasOwnProperty('fastboot') && req.query.fastboot === 'false') ? false : true;
         const enableFastBootServe = !process.env.FASTBOOT_DISABLED && fastbootQueryParam;
-        const broccoliHeader = req.headers['x-broccoli'];
-        const outputPath = broccoliHeader['outputPath'];
 
         if (req.serveUrl && enableFastBootServe) {
           // if it is a base page request, then have fastboot serve the base page
           if (!this.fastboot) {
+            const broccoliHeader = req.headers['x-broccoli'];
+            const outputPath = broccoliHeader['outputPath'];
+
             // TODO(future): make this configurable for allowing apps to pass sandboxGlobals
             // and custom sandbox class
             this.ui.writeLine(chalk.green('App is being served by FastBoot'));
