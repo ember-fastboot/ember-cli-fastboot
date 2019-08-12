@@ -9,8 +9,9 @@ const FastBootExpressMiddleware = require('fastboot-express-middleware');
 const FastBoot = require('fastboot');
 const chalk = require('chalk');
 
-const fastbootAppModule = require('./lib/utilities/fastboot-app-module');
+const fastbootAppBoot = require('./lib/utilities/fastboot-app-boot');
 const FastBootConfig = require('./lib/broccoli/fastboot-config');
+const fastbootAppFactoryModule = require('./lib/utilities/fastboot-app-factory-module');
 const migrateInitializers = require('./lib/build-utilities/migrate-initializers');
 const SilentError = require('silent-error');
 
@@ -107,8 +108,8 @@ module.exports = {
     }
 
     if (type === 'app-boot') {
-      const isModuleUnification = (typeof this.project.isModuleUnification === 'function') && this.project.isModuleUnification();
-      return fastbootAppModule(config.modulePrefix, JSON.stringify(config.APP || {}), isModuleUnification);
+      const isModuleUnification = this._isModuleUnification();
+      return fastbootAppBoot(config.modulePrefix, JSON.stringify(config.APP || {}), isModuleUnification);
     }
 
     // if the fastboot addon is installed, we overwrite the config-module so that the config can be read
@@ -174,10 +175,11 @@ module.exports = {
    */
   _getFastbootTree() {
     const appName = this._name;
+    const isModuleUnification = this._isModuleUnification();
 
     let fastbootTrees = [];
-    this._processAddons(this.project.addons, fastbootTrees);
 
+    this._processAddons(this.project.addons, fastbootTrees);
     // check the parent containing the fastboot directory
     const projectFastbootPath = path.join(this.project.root, 'fastboot');
     if (this.existsSync(projectFastbootPath)) {
@@ -189,6 +191,7 @@ module.exports = {
     let mergedFastBootTree = new MergeTrees(fastbootTrees, {
       overwrite: true
     });
+
     let funneledFastbootTrees = new Funnel(mergedFastBootTree, {
       destDir: appName
     });
@@ -196,12 +199,20 @@ module.exports = {
       registry: this._appRegistry
     });
 
+    // FastBoot app factory module
+    const writeFile = require('broccoli-file-creator');
+    let appFactoryModuleTree = writeFile("app-factory.js", fastbootAppFactoryModule(appName, this._isModuleUnification()));
+
+    let newProcessExtraTree = new MergeTrees([processExtraTree, appFactoryModuleTree], {
+      overwrite: true
+    });
+
     function stripLeadingSlash(filePath) {
       return filePath.replace(/^\//, '');
     }
 
     let appFilePath = stripLeadingSlash(this.app.options.outputPaths.app.js);
-    let finalFastbootTree = new Concat(processExtraTree, {
+    let finalFastbootTree = new Concat(newProcessExtraTree, {
       outputFile: appFilePath.replace(/\.js$/, '-fastboot.js')
     });
 
@@ -362,4 +373,8 @@ module.exports = {
 
     return checker.for('ember', 'bower');
   },
+  
+  _isModuleUnification() {
+    return (typeof this.project.isModuleUnification === 'function') && this.project.isModuleUnification();
+  }
 };
