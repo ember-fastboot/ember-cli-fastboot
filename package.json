@@ -45,6 +45,7 @@
     "chai": "^4.1.2",
     "chai-fs": "^2.0.0",
     "chai-string": "^1.4.0",
+    "cheerio": "^1.0.0-rc.3",
     "co": "^4.6.0",
     "ember-ajax": "^3.1.0",
     "ember-cli": "~3.3.0",
