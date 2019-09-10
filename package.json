@@ -102,5 +102,9 @@
     "github": {
       "release": true
     }
+  },
+  "volta": {
+    "node": "8.16.1",
+    "yarn": "1.17.3"
   }
 }
