@@ -1,3 +1,11 @@
+## v2.2.0 (2019-09-10)
+
+* use volta to pin node to ease development
+* Added support to update manifest app files from index.html
+ Embroider Support: Moved app factory module out of fastboot-app-module (#714)
+* Point to ember-data-storefront instead of ember-cached-shoe (#718)
+* Dev server forwards out of scope requests
+
 ## v2.1.1 (2019-06-03)
 
 #### :bug: Bug Fix
