@@ -92,7 +92,10 @@ class EmberApp {
       najax,
       FastBoot: {
         require: sandboxRequire,
-        config: fastbootConfig
+        config: fastbootConfig,
+        get distPath() {
+          return distPath;
+        }
       }
     };
 

@@ -41,6 +41,16 @@ In order to get a `dist` directory, you will first need to build your
 Ember application, which packages it up for using in both the browser
 and in Node.js.
 
+### Default globals
+
+`FastBoot` object will be available to the sandboxed environment. This object has the following form:
+
+```
+FastBoot.require  // provides a mechanism to load additional modules. Note: these modules are only those included in the module whitelist
+FastBoot.config   // a function which takes a key, and returns the corresponding fastboot config value
+FastBoot.distPath // readOnly accessor that provides the dist path for the current fastboot sandbox
+```
+
 ### Additional configuration
 
 `app.visit` takes a second parameter as `options` above which a map and allows to define additional optional per request
