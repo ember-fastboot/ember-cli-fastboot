@@ -1,5 +1,26 @@
 "use strict";
+// let's ensure the fastboot environment looks alright, first by ensuring once
+// the fastboot environment is loaded it's global is both present and looks
+// about right.
+if (!(typeof FastBoot === 'object' && FastBoot !== null)) {
+  throw new Error('FastBoot global should be present');
+}
 
+if (typeof FastBoot.require !== 'function') {
+  throw new Error('FastBoot.require should be a function');
+}
+
+if (typeof FastBoot.config !== 'function') {
+  throw new Error('FastBoot.config should be a function');
+}
+
+if (typeof FastBoot.distPath !== 'string') {
+  throw new Error('FastBoot.distPath should be a string');
+}
+
+if (!FastBoot.distPath.includes('fixtures/config-app')) {
+  throw new Error('FastBoot.distPath should contain fixtures/config-app (the path to the dist) but was: ' + FastBoot.distPath);
+}
 /* jshint ignore:start */
 
 
@@ -7,7 +28,6 @@
 /* jshint ignore:end */
 
 define('fastboot-test/app', ['exports', 'ember', 'fastboot-test/resolver', 'ember-load-initializers', 'fastboot-test/config/environment'], function (exports, _ember, _fastbootTestResolver, _emberLoadInitializers, _fastbootTestConfigEnvironment) {
-
   var App = undefined;
 
   _ember['default'].MODEL_FACTORY_INJECTIONS = true;
