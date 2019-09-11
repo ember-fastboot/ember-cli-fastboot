@@ -1,3 +1,9 @@
+
+## v2.2.1 (2019-09-11)
+
+* move cheerio from devDependency to dependency
+* move broccoli-file-creator from devDependency to dependency
+
 ## v2.2.0 (2019-09-10)
 
 * use volta to pin node to ease development
