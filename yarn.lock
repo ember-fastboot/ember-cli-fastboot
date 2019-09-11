@@ -1858,6 +1858,14 @@ broccoli-file-creator@^1.1.1:
     broccoli-plugin "^1.1.0"
     mkdirp "^0.5.1"
 
+broccoli-file-creator@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/broccoli-file-creator/-/broccoli-file-creator-2.1.1.tgz#7351dd2496c762cfce7736ce9b49e3fce0c7b7db"
+  integrity sha512-YpjOExWr92C5vhnK0kmD81kM7U09kdIRZk9w4ZDCDHuHXW+VE/x6AGEOQQW3loBQQ6Jk+k+TSm8dESy4uZsnjw==
+  dependencies:
+    broccoli-plugin "^1.1.0"
+    mkdirp "^0.5.1"
+
 broccoli-filter@^1.2.2, broccoli-filter@^1.2.3:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/broccoli-filter/-/broccoli-filter-1.3.0.tgz#71e3a8e32a17f309e12261919c5b1006d6766de6"
@@ -2394,6 +2402,7 @@ check-error@^1.0.1:
 cheerio@^1.0.0-rc.3:
   version "1.0.0-rc.3"
   resolved "https://registry.yarnpkg.com/cheerio/-/cheerio-1.0.0-rc.3.tgz#094636d425b2e9c0f4eb91a46c05630c9a1a8bf6"
+  integrity sha512-0td5ijfUPuubwLUu0OBoe98gZj8C/AA+RW3v67GPlGOrvxWjZmBXiBCRU+I8VEiNyJzjth40POfHiz2RB3gImA==
   dependencies:
     css-select "~1.2.0"
     dom-serializer "~0.1.1"
