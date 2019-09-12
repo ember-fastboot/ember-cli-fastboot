@@ -20,6 +20,7 @@ const Funnel = require('broccoli-funnel');
 const p = require('ember-cli-preprocess-registry/preprocessors');
 const fastbootTransform = require('fastboot-transform');
 const existsSync = fs.existsSync;
+const updateManifestFromHtml = require('./lib/embroider/update-manifest-from-html');
 
 let checker;
 function getVersionChecker(context) {
@@ -373,7 +374,7 @@ module.exports = {
 
     return checker.for('ember', 'bower');
   },
-  
+
   _isModuleUnification() {
     return (typeof this.project.isModuleUnification === 'function') && this.project.isModuleUnification();
   }
