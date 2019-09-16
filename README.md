@@ -142,7 +142,7 @@ defer the rendering of the page.
 
 The following example demonstrates how the `deferRendering` method can be
 used to ensure posts data has been loaded asynchronously by a component before
-rendering the entire page. Note how the call should be wrapped in a `fastboot.isFastboot`
+rendering the entire page. Note how the call should be wrapped in a `fastboot.isFastBoot`
 check since the method will throw an exception outside of that context:
 
 ```js
@@ -378,7 +378,7 @@ export default Ember.Route.extend({
 
 ### Think out of the Shoebox
 
-Shoebox gives you great capabilities, but using it in the real app is pretty rough. Have you ever thought that such kind of logic should be done behind the scenes? In a large codebase, defining `fastboot.isFastboot` conditionals can be a daunting task. Furthermore, it generates a lot of boilerplate code, which obscures the solution. Sooner or later coupling with `shoebox` will spread over all routes.
+Shoebox gives you great capabilities, but using it in the real app is pretty rough. Have you ever thought that such kind of logic should be done behind the scenes? In a large codebase, defining `fastboot.isFastBoot` conditionals can be a daunting task. Furthermore, it generates a lot of boilerplate code, which obscures the solution. Sooner or later coupling with `shoebox` will spread over all routes.
 
 Fortunately, there is an addon called [ember-data-storefront](https://embermap.github.io/ember-data-storefront/) that can help to alleviate this pain, thanks to its Fastboot mixin: https://embermap.github.io/ember-data-storefront/docs/guides/fastboot.
 
