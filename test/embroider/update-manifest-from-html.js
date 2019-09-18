@@ -24,7 +24,6 @@ describe('embroider/update-manifest-from-html', function() {
 
   PROJECT.pkg['ember-addon'] = { version: 2 };
 
-  // but when does this case occure
   it(`does nothing if ember-addon is empty`,  function() {
     const project = PROJECT.clone();
 
@@ -37,6 +36,17 @@ describe('embroider/update-manifest-from-html', function() {
     expect(project.toJSON()).to.eql(originalJSON);
   });
 
+  it(`does nothing if ember-addon is missing`,  function() {
+    const project = PROJECT.clone();
+
+    delete project.pkg['ember-addon'];
+    project.writeSync();
+
+    const originalJSON = project.toJSON();
+    updateManifestFromHtml(project.root + '/my-app')
+    project.readSync();
+    expect(project.toJSON()).to.eql(originalJSON);
+  });
   // TODO: these heuristics being tested seem brittle, we should do something else.
   it(`works correctly ass files are added/removed`,  function() {
     const project = PROJECT.clone();
