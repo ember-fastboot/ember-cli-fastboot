@@ -3190,11 +3190,13 @@ ember-cli-htmlbars@^3.0.0:
     json-stable-stringify "^1.0.0"
     strip-bom "^3.0.0"
 
-ember-cli-inject-live-reload@^1.8.2:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/ember-cli-inject-live-reload/-/ember-cli-inject-live-reload-1.8.2.tgz#29f875ad921e9a1dec65d2d75018891972d240bc"
+ember-cli-inject-live-reload@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/ember-cli-inject-live-reload/-/ember-cli-inject-live-reload-2.0.2.tgz#95edb543b386239d35959e5ea9579f5382976ac7"
+  integrity sha512-HDD6o/kBHT/kUtazklU0OW23q2jigIN42QmcpFdXUSvJ2/2SYA6yIqSUxWfJgISmtn5gTNZ2KPq1p3dLkhJxSQ==
   dependencies:
     clean-base-url "^1.0.0"
+    ember-cli-version-checker "^3.1.3"
 
 ember-cli-is-package-missing@^1.0.0:
   version "1.0.0"
@@ -3282,6 +3284,14 @@ ember-cli-version-checker@^3.0.0:
   resolved "https://registry.yarnpkg.com/ember-cli-version-checker/-/ember-cli-version-checker-3.0.0.tgz#4fb5c040ee7644a61794a3570f0ec699cafe4da6"
   dependencies:
     resolve "^1.9.0"
+    semver "^5.6.0"
+
+ember-cli-version-checker@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/ember-cli-version-checker/-/ember-cli-version-checker-3.1.3.tgz#7c9b4f5ff30fdebcd480b1c06c4de43bb51c522c"
+  integrity sha512-PZNSvpzwWgv68hcXxyjREpj3WWb81A7rtYNQq1lLEgrWIchF8ApKJjWP3NBpHjaatwILkZAV8klair5WFlXAKg==
+  dependencies:
+    resolve-package-path "^1.2.6"
     semver "^5.6.0"
 
 ember-cli@~3.3.0:
@@ -6770,6 +6780,18 @@ path-posix@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/path-posix/-/path-posix-1.0.0.tgz#06b26113f56beab042545a23bfa88003ccac260f"
 
+path-root-regex@^0.1.0:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/path-root-regex/-/path-root-regex-0.1.2.tgz#bfccdc8df5b12dc52c8b43ec38d18d72c04ba96d"
+  integrity sha1-v8zcjfWxLcUsi0PsONGNcsBLqW0=
+
+path-root@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/path-root/-/path-root-0.1.1.tgz#9a4a6814cac1c0cd73360a95f32083c8ea4745b7"
+  integrity sha1-mkpoFMrBwM1zNgqV8yCDyOpHRbc=
+  dependencies:
+    path-root-regex "^0.1.0"
+
 path-to-regexp@0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
@@ -7346,6 +7368,14 @@ resolve-from@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-3.0.0.tgz#b22c7af7d9d6881bc8b6e653335eebcb0a188748"
 
+resolve-package-path@^1.2.6:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/resolve-package-path/-/resolve-package-path-1.2.7.tgz#2a7bc37ad96865e239330e3102c31322847e652e"
+  integrity sha512-fVEKHGeK85bGbVFuwO9o1aU0n3vqQGrezPc51JGu9UTXpFQfWq5qCeKxyaRUSvephs+06c5j5rPq/dzHGEo8+Q==
+  dependencies:
+    path-root "^0.1.1"
+    resolve "^1.10.0"
+
 resolve-url@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/resolve-url/-/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
@@ -7359,6 +7389,13 @@ resolve@1.5.0:
 resolve@^1.1.6:
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.10.1.tgz#664842ac960795bbe758221cdccda61fb64b5f18"
+  dependencies:
+    path-parse "^1.0.6"
+
+resolve@^1.10.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.12.0.tgz#3fc644a35c84a48554609ff26ec52b66fa577df6"
+  integrity sha512-B/dOmuoAik5bKcD6s6nXDCjzUKnaDvdkRyAk6rsmsKLipWj4797iothd7jmmUhWTfinVMU+wc56rYKsit2Qy4w==
   dependencies:
     path-parse "^1.0.6"
 
