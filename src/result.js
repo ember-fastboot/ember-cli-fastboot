@@ -48,7 +48,13 @@ class Result {
       }
     }
 
-    return insertIntoIndexHTML(this._html, this._htmlAttributes, this._head, this._body, this._bodyAttributes);
+    return insertIntoIndexHTML(
+      this._html,
+      this._htmlAttributes,
+      this._head,
+      this._body,
+      this._bodyAttributes
+    );
   }
 
   /**
@@ -63,7 +69,13 @@ class Result {
    * @returns {Promise<Array<String>>} the application's DOM serialized to HTML, split into chunks
    */
   chunks() {
-    return insertIntoIndexHTML(this._html, this._htmlAttributes, this._head, this._body, this._bodyAttributes).then((html) => {
+    return insertIntoIndexHTML(
+      this._html,
+      this._htmlAttributes,
+      this._head,
+      this._body,
+      this._bodyAttributes
+    ).then(html => {
       let docParts = html.match(HTML_HEAD_REGEX);
       if (!docParts || docParts.length === 1) {
         return [html];
@@ -72,16 +84,16 @@ class Result {
       let [, head, body] = docParts;
 
       if (!head || !body) {
-        throw new Error('Could not idenfity head and body of the document! Make sure the document is well formed.');
+        throw new Error(
+          'Could not idenfity head and body of the document! Make sure the document is well formed.'
+        );
       }
 
-      let [ plainBody, ...shoeboxes ] = body.split(SHOEBOX_TAG_PATTERN);
+      let [plainBody, ...shoeboxes] = body.split(SHOEBOX_TAG_PATTERN);
 
-      let chunks = [
-        head,
-        plainBody
-      ]
-        .concat(shoeboxes.map(shoebox => `${SHOEBOX_TAG_PATTERN}${shoebox}`));
+      let chunks = [head, plainBody].concat(
+        shoeboxes.map(shoebox => `${SHOEBOX_TAG_PATTERN}${shoebox}`)
+      );
 
       return chunks;
     });
@@ -95,7 +107,7 @@ class Result {
   domContents() {
     return {
       head: this._head,
-      body: this._body
+      body: this._body,
     };
   }
 
@@ -109,7 +121,7 @@ class Result {
    */
   _finalize() {
     if (this.finalized) {
-      throw new Error("Results cannot be finalized more than once");
+      throw new Error('Results cannot be finalized more than once');
     }
 
     // Grab some metadata from the sandboxed application instance
@@ -180,11 +192,15 @@ class Result {
 }
 
 function missingTag(tag) {
-  throw new Error(`Fastboot was not able to find ${tag} in base HTML. It could not replace the contents.`);
+  throw new Error(
+    `Fastboot was not able to find ${tag} in base HTML. It could not replace the contents.`
+  );
 }
 
 async function insertIntoIndexHTML(html, htmlAttributes, head, body, bodyAttributes) {
-  if (!html) { return Promise.resolve(html); }
+  if (!html) {
+    return Promise.resolve(html);
+  }
   let isBodyReplaced = false;
   let isHeadReplaced = false;
 

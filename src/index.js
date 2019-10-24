@@ -88,15 +88,21 @@ class FastBoot {
     this._buildEmberApp(distPath);
   }
 
-  _buildEmberApp(distPath = this.distPath, sandbox = this.sandbox, sandboxGlobals = this.sandboxGlobals) {
+  _buildEmberApp(
+    distPath = this.distPath,
+    sandbox = this.sandbox,
+    sandboxGlobals = this.sandboxGlobals
+  ) {
     if (!distPath) {
-      throw new Error('You must instantiate FastBoot with a distPath ' +
-                      'option that contains a path to a dist directory ' +
-                      'produced by running ember fastboot:build in your Ember app:' +
-                      '\n\n' +
-                      'new FastBootServer({\n' +
-                      '  distPath: \'path/to/dist\'\n' +
-                      '});');
+      throw new Error(
+        'You must instantiate FastBoot with a distPath ' +
+          'option that contains a path to a dist directory ' +
+          'produced by running ember fastboot:build in your Ember app:' +
+          '\n\n' +
+          'new FastBootServer({\n' +
+          "  distPath: 'path/to/dist'\n" +
+          '});'
+      );
     }
 
     this.distPath = distPath;
@@ -107,7 +113,6 @@ class FastBoot {
       sandboxGlobals,
     });
   }
-
 }
 
 module.exports = FastBoot;

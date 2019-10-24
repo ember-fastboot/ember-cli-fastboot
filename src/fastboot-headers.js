@@ -38,9 +38,9 @@ class FastBootHeaders {
   entries() {
     let entries = [];
 
-    for(let key in this.headers) {
+    for (let key in this.headers) {
       let values = this.headers[key];
-      for(let index = 0; index < values.length; ++index ) {
+      for (let index = 0; index < values.length; ++index) {
         entries.push([key, values[index]]);
       }
     }
@@ -63,9 +63,9 @@ class FastBootHeaders {
   keys() {
     let entries = [];
 
-    for(let key in this.headers) {
+    for (let key in this.headers) {
       let values = this.headers[key];
-      for(let index = 0; index < values.length; ++index ) {
+      for (let index = 0; index < values.length; ++index) {
         entries.push(key);
       }
     }
@@ -81,9 +81,9 @@ class FastBootHeaders {
   values() {
     let entries = [];
 
-    for(let key in this.headers) {
+    for (let key in this.headers) {
       let values = this.headers[key];
-      for(let index = 0; index < values.length; ++index ) {
+      for (let index = 0; index < values.length; ++index) {
         entries.push(values[index]);
       }
     }
@@ -92,7 +92,9 @@ class FastBootHeaders {
   }
 
   unknownProperty(maybeHeader) {
-    console.warn(`You called \`Ember.get(headers, '${maybeHeader}')\` with a FastBootHeaders instance as first argument. FastBootHeader is not an Ember object and you should use \`headers.get('${maybeHeader}')\` instead.`);
+    console.warn(
+      `You called \`Ember.get(headers, '${maybeHeader}')\` with a FastBootHeaders instance as first argument. FastBootHeader is not an Ember object and you should use \`headers.get('${maybeHeader}')\` instead.`
+    );
     return this.get(maybeHeader);
   }
 }

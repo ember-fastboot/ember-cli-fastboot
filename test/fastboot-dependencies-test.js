@@ -4,13 +4,14 @@ const expect = require('chai').expect;
 const fixture = require('./helpers/fixture-path');
 const FastBoot = require('./../src/index');
 
-describe("FastBoot with dependencies", function() {
-  it("it works with dependencies", function() {
+describe('FastBoot with dependencies', function() {
+  it('it works with dependencies', function() {
     var fastboot = new FastBoot({
-      distPath: fixture('app-with-dependencies')
+      distPath: fixture('app-with-dependencies'),
     });
 
-    return fastboot.visit('/')
+    return fastboot
+      .visit('/')
       .then(r => r.html())
       .then(html => {
         expect(html).to.match(/https:\/\/emberjs.com/);

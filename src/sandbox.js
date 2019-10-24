@@ -3,7 +3,6 @@
 const chalk = require('chalk');
 
 class Sandbox {
-
   constructor(options = {}) {
     this.globals = options.globals;
     this.sandbox = this.buildSandbox();
@@ -23,7 +22,7 @@ class Sandbox {
       URL,
 
       // Convince jQuery not to assume it's in a browser
-      module: { exports: {} }
+      module: { exports: {} },
     };
 
     Object.assign(sandbox, globals);
@@ -39,9 +38,12 @@ class Sandbox {
     let wrappedConsole = Object.create(console);
 
     wrappedConsole.error = function(...args) {
-      console.error.apply(console, args.map(function(a) {
-        return typeof a === 'string' ? chalk.red(a) : a;
-      }));
+      console.error.apply(
+        console,
+        args.map(function(a) {
+          return typeof a === 'string' ? chalk.red(a) : a;
+        })
+      );
     };
 
     return wrappedConsole;
