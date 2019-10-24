@@ -1,11 +1,13 @@
 'use strict';
 
 const chalk = require('chalk');
+const vm = require('vm');
 
-class Sandbox {
+module.exports = class Sandbox {
   constructor(options = {}) {
     this.globals = options.globals;
     this.sandbox = this.buildSandbox();
+    vm.createContext(this.sandbox);
   }
 
   buildSandbox() {
@@ -48,6 +50,13 @@ class Sandbox {
 
     return wrappedConsole;
   }
-}
 
-module.exports = Sandbox;
+  eval(source, filePath) {
+    var fileScript = new vm.Script(source, { filename: filePath });
+    fileScript.runInContext(this.sandbox);
+  }
+
+  run(cb) {
+    return cb.call(this.sandbox, this.sandbox);
+  }
+};

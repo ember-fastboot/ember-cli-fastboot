@@ -47,7 +47,7 @@ class FastBoot {
     this.resilient = 'resilient' in options ? Boolean(options.resilient) : false;
 
     this.distPath = distPath;
-    this.sandbox = sandbox || require('./vm-sandbox');
+    this.sandbox = sandbox || require('./sandbox');
     this.sandboxGlobals = sandboxGlobals || {};
 
     this._buildEmberApp(this.distPath, this.sandbox, this.sandboxGlobals);
