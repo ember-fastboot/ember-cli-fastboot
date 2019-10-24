@@ -363,28 +363,32 @@ describe('FastBoot', function() {
       .then(html => expect(html).to.match(/Welcome to Ember/));
   });
 
-  it('reloads the config when package.json changes', function() {
+  it('reloads the config when package.json changes', async function() {
     var distPath = fixture('config-swap-app');
     var packagePath = path.join(distPath, 'package.json');
     var package1Path = path.join(distPath, 'package-1.json');
     var package2Path = path.join(distPath, 'package-2.json');
 
     copyPackage(package1Path);
+
     var fastboot = new FastBoot({
       distPath: distPath,
     });
 
-    return fastboot
-      .visit('/')
-      .then(r => r.html())
-      .then(html => expect(html).to.match(/Config foo: bar/))
-      .then(() => deletePackage())
-      .then(() => copyPackage(package2Path))
-      .then(hotReloadApp)
-      .then(() => fastboot.visit('/'))
-      .then(r => r.html())
-      .then(html => expect(html).to.match(/Config foo: boo/))
-      .finally(() => deletePackage());
+    try {
+      await fastboot
+        .visit('/')
+        .then(r => r.html())
+        .then(html => expect(html).to.match(/Config foo: bar/))
+        .then(() => deletePackage())
+        .then(() => copyPackage(package2Path))
+        .then(hotReloadApp)
+        .then(() => fastboot.visit('/'))
+        .then(r => r.html())
+        .then(html => expect(html).to.match(/Config foo: boo/));
+    } finally {
+      deletePackage();
+    }
 
     function hotReloadApp() {
       fastboot.reload({
