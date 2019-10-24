@@ -1,6 +1,5 @@
 'use strict';
 
-const RSVP = require('rsvp');
 const FastBootRequest = require('./fastboot-request');
 const FastBootResponse = require('./fastboot-response');
 
@@ -15,11 +14,11 @@ const FastBootResponse = require('./fastboot-response');
  * @param {Array} [options.hostWhitelist] expected hosts in your application
  * @param {Object} [options.metaData] per request meta data
  */
-class FastBootInfo {
+module.exports = class FastBootInfo {
   constructor(request, response, options) {
-    this.deferredPromise = RSVP.resolve();
-    let hostWhitelist = options.hostWhitelist;
-    let metadata = options.metadata;
+    this.deferredPromise = Promise.resolve();
+    let { hostWhitelist, metadata } = options;
+
     if (request) {
       this.request = new FastBootRequest(request, hostWhitelist);
     }
@@ -29,9 +28,7 @@ class FastBootInfo {
   }
 
   deferRendering(promise) {
-    this.deferredPromise = this.deferredPromise.then(function() {
-      return promise;
-    });
+    this.deferredPromise = Promise.all(this.deferredPromise, promise);
   }
 
   /*
@@ -43,7 +40,4 @@ class FastBootInfo {
     instance.register('info:-fastboot', this, { instantiate: false });
     instance.inject('service:fastboot', '_fastbootInfo', 'info:-fastboot');
   }
-}
-
-
-module.exports = FastBootInfo;
+};

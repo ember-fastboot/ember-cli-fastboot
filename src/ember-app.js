@@ -71,9 +71,10 @@ class EmberApp {
    * @param {Object} [sandboxGlobals={}] any additional variables to expose in the sandbox or override existing in the sandbox
    */
   buildSandbox(distPath, sandboxClass, sandboxGlobals) {
+    const { config, appName } = this;
+
     let sandboxRequire = this.buildWhitelistedRequire(this.moduleWhitelist, distPath);
-    const config = this.config;
-    const appName = this.appName;
+
     function fastbootConfig(key) {
       if (!key) {
         // default to app key
@@ -93,6 +94,7 @@ class EmberApp {
       FastBoot: {
         require: sandboxRequire,
         config: fastbootConfig,
+
         get distPath() {
           return distPath;
         }
@@ -422,12 +424,12 @@ class EmberApp {
     }
 
     debug("reading array of app file paths from manifest");
-    var appFiles = manifest.appFiles.map(function(appFile) {
+    let appFiles = manifest.appFiles.map(function(appFile) {
       return path.join(distPath, appFile);
     });
 
     debug("reading array of vendor file paths from manifest");
-    var vendorFiles = manifest.vendorFiles.map(function(vendorFile) {
+    let vendorFiles = manifest.vendorFiles.map(function(vendorFile) {
       return path.join(distPath, vendorFile);
     });
 

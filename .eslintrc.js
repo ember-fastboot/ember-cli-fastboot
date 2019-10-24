@@ -6,7 +6,7 @@ module.exports = {
     },
     'extends': ['eslint:recommended', 'plugin:node/recommended'],
     'parserOptions': {
-        'ecmaVersion': 6
+        'ecmaVersion': 2017
     },
     'rules': {
         'no-console': ['error', { 'allow': ['warn', 'error']}],

@@ -12,11 +12,14 @@ const HTML_HEAD_REGEX = /^([\s\S]*<\/head>)([\s\S]*)/;
  * method.
  */
 class Result {
-  constructor(options) {
+  constructor(options = {}) {
+    let { doc, html, fastbootInfo } = options;
+
     this._instanceDestroyed = false;
-    this._doc = options.doc;
-    this._html = options.html;
-    this._fastbootInfo = options.fastbootInfo;
+
+    this._doc = doc;
+    this._html = html;
+    this._fastbootInfo = fastbootInfo;
   }
 
   /**
@@ -66,22 +69,19 @@ class Result {
         return [html];
       }
 
-      let head = docParts[1];
-      let body = docParts[2];
+      let [, head, body] = docParts;
 
       if (!head || !body) {
         throw new Error('Could not idenfity head and body of the document! Make sure the document is well formed.');
       }
 
-      let chunks = [head];
-      let bodyParts = body.split(SHOEBOX_TAG_PATTERN);
-      let plainBody = bodyParts[0];
-      chunks.push(plainBody);
+      let [ plainBody, ...shoeboxes ] = body.split(SHOEBOX_TAG_PATTERN);
 
-      let shoeboxes = bodyParts.splice(1);
-      shoeboxes.forEach((shoebox) => {
-        chunks.push(`${SHOEBOX_TAG_PATTERN}${shoebox}`);
-      });
+      let chunks = [
+        head,
+        plainBody
+      ]
+        .concat(shoeboxes.map(shoebox => `${SHOEBOX_TAG_PATTERN}${shoebox}`));
 
       return chunks;
     });
@@ -114,7 +114,7 @@ class Result {
 
     // Grab some metadata from the sandboxed application instance
     // and copy it to this Result object.
-    let instance = this.instance;
+    let { instance } = this;
     if (instance) {
       this._finalizeMetadata(instance);
     }
@@ -130,7 +130,7 @@ class Result {
       this.url = instance.getURL();
     }
 
-    let response = this._fastbootInfo.response;
+    let { response } = this._fastbootInfo;
 
     if (response) {
       this.headers = response.headers;
@@ -142,8 +142,10 @@ class Result {
     if (this.instance && !this._instanceDestroyed) {
       this._instanceDestroyed = true;
       this.instance.destroy();
+
       return true;
     }
+
     return false;
   }
 
@@ -178,10 +180,10 @@ class Result {
 }
 
 function missingTag(tag) {
-  return Promise.reject(new Error(`Fastboot was not able to find ${tag} in base HTML. It could not replace the contents.`));
+  throw new Error(`Fastboot was not able to find ${tag} in base HTML. It could not replace the contents.`);
 }
 
-function insertIntoIndexHTML(html, htmlAttributes, head, body, bodyAttributes) {
+async function insertIntoIndexHTML(html, htmlAttributes, head, body, bodyAttributes) {
   if (!html) { return Promise.resolve(html); }
   let isBodyReplaced = false;
   let isHeadReplaced = false;
@@ -210,13 +212,13 @@ function insertIntoIndexHTML(html, htmlAttributes, head, body, bodyAttributes) {
   }
 
   if (head && !isHeadReplaced) {
-    return missingTag('<!--EMBER_CLI_FASTBOOT_HEAD-->');
+    missingTag('<!--EMBER_CLI_FASTBOOT_HEAD-->');
   }
   if (body && !isBodyReplaced) {
-    return missingTag('<!--EMBER_CLI_FASTBOOT_BODY-->');
+    missingTag('<!--EMBER_CLI_FASTBOOT_BODY-->');
   }
 
-  return Promise.resolve(html);
+  return html;
 }
 
 module.exports = Result;

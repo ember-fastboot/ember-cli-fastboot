@@ -4,31 +4,29 @@ const chalk = require('chalk');
 
 class Sandbox {
 
-  constructor(options) {
+  constructor(options = {}) {
     this.globals = options.globals;
     this.sandbox = this.buildSandbox();
   }
 
   buildSandbox() {
-    var console = this.buildWrappedConsole();
-    var sourceMapSupport = require('./install-source-map-support');
-    var URL = require('url');
-    var globals = this.globals;
+    let console = this.buildWrappedConsole();
+    let sourceMapSupport = require('./install-source-map-support');
+    let URL = require('url');
+    let globals = this.globals;
 
-    var sandbox = {
-      sourceMapSupport: sourceMapSupport,
-      console: console,
-      setTimeout: setTimeout,
-      clearTimeout: clearTimeout,
-      URL: URL,
+    let sandbox = {
+      sourceMapSupport,
+      console,
+      setTimeout,
+      clearTimeout,
+      URL,
 
       // Convince jQuery not to assume it's in a browser
       module: { exports: {} }
     };
 
-    for (var key in globals) {
-      sandbox[key] = globals[key];
-    }
+    Object.assign(sandbox, globals);
 
     // Set the global as `window`.
     sandbox.window = sandbox;
@@ -38,9 +36,10 @@ class Sandbox {
   }
 
   buildWrappedConsole() {
-    var wrappedConsole =  Object.create(console);
-    wrappedConsole.error = function() {
-      console.error.apply(console, Array.prototype.map.call(arguments, function(a) {
+    let wrappedConsole = Object.create(console);
+
+    wrappedConsole.error = function(...args) {
+      console.error.apply(console, args.map(function(a) {
         return typeof a === 'string' ? chalk.red(a) : a;
       }));
     };
