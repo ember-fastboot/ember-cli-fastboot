@@ -17,7 +17,6 @@ class VMSandbox extends Sandbox {
   run(cb) {
     return cb.call(this.sandbox, this.sandbox);
   }
-
 }
 
 module.exports = VMSandbox;

@@ -41,13 +41,14 @@ class FastBoot {
    * @param {Sandbox} [options.sandbox=VMSandbox] the sandbox to use
    * @param {Object} [options.sandboxGlobals={}] any additional sandbox variables that an app server wants to override and/or add in the sandbox
    */
-  constructor(options) {
-    options = options || {};
+  constructor(options = {}) {
+    let { distPath, sandbox, sandboxGlobals } = options;
 
-    this.distPath = options.distPath;
-    this.sandbox = options.sandbox || require('./vm-sandbox');
-    this.sandboxGlobals = options.sandboxGlobals || {};
-    this.resilient = !!options.resilient || false;
+    this.resilient = 'resilient' in options ? Boolean(options.resilient) : false;
+
+    this.distPath = distPath;
+    this.sandbox = sandbox || require('./vm-sandbox');
+    this.sandboxGlobals = sandboxGlobals || {};
 
     this._buildEmberApp(this.distPath, this.sandbox, this.sandboxGlobals);
   }
@@ -67,57 +68,51 @@ class FastBoot {
    * @param {Integer} [options.destroyAppInstanceInMs] whether to destroy the instance in the given number of ms. This is a failure mechanism to not wedge the Node process (See: https://github.com/ember-fastboot/fastboot/issues/90)
    * @returns {Promise<Result>} result
    */
-  visit(path, options) {
-    options = options || {};
+  async visit(path, options = {}) {
+    let resilient = 'resilient' in options ? options.resilient : this.resilient;
 
-    let resilient = options.resilient;
+    let result = await this._app.visit(path, options);
 
-    if (resilient === undefined) {
-      resilient = this.resilient;
+    if (!resilient && result.error) {
+      throw result.error;
+    } else {
+      return result;
     }
-
-    return this._app.visit(path, options)
-      .then(result => {
-        if (!resilient && result.error) {
-          throw result.error;
-        } else {
-          return result;
-        }
-      });
   }
 
-  reload(options) {
+  reload({ distPath }) {
     if (this._app) {
       this._app.destroy();
     }
 
-    options = options || {};
-    this._buildEmberApp(options.distPath || null);
+    this._buildEmberApp(distPath);
   }
 
-  _buildEmberApp(distPath, sandbox, sandboxGlobals) {
-    distPath = distPath || this.distPath;
-    sandbox = sandbox || this.sandbox;
-    sandboxGlobals = sandboxGlobals || this.sandboxGlobals;
-
+  _buildEmberApp(
+    distPath = this.distPath,
+    sandbox = this.sandbox,
+    sandboxGlobals = this.sandboxGlobals
+  ) {
     if (!distPath) {
-      throw new Error('You must instantiate FastBoot with a distPath ' +
-                      'option that contains a path to a dist directory ' +
-                      'produced by running ember fastboot:build in your Ember app:' +
-                      '\n\n' +
-                      'new FastBootServer({\n' +
-                      '  distPath: \'path/to/dist\'\n' +
-                      '});');
+      throw new Error(
+        'You must instantiate FastBoot with a distPath ' +
+          'option that contains a path to a dist directory ' +
+          'produced by running ember fastboot:build in your Ember app:' +
+          '\n\n' +
+          'new FastBootServer({\n' +
+          "  distPath: 'path/to/dist'\n" +
+          '});'
+      );
     }
 
     this.distPath = distPath;
+
     this._app = new EmberApp({
-      distPath: distPath,
-      sandbox: sandbox,
-      sandboxGlobals: sandboxGlobals
+      distPath,
+      sandbox,
+      sandboxGlobals,
     });
   }
-
 }
 
 module.exports = FastBoot;

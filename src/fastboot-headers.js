@@ -6,7 +6,7 @@ class FastBootHeaders {
     headers = headers || {};
     this.headers = {};
 
-    for (var header in headers) {
+    for (let header in headers) {
       let value = headers[header];
 
       // Express gives us either a string
@@ -36,11 +36,11 @@ class FastBootHeaders {
   }
 
   entries() {
-    var entries = [];
+    let entries = [];
 
-    for(var key in this.headers) {
-      var values = this.headers[key];
-      for(var index = 0; index < values.length; ++index ) {
+    for (let key in this.headers) {
+      let values = this.headers[key];
+      for (let index = 0; index < values.length; ++index) {
         entries.push([key, values[index]]);
       }
     }
@@ -61,11 +61,11 @@ class FastBootHeaders {
   }
 
   keys() {
-    var entries = [];
+    let entries = [];
 
-    for(var key in this.headers) {
-      var values = this.headers[key];
-      for(var index = 0; index < values.length; ++index ) {
+    for (let key in this.headers) {
+      let values = this.headers[key];
+      for (let index = 0; index < values.length; ++index) {
         entries.push(key);
       }
     }
@@ -79,11 +79,11 @@ class FastBootHeaders {
   }
 
   values() {
-    var entries = [];
+    let entries = [];
 
-    for(var key in this.headers) {
-      var values = this.headers[key];
-      for(var index = 0; index < values.length; ++index ) {
+    for (let key in this.headers) {
+      let values = this.headers[key];
+      for (let index = 0; index < values.length; ++index) {
         entries.push(values[index]);
       }
     }
@@ -92,7 +92,9 @@ class FastBootHeaders {
   }
 
   unknownProperty(maybeHeader) {
-    console.warn(`You called \`Ember.get(headers, '${maybeHeader}')\` with a FastBootHeaders instance as first argument. FastBootHeader is not an Ember object and you should use \`headers.get('${maybeHeader}')\` instead.`);
+    console.warn(
+      `You called \`Ember.get(headers, '${maybeHeader}')\` with a FastBootHeaders instance as first argument. FastBootHeader is not an Ember object and you should use \`headers.get('${maybeHeader}')\` instead.`
+    );
     return this.get(maybeHeader);
   }
 }

@@ -55,8 +55,6 @@ class FastBootRequest {
     // Return an empty object instead of undefined if no cookies are present.
     return {};
   }
-
 }
-
 
 module.exports = FastBootRequest;
