@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "changelog": "lerna-changelog",
-    "lint:js": "node_modules/.bin/eslint src test",
+    "lint:js": "eslint --cache .",
     "test": "npm run-script lint:js && mocha",
     "preversion": "npm test",
     "postversion": "git push origin master --tags"
@@ -41,13 +41,16 @@
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
     "ember-source": "3.8.0",
-    "eslint": "^5.10.0",
+    "eslint": "^6.5.1",
+    "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-chai-expect": "^2.0.1",
-    "eslint-plugin-mocha": "^5.2.0",
-    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-mocha": "^6.2.0",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "express": "^4.15.4",
     "lerna-changelog": "^0.8.2",
     "mocha": "^5.2.0",
+    "prettier": "^1.18.2",
     "rimraf": "^2.6.2",
     "temp": "^0.8.3"
   }
