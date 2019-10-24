@@ -45,7 +45,7 @@ class EmberApp {
     if (process.env.APP_CONFIG) {
       let appConfig = JSON.parse(process.env.APP_CONFIG);
       let appConfigKey = this.appName;
-      if (!appConfig.hasOwnProperty(appConfigKey)) {
+      if (!(appConfigKey in appConfig)) {
         this.config[appConfigKey] = appConfig;
       }
     }
