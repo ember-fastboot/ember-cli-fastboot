@@ -33,7 +33,6 @@
     "debug": "^4.1.1",
     "najax": "^1.0.4",
     "resolve": "^1.12.0",
-    "rsvp": "^4.8.0",
     "simple-dom": "^1.4.0",
     "source-map-support": "^0.5.13"
   },
