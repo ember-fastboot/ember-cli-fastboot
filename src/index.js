@@ -80,6 +80,14 @@ class FastBoot {
     }
   }
 
+  /**
+   * Destroy the existing Ember application instance, and recreate it from the provided dist path.
+   * This is commonly done when `dist` has been updated, and you need to prepare to serve requests
+   * with the updated assets.
+   *
+   * @param {Object} options
+   * @param {string} options.distPath the path to the built Ember application
+   */
   reload({ distPath }) {
     if (this._app) {
       this._app.destroy();
