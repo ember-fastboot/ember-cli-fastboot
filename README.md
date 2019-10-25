@@ -28,7 +28,6 @@ let app = new FastBoot({
   distPath: 'path/to/dist',
   // optional boolean flag when set to true does not reject the promise if there are rendering errors (defaults to false)
   resilient: <boolean>,
-  sandbox: 'path/to/sandbox/class', // optional sandbox class (defaults to vm-sandbox)
   sandboxGlobals: {...} // optional map of key value pairs to expose in the sandbox
 });
 

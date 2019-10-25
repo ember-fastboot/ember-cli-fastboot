@@ -9,6 +9,7 @@ const SimpleDOM = require('simple-dom');
 const resolve = require('resolve');
 const debug = require('debug')('fastboot:ember-app');
 
+const Sandbox = require('./sandbox');
 const FastBootInfo = require('./fastboot-info');
 const Result = require('./result');
 const FastBootSchemaVersions = require('./fastboot-schema-versions');
@@ -27,12 +28,10 @@ class EmberApp {
    * Create a new EmberApp.
    * @param {Object} options
    * @param {string} options.distPath - path to the built Ember application
-   * @param {Sandbox} [options.sandbox=VMSandbox] - sandbox to use
    * @param {Object} [options.sandboxGlobals] - sandbox variables that can be added or used for overrides in the sandbox.
    */
   constructor(options) {
     // TODO: make these two into builder functions
-    this.SandboxClass = options.sandbox;
     this.sandboxGlobals = options.sandboxGlobals;
 
     let distPath = (this.distPath = path.resolve(options.distPath));
@@ -70,7 +69,7 @@ class EmberApp {
    * Builds and initializes a new sandbox to run the Ember application in.
    */
   buildSandbox() {
-    const { distPath, SandboxClass, sandboxGlobals, config, appName, sandboxRequire } = this;
+    const { distPath, sandboxGlobals, config, appName, sandboxRequire } = this;
 
     function fastbootConfig(key) {
       if (!key) {
@@ -101,7 +100,7 @@ class EmberApp {
       sandboxGlobals
     );
 
-    return new SandboxClass(globals);
+    return new Sandbox(globals);
   }
 
   /**

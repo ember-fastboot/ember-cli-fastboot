@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 const fixture = require('./helpers/fixture-path');
 const FastBoot = require('./../src/index');
-const CustomSandbox = require('./fixtures/custom-sandbox/custom-sandbox');
 
 describe('FastBoot', function() {
   it('throws an exception if no distPath is provided', function() {
@@ -166,25 +165,6 @@ describe('FastBoot', function() {
       });
   });
 
-  it('can render HTML when sandbox class is provided', function() {
-    var fastboot = new FastBoot({
-      distPath: fixture('custom-sandbox'),
-      sandboxClass: CustomSandbox,
-      sandboxGlobals: {
-        myVar: 2,
-        foo: 'undefined',
-        najax: 'undefined',
-      },
-    });
-
-    return fastboot
-      .visit('/foo')
-      .then(r => r.html())
-      .then(html => {
-        expect(html).to.match(/myVar in sandbox: 2/);
-      });
-  });
-
   it('rejects the promise if an error occurs', function() {
     var fastboot = new FastBoot({
       distPath: fixture('rejected-promise'),
@@ -273,35 +253,6 @@ describe('FastBoot', function() {
       .then(html => {
         expect(html).to.match(/foo from sandbox: 5/);
         expect(html).to.match(/najax in sandbox: undefined/);
-      });
-
-    function hotReloadApp() {
-      fastboot.reload({
-        distPath: fixture('custom-sandbox'),
-      });
-    }
-  });
-
-  it('can reload the app using the same sandbox class', function() {
-    var fastboot = new FastBoot({
-      distPath: fixture('basic-app'),
-      sandbox: CustomSandbox,
-      sandboxGlobals: {
-        myVar: 2,
-        foo: 'undefined',
-        najax: 'undefined',
-      },
-    });
-
-    return fastboot
-      .visit('/')
-      .then(r => r.html())
-      .then(html => expect(html).to.match(/Welcome to Ember/))
-      .then(hotReloadApp)
-      .then(() => fastboot.visit('/foo'))
-      .then(r => r.html())
-      .then(html => {
-        expect(html).to.match(/myVar in sandbox: 2/);
       });
 
     function hotReloadApp() {
