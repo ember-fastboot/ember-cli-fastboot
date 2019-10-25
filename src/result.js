@@ -12,14 +12,13 @@ const HTML_HEAD_REGEX = /^([\s\S]*<\/head>)([\s\S]*)/;
  * method.
  */
 class Result {
-  constructor(options = {}) {
-    let { doc, html, fastbootInfo } = options;
-
+  constructor(doc, html, fastbootInfo) {
     this._instanceDestroyed = false;
 
     this._doc = doc;
     this._html = html;
     this._fastbootInfo = fastbootInfo;
+    this.instance = undefined;
   }
 
   /**

@@ -11,18 +11,13 @@ const Sandbox = require('./../../../src/sandbox');
  *
  */
 class CustomSandbox extends Sandbox {
-  constructor(options) {
-    super(options);
-    vm.createContext(this.sandbox);
-  }
-
   /**
    * Evals the file in the sandbox.
    *
    */
   eval(source, filePath) {
     var fileScript = new vm.Script(source, { filename: filePath });
-    fileScript.runInContext(this.sandbox);
+    fileScript.runInContext(this.context);
   }
 
   /**
@@ -32,7 +27,7 @@ class CustomSandbox extends Sandbox {
    * @todo: use this when we create app factory from addon
    */
   run(cb) {
-    return cb.call(this.sandbox, this.sandbox);
+    return cb.call(this.context, this.context);
   }
 
   /**
