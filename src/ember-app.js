@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const vm = require('vm');
 const path = require('path');
 const chalk = require('chalk');
 
@@ -37,8 +38,6 @@ class EmberApp {
     let distPath = (this.distPath = path.resolve(options.distPath));
     let config = this.readPackageJSON(distPath);
 
-    this.appFilePaths = config.appFiles;
-    this.vendorFilePaths = config.vendorFiles;
     this.moduleWhitelist = config.moduleWhitelist;
     this.hostWhitelist = config.hostWhitelist;
     this.config = config.config;
@@ -61,6 +60,11 @@ class EmberApp {
     this.html = fs.readFileSync(config.htmlFile, 'utf8');
 
     this.sandboxRequire = this.buildWhitelistedRequire(this.moduleWhitelist, distPath);
+    let filePaths = [require.resolve('./scripts/install-source-map-support')].concat(
+      config.vendorFiles,
+      config.appFiles
+    );
+    this.scripts = buildScripts(filePaths);
   }
 
   /**
@@ -179,35 +183,6 @@ class EmberApp {
   /**
    * @private
    *
-   * Loads the app and vendor files in the sandbox (Node vm).
-   *
-   */
-  loadAppFiles(sandbox) {
-    let appFilePaths = this.appFilePaths;
-    let vendorFilePaths = this.vendorFilePaths;
-
-    sandbox.eval('sourceMapSupport.install(Error);');
-
-    debug('evaluating app and vendor files');
-
-    vendorFilePaths.forEach(function(vendorFilePath) {
-      debug('evaluating vendor file %s', vendorFilePath);
-      let vendorFile = fs.readFileSync(vendorFilePath, 'utf8');
-      sandbox.eval(vendorFile, vendorFilePath);
-    });
-    debug('vendor file evaluated');
-
-    appFilePaths.forEach(function(appFilePath) {
-      debug('evaluating app file %s', appFilePath);
-      let appFile = fs.readFileSync(appFilePath, 'utf8');
-      sandbox.eval(appFile, appFilePath);
-    });
-    debug('app files evaluated');
-  }
-
-  /**
-   * @private
-   *
    * Create the ember application in the sandbox.
    *
    */
@@ -247,7 +222,14 @@ class EmberApp {
   async buildAppInstance() {
     let sandbox = this.buildSandbox();
 
-    this.loadAppFiles(sandbox);
+    debug('adding files to sandbox');
+
+    for (let script of this.scripts) {
+      debug('evaluating file %s', script);
+      sandbox.runScript(script);
+    }
+
+    debug('files evaluated');
 
     let app = await this.createEmberApp(sandbox).boot();
 
@@ -525,4 +507,11 @@ function registerFastBootInfo(info, instance) {
   info.register(instance);
 }
 
+function buildScripts(filePaths) {
+  return filePaths.filter(Boolean).map(filePath => {
+    let source = fs.readFileSync(filePath, { encoding: 'utf8' });
+
+    return new vm.Script(source, { filename: filePath });
+  });
+}
 module.exports = EmberApp;

@@ -65,6 +65,29 @@ describe('FastBoot', function() {
       });
   });
 
+  it('can run multiple visits', async function() {
+    this.timeout(3000);
+
+    var fastboot = new FastBoot({
+      distPath: fixture('basic-app'),
+    });
+
+    let result = await fastboot.visit('/');
+    let html = await result.html();
+
+    expect(html).to.match(/Welcome to Ember/);
+
+    result = await fastboot.visit('/');
+    html = await result.html();
+
+    expect(html).to.match(/Welcome to Ember/);
+
+    result = await fastboot.visit('/');
+    html = await result.html();
+
+    expect(html).to.match(/Welcome to Ember/);
+  });
+
   it('can render HTML with array of app files defined in package.json', function() {
     var fastboot = new FastBoot({
       distPath: fixture('multiple-app-files'),

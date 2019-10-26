@@ -2,6 +2,8 @@
 
 const chalk = require('chalk');
 const vm = require('vm');
+const sourceMapSupport = require('source-map-support');
+
 
 module.exports = class Sandbox {
   constructor(globals) {
@@ -13,7 +15,6 @@ module.exports = class Sandbox {
 
   buildSandbox() {
     let console = this.buildWrappedConsole();
-    let sourceMapSupport = require('./install-source-map-support');
     let URL = require('url');
     let globals = this.globals;
 
@@ -51,6 +52,10 @@ module.exports = class Sandbox {
     };
 
     return wrappedConsole;
+  }
+
+  runScript(script) {
+    script.runInContext(this.context);
   }
 
   eval(source, filePath) {
