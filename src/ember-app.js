@@ -186,7 +186,7 @@ class EmberApp {
    * Create the ember application in the sandbox.
    *
    */
-   createEmberApp(sandbox) {
+  createEmberApp(sandbox) {
     // Retrieve the application factory from within the sandbox
     let AppFactory = sandbox.run(function(ctx) {
       return ctx.require('~fastboot/app-factory');
@@ -288,7 +288,7 @@ class EmberApp {
    * @param {ClientResponse}
    * @returns {Promise<Result>} result
    */
-  visit(path, options) {
+  async visit(path, options) {
     let req = options.request;
     let res = options.response;
     let html = options.html || this.html;
@@ -319,22 +319,27 @@ class EmberApp {
       }, destroyAppInstanceInMs);
     }
 
-    return this.visitRoute(path, fastbootInfo, bootOptions, result)
-      .then(() => {
-        if (!disableShoebox) {
-          // if shoebox is not disabled, then create the shoebox and send API data
-          createShoebox(doc, fastbootInfo);
+    try {
+      await this.visitRoute(path, fastbootInfo, bootOptions, result);
+
+      if (!disableShoebox) {
+        // if shoebox is not disabled, then create the shoebox and send API data
+        createShoebox(doc, fastbootInfo);
+      }
+
+      result._finalize();
+    } catch (error) {
+      // eslint-disable-next-line require-atomic-updates
+      result.error = error;
+    } finally {
+      if (result._destroyAppInstance()) {
+        if (destroyAppInstanceTimer) {
+          clearTimeout(destroyAppInstanceTimer);
         }
-      })
-      .catch(error => (result.error = error))
-      .then(() => result._finalize())
-      .finally(() => {
-        if (result._destroyAppInstance()) {
-          if (destroyAppInstanceTimer) {
-            clearTimeout(destroyAppInstanceTimer);
-          }
-        }
-      });
+      }
+    }
+
+    return result;
   }
 
   /**

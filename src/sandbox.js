@@ -4,7 +4,6 @@ const chalk = require('chalk');
 const vm = require('vm');
 const sourceMapSupport = require('source-map-support');
 
-
 module.exports = class Sandbox {
   constructor(globals) {
     this.globals = globals;
