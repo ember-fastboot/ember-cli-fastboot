@@ -12,4 +12,20 @@ module.exports = {
   rules: {
     'no-console': ['error', { allow: ['warn', 'error'] }],
   },
+  overrides: [
+    // override eslint in the dev/* folder to allow features from more recent
+    // Node versions
+    {
+      files: ['dev/**/*.js'],
+      rules: {
+        'node/no-unsupported-features/node-builtins': [
+          'error',
+          {
+            version: '>=10.0.0',
+            ignores: [],
+          },
+        ],
+      },
+    },
+  ],
 };
