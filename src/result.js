@@ -12,14 +12,14 @@ const HTML_HEAD_REGEX = /^([\s\S]*<\/head>)([\s\S]*)/;
  * method.
  */
 class Result {
-  constructor(options = {}) {
-    let { doc, html, fastbootInfo } = options;
-
-    this._instanceDestroyed = false;
+  constructor(doc, html, fastbootInfo) {
+    this.isDestroyed = false;
 
     this._doc = doc;
     this._html = html;
     this._fastbootInfo = fastbootInfo;
+    this.applicationInstance = undefined;
+    this.applicationInstanceInstance = undefined;
   }
 
   /**
@@ -114,10 +114,10 @@ class Result {
   /**
    * @private
    *
-   * Called once the Result has finished being constructed and the application
-   * instance has finished rendering. Once `finalize()` is called, state is
-   * gathered from the completed application instance and statically copied
-   * to this Result instance.
+   * Called once the Result has finished being constructed and the
+   * ApplicationInstance instance has finished rendering. Once `finalize()` is
+   * called, state is gathered from the completed ApplicationInstance instance
+   * and statically copied to this Result instance.
    */
   _finalize() {
     if (this.finalized) {
@@ -126,9 +126,9 @@ class Result {
 
     // Grab some metadata from the sandboxed application instance
     // and copy it to this Result object.
-    let { instance } = this;
-    if (instance) {
-      this._finalizeMetadata(instance);
+    let { applicationInstanceInstance } = this;
+    if (applicationInstanceInstance) {
+      this._finalizeMetadata(applicationInstanceInstance);
     }
 
     this._finalizeHTML();
@@ -137,9 +137,9 @@ class Result {
     return this;
   }
 
-  _finalizeMetadata(instance) {
-    if (instance._booted) {
-      this.url = instance.getURL();
+  _finalizeMetadata(applicationInstanceInstance) {
+    if (applicationInstanceInstance._booted) {
+      this.url = applicationInstanceInstance.getURL();
     }
 
     let { response } = this._fastbootInfo;
@@ -150,15 +150,22 @@ class Result {
     }
   }
 
-  _destroyAppInstance() {
-    if (this.instance && !this._instanceDestroyed) {
-      this._instanceDestroyed = true;
-      this.instance.destroy();
-
-      return true;
+  _destroy() {
+    if (this.isDestroyed) {
+      return false;
     }
 
-    return false;
+    this.isDestroyed = true;
+
+    if (this.applicationInstanceInstance !== undefined) {
+      this.applicationInstanceInstance.destroy();
+    }
+
+    if (this.applicationInstance !== undefined) {
+      this.applicationInstance.destroy();
+    }
+
+    return true;
   }
 
   _finalizeHTML() {

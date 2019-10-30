@@ -13,11 +13,7 @@ describe('Result', function() {
     html = `<!-- EMBER_CLI_FASTBOOT_HEAD -->
             <!-- EMBER_CLI_FASTBOOT_BODY -->`;
 
-    result = new Result({
-      doc: doc,
-      html: html,
-      fastbootInfo: new FastBootInfo(req, {}, ['example.com']),
-    });
+    result = new Result(doc, html, new FastBootInfo(req, {}, ['example.com']));
   });
 
   it('constructor', function() {

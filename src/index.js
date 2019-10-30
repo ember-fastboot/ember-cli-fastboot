@@ -13,9 +13,8 @@ const EmberApp = require('./ember-app');
  * are run inside a sandbox that prohibits them from accessing the normal
  * Node.js environment.
  *
- * By default, this sandbox is the built-in `VMSandbox` class, which uses
- * Node's `vm` module. You may provide your own sandbox implementation by
- * passing the `sandbox` option or add and/or override sandbox variables by
+ * This sandbox is the built-in `VMSandbox` class, which uses
+ * Node's `vm` module. You may add and/or override sandbox variables by
  * passing the `addOrOverrideSandboxGlobals` option.
  *
  * @example
@@ -23,7 +22,6 @@ const EmberApp = require('./ember-app');
  *
  * let app = new FastBoot({
  *   distPath: 'path/to/dist',
- *   sandbox: 'path/to/sandboxClass',
  *   sandboxGlobals: {...}
  * });
  *
@@ -38,19 +36,17 @@ class FastBoot {
    * @param {Object} options
    * @param {string} options.distPath the path to the built Ember application
    * @param {Boolean} [options.resilient=false] if true, errors during rendering won't reject the `visit()` promise but instead resolve to a {@link Result}
-   * @param {Sandbox} [options.sandbox=VMSandbox] the sandbox to use
    * @param {Object} [options.sandboxGlobals={}] any additional sandbox variables that an app server wants to override and/or add in the sandbox
    */
   constructor(options = {}) {
-    let { distPath, sandbox, sandboxGlobals } = options;
+    let { distPath, sandboxGlobals } = options;
 
     this.resilient = 'resilient' in options ? Boolean(options.resilient) : false;
 
     this.distPath = distPath;
-    this.sandbox = sandbox || require('./sandbox');
     this.sandboxGlobals = sandboxGlobals || {};
 
-    this._buildEmberApp(this.distPath, this.sandbox, this.sandboxGlobals);
+    this._buildEmberApp(this.distPath, this.sandboxGlobals);
   }
 
   /**
@@ -96,11 +92,7 @@ class FastBoot {
     this._buildEmberApp(distPath);
   }
 
-  _buildEmberApp(
-    distPath = this.distPath,
-    sandbox = this.sandbox,
-    sandboxGlobals = this.sandboxGlobals
-  ) {
+  _buildEmberApp(distPath = this.distPath, sandboxGlobals = this.sandboxGlobals) {
     if (!distPath) {
       throw new Error(
         'You must instantiate FastBoot with a distPath ' +
@@ -117,7 +109,6 @@ class FastBoot {
 
     this._app = new EmberApp({
       distPath,
-      sandbox,
       sandboxGlobals,
     });
   }

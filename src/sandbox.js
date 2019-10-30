@@ -2,32 +2,34 @@
 
 const chalk = require('chalk');
 const vm = require('vm');
+const sourceMapSupport = require('source-map-support');
 
 module.exports = class Sandbox {
-  constructor(options = {}) {
-    this.globals = options.globals;
-    this.sandbox = this.buildSandbox();
-    vm.createContext(this.sandbox);
+  constructor(globals) {
+    this.globals = globals;
+
+    let sandbox = this.buildSandbox();
+    this.context = vm.createContext(sandbox);
   }
 
   buildSandbox() {
     let console = this.buildWrappedConsole();
-    let sourceMapSupport = require('./install-source-map-support');
     let URL = require('url');
     let globals = this.globals;
 
-    let sandbox = {
-      sourceMapSupport,
-      console,
-      setTimeout,
-      clearTimeout,
-      URL,
+    let sandbox = Object.assign(
+      {
+        sourceMapSupport,
+        console,
+        setTimeout,
+        clearTimeout,
+        URL,
 
-      // Convince jQuery not to assume it's in a browser
-      module: { exports: {} },
-    };
-
-    Object.assign(sandbox, globals);
+        // Convince jQuery not to assume it's in a browser
+        module: { exports: {} },
+      },
+      globals
+    );
 
     // Set the global as `window`.
     sandbox.window = sandbox;
@@ -51,12 +53,16 @@ module.exports = class Sandbox {
     return wrappedConsole;
   }
 
+  runScript(script) {
+    script.runInContext(this.context);
+  }
+
   eval(source, filePath) {
     var fileScript = new vm.Script(source, { filename: filePath });
-    fileScript.runInContext(this.sandbox);
+    fileScript.runInContext(this.context);
   }
 
   run(cb) {
-    return cb.call(this.sandbox, this.sandbox);
+    return cb.call(this.context, this.context);
   }
 };

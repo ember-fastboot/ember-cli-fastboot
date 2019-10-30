@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 const fixture = require('./helpers/fixture-path');
 const FastBoot = require('./../src/index');
-const CustomSandbox = require('./fixtures/custom-sandbox/custom-sandbox');
 
 describe('FastBoot', function() {
   it('throws an exception if no distPath is provided', function() {
@@ -64,6 +63,29 @@ describe('FastBoot', function() {
       .then(html => {
         expect(html).to.match(/Welcome to Ember/);
       });
+  });
+
+  it('can run multiple visits', async function() {
+    this.timeout(3000);
+
+    var fastboot = new FastBoot({
+      distPath: fixture('basic-app'),
+    });
+
+    let result = await fastboot.visit('/');
+    let html = await result.html();
+
+    expect(html).to.match(/Welcome to Ember/);
+
+    result = await fastboot.visit('/');
+    html = await result.html();
+
+    expect(html).to.match(/Welcome to Ember/);
+
+    result = await fastboot.visit('/');
+    html = await result.html();
+
+    expect(html).to.match(/Welcome to Ember/);
   });
 
   it('can render HTML with array of app files defined in package.json', function() {
@@ -166,25 +188,6 @@ describe('FastBoot', function() {
       });
   });
 
-  it('can render HTML when sandbox class is provided', function() {
-    var fastboot = new FastBoot({
-      distPath: fixture('custom-sandbox'),
-      sandboxClass: CustomSandbox,
-      sandboxGlobals: {
-        myVar: 2,
-        foo: 'undefined',
-        najax: 'undefined',
-      },
-    });
-
-    return fastboot
-      .visit('/foo')
-      .then(r => r.html())
-      .then(html => {
-        expect(html).to.match(/myVar in sandbox: 2/);
-      });
-  });
-
   it('rejects the promise if an error occurs', function() {
     var fastboot = new FastBoot({
       distPath: fixture('rejected-promise'),
@@ -273,35 +276,6 @@ describe('FastBoot', function() {
       .then(html => {
         expect(html).to.match(/foo from sandbox: 5/);
         expect(html).to.match(/najax in sandbox: undefined/);
-      });
-
-    function hotReloadApp() {
-      fastboot.reload({
-        distPath: fixture('custom-sandbox'),
-      });
-    }
-  });
-
-  it('can reload the app using the same sandbox class', function() {
-    var fastboot = new FastBoot({
-      distPath: fixture('basic-app'),
-      sandbox: CustomSandbox,
-      sandboxGlobals: {
-        myVar: 2,
-        foo: 'undefined',
-        najax: 'undefined',
-      },
-    });
-
-    return fastboot
-      .visit('/')
-      .then(r => r.html())
-      .then(html => expect(html).to.match(/Welcome to Ember/))
-      .then(hotReloadApp)
-      .then(() => fastboot.visit('/foo'))
-      .then(r => r.html())
-      .then(html => {
-        expect(html).to.match(/myVar in sandbox: 2/);
       });
 
     function hotReloadApp() {
@@ -413,17 +387,6 @@ describe('FastBoot', function() {
     return fastboot.visit('/').catch(e => expect(e).to.be.an('error'));
   });
 
-  it("matches app's fastboot-info and result's fastboot-info", function() {
-    var fastboot = new FastBoot({
-      distPath: fixture('basic-app'),
-    });
-
-    return fastboot.visit('/').then(r => {
-      let lookupFastboot = r.instance.lookup('info:-fastboot');
-      expect(r._fastbootInfo).to.deep.equal(lookupFastboot);
-    });
-  });
-
   it('can read multiple configs', function() {
     var fastboot = new FastBoot({
       distPath: fixture('app-with-multiple-config'),
@@ -436,5 +399,60 @@ describe('FastBoot', function() {
         expect(html).to.match(/App Name: app-with-multiple-configs/);
         expect(html).to.match(/Other Config {"default":"bar"}/);
       });
+  });
+
+  it('in app prototype mutations do not leak across visits', async function() {
+    this.timeout(3000);
+
+    var fastboot = new FastBoot({
+      distPath: fixture('app-with-prototype-mutations'),
+    });
+
+    let result = await fastboot.visit('/');
+    let html = await result.html();
+
+    expect(html).to.match(/Items: 1/);
+
+    result = await fastboot.visit('/');
+    html = await result.html();
+
+    expect(html).to.match(/Items: 1/);
+
+    result = await fastboot.visit('/');
+    html = await result.html();
+
+    expect(html).to.match(/Items: 1/);
+  });
+
+  it('errors can be properly attributed', async function() {
+    this.timeout(3000);
+
+    var fastboot = new FastBoot({
+      distPath: fixture('onerror-per-visit'),
+    });
+
+    let first = fastboot.visit('/slow/100/reject', {
+      request: { url: '/slow/100/reject', headers: {} },
+    });
+
+    let second = fastboot.visit('/slow/50/resolve', {
+      request: { url: '/slow/50/resolve', headers: {} },
+    });
+
+    let third = fastboot.visit('/slow/25/resolve', {
+      request: { url: '/slow/25/resolve', headers: {} },
+    });
+
+    await Promise.all([second, third]);
+
+    await first.then(
+      () => {
+        throw new Error('Visit should not resolve!');
+      },
+      error => {
+        expect(error.code).to.equal('from-slow');
+        expect(error.fastbootRequestPath).to.equal('/slow/100/reject');
+      }
+    );
   });
 });
