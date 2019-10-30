@@ -181,12 +181,29 @@ class EmberApp {
   }
 
   /**
+   * Perform any cleanup that is needed
+   */
+  destroy() {}
+
+  /**
    * @private
    *
-   * Create the ember application in the sandbox.
+   * Creates a new `Application`
    *
+   * @returns {Ember.Application} instance
    */
-  createEmberApp(sandbox) {
+  async buildApp() {
+    let sandbox = this.buildSandbox();
+
+    debug('adding files to sandbox');
+
+    for (let script of this.scripts) {
+      debug('evaluating file %s', script);
+      sandbox.runScript(script);
+    }
+
+    debug('files evaluated');
+
     // Retrieve the application factory from within the sandbox
     let AppFactory = sandbox.run(function(ctx) {
       return ctx.require('~fastboot/app-factory');
@@ -199,38 +216,14 @@ class EmberApp {
       );
     }
 
+    debug('creating application');
+
     // Otherwise, return a new `Ember.Application` instance
-    return AppFactory['default']();
-  }
+    let app = AppFactory['default']();
 
-  /**
-   * Perform any cleanup that is needed
-   */
-  destroy() {}
+    await app.boot();
 
-  /**
-   * @private
-   *
-   * Creates a new `ApplicationInstance` from the sandboxed `Application`.
-   *
-   * @returns {Promise<Ember.ApplicationInstance>} instance
-   */
-  async buildAppInstance() {
-    let sandbox = this.buildSandbox();
-
-    debug('adding files to sandbox');
-
-    for (let script of this.scripts) {
-      debug('evaluating file %s', script);
-      sandbox.runScript(script);
-    }
-
-    debug('files evaluated');
-
-    let app = await this.createEmberApp(sandbox).boot();
-
-    debug('building instance');
-    return app.buildInstance();
+    return app;
   }
 
   /**
@@ -252,9 +245,12 @@ class EmberApp {
    * @return {Promise<instance>} instance
    */
   async visitRoute(path, fastbootInfo, bootOptions, result) {
-    let instance = await this.buildAppInstance();
+    let app = await this.buildApp();
+    result.applicationInstance = app;
 
-    result.instance = instance;
+    let instance = await app.buildInstance();
+    result.applicationInstanceInstance = instance;
+
     registerFastBootInfo(fastbootInfo, instance);
 
     await instance.boot(bootOptions);
@@ -307,7 +303,7 @@ class EmberApp {
       // start a timer to destroy the appInstance forcefully in the given ms.
       // This is a failure mechanism so that node process doesn't get wedged if the `visit` never completes.
       destroyAppInstanceTimer = setTimeout(function() {
-        if (result._destroyAppInstance()) {
+        if (result._destroy()) {
           result.error = new Error(
             'App instance was forcefully destroyed in ' + destroyAppInstanceInMs + 'ms'
           );
@@ -328,11 +324,12 @@ class EmberApp {
       // eslint-disable-next-line require-atomic-updates
       result.error = error;
     } finally {
-      if (result._destroyAppInstance()) {
-        if (destroyAppInstanceTimer) {
-          clearTimeout(destroyAppInstanceTimer);
-        }
-      }
+      // ensure we invoke `Ember.Application.destroy()` and
+      // `Ember.ApplicationInstance.destroy()`, but use `result._destroy()` so
+      // that the `result` object's internal `this.isDestroyed` flag is correct
+      result._destroy();
+
+      clearTimeout(destroyAppInstanceTimer);
     }
 
     return result;
