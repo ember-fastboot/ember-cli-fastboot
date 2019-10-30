@@ -204,13 +204,9 @@ class EmberApp {
   }
 
   /**
-   * Destroys the app and its sandbox.
+   * Perform any cleanup that is needed
    */
-  destroy() {
-    if (this.app) {
-      this.app.destroy();
-    }
-  }
+  destroy() {}
 
   /**
    * @private
