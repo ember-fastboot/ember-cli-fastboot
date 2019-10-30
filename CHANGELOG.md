@@ -1,3 +1,35 @@
+## v3.0.0-beta.1 (2019-10-30)
+
+#### :boom: Breaking Change
+* [#236](https://github.com/ember-fastboot/fastboot/pull/236) Refactor to use a single sandboxed context per visit request. ([@rwjblue](https://github.com/rwjblue))
+* [#225](https://github.com/ember-fastboot/fastboot/pull/225) Drop support for Node 6, 9, and 11. ([@kiwiupover](https://github.com/kiwiupover))
+
+#### :rocket: Enhancement
+* [#229](https://github.com/ember-fastboot/fastboot/pull/229) Add `FastBoot.distPath` ([@stefanpenner](https://github.com/stefanpenner))
+
+#### :bug: Bug Fix
+* [#227](https://github.com/ember-fastboot/fastboot/pull/227) Restore allowing fallback require from working directory ([@xg-wang](https://github.com/xg-wang))
+* [#219](https://github.com/ember-fastboot/fastboot/pull/219) Fix an incorrect `debug()` call ([@CvX](https://github.com/CvX))
+
+#### :memo: Documentation
+* [#235](https://github.com/ember-fastboot/fastboot/pull/235) Document `reload` method. ([@rwjblue](https://github.com/rwjblue))
+
+#### :house: Internal
+* [#243](https://github.com/ember-fastboot/fastboot/pull/243) Add automated release setup. ([@rwjblue](https://github.com/rwjblue))
+* [#238](https://github.com/ember-fastboot/fastboot/pull/238) Add basic memory profiling script to `dev/` folder. ([@rwjblue](https://github.com/rwjblue))
+* [#237](https://github.com/ember-fastboot/fastboot/pull/237) Add dev script to make tracing easier. ([@rwjblue](https://github.com/rwjblue))
+* [#234](https://github.com/ember-fastboot/fastboot/pull/234) Remove `rsvp` dependency. ([@rwjblue](https://github.com/rwjblue))
+* [#233](https://github.com/ember-fastboot/fastboot/pull/233) Update dependencies/devDependencies to latest. ([@rwjblue](https://github.com/rwjblue))
+* [#232](https://github.com/ember-fastboot/fastboot/pull/232) Make a single `Sandbox` base class. ([@rwjblue](https://github.com/rwjblue))
+* [#231](https://github.com/ember-fastboot/fastboot/pull/231) General repo cleanup. ([@rwjblue](https://github.com/rwjblue))
+
+#### Committers: 5
+- David Laird ([@kiwiupover](https://github.com/kiwiupover))
+- Jarek Radosz ([@CvX](https://github.com/CvX))
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+- Stefan Penner ([@stefanpenner](https://github.com/stefanpenner))
+- Thomas Wang ([@xg-wang](https://github.com/xg-wang))
+
 # FastBoot Changelog
 
 ## v2.0.0 (2018-12-10)
