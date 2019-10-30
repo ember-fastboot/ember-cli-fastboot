@@ -400,4 +400,27 @@ describe('FastBoot', function() {
         expect(html).to.match(/Other Config {"default":"bar"}/);
       });
   });
+
+  it('in app prototype mutations do not leak across visits', async function() {
+    this.timeout(3000);
+
+    var fastboot = new FastBoot({
+      distPath: fixture('app-with-prototype-mutations'),
+    });
+
+    let result = await fastboot.visit('/');
+    let html = await result.html();
+
+    expect(html).to.match(/Items: 1/);
+
+    result = await fastboot.visit('/');
+    html = await result.html();
+
+    expect(html).to.match(/Items: 1/);
+
+    result = await fastboot.visit('/');
+    html = await result.html();
+
+    expect(html).to.match(/Items: 1/);
+  });
 });
