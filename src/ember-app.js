@@ -187,7 +187,10 @@ class EmberApp {
   /**
    * Perform any cleanup that is needed
    */
-  destroy() {}
+  destroy() {
+    // TODO: expose as public api (through the top level) so that we can
+    // cleanup pre-warmed visits
+  }
 
   /**
    * @private

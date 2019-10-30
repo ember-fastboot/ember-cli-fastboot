@@ -152,7 +152,7 @@ class Result {
 
   _destroy() {
     if (this.isDestroyed) {
-      return true;
+      return false;
     }
 
     this.isDestroyed = true;
@@ -164,6 +164,8 @@ class Result {
     if (this.applicationInstance !== undefined) {
       this.applicationInstance.destroy();
     }
+
+    return true;
   }
 
   _finalizeHTML() {
