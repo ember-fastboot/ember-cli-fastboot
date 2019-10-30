@@ -2,6 +2,20 @@
   "name": "fastboot",
   "version": "2.0.1",
   "description": "Library for rendering Ember apps in node.js",
+  "keywords": [
+    "ember",
+    "fastboot"
+  ],
+  "homepage": "https://github.com/ember-fastboot/fastboot#readme",
+  "bugs": {
+    "url": "https://github.com/ember-fastboot/fastboot/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ember-fastboot/fastboot.git"
+  },
+  "license": "MIT",
+  "author": "Tom Dale and FastBoot contributors",
   "main": "src/index.js",
   "scripts": {
     "changelog": "lerna-changelog",
@@ -10,23 +24,6 @@
     "preversion": "npm test",
     "postversion": "git push origin master --tags"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ember-fastboot/fastboot.git"
-  },
-  "engines": {
-    "node": "^8.10.0 || 10.* || >=12"
-  },
-  "keywords": [
-    "ember",
-    "fastboot"
-  ],
-  "author": "Tom Dale and FastBoot contributors",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ember-fastboot/fastboot/issues"
-  },
-  "homepage": "https://github.com/ember-fastboot/fastboot#readme",
   "dependencies": {
     "chalk": "^2.4.2",
     "cookie": "^0.4.0",
@@ -50,7 +47,28 @@
     "lerna-changelog": "^0.8.2",
     "mocha": "^6.2.2",
     "prettier": "^1.18.2",
+    "release-it": "^12.2.1",
+    "release-it-lerna-changelog": "^1.0.3",
     "rimraf": "^3.0.0",
     "temp": "^0.9.0"
+  },
+  "engines": {
+    "node": "^8.10.0 || 10.* || >=12"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md"
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true
+    }
   }
 }
