@@ -423,4 +423,36 @@ describe('FastBoot', function() {
 
     expect(html).to.match(/Items: 1/);
   });
+
+  it('errors can be properly attributed', async function() {
+    this.timeout(3000);
+
+    var fastboot = new FastBoot({
+      distPath: fixture('onerror-per-visit'),
+    });
+
+    let first = fastboot.visit('/slow/100/reject', {
+      request: { url: '/slow/100/reject', headers: {} },
+    });
+
+    let second = fastboot.visit('/slow/50/resolve', {
+      request: { url: '/slow/50/resolve', headers: {} },
+    });
+
+    let third = fastboot.visit('/slow/25/resolve', {
+      request: { url: '/slow/25/resolve', headers: {} },
+    });
+
+    await Promise.all([second, third]);
+
+    await first.then(
+      () => {
+        throw new Error('Visit should not resolve!');
+      },
+      error => {
+        expect(error.code).to.equal('from-slow');
+        expect(error.fastbootRequestPath).to.equal('/slow/100/reject');
+      }
+    );
+  });
 });
