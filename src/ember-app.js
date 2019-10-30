@@ -65,6 +65,10 @@ class EmberApp {
       config.appFiles
     );
     this.scripts = buildScripts(filePaths);
+
+    // Ensure that the dist files can be evaluated and the `Ember.Application`
+    // instance created.
+    this.buildApp();
   }
 
   /**
@@ -192,7 +196,7 @@ class EmberApp {
    *
    * @returns {Ember.Application} instance
    */
-  async buildApp() {
+  buildApp() {
     let sandbox = this.buildSandbox();
 
     debug('adding files to sandbox');
@@ -221,8 +225,6 @@ class EmberApp {
     // Otherwise, return a new `Ember.Application` instance
     let app = AppFactory['default']();
 
-    await app.boot();
-
     return app;
   }
 
@@ -247,6 +249,8 @@ class EmberApp {
   async visitRoute(path, fastbootInfo, bootOptions, result) {
     let app = await this.buildApp();
     result.applicationInstance = app;
+
+    await app.boot();
 
     let instance = await app.buildInstance();
     result.applicationInstanceInstance = instance;
