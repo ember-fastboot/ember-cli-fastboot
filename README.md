@@ -28,7 +28,14 @@ let app = new FastBoot({
   distPath: 'path/to/dist',
   // optional boolean flag when set to true does not reject the promise if there are rendering errors (defaults to false)
   resilient: <boolean>,
-  sandboxGlobals: {...} // optional map of key value pairs to expose in the sandbox
+
+  // optional function used to generate the set of global properties available within the sandbox, receives default globals
+  // and is expected to return an object (the default implementation returns the passed in defaults)
+  buildSandboxGlobals(defaultGlobals) {
+    return Object.assign({}, defaultGlobals, {
+      // additional global properties to define within the sandbox
+    });
+  },
 });
 
 app.visit('/photos', options)

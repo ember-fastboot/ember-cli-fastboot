@@ -29,11 +29,10 @@ class EmberApp {
    * Create a new EmberApp.
    * @param {Object} options
    * @param {string} options.distPath - path to the built Ember application
-   * @param {Object} [options.sandboxGlobals] - sandbox variables that can be added or used for overrides in the sandbox.
+   * @param {Function} [options.buildSandboxGlobals] - the function used to build the final set of global properties accesible within the sandbox
    */
   constructor(options) {
-    // TODO: make these two into builder functions
-    this.sandboxGlobals = options.sandboxGlobals;
+    this.buildSandboxGlobals = options.buildSandboxGlobals || defaultBuildSandboxGlobals;
 
     let distPath = (this.distPath = path.resolve(options.distPath));
     let config = this.readPackageJSON(distPath);
@@ -77,7 +76,7 @@ class EmberApp {
    * Builds and initializes a new sandbox to run the Ember application in.
    */
   buildSandbox() {
-    const { distPath, sandboxGlobals, config, appName, sandboxRequire } = this;
+    const { distPath, buildSandboxGlobals, config, appName, sandboxRequire } = this;
 
     function fastbootConfig(key) {
       if (!key) {
@@ -92,21 +91,19 @@ class EmberApp {
       }
     }
 
-    // add any additional user provided variables or override the default globals in the sandbox
-    let globals = Object.assign(
-      {
-        najax,
-        FastBoot: {
-          require: sandboxRequire,
-          config: fastbootConfig,
+    let defaultGlobals = {
+      najax,
+      FastBoot: {
+        require: sandboxRequire,
+        config: fastbootConfig,
 
-          get distPath() {
-            return distPath;
-          },
+        get distPath() {
+          return distPath;
         },
       },
-      sandboxGlobals
-    );
+    };
+
+    let globals = buildSandboxGlobals(defaultGlobals);
 
     return new Sandbox(globals);
   }
@@ -519,4 +516,9 @@ function buildScripts(filePaths) {
     return new vm.Script(source, { filename: filePath });
   });
 }
+
+function defaultBuildSandboxGlobals(defaultGlobals) {
+  return defaultGlobals;
+}
+
 module.exports = EmberApp;

@@ -169,13 +169,15 @@ describe('FastBoot', function() {
       });
   });
 
-  it('can render HTML when sandboxGlobals is provided', function() {
+  it('can render HTML when a custom set of sandbox globals is provided', function() {
     var fastboot = new FastBoot({
       distPath: fixture('custom-sandbox'),
-      sandboxGlobals: {
-        foo: 5,
-        najax: 'undefined',
-        myVar: 'undefined',
+      buildSandboxGlobals(globals) {
+        return Object.assign({}, globals, {
+          foo: 5,
+          najax: 'undefined',
+          myVar: 'undefined',
+        });
       },
     });
 
@@ -256,13 +258,15 @@ describe('FastBoot', function() {
     }
   });
 
-  it('can reload the app using the same sandboxGlobals', function() {
+  it('can reload the app using the same buildSandboxGlobals', function() {
     var fastboot = new FastBoot({
       distPath: fixture('basic-app'),
-      sandboxGlobals: {
-        foo: 5,
-        najax: 'undefined',
-        myVar: 'undefined',
+      buildSandboxGlobals(globals) {
+        return Object.assign({}, globals, {
+          foo: 5,
+          najax: 'undefined',
+          myVar: 'undefined',
+        });
       },
     });
 
