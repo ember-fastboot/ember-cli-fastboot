@@ -175,7 +175,6 @@ describe('FastBoot', function() {
       buildSandboxGlobals(globals) {
         return Object.assign({}, globals, {
           foo: 5,
-          najax: 'undefined',
           myVar: 'undefined',
         });
       },
@@ -186,7 +185,6 @@ describe('FastBoot', function() {
       .then(r => r.html())
       .then(html => {
         expect(html).to.match(/foo from sandbox: 5/);
-        expect(html).to.match(/najax in sandbox: undefined/);
       });
   });
 
@@ -264,7 +262,6 @@ describe('FastBoot', function() {
       buildSandboxGlobals(globals) {
         return Object.assign({}, globals, {
           foo: 5,
-          najax: 'undefined',
           myVar: 'undefined',
         });
       },
@@ -279,7 +276,6 @@ describe('FastBoot', function() {
       .then(r => r.html())
       .then(html => {
         expect(html).to.match(/foo from sandbox: 5/);
-        expect(html).to.match(/najax in sandbox: undefined/);
       });
 
     function hotReloadApp() {
