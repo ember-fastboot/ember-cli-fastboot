@@ -36,7 +36,6 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "ember-source": "3.8.0",
     "eslint": "^6.5.1",
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-chai-expect": "^2.0.1",
