@@ -2,7 +2,6 @@
 
 var expect = require('chai').expect;
 var FastBootHeaders = require('./../src/fastboot-headers.js');
-var Ember = require('ember-source/dist/ember.debug');
 
 describe('FastBootHeaders', function() {
   it('lower normalizes the headers to lowercase', function() {
@@ -161,6 +160,19 @@ describe('FastBootHeaders', function() {
       'x-test-header': ['value1', 'value2'],
     };
     headers = new FastBootHeaders(headers);
-    expect(Ember.get(headers, 'x-test-header')).to.eq(headers.get('x-test-header'));
+
+    function fakeEmberGet(object, path) {
+      if (path in object) {
+        return object[path];
+      }
+
+      if ('unknownProperty' in object) {
+        return object.unknownProperty(path);
+      }
+
+      return undefined;
+    }
+
+    expect(fakeEmberGet(headers, 'x-test-header')).to.eq(headers.get('x-test-header'));
   });
 });
