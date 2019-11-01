@@ -5,7 +5,6 @@ const vm = require('vm');
 const path = require('path');
 const chalk = require('chalk');
 
-const najax = require('najax');
 const SimpleDOM = require('simple-dom');
 const resolve = require('resolve');
 const debug = require('debug')('fastboot:ember-app');
@@ -92,7 +91,6 @@ class EmberApp {
     }
 
     let defaultGlobals = {
-      najax,
       FastBoot: {
         require: sandboxRequire,
         config: fastbootConfig,

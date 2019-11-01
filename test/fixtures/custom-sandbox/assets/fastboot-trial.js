@@ -341,7 +341,6 @@ define('fastboot-trial/routes/foo', ['exports', 'ember'], function (exports, _em
       if (this.get('fastboot.isFastBoot')) {
         return {
           foo: foo,
-          najax: najax,
           myVar: myVar
         };
       }
