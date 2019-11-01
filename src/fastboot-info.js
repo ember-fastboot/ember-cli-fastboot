@@ -28,7 +28,7 @@ module.exports = class FastBootInfo {
   }
 
   deferRendering(promise) {
-    this.deferredPromise = Promise.all(this.deferredPromise, promise);
+    this.deferredPromise = Promise.all([this.deferredPromise, promise]);
   }
 
   /*
