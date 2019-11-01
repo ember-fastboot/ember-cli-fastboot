@@ -1,3 +1,11 @@
+## v3.0.0-beta.3 (2019-11-01)
+
+#### :bug: Bug Fix
+* [#250](https://github.com/ember-fastboot/fastboot/pull/250) Fix invalid syntax with deferRendering. ([@rwjblue](https://github.com/rwjblue))
+
+#### Committers: 1
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+
 ## v3.0.0-beta.2 (2019-11-01)
 
 #### :boom: Breaking Change
