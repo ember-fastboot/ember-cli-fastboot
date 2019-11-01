@@ -1,3 +1,17 @@
+## v3.0.0-beta.2 (2019-11-01)
+
+#### :boom: Breaking Change
+* [#247](https://github.com/ember-fastboot/fastboot/pull/247) Remove najax from default set of sandbox globals. ([@rwjblue](https://github.com/rwjblue))
+
+#### :rocket: Enhancement
+* [#245](https://github.com/ember-fastboot/fastboot/pull/245) Refactor sandboxGlobals -> buildSandboxGlobals ([@rwjblue](https://github.com/rwjblue))
+
+#### :house: Internal
+* [#248](https://github.com/ember-fastboot/fastboot/pull/248) Remove ember-source from devDependencies. ([@rwjblue](https://github.com/rwjblue))
+
+#### Committers: 1
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+
 ## v3.0.0-beta.1 (2019-10-30)
 
 #### :boom: Breaking Change
