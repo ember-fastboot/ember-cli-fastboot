@@ -183,8 +183,9 @@ class EmberApp {
    * Perform any cleanup that is needed
    */
   destroy() {
-    // TODO: expose as public api (through the top level) so that we can
-    // cleanup pre-warmed visits
+    if (this._applicationInstance) {
+      this._applicationInstance.destroy();
+    }
   }
 
   /**
@@ -242,12 +243,27 @@ class EmberApp {
    * @param {Object} bootOptions An object containing the boot options that are used by
    *                             by ember to decide whether it needs to do rendering or not.
    * @param {Object} result
+   * @param {Boolean} buildSandboxPerVisit if true, a new sandbox will
+   *                                       **always** be created, otherwise one
+   *                                       is created for the first request
+   *                                       only
    * @return {Promise<instance>} instance
    */
-  async visitRoute(path, fastbootInfo, bootOptions, result) {
-    let app = await this.buildApp();
-    result.applicationInstance = app;
+  async _visit(path, fastbootInfo, bootOptions, result, buildSandboxPerVisit) {
+    let shouldBuildApp = buildSandboxPerVisit || this._applicationInstance === undefined;
 
+    let app = shouldBuildApp ? await this.buildApp() : this._applicationInstance;
+
+    if (buildSandboxPerVisit) {
+      // entangle the specific application instance to the result, so it can be
+      // destroyed when result._destroy() is called (after the visit is
+      // completed)
+      result.applicationInstance = app;
+    } else {
+      // save the created application instance so that we can clean it up when
+      // this instance of `src/ember-app.js` is destroyed (e.g. reload)
+      this._applicationInstance = app;
+    }
     await app.boot();
 
     let instance = await app.buildInstance();
@@ -278,6 +294,7 @@ class EmberApp {
    * @param {Boolean} [options.shouldRender] whether the app should do rendering or not. If set to false, it puts the app in routing-only.
    * @param {Boolean} [options.disableShoebox] whether we should send the API data in the shoebox. If set to false, it will not send the API data used for rendering the app on server side in the index.html.
    * @param {Integer} [options.destroyAppInstanceInMs] whether to destroy the instance in the given number of ms. This is a failure mechanism to not wedge the Node process (See: https://github.com/ember-fastboot/fastboot/issues/90)
+   * @param {Boolean} [options.buildSandboxPerVisit] whether to create a new sandbox context per-visit, or reuse the existing sandbox
    * @param {ClientRequest}
    * @param {ClientResponse}
    * @returns {Promise<Result>} result
@@ -314,7 +331,13 @@ class EmberApp {
     }
 
     try {
-      await this.visitRoute(path, fastbootInfo, bootOptions, result);
+      await this._visit(
+        path,
+        fastbootInfo,
+        bootOptions,
+        result,
+        options.buildSandboxPerVisit === true
+      );
 
       if (!disableShoebox) {
         // if shoebox is not disabled, then create the shoebox and send API data

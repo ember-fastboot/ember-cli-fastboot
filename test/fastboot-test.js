@@ -401,30 +401,30 @@ describe('FastBoot', function() {
       });
   });
 
-  it('in app prototype mutations do not leak across visits', async function() {
+  it('in app prototype mutations do not leak across visits with buildSandboxPerVisit=true', async function() {
     this.timeout(3000);
 
     var fastboot = new FastBoot({
       distPath: fixture('app-with-prototype-mutations'),
     });
 
-    let result = await fastboot.visit('/');
+    let result = await fastboot.visit('/', { buildSandboxPerVisit: true });
     let html = await result.html();
 
     expect(html).to.match(/Items: 1/);
 
-    result = await fastboot.visit('/');
+    result = await fastboot.visit('/', { buildSandboxPerVisit: true });
     html = await result.html();
 
     expect(html).to.match(/Items: 1/);
 
-    result = await fastboot.visit('/');
+    result = await fastboot.visit('/', { buildSandboxPerVisit: true });
     html = await result.html();
 
     expect(html).to.match(/Items: 1/);
   });
 
-  it('errors can be properly attributed', async function() {
+  it('errors can be properly attributed with buildSandboxPerVisit=true', async function() {
     this.timeout(3000);
 
     var fastboot = new FastBoot({
@@ -432,14 +432,17 @@ describe('FastBoot', function() {
     });
 
     let first = fastboot.visit('/slow/100/reject', {
+      buildSandboxPerVisit: true,
       request: { url: '/slow/100/reject', headers: {} },
     });
 
     let second = fastboot.visit('/slow/50/resolve', {
+      buildSandboxPerVisit: true,
       request: { url: '/slow/50/resolve', headers: {} },
     });
 
     let third = fastboot.visit('/slow/25/resolve', {
+      buildSandboxPerVisit: true,
       request: { url: '/slow/25/resolve', headers: {} },
     });
 
