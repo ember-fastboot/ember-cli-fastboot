@@ -162,7 +162,8 @@ server.start();
 
 ### Available Downloaders
 
-* fastboot-s3-downloader
+* [fastboot-s3-downloader](https://github.com/ember-fastboot/fastboot-s3-downloader)
+* [fastboot-gcloud-storage-downloader](https://github.com/EmberSherpa/fastboot-gcloud-storage-downloader)
 
 ### Writing a Downloader
 
