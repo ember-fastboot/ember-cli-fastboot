@@ -1,7 +1,6 @@
 'use strict';
 
 const expect             = require('chai').expect;
-const path               = require('path');
 const FastBoot           = require('fastboot');
 const fastbootMiddleware = require('./../src/index');
 const fixture            = require('./helpers/fixture-path');
@@ -85,7 +84,7 @@ describe("FastBoot", function() {
       .then(hotReloadApp)
       .then(requestSecondApp);
 
-    function requestFirstApp(info) {
+    function requestFirstApp() {
       return server.request('/')
         .then(function(html) {
           expect(html).to.match(/Welcome to Ember/);
@@ -98,7 +97,7 @@ describe("FastBoot", function() {
       });
     }
 
-    function requestSecondApp(info) {
+    function requestSecondApp() {
       return server.request('/')
         .then(function(html) {
           expect(html).to.match(/Goodbye from Ember/);
@@ -106,6 +105,7 @@ describe("FastBoot", function() {
     }
   });
 
+  /* eslint-disable mocha/no-setup-in-describe */
   [true, false].forEach((chunkedResponse) => {
     describe(`when chunked response is ${chunkedResponse ? 'enabled' : 'disabled'}`, function() {
       if (chunkedResponse) {
@@ -118,7 +118,7 @@ describe("FastBoot", function() {
 
           return server.start()
             .then(() => server.request('/', { resolveWithFullResponse: true }))
-            .then(({ body, _, headers }) => {
+            .then(({ body, headers }) => {
               expect(headers['transfer-encoding']).to.eq('chunked');
               expect(body).to.match(/Welcome to Ember/);
             });
@@ -258,4 +258,5 @@ describe("FastBoot", function() {
       });
     });
   });
+  /* eslint-enable mocha/no-setup-in-describe */
 });
