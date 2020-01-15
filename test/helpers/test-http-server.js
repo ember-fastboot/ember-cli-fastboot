@@ -2,7 +2,6 @@
 
 const express            = require('express');
 const request            = require('request-promise');
-const fastbootMiddleware = require('./../../src/index');
 
 let serverID = 0;
 
@@ -28,21 +27,20 @@ class TestHTTPServer {
     }
 
     if (options.recoverErrors) {
-      app.use((err, req, res, next) => {
+      app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
         res.set('x-test-recovery', 'recovered response');
         res.status(200);
         res.send('hello world');
       });
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       let port = options.port || 3000;
       let host = options.host || 'localhost';
 
       let listener = app.listen(port, host, () => {
         let host = listener.address().address;
         let port = listener.address().port;
-        let family = listener.address().family;
 
         this.listener = listener;
         this.info = {
