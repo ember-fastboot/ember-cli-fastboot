@@ -3,8 +3,8 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2017,
   },
-  extends: ['eslint:recommended', 'plugin:node/recommended'],
-  plugins: ['node'],
+  extends: ['eslint:recommended', 'plugin:node/recommended', 'plugin:prettier/recommended'],
+  plugins: ['node', 'prettier'],
   env: {
     node: true,
     es6: true,
@@ -18,5 +18,5 @@ module.exports = {
       extends: ['plugin:mocha/recommended'],
       plugins: ['mocha'],
     },
-  ]
+  ],
 };

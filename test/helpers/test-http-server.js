@@ -1,7 +1,7 @@
 'use strict';
 
-const express            = require('express');
-const request            = require('request-promise');
+const express = require('express');
+const request = require('request-promise');
 
 let serverID = 0;
 
@@ -27,14 +27,15 @@ class TestHTTPServer {
     }
 
     if (options.recoverErrors) {
-      app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars
+      app.use((err, req, res, next) => {
         res.set('x-test-recovery', 'recovered response');
         res.status(200);
         res.send('hello world');
       });
     }
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       let port = options.port || 3000;
       let host = options.host || 'localhost';
 
@@ -46,7 +47,7 @@ class TestHTTPServer {
         this.info = {
           host: host,
           port: port,
-          listener: listener
+          listener: listener,
         };
 
         resolve(this.info);
@@ -61,7 +62,7 @@ class TestHTTPServer {
     if (options && options.resolveWithFullResponse) {
       return request({
         resolveWithFullResponse: options.resolveWithFullResponse,
-        uri: url + urlPath
+        uri: url + urlPath,
       });
     }
 
