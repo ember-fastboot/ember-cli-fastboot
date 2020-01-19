@@ -1,6 +1,5 @@
 'use strict';
 
-
 function fastbootExpressMiddleware(distPath, options) {
   let opts = options;
 
@@ -22,51 +21,51 @@ function fastbootExpressMiddleware(distPath, options) {
     let FastBoot = require('fastboot');
     fastboot = new FastBoot({
       distPath: opts.distPath,
-      resilient: opts.resilient
+      resilient: opts.resilient,
     });
   }
 
   return function(req, res, next) {
     let path = req.url;
-    fastboot.visit(path, { request: req, response: res })
-      .then(success, failure);
+    fastboot.visit(path, { request: req, response: res }).then(success, failure);
 
     function success(result) {
       let responseBody = opts.chunkedResponse ? result.chunks() : result.html();
 
-      responseBody.then(body => {
-        let headers = result.headers;
-        let statusMessage = result.error ? 'NOT OK ' : 'OK ';
-    
-        for (var pair of headers.entries()) {
-          res.set(pair[0], pair[1]);
-        }
-    
-        if (result.error) {
-          log("RESILIENT MODE CAUGHT:", result.error.stack);
-          next(result.error);
-        }
-    
-        log(result.statusCode, statusMessage + path);
-        res.status(result.statusCode);
+      responseBody
+        .then(body => {
+          let headers = result.headers;
+          let statusMessage = result.error ? 'NOT OK ' : 'OK ';
 
-        if (typeof body === 'string') {
-          res.send(body);
-        } else if (result.error) {
-          res.send(body[0]);
-        } else {
-          body.forEach(chunk => res.write(chunk));
-          res.end();
-        }
-      })
-      .catch(error => {
-        res.status(500);
-        next(error);
-      });
+          for (var pair of headers.entries()) {
+            res.set(pair[0], pair[1]);
+          }
+
+          if (result.error) {
+            log('RESILIENT MODE CAUGHT:', result.error.stack);
+            next(result.error);
+          }
+
+          log(result.statusCode, statusMessage + path);
+          res.status(result.statusCode);
+
+          if (typeof body === 'string') {
+            res.send(body);
+          } else if (result.error) {
+            res.send(body[0]);
+          } else {
+            body.forEach(chunk => res.write(chunk));
+            res.end();
+          }
+        })
+        .catch(error => {
+          res.status(500);
+          next(error);
+        });
     }
 
     function failure(error) {
-      if (error.name === "UnrecognizedURLError") {
+      if (error.name === 'UnrecognizedURLError') {
         next();
       } else {
         res.status(500);
@@ -85,10 +84,10 @@ function _log(statusCode, message, startTime) {
 
   if (startTime) {
     let diff = Date.now() - startTime;
-    message = message + chalk.blue(" " + diff + "ms");
+    message = message + chalk.blue(' ' + diff + 'ms');
   }
 
-  console.log(chalk.blue(now.toISOString()) + " " + chalk[color](statusCode) + " " + message);
+  console.log(chalk.blue(now.toISOString()) + ' ' + chalk[color](statusCode) + ' ' + message);
 }
 
 module.exports = fastbootExpressMiddleware;
