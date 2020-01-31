@@ -1,3 +1,17 @@
+## v3.0.0 (2020-01-31)
+
+#### :boom: Breaking Change
+* [#258](https://github.com/ember-fastboot/fastboot/pull/258) Drop Node 8 support ([@rwjblue](https://github.com/rwjblue))
+
+#### :rocket: Enhancement
+* [#252](https://github.com/ember-fastboot/fastboot/pull/252) Expose option to allow a new sandbox per visit ([@rwjblue](https://github.com/rwjblue))
+
+#### :house: Internal
+* [#259](https://github.com/ember-fastboot/fastboot/pull/259) Update various dependencies to latest versions. ([@rwjblue](https://github.com/rwjblue))
+
+#### Committers: 1
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+
 ## v3.0.0-beta.3 (2019-11-01)
 
 #### :bug: Bug Fix
