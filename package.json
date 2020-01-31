@@ -25,30 +25,30 @@
     "postversion": "git push origin master --tags"
   },
   "dependencies": {
-    "chalk": "^2.4.2",
+    "chalk": "^3.0.0",
     "cookie": "^0.4.0",
     "debug": "^4.1.1",
-    "resolve": "^1.12.0",
+    "resolve": "^1.15.0",
     "simple-dom": "^1.4.0",
-    "source-map-support": "^0.5.13"
+    "source-map-support": "^0.5.16"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^6.5.1",
-    "eslint-config-prettier": "^6.4.0",
-    "eslint-plugin-chai-expect": "^2.0.1",
-    "eslint-plugin-mocha": "^6.2.0",
-    "eslint-plugin-node": "^10.0.0",
-    "eslint-plugin-prettier": "^3.1.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-chai-expect": "^2.1.0",
+    "eslint-plugin-mocha": "^6.2.2",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
     "express": "^4.17.1",
-    "lerna-changelog": "^0.8.2",
-    "mocha": "^6.2.2",
-    "prettier": "^1.18.2",
-    "release-it": "^12.2.1",
+    "lerna-changelog": "^1.0.0",
+    "mocha": "^7.0.1",
+    "prettier": "^1.19.1",
+    "release-it": "^12.4.3",
     "release-it-lerna-changelog": "^1.0.3",
-    "rimraf": "^3.0.0",
-    "temp": "^0.9.0"
+    "rimraf": "^3.0.1",
+    "temp": "^0.9.1"
   },
   "engines": {
     "node": "10.* || >=12"

@@ -18,6 +18,7 @@
  * 6. Review / evaluate
  */
 
+/* eslint-disable-next-line node/no-unsupported-features/node-builtins */
 const inspector = require('inspector');
 const path = require('path');
 const fs = require('fs');
