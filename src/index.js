@@ -75,7 +75,7 @@ class FastBoot {
    * @param {Boolean} [options.shouldRender] whether the app should do rendering or not. If set to false, it puts the app in routing-only.
    * @param {Boolean} [options.disableShoebox] whether we should send the API data in the shoebox. If set to false, it will not send the API data used for rendering the app on server side in the index.html.
    * @param {Integer} [options.destroyAppInstanceInMs] whether to destroy the instance in the given number of ms. This is a failure mechanism to not wedge the Node process (See: https://github.com/ember-fastboot/fastboot/issues/90)
-   * @param {Boolean} [options.buildSandboxPerVisit] whether to create a new sandbox context per-visit (slows down each visit, but guarantees no prototype leakages can occur), or reuse the existing sandbox (faster per-request, but each request shares the same set of prototypes)
+   * @param {Boolean} [options.buildSandboxPerVisit=false] whether to create a new sandbox context per-visit (slows down each visit, but guarantees no prototype leakages can occur), or reuse the existing sandbox (faster per-request, but each request shares the same set of prototypes)
    * @returns {Promise<Result>} result
    */
   async visit(path, options = {}) {
