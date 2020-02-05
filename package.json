@@ -38,11 +38,11 @@
     "express": "^4.13.4",
     "mocha": "^5.0.0",
     "prettier": "^1.19.1",
+    "request": "^2.88.0",
     "request-promise": "^4.2.1"
   },
   "dependencies": {
     "chalk": "^2.0.1",
-    "fastboot": "^2.0.1",
-    "request": "^2.81.0"
+    "fastboot": "^2.0.1"
   }
 }
