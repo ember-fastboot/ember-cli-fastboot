@@ -38,7 +38,7 @@ function fastbootExpressMiddleware(distPath, options) {
           let statusMessage = result.error ? 'NOT OK ' : 'OK ';
 
           for (var pair of headers.entries()) {
-            res.set(pair[0], pair[1]);
+            res.append(pair[0], pair[1]);
           }
 
           if (result.error) {
