@@ -20,6 +20,7 @@ const Funnel = require('broccoli-funnel');
 const p = require('ember-cli-preprocess-registry/preprocessors');
 const fastbootTransform = require('fastboot-transform');
 const existsSync = fs.existsSync;
+const updateManifestFromHtml = require('./lib/embroider/update-manifest-from-html');
 
 let checker;
 function getVersionChecker(context) {
@@ -346,6 +347,13 @@ module.exports = {
   },
 
   postBuild(result) {
+    // Need to update manifest from html file.
+    // Set environment variable `FASTBOOT_HTML_MANIFEST` to `true`
+    // Usage `FASTBOOT_HTML_MANIFEST=true ember s`
+    if(process.env.FASTBOOT_HTML_MANIFEST === 'true') {
+      updateManifestFromHtml(result.directory);
+    }
+
     if (this.fastboot) {
       // should we reload fastboot if there are only css changes? Seems it maynot be needed.
       // TODO(future): we can do a smarter reload here by running fs-tree-diff on files loaded
