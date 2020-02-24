@@ -447,7 +447,7 @@ FASTBOOT_HTML_MANIFEST=true
 If we decide certain scirpt tags to be ignored in fastboot and shouldn't be loaded into fastboot sandbox, we need to use `data-fastboot-ignore` in script tag.
 Example:
 ```
-<script src="fastboot-ignore.js" data-fastboot-ignore></script>
+<script src="https://www.google-analytics.com/analytics.js" data-fastboot-ignore></script>
 ```
 
 ## Build Hooks for FastBoot

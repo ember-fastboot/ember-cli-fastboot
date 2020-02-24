@@ -6,44 +6,48 @@ const fs = require('fs');
 const updateManifestFromHtml = require('../lib/embroider/update-manifest-from-html')
 
 describe('embroider/update-manifest-from-html', function() {
-  const PROJECT = new Project('my-app');
+  let project, files;
+  beforeEach(() => {
+    const PROJECT = new Project('my-app');
 
-  PROJECT.files['index.html'] = `
-  <script src="a.js"></script>
-  <script src="b.js"></script>
-  <script src="%PLACEHOLDER[c.js]%"></script>
-  <script src="/some_context_path/e.js"></script>
-  <script src="chunk-12.js"></script>
-  <script src="chunk-12.test.js"></script>
-  <script src="fastboot-ignore.js" data-fastboot-ignore></script>
-  <script src="ember-cli-live-reload.js"></script>
-  <script src="testem.js"></script>
-  <script src="assets/vendor.js"></script>
-  <script src="assets/vendor-static.js"></script>
-  `;
+    PROJECT.files['index.html'] = `
+    <script src="a.js"></script>
+    <script src="b.js"></script>
+    <script src="%PLACEHOLDER[c.js]%"></script>
+    <script src="/some_context_path/e.js"></script>
+    <script src="chunk-12.js"></script>
+    <script src="chunk-12.test.js"></script>
+    <script src="fastboot-ignore.js" data-fastboot-ignore></script>
+    <script src="https://www.google-analytics.com/analytics.js" data-fastboot-ignore></script>
+    <script src="ember-cli-live-reload.js"></script>
+    <script src="testem.js"></script>
+    <script src="assets/vendor.js"></script>
+    <script src="assets/vendor-static.js"></script>
+    `;
 
-  PROJECT.pkg.fastboot = {
-    manifest: {
-      htmlFile: 'index.html',
-      appFiles: ['assets/app.js', 'assets/my-app-fastboot.js'],
-      vendorFiles:['assets/vendor.js', 'assets/vendor-static.js']
-    }
-  };
-  const project = PROJECT.clone();
-  project.writeSync();
-  const files = {};
-  files['a.js'] = '';
-  files['b.js'] = '';
-  files['c.js'] = '';
-  files['d.js'] = '';
-  files['e.js'] = '';
-  files['chunk-12.js'] = '';
-  files['chunk-12.test.js'] = '';
-
-  it(`works correctly as files are added/removed`,  function() {
+    PROJECT.pkg.fastboot = {
+      manifest: {
+        htmlFile: 'index.html',
+        appFiles: ['assets/app.js', 'assets/my-app-fastboot.js'],
+        vendorFiles:['assets/vendor.js', 'assets/vendor-static.js']
+      }
+    };
+    project = PROJECT.clone();
+    project.writeSync();
+    files = {};
+    files['a.js'] = '';
+    files['b.js'] = '';
+    files['c.js'] = '';
+    files['d.js'] = '';
+    files['e.js'] = '';
+    files['chunk-12.js'] = '';
+    files['chunk-12.test.js'] = '';
     fixturify.writeSync(project.root + '/my-app/assets', files);
     updateManifestFromHtml(project.root + '/my-app');
     project.readSync();
+  });
+
+  it(`works correctly as files are added/removed`,  function() {
 
     expect(JSON.parse(project.toJSON('package.json')).fastboot.manifest.appFiles).to.eql([
       'assets/a.js',
@@ -53,6 +57,14 @@ describe('embroider/update-manifest-from-html', function() {
       'assets/chunk-12.js',
       'assets/chunk-12.test.js',
       'assets/my-app-fastboot.js'
+    ]);
+  });
+
+  it(`data-embroider-ignore attribute is respected`,  function() {
+
+    expect(JSON.parse(project.toJSON('package.json')).fastboot.manifest.appFiles).that.does.not.include([
+      'fastboot-ignore.js',
+      'https://www.google-analytics.com/analytics.js'
     ]);
   });
 
