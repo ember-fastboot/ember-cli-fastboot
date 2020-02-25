@@ -399,7 +399,7 @@ export default  Route.extend({
 ```
 And they still take advantage of caching in the `shoebox`. No more redundant AJAX for already acquired data. Installation details are available in the addon [documentation](https://embermap.github.io/ember-data-storefront/docs).
 
-### Rehydration
+## Rehydration
 
 What is Rehydration?
 
@@ -436,7 +436,7 @@ use the rehydration builder and your application will be using rehydration.
 
 Rehydration is only compatible with fastboot > 1.1.4-beta.1, and Ember.js > 3.2.
 
-### Update manifest from HTML
+## Update manifest from HTML
 
 This is an opt-in feature that allows updating app files information in fastboot manifest from `index.html`. Enabling this feature is required when using Embroider for building the application. We can opt-in into this feature by setting the following environmental variable:
 
@@ -444,7 +444,10 @@ This is an opt-in feature that allows updating app files information in fastboot
 FASTBOOT_HTML_MANIFEST=true
 ```
 
-If we decide certain scirpt tags to be ignored in fastboot and shouldn't be loaded into fastboot sandbox, we need to use `data-fastboot-ignore` in script tag.
+### Disabling incompatible libraries from `index.html`
+
+If your application contains of scripts in `index.html` that only need to be run in the browser and not in the fastboot environment, then ensure to add `data-fastboot-ignore` data attribute in those script tags to avoid them from being loaded in FastBoot. 
+
 Example:
 ```
 <script src="https://www.google-analytics.com/analytics.js" data-fastboot-ignore></script>
