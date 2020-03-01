@@ -189,6 +189,16 @@ class EmberApp {
   }
 
   /**
+   * Builds a new application instance sandbox as a micro-task.
+   */
+  buildNewApplicationInstance() {
+    return Promise.resolve().then(() => {
+      let app = this.buildApp();
+      return app;
+    });
+  }
+
+  /**
    * @private
    *
    * Creates a new `Application`
@@ -230,6 +240,29 @@ class EmberApp {
   /**
    * @private
    *
+   * Get the new sandbox off if it is being created, otherwise create a new one on demand.
+   * The later is needed when the current request hasn't finished or wasn't build with sandbox
+   * per request turned on and a new request comes in.
+   *
+   */
+  async _getNewApplicationInstance() {
+    let app;
+
+    if (this._pendingNewApplicationInstance) {
+      let pendingAppInstancePromise = this._pendingNewApplicationInstance;
+      this._pendingNewApplicationInstance = undefined;
+      app = await pendingAppInstancePromise;
+    } else {
+      // if there is no current pending application instance, create a new one on-demand.
+      app = await this.buildApp();
+    }
+
+    return app;
+  }
+
+  /**
+   * @private
+   *
    * Main function that creates the app instance for every `visit` request, boots
    * the app instance and then visits the given route and destroys the app instance
    * when the route is finished its render cycle.
@@ -252,7 +285,7 @@ class EmberApp {
   async _visit(path, fastbootInfo, bootOptions, result, buildSandboxPerVisit) {
     let shouldBuildApp = buildSandboxPerVisit || this._applicationInstance === undefined;
 
-    let app = shouldBuildApp ? await this.buildApp() : this._applicationInstance;
+    let app = shouldBuildApp ? await this._getNewApplicationInstance() : this._applicationInstance;
 
     if (buildSandboxPerVisit) {
       // entangle the specific application instance to the result, so it can be
@@ -305,6 +338,7 @@ class EmberApp {
     let html = options.html || this.html;
     let disableShoebox = options.disableShoebox || false;
     let destroyAppInstanceInMs = parseInt(options.destroyAppInstanceInMs, 10);
+    let buildSandboxPerVisit = options.buildSandboxPerVisit || false;
 
     let shouldRender = options.shouldRender !== undefined ? options.shouldRender : true;
     let bootOptions = buildBootOptions(shouldRender);
@@ -331,13 +365,7 @@ class EmberApp {
     }
 
     try {
-      await this._visit(
-        path,
-        fastbootInfo,
-        bootOptions,
-        result,
-        options.buildSandboxPerVisit === true
-      );
+      await this._visit(path, fastbootInfo, bootOptions, result, buildSandboxPerVisit);
 
       if (!disableShoebox) {
         // if shoebox is not disabled, then create the shoebox and send API data
@@ -355,6 +383,12 @@ class EmberApp {
       result._destroy();
 
       clearTimeout(destroyAppInstanceTimer);
+
+      if (buildSandboxPerVisit) {
+        // if sandbox was built for this visit, then build a new sandbox for the next incoming request
+        // which is invoked using buildSandboxPerVisit
+        this._pendingNewApplicationInstance = this.buildNewApplicationInstance();
+      }
     }
 
     return result;
