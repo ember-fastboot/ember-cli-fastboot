@@ -14,6 +14,7 @@ const FastBootInfo = require('./fastboot-info');
 const Result = require('./result');
 const FastBootSchemaVersions = require('./fastboot-schema-versions');
 const getPackageName = require('./utils/get-package-name');
+const Queue = require('./utils/queue');
 
 /**
  * @private
@@ -29,6 +30,7 @@ class EmberApp {
    * @param {Object} options
    * @param {string} options.distPath - path to the built Ember application
    * @param {Function} [options.buildSandboxGlobals] - the function used to build the final set of global properties accesible within the sandbox
+   * @param {Number} [options.maxSandboxQueueSize] - maximum sandbox queue size when using buildSandboxPerRequest flag.
    */
   constructor(options) {
     this.buildSandboxGlobals = options.buildSandboxGlobals || defaultBuildSandboxGlobals;
@@ -64,9 +66,30 @@ class EmberApp {
     );
     this.scripts = buildScripts(filePaths);
 
+    // default to 1 if maxSandboxQueueSize is not defined so the sandbox is pre-warmed when process comes up
+    const maxSandboxQueueSize = options.maxSandboxQueueSize || 1;
     // Ensure that the dist files can be evaluated and the `Ember.Application`
     // instance created.
-    this.buildApp();
+    this.buildSandboxQueue(maxSandboxQueueSize);
+  }
+
+  /**
+   * @private
+   *
+   * Function to build queue of sandboxes which is later leveraged if application is using `buildSandboxPerRequest`
+   * flag. This is an optimization to help with performance.
+   *
+   * @param {Number} maxSandboxQueueSize - maximum size of queue (this is should be a derivative of your QPS)
+   */
+  buildSandboxQueue(maxSandboxQueueSize) {
+    this._sandboxApplicationInstanceQueue = new Queue(
+      () => this.buildNewApplicationInstance(),
+      maxSandboxQueueSize
+    );
+
+    for (let i = 0; i < maxSandboxQueueSize; i++) {
+      this._sandboxApplicationInstanceQueue.enqueue();
+    }
   }
 
   /**
@@ -240,24 +263,32 @@ class EmberApp {
   /**
    * @private
    *
+   * @param {Promise<instance>} appInstance - the instance that is pre-warmed or built on demand
+   * @param {Boolean} isAppInstancePreBuilt - boolean representing how the instance was built
+   *
+   * @returns {Object}
+   */
+  getAppInstanceInfo(appInstance, isAppInstancePreBuilt = true) {
+    return { app: appInstance, isSandboxPreBuilt: isAppInstancePreBuilt };
+  }
+
+  /**
+   * @private
+   *
    * Get the new sandbox off if it is being created, otherwise create a new one on demand.
    * The later is needed when the current request hasn't finished or wasn't build with sandbox
    * per request turned on and a new request comes in.
    *
+   * @param {Boolean} buildSandboxPerVisit if true, a new sandbox will
+   *                                       **always** be created, otherwise one
+   *                                       is created for the first request
+   *                                       only
    */
-  async _getNewApplicationInstance() {
-    let app;
+  async getNewApplicationInstance() {
+    const queueObject = this._sandboxApplicationInstanceQueue.dequeue();
+    const app = await queueObject.item;
 
-    if (this._pendingNewApplicationInstance) {
-      let pendingAppInstancePromise = this._pendingNewApplicationInstance;
-      this._pendingNewApplicationInstance = undefined;
-      app = await pendingAppInstancePromise;
-    } else {
-      // if there is no current pending application instance, create a new one on-demand.
-      app = await this.buildApp();
-    }
-
-    return app;
+    return this.getAppInstanceInfo(app, queueObject.isItemPreBuilt);
   }
 
   /**
@@ -285,13 +316,19 @@ class EmberApp {
   async _visit(path, fastbootInfo, bootOptions, result, buildSandboxPerVisit) {
     let shouldBuildApp = buildSandboxPerVisit || this._applicationInstance === undefined;
 
-    let app = shouldBuildApp ? await this._getNewApplicationInstance() : this._applicationInstance;
+    let { app, isSandboxPreBuilt } = shouldBuildApp
+      ? await this.getNewApplicationInstance()
+      : this.getAppInstanceInfo(this._applicationInstance);
 
     if (buildSandboxPerVisit) {
       // entangle the specific application instance to the result, so it can be
       // destroyed when result._destroy() is called (after the visit is
       // completed)
       result.applicationInstance = app;
+
+      // we add analytics information about the current request to know
+      // whether it used sandbox from the pre-built queue or built on demand.
+      result.analytics.usedPrebuiltSandbox = isSandboxPreBuilt;
     } else {
       // save the created application instance so that we can clean it up when
       // this instance of `src/ember-app.js` is destroyed (e.g. reload)
@@ -387,7 +424,7 @@ class EmberApp {
       if (buildSandboxPerVisit) {
         // if sandbox was built for this visit, then build a new sandbox for the next incoming request
         // which is invoked using buildSandboxPerVisit
-        this._pendingNewApplicationInstance = this.buildNewApplicationInstance();
+        this._sandboxApplicationInstanceQueue.enqueue();
       }
     }
 

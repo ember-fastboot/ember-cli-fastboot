@@ -41,9 +41,10 @@ class FastBoot {
    * @param {string} options.distPath the path to the built Ember application
    * @param {Boolean} [options.resilient=false] if true, errors during rendering won't reject the `visit()` promise but instead resolve to a {@link Result}
    * @param {Function} [options.buildSandboxGlobals] a function used to build the final set of global properties setup within the sandbox
+   * @param {Number} [options.maxSandboxQueueSize] - maximum sandbox queue size when using buildSandboxPerRequest flag.
    */
   constructor(options = {}) {
-    let { distPath, buildSandboxGlobals } = options;
+    let { distPath, buildSandboxGlobals, maxSandboxQueueSize } = options;
 
     this.resilient = 'resilient' in options ? Boolean(options.resilient) : false;
 
@@ -58,8 +59,9 @@ class FastBoot {
     }
 
     this.buildSandboxGlobals = buildSandboxGlobals;
+    this.maxSandboxQueueSize = maxSandboxQueueSize;
 
-    this._buildEmberApp(this.distPath, this.buildSandboxGlobals);
+    this._buildEmberApp(this.distPath, this.buildSandboxGlobals, maxSandboxQueueSize);
   }
 
   /**
@@ -106,7 +108,11 @@ class FastBoot {
     this._buildEmberApp(distPath);
   }
 
-  _buildEmberApp(distPath = this.distPath, buildSandboxGlobals = this.buildSandboxGlobals) {
+  _buildEmberApp(
+    distPath = this.distPath,
+    buildSandboxGlobals = this.buildSandboxGlobals,
+    maxSandboxQueueSize = this.maxSandboxQueueSize
+  ) {
     if (!distPath) {
       throw new Error(
         'You must instantiate FastBoot with a distPath ' +
@@ -124,6 +130,7 @@ class FastBoot {
     this._app = new EmberApp({
       distPath,
       buildSandboxGlobals,
+      maxSandboxQueueSize,
     });
   }
 }
