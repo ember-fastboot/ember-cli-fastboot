@@ -79,7 +79,7 @@ module.exports = {
     this._appRegistry = app.registry;
     this._name = app.name;
 
-    this.options = this._optionsFor(app.env, app.project);
+    this.fastbootOptions = this._fastbootOptionsFor(app.env, app.project);
 
     migrateInitializers(this.project);
   },
@@ -327,7 +327,7 @@ module.exports = {
             const outputPath = broccoliHeader['outputPath'];
             const fastbootOptions = Object.assign(
               {},
-              this.options,
+              this.fastbootOptions,
               { distPath: outputPath }
             );
 
@@ -381,7 +381,16 @@ module.exports = {
     return (typeof this.project.isModuleUnification === 'function') && this.project.isModuleUnification();
   },
 
-  _optionsFor(environment, project) {
+  /**
+   * Reads FastBoot configuration from application's `config/fastboot.js` file if present,
+   * otherwise returns empty object.
+   *
+   * The configuration file is expected to export a function with `environment` as an argument,
+   * which is same as a how `config/environment.js` works.
+   *
+   * TODO Allow add-ons to provide own options and merge them with the application's options.
+   */
+  _fastbootOptionsFor(environment, project) {
     const configPath = path.join(path.dirname(project.configPath()), 'fastboot.js');
 
     if (fs.existsSync(configPath)) {
