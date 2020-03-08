@@ -60,6 +60,40 @@ visit your app at `http://localhost:4200/?fastboot=false`. If you want to turn o
 
 You can even disable serving fastboot with `ember serve` using an environment flag: `FASTBOOT_DISABLED=true ember serve`. If you have disabled building fastboot assets using the same flag as described [here](https://github.com/ember-fastboot/ember-cli-fastboot#double-build-times-and-no-incremental-builds), remember to also disable serving fastboot assets when using `ember serve`.
 
+### FastBoot Configuration
+
+When running locally using `ember serve` you can pass options into FastBoot instance via `config/fastboot.js` file. The configuration file is applicable only for applications, addons are not supported.
+
+```js
+module.exports = function(environment) {
+  let myGlobal = environment === 'production' ? process.env.MY_GLOBAL : 'testing';
+
+  return {
+    sandboxGlobals: {
+      myGlobal;
+    }
+  };
+}
+```
+
+There are several options available, see FastBoot's [README](https://github.com/ember-fastboot/fastboot/tree/v2.0.3#usage) for more information, but be aware that `distPath` is provided internally by `ember-cli-fastboot`, hence it can not be modified by this file.
+
+### FastBoot App Server Configuration
+
+When using FastBoot App Server for production environment you have to manually pass options from `config/fastboot.js` file.
+
+```js
+const FastBootAppServer = require('fastboot-app-server');
+const config = require('./config/fastboot')(process.env.NODE_ENV);
+
+let server = new FastBootAppServer({
+  distPath: 'dist',
+  ...config,
+});
+
+server.start();
+```
+
 ## Using Node/npm Dependencies
 
 ### Whitelisting Packages
