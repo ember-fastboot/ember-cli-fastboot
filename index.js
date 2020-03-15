@@ -79,6 +79,8 @@ module.exports = {
     this._appRegistry = app.registry;
     this._name = app.name;
 
+    this.fastbootOptions = this._fastbootOptionsFor(app.env, app.project);
+
     migrateInitializers(this.project);
   },
 
@@ -323,13 +325,14 @@ module.exports = {
           if (!this.fastboot) {
             const broccoliHeader = req.headers['x-broccoli'];
             const outputPath = broccoliHeader['outputPath'];
+            const fastbootOptions = Object.assign(
+              {},
+              this.fastbootOptions,
+              { distPath: outputPath }
+            );
 
-            // TODO(future): make this configurable for allowing apps to pass sandboxGlobals
-            // and custom sandbox class
             this.ui.writeLine(chalk.green('App is being served by FastBoot'));
-            this.fastboot = new FastBoot({
-              distPath: outputPath
-            });
+            this.fastboot = new FastBoot(fastbootOptions);
           }
 
           let fastbootMiddleware = FastBootExpressMiddleware({
@@ -373,8 +376,26 @@ module.exports = {
 
     return checker.for('ember', 'bower');
   },
-  
+
   _isModuleUnification() {
     return (typeof this.project.isModuleUnification === 'function') && this.project.isModuleUnification();
+  },
+
+  /**
+   * Reads FastBoot configuration from application's `config/fastboot.js` file if present,
+   * otherwise returns empty object.
+   *
+   * The configuration file is expected to export a function with `environment` as an argument,
+   * which is same as a how `config/environment.js` works.
+   *
+   * TODO Allow add-ons to provide own options and merge them with the application's options.
+   */
+  _fastbootOptionsFor(environment, project) {
+    const configPath = path.join(path.dirname(project.configPath()), 'fastboot.js');
+
+    if (fs.existsSync(configPath)) {
+      return require(configPath)(environment);
+    }
+    return {};
   }
 };
