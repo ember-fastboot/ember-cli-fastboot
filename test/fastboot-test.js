@@ -138,7 +138,22 @@ describe('FastBoot', function() {
       .visit('/')
       .then(r => r.html())
       .then(html => {
-        expect(html).to.match(/<body data-before=1 +class="no-js default-class it-works" data-after=2/);
+        expect(html).to.match(
+          /<body data-before=1 +class="no-js default-class it-works" data-after=2/
+        );
+      });
+  });
+
+  it('appends classes correctly even when there was no classes in the original html', function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('custom-body-attrs-with-no-default-classes'),
+    });
+
+    return fastboot
+      .visit('/')
+      .then(r => r.html())
+      .then(html => {
+        expect(html).to.match(/<body data-before=1 data-after=2 +class="it-works"/);
       });
   });
 

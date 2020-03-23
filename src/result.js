@@ -227,6 +227,19 @@ function missingTag(tag) {
   );
 }
 
+function addClass(html, regex, newClass) {
+  return html.replace(regex, function(_, tag, attributes) {
+    if (/class="([^"]*)"/i.test(attributes)) {
+      attributes = attributes.replace(/class="([^"]*)"/i, function(_, klass) {
+        return `class="${klass} ${newClass}"`;
+      });
+    } else {
+      attributes += ' class="' + newClass + '"';
+    }
+    return `<${tag}${attributes}>`;
+  });
+}
+
 async function insertIntoIndexHTML(
   html,
   htmlAttributes,
@@ -254,9 +267,7 @@ async function insertIntoIndexHTML(
   });
 
   if (htmlClass) {
-    html = html.replace(/(<html.*)class="([^"]*)"([^>]*)/i, function(_, prefix, klass, suffix) {
-      return prefix + `class="${klass + ' ' + htmlClass.value}"` + suffix;
-    });
+    html = addClass(html, /<(html)(.*)>/i, htmlClass.value);
   }
   if (htmlAttributes) {
     html = html.replace(/<html[^>]*/i, function(match) {
@@ -265,9 +276,7 @@ async function insertIntoIndexHTML(
   }
 
   if (bodyClass) {
-    html = html.replace(/(<body.*)class="([^"]*)"([^>]*)/i, function(_, prefix, klass, suffix) {
-      return prefix + `class="${klass + ' ' + bodyClass.value}"` + suffix;
-    });
+    html = addClass(html, /<(body)(.*)>/i, bodyClass.value);
   }
   if (bodyAttributes) {
     html = html.replace(/<body[^>]*/i, function(match) {
