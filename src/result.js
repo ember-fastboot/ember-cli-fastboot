@@ -254,7 +254,7 @@ async function insertIntoIndexHTML(
   });
 
   if (htmlClass) {
-    html = html.replace(/(<html.*)class=\"([^"]*)\"([^>]*)/i, function(_, prefix, klass, suffix) {
+    html = html.replace(/(<html.*)class="([^"]*)"([^>]*)/i, function(_, prefix, klass, suffix) {
       return prefix + `class="${klass + ' ' + htmlClass.value}"` + suffix;
     });
   }
@@ -265,7 +265,7 @@ async function insertIntoIndexHTML(
   }
 
   if (bodyClass) {
-    html = html.replace(/(<body.*)class=\"([^"]*)\"([^>]*)/i, function(_, prefix, klass, suffix) {
+    html = html.replace(/(<body.*)class="([^"]*)"([^>]*)/i, function(_, prefix, klass, suffix) {
       return prefix + `class="${klass + ' ' + bodyClass.value}"` + suffix;
     });
   }
