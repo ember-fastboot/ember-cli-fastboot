@@ -125,7 +125,7 @@ describe('FastBoot', function() {
       .visit('/')
       .then(r => r.html())
       .then(html => {
-        expect(html).to.match(/<html data-foo=1 +class="it-works"/);
+        expect(html).to.match(/<html data-before=1 +class="a b it-works" data-after=2/);
       });
   });
 
@@ -138,7 +138,7 @@ describe('FastBoot', function() {
       .visit('/')
       .then(r => r.html())
       .then(html => {
-        expect(html).to.match(/<body data-foo=1 +class="it-works"/);
+        expect(html).to.match(/<body data-before=1 +class="no-js default-class it-works" data-after=2/);
       });
   });
 
