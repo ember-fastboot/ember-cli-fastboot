@@ -20,6 +20,7 @@ class Result {
     this._fastbootInfo = fastbootInfo;
     this.applicationInstance = undefined;
     this.applicationInstanceInstance = undefined;
+    this.analytics = {};
   }
 
   /**

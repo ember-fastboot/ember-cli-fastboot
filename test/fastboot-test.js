@@ -409,19 +409,31 @@ describe('FastBoot', function() {
     });
 
     let result = await fastboot.visit('/', { buildSandboxPerVisit: true });
+    let analytics = result.analytics;
     let html = await result.html();
 
     expect(html).to.match(/Items: 1/);
+    expect(analytics).to.be.deep.equals({
+      usedPrebuiltSandbox: true,
+    });
 
     result = await fastboot.visit('/', { buildSandboxPerVisit: true });
+    analytics = result.analytics;
     html = await result.html();
 
     expect(html).to.match(/Items: 1/);
+    expect(analytics).to.be.deep.equals({
+      usedPrebuiltSandbox: true,
+    });
 
     result = await fastboot.visit('/', { buildSandboxPerVisit: true });
+    analytics = result.analytics;
     html = await result.html();
 
     expect(html).to.match(/Items: 1/);
+    expect(analytics).to.be.deep.equals({
+      usedPrebuiltSandbox: true,
+    });
   });
 
   it('errors can be properly attributed with buildSandboxPerVisit=true', async function() {
@@ -457,5 +469,89 @@ describe('FastBoot', function() {
         expect(error.fastbootRequestPath).to.equal('/slow/100/reject');
       }
     );
+  });
+
+  it('it eagerly builds sandbox when queue is empty', async function() {
+    this.timeout(3000);
+
+    var fastboot = new FastBoot({
+      distPath: fixture('onerror-per-visit'),
+      maxSandboxQueueSize: 2,
+    });
+
+    let first = fastboot.visit('/slow/50/resolve', {
+      buildSandboxPerVisit: true,
+      request: { url: '/slow/50/resolve', headers: {} },
+    });
+
+    let second = fastboot.visit('/slow/50/resolve', {
+      buildSandboxPerVisit: true,
+      request: { url: '/slow/50/resolve', headers: {} },
+    });
+
+    let third = fastboot.visit('/slow/25/resolve', {
+      buildSandboxPerVisit: true,
+      request: { url: '/slow/25/resolve', headers: {} },
+    });
+
+    let result = await first;
+    let analytics = result.analytics;
+    expect(analytics).to.be.deep.equals({
+      usedPrebuiltSandbox: true,
+    });
+
+    result = await second;
+    analytics = result.analytics;
+    expect(analytics).to.be.deep.equals({
+      usedPrebuiltSandbox: true,
+    });
+
+    result = await third;
+    analytics = result.analytics;
+    expect(analytics).to.be.deep.equals({
+      usedPrebuiltSandbox: false,
+    });
+  });
+
+  it('it leverages sandbox from queue when present', async function() {
+    this.timeout(3000);
+
+    var fastboot = new FastBoot({
+      distPath: fixture('onerror-per-visit'),
+      maxSandboxQueueSize: 3,
+    });
+
+    let first = fastboot.visit('/slow/50/resolve', {
+      buildSandboxPerVisit: true,
+      request: { url: '/slow/50/resolve', headers: {} },
+    });
+
+    let second = fastboot.visit('/slow/50/resolve', {
+      buildSandboxPerVisit: true,
+      request: { url: '/slow/50/resolve', headers: {} },
+    });
+
+    let third = fastboot.visit('/slow/25/resolve', {
+      buildSandboxPerVisit: true,
+      request: { url: '/slow/25/resolve', headers: {} },
+    });
+
+    let result = await first;
+    let analytics = result.analytics;
+    expect(analytics).to.be.deep.equals({
+      usedPrebuiltSandbox: true,
+    });
+
+    result = await second;
+    analytics = result.analytics;
+    expect(analytics).to.be.deep.equals({
+      usedPrebuiltSandbox: true,
+    });
+
+    result = await third;
+    analytics = result.analytics;
+    expect(analytics).to.be.deep.equals({
+      usedPrebuiltSandbox: true,
+    });
   });
 });
