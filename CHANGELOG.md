@@ -1,7 +1,18 @@
+## v3.0.2 (2020-03-24)
+
+#### :rocket: Enhancement
+* [#262](https://github.com/ember-fastboot/fastboot/pull/264) Add sandbox queue management when using `buildSandboxPerVisit` ([@kratiahuja](https://github.com/kratiahuja))
+
+#### Committers: 1
+- Krati Ahuja ([@kratiahuja](https://github.com/kratiahuja))
+
 ## v3.0.1 (2020-03-12)
 
 #### :rocket: Enhancement
 * [#262](https://github.com/ember-fastboot/fastboot/pull/262) Improve performance when using new sandbox per visit by building sandbox after the request ([@kratiahuja](https://github.com/kratiahuja))
+
+#### Committers: 1
+- Krati Ahuja ([@kratiahuja](https://github.com/kratiahuja))
 
 ## v3.0.0 (2020-01-31)
 
