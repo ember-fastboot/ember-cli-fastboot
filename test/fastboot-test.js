@@ -144,7 +144,7 @@ describe('FastBoot', function() {
       });
   });
 
-  it('appends classes correctly even when there was no classes in the original html', function() {
+  it('appends classes correctly even when there are no classes in the original body', function() {
     var fastboot = new FastBoot({
       distPath: fixture('custom-body-attrs-with-no-default-classes'),
     });
@@ -154,6 +154,19 @@ describe('FastBoot', function() {
       .then(r => r.html())
       .then(html => {
         expect(html).to.match(/<body data-before=1 data-after=2 +class="it-works"/);
+      });
+  });
+
+  it('appends classes correctly even when there are no classes in the original html', function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('custom-html-attrs-with-no-default-classes'),
+    });
+
+    return fastboot
+      .visit('/')
+      .then(r => r.html())
+      .then(html => {
+        expect(html).to.match(/<html data-before=1 data-after=2 +class="it-works"/);
       });
   });
 
