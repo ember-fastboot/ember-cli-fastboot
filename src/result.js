@@ -52,9 +52,11 @@ class Result {
     return insertIntoIndexHTML(
       this._html,
       this._htmlAttributes,
+      this._htmlClass,
       this._head,
       this._body,
-      this._bodyAttributes
+      this._bodyAttributes,
+      this._bodyClass
     );
   }
 
@@ -73,9 +75,11 @@ class Result {
     return insertIntoIndexHTML(
       this._html,
       this._htmlAttributes,
+      this._htmlClass,
       this._head,
       this._body,
-      this._bodyAttributes
+      this._bodyAttributes,
+      this._bodyClass
     ).then(html => {
       let docParts = html.match(HTML_HEAD_REGEX);
       if (!docParts || docParts.length === 1) {
@@ -174,17 +178,13 @@ class Result {
     let head = this._doc.head;
     let body = this._doc.body;
 
-    if (htmlElement.attributes.length > 0) {
-      this._htmlAttributes = HTMLSerializer.attributes(htmlElement.attributes);
-    } else {
-      this._htmlAttributes = null;
-    }
+    let { klass: htmlClass, attributes: htmlAttributes } = extractExtraAttributes(htmlElement);
+    this._htmlClass = htmlClass;
+    this._htmlAttributes = htmlAttributes;
 
-    if (body.attributes.length > 0) {
-      this._bodyAttributes = HTMLSerializer.attributes(body.attributes);
-    } else {
-      this._bodyAttributes = null;
-    }
+    let { klass: bodyClass, attributes: bodyAttributes } = extractExtraAttributes(body);
+    this._bodyClass = bodyClass;
+    this._bodyAttributes = bodyAttributes;
 
     if (head) {
       head = HTMLSerializer.serializeChildren(head);
@@ -199,13 +199,57 @@ class Result {
   }
 }
 
+function extractExtraAttributes(element) {
+  let klass;
+  let attributes;
+  if (element.attributes.length > 0) {
+    let elementClass = element.attributes.find(attr => attr.name === 'class');
+    if (elementClass) {
+      klass = elementClass;
+      let otherAttrs = element.attributes.filter(attr => attr.name !== 'class');
+      if (otherAttrs.length > 0) {
+        attributes = HTMLSerializer.attributes(otherAttrs);
+      } else {
+        attributes = null;
+      }
+    } else {
+      attributes = HTMLSerializer.attributes(element.attributes);
+      klass = null;
+    }
+  } else {
+    klass = attributes = null;
+  }
+  return { klass, attributes };
+}
+
 function missingTag(tag) {
   throw new Error(
     `Fastboot was not able to find ${tag} in base HTML. It could not replace the contents.`
   );
 }
 
-async function insertIntoIndexHTML(html, htmlAttributes, head, body, bodyAttributes) {
+function addClass(html, regex, newClass) {
+  return html.replace(regex, function(_, tag, attributes) {
+    if (/class="([^"]*)"/i.test(attributes)) {
+      attributes = attributes.replace(/class="([^"]*)"/i, function(_, klass) {
+        return `class="${klass} ${newClass}"`;
+      });
+    } else {
+      attributes += ' class="' + newClass + '"';
+    }
+    return `<${tag}${attributes}>`;
+  });
+}
+
+async function insertIntoIndexHTML(
+  html,
+  htmlAttributes,
+  htmlClass,
+  head,
+  body,
+  bodyAttributes,
+  bodyClass
+) {
   if (!html) {
     return Promise.resolve(html);
   }
@@ -223,12 +267,18 @@ async function insertIntoIndexHTML(html, htmlAttributes, head, body, bodyAttribu
     return '';
   });
 
+  if (htmlClass) {
+    html = addClass(html, /<(html)(.*)>/i, htmlClass.value);
+  }
   if (htmlAttributes) {
     html = html.replace(/<html[^>]*/i, function(match) {
       return match + ' ' + htmlAttributes;
     });
   }
 
+  if (bodyClass) {
+    html = addClass(html, /<(body)(.*)>/i, bodyClass.value);
+  }
   if (bodyAttributes) {
     html = html.replace(/<body[^>]*/i, function(match) {
       return match + ' ' + bodyAttributes;

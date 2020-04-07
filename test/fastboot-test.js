@@ -125,7 +125,7 @@ describe('FastBoot', function() {
       .visit('/')
       .then(r => r.html())
       .then(html => {
-        expect(html).to.match(/<html data-foo=1 +class="it-works"/);
+        expect(html).to.match(/<html data-before=1 +class="a b it-works" data-after=2/);
       });
   });
 
@@ -138,7 +138,35 @@ describe('FastBoot', function() {
       .visit('/')
       .then(r => r.html())
       .then(html => {
-        expect(html).to.match(/<body data-foo=1 +class="it-works"/);
+        expect(html).to.match(
+          /<body data-before=1 +class="no-js default-class it-works" data-after=2/
+        );
+      });
+  });
+
+  it('appends classes correctly even when there are no classes in the original body', function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('custom-body-attrs-with-no-default-classes'),
+    });
+
+    return fastboot
+      .visit('/')
+      .then(r => r.html())
+      .then(html => {
+        expect(html).to.match(/<body data-before=1 data-after=2 +class="it-works"/);
+      });
+  });
+
+  it('appends classes correctly even when there are no classes in the original html', function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('custom-html-attrs-with-no-default-classes'),
+    });
+
+    return fastboot
+      .visit('/')
+      .then(r => r.html())
+      .then(html => {
+        expect(html).to.match(/<html data-before=1 data-after=2 +class="it-works"/);
       });
   });
 
