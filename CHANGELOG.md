@@ -1,3 +1,23 @@
+* Merge pull request #760 from ember-fastboot/yarn-sync (ca9b2ea)
+* Re-roll yarn.lock (0d7ce72)
+* Merge pull request #757 from ember-fastboot/revert-755-greenkeeper/release-it-13.0.0 (94c2a6c)
+* Revert "Update release-it to the latest version 🚀" (1340196)
+* Merge pull request #752 from zonkyio/fastboot-config (2458159)
+* Add FastBoot configuration section into README (40b6634)
+* Update based on review (1f6c8c2)
+* Merge pull request #755 from ember-fastboot/greenkeeper/release-it-13.0.0 (715c5b1)
+* Merge pull request #720 from ember-fastboot/greenkeeper/eslint-plugin-ember-7.0.0 (8e10913)
+* chore(package): update lockfile yarn.lock (5fa71f5)
+* chore(package): update release-it to version 13.0.0 (c48a612)
+* Add support for custom configuration (12e121c)
+* Re-roll yarn.lock. (#738) (6a5d6c6)
+* Re-roll yarn.lock. (60b5eaa)
+* Merge pull request #737 from dnalagatla/dnalagatla/fix-custom-app-build (808479b)
+* Fix custom app build issue #730 (9ad8446)
+* fix typo in property name isFastboot -> isFastBoot (#728) (dea2f93)
+* fix typo in property name isFastboot -> isFastBoot (afadb85)
+* chore(package): update eslint-plugin-ember to version 7.0.0 (66f56c1)
+
 
 ## v2.2.1 (2019-09-11)
 
