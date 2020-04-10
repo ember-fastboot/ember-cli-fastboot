@@ -1,3 +1,5 @@
+## v2.2.2 (2020-04-09)
+
 * Merge pull request #760 from ember-fastboot/yarn-sync (ca9b2ea)
 * Re-roll yarn.lock (0d7ce72)
 * Merge pull request #757 from ember-fastboot/revert-755-greenkeeper/release-it-13.0.0 (94c2a6c)
