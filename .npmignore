@@ -4,4 +4,3 @@
 .eslintrc.js
 .travis.yml
 test/
-tmp/
