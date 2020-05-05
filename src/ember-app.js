@@ -3,17 +3,14 @@
 const fs = require('fs');
 const vm = require('vm');
 const path = require('path');
-const chalk = require('chalk');
-
 const SimpleDOM = require('simple-dom');
-const resolve = require('resolve');
 const debug = require('debug')('fastboot:ember-app');
 
 const Sandbox = require('./sandbox');
 const FastBootInfo = require('./fastboot-info');
 const Result = require('./result');
-const FastBootSchemaVersions = require('./fastboot-schema-versions');
-const getPackageName = require('./utils/get-package-name');
+const { loadConfig } = require('./fastboot-schema');
+
 const Queue = require('./utils/queue');
 
 /**
@@ -36,13 +33,13 @@ class EmberApp {
     this.buildSandboxGlobals = options.buildSandboxGlobals || defaultBuildSandboxGlobals;
 
     let distPath = (this.distPath = path.resolve(options.distPath));
-    let config = this.readPackageJSON(distPath);
+    let config = loadConfig(distPath);
 
-    this.moduleWhitelist = config.moduleWhitelist;
     this.hostWhitelist = config.hostWhitelist;
     this.config = config.config;
     this.appName = config.appName;
-    this.schemaVersion = config.schemaVersion;
+    this.html = config.html;
+    this.sandboxRequire = config.sandboxRequire;
 
     if (process.env.APP_CONFIG) {
       let appConfig = JSON.parse(process.env.APP_CONFIG);
@@ -57,14 +54,10 @@ class EmberApp {
       this.config = allConfig;
     }
 
-    this.html = fs.readFileSync(config.htmlFile, 'utf8');
-
-    this.sandboxRequire = this.buildWhitelistedRequire(this.moduleWhitelist, distPath);
-    let filePaths = [require.resolve('./scripts/install-source-map-support')].concat(
-      config.vendorFiles,
-      config.appFiles
-    );
-    this.scripts = buildScripts(filePaths);
+    this.scripts = buildScripts([
+      require.resolve('./scripts/install-source-map-support'),
+      ...config.scripts,
+    ]);
 
     // default to 1 if maxSandboxQueueSize is not defined so the sandbox is pre-warmed when process comes up
     const maxSandboxQueueSize = options.maxSandboxQueueSize || 1;
@@ -127,79 +120,6 @@ class EmberApp {
     let globals = buildSandboxGlobals(defaultGlobals);
 
     return new Sandbox(globals);
-  }
-
-  /**
-   * @private
-   *
-   * The Ember app runs inside a sandbox that doesn't have access to the normal
-   * Node.js environment, including the `require` function. Instead, we provide
-   * our own `require` method that only allows whitelisted packages to be
-   * requested.
-   *
-   * This method takes an array of whitelisted package names and the path to the
-   * built Ember app and constructs this "fake" `require` function that gets made
-   * available globally inside the sandbox.
-   *
-   * @param {string[]} whitelist array of whitelisted package names
-   * @param {string} distPath path to the built Ember app
-   */
-  buildWhitelistedRequire(whitelist, distPath) {
-    let isLegacyWhitelist = this.schemaVersion < FastBootSchemaVersions.strictWhitelist;
-
-    whitelist.forEach(function(whitelistedModule) {
-      debug('module whitelisted; module=%s', whitelistedModule);
-
-      if (isLegacyWhitelist) {
-        let packageName = getPackageName(whitelistedModule);
-
-        if (packageName !== whitelistedModule && whitelist.indexOf(packageName) === -1) {
-          console.error("Package '" + packageName + "' is required to be in the whitelist.");
-        }
-      }
-    });
-
-    return function(moduleName) {
-      let packageName = getPackageName(moduleName);
-      let isWhitelisted = whitelist.indexOf(packageName) > -1;
-
-      if (isWhitelisted) {
-        try {
-          let resolvedModulePath = resolve.sync(moduleName, { basedir: distPath });
-          return require(resolvedModulePath);
-        } catch (error) {
-          if (error.code === 'MODULE_NOT_FOUND') {
-            return require(moduleName);
-          } else {
-            throw error;
-          }
-        }
-      }
-
-      if (isLegacyWhitelist) {
-        if (whitelist.indexOf(moduleName) > -1) {
-          let nodeModulesPath = path.join(distPath, 'node_modules', moduleName);
-
-          if (fs.existsSync(nodeModulesPath)) {
-            return require(nodeModulesPath);
-          } else {
-            return require(moduleName);
-          }
-        } else {
-          throw new Error(
-            "Unable to require module '" + moduleName + "' because it was not in the whitelist."
-          );
-        }
-      }
-
-      throw new Error(
-        "Unable to require module '" +
-          moduleName +
-          "' because its package '" +
-          packageName +
-          "' was not in the whitelist."
-      );
-    };
   }
 
   /**
@@ -429,99 +349,6 @@ class EmberApp {
     }
 
     return result;
-  }
-
-  /**
-   * Given the path to a built Ember app, reads the FastBoot manifest
-   * information from its `package.json` file.
-   */
-  readPackageJSON(distPath) {
-    let pkgPath = path.join(distPath, 'package.json');
-    let file;
-
-    try {
-      file = fs.readFileSync(pkgPath);
-    } catch (e) {
-      throw new Error(
-        `Couldn't find ${pkgPath}. You may need to update your version of ember-cli-fastboot.`
-      );
-    }
-
-    let manifest;
-    let schemaVersion;
-    let pkg;
-
-    try {
-      pkg = JSON.parse(file);
-      manifest = pkg.fastboot.manifest;
-      schemaVersion = pkg.fastboot.schemaVersion;
-    } catch (e) {
-      throw new Error(
-        `${pkgPath} was malformed or did not contain a manifest. Ensure that you have a compatible version of ember-cli-fastboot.`
-      );
-    }
-
-    const currentSchemaVersion = FastBootSchemaVersions.latest;
-    // set schema version to 1 if not defined
-    schemaVersion = schemaVersion || FastBootSchemaVersions.base;
-    debug(
-      'Current schemaVersion from `ember-cli-fastboot` is %s while latest schema version is %s',
-      schemaVersion,
-      currentSchemaVersion
-    );
-    if (schemaVersion > currentSchemaVersion) {
-      let errorMsg = chalk.bold.red(
-        'An incompatible version between `ember-cli-fastboot` and `fastboot` was found. Please update the version of fastboot library that is compatible with ember-cli-fastboot.'
-      );
-      throw new Error(errorMsg);
-    }
-
-    if (schemaVersion < FastBootSchemaVersions.manifestFileArrays) {
-      // transform app and vendor file to array of files
-      manifest = this.transformManifestFiles(manifest);
-    }
-
-    let config = pkg.fastboot.config;
-    let appName = pkg.fastboot.appName;
-    if (schemaVersion < FastBootSchemaVersions.configExtension) {
-      // read from the appConfig tree
-      if (pkg.fastboot.appConfig) {
-        appName = pkg.fastboot.appConfig.modulePrefix;
-        config = {};
-        config[appName] = pkg.fastboot.appConfig;
-      }
-    }
-
-    debug('reading array of app file paths from manifest');
-    let appFiles = manifest.appFiles.map(function(appFile) {
-      return path.join(distPath, appFile);
-    });
-
-    debug('reading array of vendor file paths from manifest');
-    let vendorFiles = manifest.vendorFiles.map(function(vendorFile) {
-      return path.join(distPath, vendorFile);
-    });
-
-    return {
-      appFiles,
-      vendorFiles,
-      htmlFile: path.join(distPath, manifest.htmlFile),
-      moduleWhitelist: pkg.fastboot.moduleWhitelist,
-      hostWhitelist: pkg.fastboot.hostWhitelist,
-      config,
-      appName,
-      schemaVersion,
-    };
-  }
-
-  /**
-   * Function to transform the manifest app and vendor files to an array.
-   */
-  transformManifestFiles(manifest) {
-    manifest.appFiles = [manifest.appFile];
-    manifest.vendorFiles = [manifest.vendorFile];
-
-    return manifest;
   }
 }
 
