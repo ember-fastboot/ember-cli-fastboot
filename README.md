@@ -414,7 +414,51 @@ export default Ember.Route.extend({
 
 Shoebox gives you great capabilities, but using it in the real app is pretty rough. Have you ever thought that such kind of logic should be done behind the scenes? In a large codebase, defining `fastboot.isFastBoot` conditionals can be a daunting task. Furthermore, it generates a lot of boilerplate code, which obscures the solution. Sooner or later coupling with `shoebox` will spread over all routes.
 
-Fortunately, there is an addon called [ember-data-storefront](https://embermap.github.io/ember-data-storefront/) that can help to alleviate this pain, thanks to its Fastboot mixin: https://embermap.github.io/ember-data-storefront/docs/guides/fastboot.
+#### Solution: Application Adapter
+
+One way to abstract the shoebox data storage mechanics is to move the logic into
+the Application Adapter as shown below.
+```
+export default class ApplicationAdapter extends JSONAPIAdapter.extend(
+  ...
+
+  cacheKeyFor([, model, id]) {
+    return (model.modelName && id) ? `${model.modelName}-${id}` : 'default-store';
+  }
+
+  async findRecord() {
+    const key = this.cacheKeyFor(arguments);
+
+    if (this.fastboot.isFastBoot) {
+      let result = await super.findRecord(...arguments);
+
+      // must deep-copy for clean serialization.
+      result = JSON.parse(JSON.stringify(result));
+
+      this.fastboot.shoebox.put(key, result);
+
+      return result;
+    }
+
+    let result = this.fastboot.shoebox.retrieve(key);
+
+    if (!result) {
+      result = await super.findRecord(...arguments);
+    }
+
+     // must deep-copy for clean serialization.
+     return JSON.parse(JSON.stringify(result));
+  }
+}
+```
+With this strategy, any time an ember-data `findRecord` request happens while in
+Fastboot mode, the record will be put into the shoebox cache and returned. When
+subsequent calls are made for that record in the hydrated application, it will 
+first check the shoebox data.
+
+#### Solution: Use an Addon (ember-storefront)
+
+Additionally, there is an addon called [ember-data-storefront](https://embermap.github.io/ember-data-storefront/) that can help to alleviate this pain, thanks to its Fastboot mixin: https://embermap.github.io/ember-data-storefront/docs/guides/fastboot.
 
 After installing the addon and applying the mixin, your routes can look like this:
 
