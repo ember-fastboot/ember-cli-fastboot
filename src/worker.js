@@ -59,7 +59,9 @@ class Worker {
   handleMessage(message) {
     switch (message.event) {
       case 'reload':
-        this.fastboot.reload();
+        this.distPath = message.distPath || this.distPath;
+        this.ui.writeLine('Reloading the application from distPath:', this.distPath);
+        this.fastboot.reload({ distPath: this.distPath });
         break;
       case 'error':
         this.error = message.error;

@@ -146,7 +146,7 @@ class FastBootAppServer {
   }
 
   reload() {
-    this.broadcast({ event: 'reload' });
+    this.broadcast({ event: 'reload', distPath: this.distPath });
   }
 
   forkWorkers() {

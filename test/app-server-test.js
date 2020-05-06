@@ -119,6 +119,15 @@ describe("FastBootAppServer", function() {
         expect(response.body).to.contain('Welcome to Ember from MY GLOBAL!');
       });
   });
+
+  it("allows changing of distpath", function() {
+    return runServer('dist-path-change-server')
+      .then(() => request('http://localhost:3000/'))
+      .then((response) => {
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.contain('Welcome to Ember from MY GLOBAL!');
+      });
+  });
 });
 
 function runServer(name) {
