@@ -418,9 +418,10 @@ Shoebox gives you great capabilities, but using it in the real app is pretty rou
 
 One way to abstract the shoebox data storage mechanics is to move the logic into
 the Application Adapter as shown below.
+
 ```
 export default class ApplicationAdapter extends JSONAPIAdapter.extend(
-  ...
+  // ...snip...
 
   cacheKeyFor([, model, id]) {
     return (model.modelName && id) ? `${model.modelName}-${id}` : 'default-store';
@@ -446,8 +447,8 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
       result = await super.findRecord(...arguments);
     }
 
-     // must deep-copy for clean serialization.
-     return JSON.parse(JSON.stringify(result));
+    // must deep-copy for clean serialization.
+    return JSON.parse(JSON.stringify(result));
   }
 }
 ```
