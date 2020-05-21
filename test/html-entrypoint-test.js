@@ -38,7 +38,7 @@ describe('htmlEntrypoint', function() {
 
     fixturify.writeSync(tmpLocation, project);
 
-    let { html, scripts } = htmlEntrypoint(tmpLocation, 'index.html');
+    let { html, scripts } = htmlEntrypoint('my-app', tmpLocation, 'index.html');
 
     expect(html).to.be.equalHTML(project['index.html']);
     expect(scripts).to.deep.equal([]);
@@ -61,7 +61,7 @@ describe('htmlEntrypoint', function() {
 
     fixturify.writeSync(tmpLocation, project);
 
-    let { html, scripts } = htmlEntrypoint(tmpLocation, 'index.html');
+    let { html, scripts } = htmlEntrypoint('my-app', tmpLocation, 'index.html');
 
     expect(html).to.be.equalHTML(project['index.html']);
     expect(scripts).to.deep.equal([
@@ -88,7 +88,7 @@ describe('htmlEntrypoint', function() {
 
     fixturify.writeSync(tmpLocation, project);
 
-    let { html, scripts } = htmlEntrypoint(tmpLocation, 'index.html');
+    let { html, scripts } = htmlEntrypoint('my-app', tmpLocation, 'index.html');
 
     expect(html).to.be.equalHTML(`
       <html>
@@ -119,7 +119,7 @@ describe('htmlEntrypoint', function() {
 
     fixturify.writeSync(tmpLocation, project);
 
-    let { html } = htmlEntrypoint(tmpLocation, 'index.html');
+    let { html } = htmlEntrypoint('my-app', tmpLocation, 'index.html');
 
     expect(html).to.be.equalHTML(`
       <html>
@@ -148,7 +148,7 @@ describe('htmlEntrypoint', function() {
 
     fixturify.writeSync(tmpLocation, project);
 
-    let { html, scripts } = htmlEntrypoint(tmpLocation, 'index.html');
+    let { html, scripts } = htmlEntrypoint('my-app', tmpLocation, 'index.html');
 
     expect(html).to.be.equalHTML(`
         <html>
@@ -178,7 +178,7 @@ describe('htmlEntrypoint', function() {
 
     fixturify.writeSync(tmpLocation, project);
 
-    let { html, scripts } = htmlEntrypoint(tmpLocation, 'index.html');
+    let { html, scripts } = htmlEntrypoint('my-app', tmpLocation, 'index.html');
 
     expect(html).to.be.equalHTML(`
         <html>
@@ -207,7 +207,7 @@ describe('htmlEntrypoint', function() {
 
     fixturify.writeSync(tmpLocation, project);
 
-    let { html, scripts } = htmlEntrypoint(tmpLocation, 'index.html');
+    let { html, scripts } = htmlEntrypoint('my-app', tmpLocation, 'index.html');
 
     expect(html).to.be.equalHTML(`
         <html>
@@ -217,5 +217,48 @@ describe('htmlEntrypoint', function() {
         </html>
     `);
     expect(scripts).to.deep.equal([]);
+  });
+
+  it('extracts configs from meta', function() {
+    let tmpobj = tmp.dirSync();
+    let tmpLocation = tmpobj.name;
+
+    let project = {
+      'index.html': `
+        <html>
+          <meta name="my-app/config/environment" content="%7B%22rootURL%22%3A%22%2Fcustom-root-url%2F%22%7D" >
+          <body>
+            <script src="/custom-root-url/bar.js"></script>
+          </body>
+        </html>
+      `,
+    };
+
+    fixturify.writeSync(tmpLocation, project);
+    let { config } = htmlEntrypoint('my-app', tmpLocation, 'index.html');
+    expect(config).to.deep.equal({
+      'my-app': { APP: { autoboot: false }, rootURL: '/custom-root-url/' },
+    });
+  });
+
+  it('understands customized rootURL', function() {
+    let tmpobj = tmp.dirSync();
+    let tmpLocation = tmpobj.name;
+
+    let project = {
+      'index.html': `
+        <html>
+          <meta name="my-app/config/environment" content="%7B%22rootURL%22%3A%22%2Fcustom-root-url%2F%22%7D" >
+          <body>
+            <script src="/custom-root-url/bar.js"></script>
+          </body>
+        </html>
+      `,
+    };
+
+    fixturify.writeSync(tmpLocation, project);
+
+    let { scripts } = htmlEntrypoint('my-app', tmpLocation, 'index.html');
+    expect(scripts).to.deep.equal([`${tmpLocation}/bar.js`]);
   });
 });

@@ -4,7 +4,7 @@ const { JSDOM } = require('jsdom');
 const fs = require('fs');
 const path = require('path');
 
-function htmlEntrypoint(distPath, htmlPath) {
+function htmlEntrypoint(appName, distPath, htmlPath) {
   let html = fs.readFileSync(path.join(distPath, htmlPath), 'utf8');
   let dom = new JSDOM(html);
   let scripts = [];
@@ -19,11 +19,15 @@ function htmlEntrypoint(distPath, htmlPath) {
     }
   }
 
+  let rootURL = getRootURL(appName, config);
+
   for (let element of dom.window.document.querySelectorAll('script,fastboot-script')) {
     let src = extractSrc(element);
-    let ignored = extractIgnore(element);
-    if (!ignored && isRelativeURL(src)) {
-      scripts.push(path.join(distPath, src));
+    if (!extractIgnore(element)) {
+      let relativeSrc = urlWithin(src, rootURL);
+      if (relativeSrc) {
+        scripts.push(path.join(distPath, relativeSrc));
+      }
     }
     if (element.tagName === 'FASTBOOT-SCRIPT') {
       removeWithWhitespaceTrim(element);
@@ -51,10 +55,20 @@ function extractIgnore(element) {
   return false;
 }
 
-function isRelativeURL(url) {
-  return (
-    url && new URL(url, 'http://_the_current_origin_').origin === 'http://_the_current_origin_'
-  );
+function getRootURL(appName, config) {
+  let rootURL = (config[appName] && config[appName].rootURL) || '/';
+  if (!rootURL.endsWith('/')) {
+    rootURL = rootURL + '/';
+  }
+  return rootURL;
+}
+
+function urlWithin(candidate, root) {
+  let candidateURL = new URL(candidate, 'http://_the_current_origin_');
+  let rootURL = new URL(root, 'http://_the_current_origin_');
+  if (candidateURL.href.startsWith(rootURL.href)) {
+    return candidateURL.href.slice(rootURL.href.length);
+  }
 }
 
 // removes an element, and if that element was on a line by itself with nothing
