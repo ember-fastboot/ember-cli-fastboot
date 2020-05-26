@@ -47,8 +47,8 @@
     "lerna-changelog": "^1.0.0",
     "mocha": "^7.0.1",
     "prettier": "^1.19.1",
-    "release-it": "^12.4.3",
-    "release-it-lerna-changelog": "^2.0.0",
+    "release-it": "^13.6.0",
+    "release-it-lerna-changelog": "^2.3.0",
     "rimraf": "^3.0.1",
     "tmp": "^0.2.1"
   },
@@ -61,14 +61,16 @@
   "release-it": {
     "plugins": {
       "release-it-lerna-changelog": {
-        "infile": "CHANGELOG.md"
+        "infile": "CHANGELOG.md",
+        "launchEditor": true
       }
     },
     "git": {
       "tagName": "v${version}"
     },
     "github": {
-      "release": true
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
     }
   }
 }
