@@ -1,3 +1,12 @@
+## v3.1.0 (2020-05-26)
+
+#### :rocket: Enhancement
+* [#272](https://github.com/ember-fastboot/fastboot/pull/272) Introduce html oriented manifest format (introduces better Embroider interop) ([@thoov](https://github.com/thoov))
+
+#### Committers: 1
+- Travis Hoover ([@thoov](https://github.com/thoov))
+
+
 Must provide GITHUB_AUTH
 
 ## v3.0.2 (2020-03-24)
