@@ -36,4 +36,15 @@ module('Instance-initializer: clear-double-boot', function(hooks) {
     assert.notOk(this.element.querySelector('#fastboot-body-end'), 'There is no end marker');
     assert.notOk(this.element.querySelector('#content-in-between'), 'The content is between is gone');
   })
+
+  test('It can handle missing fastboot-body-end', async function(assert) {
+    this.set('BAD_HTML', `<script type="x/boundary" id="fastboot-body-start"></script>`);
+
+    // render the whole tree dynamically to more closely mimc bad markup cases
+    await render(hbs`{{{BAD_HTML}}}`);
+
+    clearHtml();
+
+    assert.strictEqual(this.element.innerHTML, this.get('BAD_HTML'));
+  })
 });

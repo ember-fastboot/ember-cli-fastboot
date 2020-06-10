@@ -23,7 +23,10 @@
       // guarded for
       current.parentNode.removeChild(current);
       var end = document.getElementById('fastboot-body-end');
-      end.parentNode.removeChild(end);
+
+      if (end) {
+        end.parentNode.removeChild(end);
+      }
     }
   }
 })();

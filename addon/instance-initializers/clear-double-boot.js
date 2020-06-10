@@ -8,8 +8,9 @@
 // application will replace the pre-rendered output
 export function clearHtml() {
   let current = document.getElementById('fastboot-body-start');
-  if (current) {
-    let endMarker = document.getElementById('fastboot-body-end');
+  let endMarker = document.getElementById('fastboot-body-end');
+
+  if (current && endMarker) {
     let shoeboxNodes = document.querySelectorAll('[type="fastboot/shoebox"]');
     let shoeboxNodesArray = []; // Note that IE11 doesn't support more concise options like Array.from, so we have to do something like this
     for(let i=0; i < shoeboxNodes.length; i++){
