@@ -1,3 +1,15 @@
+## v2.2.3 (2020-06-10)
+
+#### :bug: Bug Fix
+* [#763](https://github.com/ember-fastboot/ember-cli-fastboot/pull/763) Prevent errors when `fastboot-body-end` is not present. ([@rwjblue](https://github.com/rwjblue))
+
+#### :memo: Documentation
+* [#762](https://github.com/ember-fastboot/ember-cli-fastboot/pull/762) Update documentation on shoebox. ([@burritoIand](https://github.com/burritoIand))
+
+#### Committers: 2
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+- [@burritoIand](https://github.com/burritoIand)
+
 ## v2.2.2 (2020-04-09)
 
 #### :rocket: Enhancement
