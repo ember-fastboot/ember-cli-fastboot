@@ -1,0 +1,38 @@
+name: CI
+
+# These trigger patterns courtesy of https://github.com/broccolijs/broccoli/pull/436
+on:
+  pull_request:
+  push:
+    # filtering branches here prevents duplicate builds from pull_request and push
+    branches:
+      - master
+      - 'v*'
+    # always run CI for tags
+    tags:
+      - '*'
+
+  # early issue detection: run CI weekly on Sundays
+  schedule:
+  - cron:  '0 6 * * 0'
+
+env:
+  CI: true
+
+jobs:
+  test-locked-deps:
+    name: Locked Deps
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Install Dependencies
+        run: |
+          cd packages/ember-cli-fastboot
+          npm config set spin false
+          npm install -g npm@4
+          npm run tests
