@@ -33,6 +33,7 @@ cache:
 before_install:
   - npm config set spin false
   - npm install -g npm@4
+  - cd packages/ember-cli-fastboot
 
 install:
   - yarn --ignore-engines
