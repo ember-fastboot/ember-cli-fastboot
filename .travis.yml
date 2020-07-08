@@ -36,4 +36,5 @@ before_install:
   - cd packages/ember-cli-fastboot
 
 install:
+  - npm install
   - yarn --ignore-engines
