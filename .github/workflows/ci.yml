@@ -1,0 +1,112 @@
+name: CI
+
+# These trigger patterns courtesy of https://github.com/broccolijs/broccoli/pull/436
+on:
+  pull_request:
+  push:
+    # filtering branches here prevents duplicate builds from pull_request and push
+    branches:
+      - master
+      - 'v*'
+    # always run CI for tags
+    tags:
+      - '*'
+
+  # early issue detection: run CI weekly on Sundays
+  schedule:
+  - cron:  '0 6 * * 0'
+
+env:
+  CI: true
+
+jobs:
+  test-locked-deps:
+    name: Locked Deps
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Lint
+        run: yarn workspace ember-cli-fastboot lint:js
+      - name: Browser Tests
+        run: yarn workspace ember-cli-fastboot test:ember
+
+
+  test-latest-ember-cli:
+    name: Latest CLI
+    runs-on: ubuntu-latest
+    needs: [test-locked-deps]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Install Latest `ember-cli`
+        run: yarn workspace ember-cli-fastboot add --dev ember-cli@latest
+      - name: Run Tests
+        run: yarn workspace ember-cli-fastboot test:ember
+
+
+  test-windows:
+    name: Windows
+    runs-on: windows-latest
+    needs: [test-locked-deps]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run Tests
+        run: yarn workspace ember-cli-fastboot test:ember
+
+  # test-try:
+  #   name: Ember Try
+  #   runs-on: ubuntu-latest
+  #   needs: [test-locked-deps]
+  #   strategy:
+  #     matrix:
+  #       scenario:
+  #        - ember-release
+  #        - ember-beta
+  #        - ember-canary
+  #   steps:
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v2
+  #     - name: Install Node
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 12
+  #     - name: Install Dependencies
+  #       run: yarn install --frozen-lockfile
+  #     - name: Try Scenario
+  #       run: yarn workspace ember-cli-fastboot ember try:one ${{ matrix.scenario }}
+
+  test-packages:
+    name: Test Packages
+    runs-on: ubuntu-latest
+    needs: [test-locked-deps]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: ModuleWhitelist App
+        run: yarn workspace module-whitelist test:node

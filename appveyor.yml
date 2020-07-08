@@ -19,6 +19,10 @@ branches:
 install:
   - ps: Install-Product node $env:nodejs_version
   - npm config set spin false
+
+  # We need to remove test-packages so that the node_modules
+  # don't interfere with the npm install
+  - rm -rf test-packages
   - cd packages/ember-cli-fastboot
   - appveyor-retry npm install -g npm@^3
   - appveyor-retry npm i -g bower # for ember-cli-addon-tests

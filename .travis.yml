@@ -34,6 +34,10 @@ cache:
 before_install:
   - npm config set spin false
   - npm install -g npm@4
+
+  # We need to remove test-packages so that the node_modules
+  # don't interfere with the npm install.
+  - rm -rf test-packages
   - cd packages/ember-cli-fastboot
 
 install:

@@ -177,7 +177,6 @@ module.exports = {
    */
   _getFastbootTree() {
     const appName = this._name;
-    const isModuleUnification = this._isModuleUnification();
 
     let fastbootTrees = [];
 

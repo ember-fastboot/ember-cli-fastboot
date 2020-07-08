@@ -18,6 +18,7 @@
     "release": "release-it",
     "start": "ember serve",
     "test": "mocha && ember test",
+    "test:ember": "ember test",
     "test:precook": "node node_modules/ember-cli-addon-tests/scripts/precook-node-modules.js"
   },
   "dependencies": {
