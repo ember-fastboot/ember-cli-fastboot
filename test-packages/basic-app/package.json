@@ -1,8 +1,8 @@
 {
-  "name": "module-whitelist",
+  "name": "basic-app",
   "version": "0.0.0",
   "private": true,
-  "description": "Small description for module-whitelist goes here",
+  "description": "Small description for basic-app goes here",
   "repository": "",
   "license": "MIT",
   "author": "",

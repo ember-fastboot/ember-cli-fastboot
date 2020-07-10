@@ -17,7 +17,7 @@ describe('generating package.json', function () {
     });
 
     it('builds a package.json', async function () {
-      expect("dist/assets/module-whitelist.js").to.be.a.file();
+      expect("dist/assets/basic-app.js").to.be.a.file();
       expect('dist/package.json').to.be.a.file();
     });
 
@@ -60,8 +60,8 @@ describe('generating package.json', function () {
 
       expect(pkg.fastboot.manifest).to.deep.equal({
         appFiles: [
-          "assets/module-whitelist.js",
-          "assets/module-whitelist-fastboot.js",
+          "assets/basic-app.js",
+          "assets/basic-app-fastboot.js",
           "ember-fastboot-build-example/bar.js",
         ],
         htmlFile: "index.html",
@@ -87,19 +87,19 @@ describe('generating package.json', function () {
     it('contains app name', function () {
       let pkg = fs.readJSONSync("dist/package.json");
 
-      expect(pkg.fastboot.appName).to.equal('module-whitelist');
+      expect(pkg.fastboot.appName).to.equal('basic-app');
     });
 
     it('contains the application config', function () {
       let pkg = fs.readJSONSync("dist/package.json");
 
-      let config = pkg.fastboot.config["module-whitelist"];
+      let config = pkg.fastboot.config["basic-app"];
 
       expect(config.APP.version).to.include("0.0.0");
 
       delete config.APP.version;
       expect(config).to.deep.equal({
-        modulePrefix: "module-whitelist",
+        modulePrefix: "basic-app",
         environment: "development",
         rootURL: "/",
         locationType: "auto",
@@ -114,7 +114,7 @@ describe('generating package.json', function () {
           _TEMPLATE_ONLY_GLIMMER_COMPONENTS: true,
         },
         APP: {
-          name: "module-whitelist",
+          name: "basic-app",
           autoboot: false,
         },
         fastboot: {

@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   let ENV = {
-    modulePrefix: 'module-whitelist',
+    modulePrefix: 'basic-app',
     environment,
     rootURL: '/',
     locationType: 'auto',
