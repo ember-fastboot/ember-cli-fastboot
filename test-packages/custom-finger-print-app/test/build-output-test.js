@@ -19,13 +19,13 @@ describe('generating package.json', function () {
     it('it extends the application config', function () {
       let pkg = fs.readJSONSync('dist/package.json');
 
-      let config = pkg.fastboot.config["custom-app"];
+      let config = pkg.fastboot.config["custom-finger-print-app"];
       expect(config.APP.version).to.include("0.0.0");
       delete config.APP.version;
 
-      expect(pkg.fastboot.config["custom-app"]).to.deep.equal({
+      expect(pkg.fastboot.config["custom-finger-print-app"]).to.deep.equal({
         foo: "bar",
-        modulePrefix: "custom-app",
+        modulePrefix: "custom-finger-print-app",
         environment: "development",
         rootURL: "/",
         locationType: "auto",
@@ -40,7 +40,7 @@ describe('generating package.json', function () {
           _TEMPLATE_ONLY_GLIMMER_COMPONENTS: true,
         },
         APP: {
-          name: "custom-app",
+          name: "custom-finger-print-app",
           autoboot: false,
         },
         fastboot: {
@@ -83,7 +83,7 @@ describe('generating package.json', function () {
       let manifest = pkg.fastboot.manifest;
 
       // customized-fingerprinting-fastboot.js is excluded from fingerprinting
-      expect(manifest.appFiles).to.include('assets/custom-app-fastboot.js');
+      expect(manifest.appFiles).to.include('assets/custom-finger-print-app-fastboot.js');
       // vendor.js is excluded from fingerprinting
       expect(manifest.vendorFiles).to.include('assets/vendor.js');
     });

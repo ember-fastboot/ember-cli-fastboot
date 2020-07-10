@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   let ENV = {
-    modulePrefix: 'custom-app',
+    modulePrefix: 'custom-finger-print-app',
     environment,
     rootURL: '/',
     locationType: 'auto',
