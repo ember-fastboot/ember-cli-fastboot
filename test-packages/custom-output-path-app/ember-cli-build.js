@@ -6,7 +6,7 @@ module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
     fingerprint: {
       prepend: 'https://totally-sick-cdn.example.com/',
-      exclude: ['vendor.js', 'custom-finger-print-app-fastboot.js'],
+      exclude: ['vendor.js', 'custom-output-path-app-fastboot.js'],
       generateAssetMap: true,
       assetMapPath: 'totally-customized-asset-map.json'
     }
