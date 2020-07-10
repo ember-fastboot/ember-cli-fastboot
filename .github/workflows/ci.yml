@@ -7,6 +7,7 @@ on:
     # filtering branches here prevents duplicate builds from pull_request and push
     branches:
       - master
+      - ember-fastboot:master
       - 'v*'
     # always run CI for tags
     tags:
