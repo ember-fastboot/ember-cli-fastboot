@@ -4,6 +4,9 @@
   "workspaces": [
     "packages/ember-cli-fastboot",
     "test-packages/basic-app",
+    "test-packages/custom-finger-print-app",
+    "test-packages/custom-html-app",
+    "test-packages/custom-output-path-app",
     "test-packages/*"
   ]
 }

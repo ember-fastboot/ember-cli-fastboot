@@ -73,6 +73,7 @@ jobs:
       - name: Run Tests
         run: yarn workspace ember-cli-fastboot test:ember
 
+
   test-packages:
     name: Test Packages
     runs-on: ubuntu-latest
@@ -86,5 +87,11 @@ jobs:
           node-version: 12
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
-      - name: Basic App
+      - name: Basic app
         run: yarn workspace basic-app test:node
+      - name: Custom finger print app
+        run: yarn workspace custom-finger-print-app test:node
+      - name: Custom html app
+        run: yarn workspace custom-html-app test:node
+      - name: Custom output path app
+        run: yarn workspace custom-output-path-app test:node
