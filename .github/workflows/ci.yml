@@ -1,0 +1,115 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    # Filtering branches here prevents duplicate builds from pull_request and push
+    branches:
+      - master
+      - beta
+      - 'v*'
+      - /^greenkeeper.*$/
+
+    # Always run CI for tags
+    tags:
+      - '*'
+
+  # Early issue detection: run CI weekly on Sundays
+  schedule:
+  - cron:  '0 6 * * 0'
+
+env:
+  CI: true
+
+jobs:
+  test-mocha:
+    name: Mocha Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 10.x]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install NPM version 4
+        run: |
+          npm config set spin false
+          npm install -g npm@4
+      - name: NPM Install
+        run: npm install
+      - name: Run Mocha Tests
+        run: npm run test:mocha
+
+  test-ember:
+    name: Ember Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 10.x]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: NPM Install
+        run: npm install
+      - name: Run Tests
+        run: npm run test:ember
+
+  test-windows-mocha-node:
+    name: Windows Mocha Tests
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 10.x]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install NPM version 4
+        run: |
+          npm config set spin false
+          npm install -g npm@4
+      - name: Remove Yarn Lock File
+        run: rm yarn.lock
+      - name: NPM Install
+        run: |
+          npm --version
+          npm install
+      - name: Run Mocha Tests
+        run: npm run test:mocha
+
+  test-windows-ember:
+    name: Windows Ember Tests
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: NPM Install
+        run: npm install
+      - name: Run Tests
+        run: npm run test:ember
