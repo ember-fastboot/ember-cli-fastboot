@@ -67,8 +67,7 @@ class Worker {
         this.error = message.error;
         break;
       case 'shutdown':
-        process.exit(0);
-        break;
+        process.exit(0); // eslint-disable-line no-process-exit
     }
   }
 

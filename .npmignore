@@ -1,5 +1,7 @@
 .gitignore
-.jshintrc
+.eslintcache
+.eslintignore
+.eslintrc.js
 .travis.yml
 test/
 tmp/
