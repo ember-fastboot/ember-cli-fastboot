@@ -24,7 +24,7 @@ env:
 jobs:
   test-mocha:
     name: Mocha Tests - ${{ matrix.node-version }}
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
@@ -48,7 +48,7 @@ jobs:
 
   test-mocha-windows:
     name: Mocha Tests - ${{ matrix.node-version }}
-    runs-on: windows
+    runs-on: windows-latest
 
     strategy:
       matrix:
@@ -79,7 +79,7 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x, 10.x]
-        os: [ubuntu, windows]
+        os: [ubuntu-latest, windows-latest]
 
     steps:
       - name: Checkout Code
