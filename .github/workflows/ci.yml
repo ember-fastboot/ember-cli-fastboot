@@ -47,7 +47,7 @@ jobs:
         run: yarn test:mocha
 
   test-mocha-windows:
-    name: Mocha Tests - ${{ matrix.node-version }}
+    name: Mocha Windows Tests - ${{ matrix.node-version }}
     runs-on: windows-latest
 
     strategy:
