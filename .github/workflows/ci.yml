@@ -18,9 +18,6 @@ on:
   schedule:
   - cron:  '0 6 * * 0'
 
-env:
-  CI: true
-
 jobs:
   test-mocha:
     name: Mocha Tests - ${{ matrix.node-version }}
