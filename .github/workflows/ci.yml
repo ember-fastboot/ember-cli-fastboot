@@ -45,7 +45,7 @@ jobs:
       - name: Yarn Install
         run: |
           yarn --ignore-engines
-          yarn ci
+          yarn install
       - name: Run Mocha Tests
         run: npm run test:mocha
 
@@ -68,7 +68,7 @@ jobs:
       - name: Yarn Install
         run: |
           yarn --ignore-engines
-          yarn ci
+          yarn install
       - name: Run Tests
         run: npm run test:ember
 
