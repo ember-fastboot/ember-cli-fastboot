@@ -1,0 +1,1 @@
+This fixture app demonstrates the use of a custom FastBoot implementation.

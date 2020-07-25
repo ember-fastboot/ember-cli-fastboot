@@ -626,6 +626,20 @@ fastbootConfigTree() {
 
 The above configuration will be available in Node via the `FastBoot.config()` function. Therefore, in order to get the above config, the addon/app can call `FastBoot.config('<engine-name>')`.
 
+## Custom FastBoot Implementation
+
+This addon comes with the FastBoot library by default.  If you must use a specific version of the FastBoot library or a fork of it, you can add it to your `package.json` and specify it inside your app's `ember-cli-build.js`:
+
+```js
+const FastBoot = require('my-fastboot-fork');
+
+const app = new EmberApp({
+  fastboot: {
+    implementation: FastBoot
+  }
+});
+```
+
 ## Known Limitations
 
 While FastBoot is under active development, there are several major

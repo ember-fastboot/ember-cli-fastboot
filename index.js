@@ -6,7 +6,6 @@ const fs = require('fs');
 
 const MergeTrees = require('broccoli-merge-trees');
 const FastBootExpressMiddleware = require('fastboot-express-middleware');
-const FastBoot = require('fastboot');
 const chalk = require('chalk');
 
 const fastbootAppBoot = require('./lib/utilities/fastboot-app-boot');
@@ -309,6 +308,9 @@ module.exports = {
   },
 
   serverMiddleware(options) {
+    const { implementation } = this.app.options.fastboot || {};
+    const FastBoot = implementation || require('fastboot');
+
     let emberCliVersion = this._getEmberCliVersion();
     let app = options.app;
 
