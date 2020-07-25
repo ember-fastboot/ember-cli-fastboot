@@ -68,6 +68,11 @@ module.exports = {
       throw new SilentError("This version of ember-cli-fastboot requires a newer version of broccoli-asset-rev");
     }
 
+    // Prevent fingerprinting node_modules
+    app.options.fingerprint = app.options.fingerprint || {};
+    app.options.fingerprint.exclude = app.options.fingerprint.exclude || [];
+    app.options.fingerprint.exclude.push('node_modules/');
+
     // set autoRun to false since we will conditionally include creating app when app files
     // is eval'd in app-boot
     app.options.autoRun = false;
