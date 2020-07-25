@@ -1,9 +1,7 @@
 # Ember FastBoot
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/ember-fastboot/ember-cli-fastboot.svg)](https://greenkeeper.io/)
 [![npm version](https://badge.fury.io/js/ember-cli-fastboot.svg)](https://badge.fury.io/js/ember-cli-fastboot)
-[![Build Status](https://travis-ci.org/ember-fastboot/ember-cli-fastboot.svg?branch=master)](https://travis-ci.org/ember-fastboot/ember-cli-fastboot)
-[![Build status](https://ci.appveyor.com/api/projects/status/6qcpp4ndy3ao4yv8/branch/master?svg=true)](https://ci.appveyor.com/project/embercli/ember-cli-fastboot/branch/master)
+[![Actions Status](hhttps://github.com/ember-fastboot/ember-cli-fastboot/workflows/CI/badge.svg)](https://github.com/ember-fastboot/ember-cli-fastboot/actions)
 
 An Ember CLI addon that allows you to render and serve Ember.js apps on
 the server. Using FastBoot, you can serve rendered HTML to browsers and
@@ -450,7 +448,7 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
 ```
 With this strategy, any time an ember-data `findRecord` request happens while in
 Fastboot mode, the record will be put into the shoebox cache and returned. When
-subsequent calls are made for that record in the hydrated application, it will 
+subsequent calls are made for that record in the hydrated application, it will
 first check the shoebox data.
 
 #### Solution: Use an Addon (ember-storefront)
