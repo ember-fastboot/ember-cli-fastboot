@@ -38,7 +38,7 @@
     "fastboot-transform": "^0.1.3",
     "fs-extra": "^7.0.0",
     "json-stable-stringify": "^1.0.1",
-    "md5-hex": "^2.0.0",
+    "md5-hex": "^3.0.0",
     "silent-error": "^1.1.0"
   },
   "devDependencies": {
