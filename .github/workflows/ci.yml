@@ -38,6 +38,8 @@ jobs:
         run: |
           npm config set spin false
           npm install -g npm@4
+      - name: Remove test packages
+          rm -rf test-packages
       - name: Yarn Install
         run: yarn install --ignore-engines
       - name: Run Mocha Tests
