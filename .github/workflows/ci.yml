@@ -67,7 +67,7 @@ jobs:
 
   test-packages:
     name: Test Packages
-      runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
