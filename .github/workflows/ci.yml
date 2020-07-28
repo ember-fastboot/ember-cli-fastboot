@@ -43,6 +43,7 @@ jobs:
       - name: Run Mocha Tests
         run: yarn workspace ember-cli-fastboot test:mocha
 
+
   test-ember:
     name: Ember Tests
     runs-on: ${{ matrix.os }}
@@ -64,3 +65,23 @@ jobs:
       - name: Run Tests
         run: yarn workspace ember-cli-fastboot test:ember
 
+  test-packages:
+    name: Test Packages
+      runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        node-version: [12.x, 10.x]
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Yarn Install
+        run: yarn install --ignore-engines
+      - name: Basic App
+        run: yarn workspace basic-app test:mocha
