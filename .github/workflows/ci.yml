@@ -34,6 +34,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Remove test-packages
+        run: |
+          rm -rf test-packages
+          rm yarn.lock
       - name: Install NPM version 4
         run: |
           npm config set spin false
