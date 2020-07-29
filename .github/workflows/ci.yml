@@ -39,12 +39,12 @@ jobs:
           npm config set spin false
           npm install -g npm@4
       - name: Yarn Install
+        working-directory: ./packages/ember-cli-fastboot
         run: |
-          cd packages/ember-cli-fastboot
           yarn install --ignore-engines --frozen-lockfile
       - name: Run Mocha Tests
+        working-directory: ./packages/ember-cli-fastboot
         run: |
-          cd packages/ember-cli-fastboot
           yarn test:mocha
 
 
