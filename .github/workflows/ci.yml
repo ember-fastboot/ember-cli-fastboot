@@ -37,59 +37,59 @@ jobs:
       - name: Remove test-packages
         run: |
           rm -rf test-packages
-          rm yarn.lock
-      - name: Install NPM version 4
-        run: |
-          npm config set spin false
-          npm install -g npm@4
       - name: Yarn Install
         working-directory: ./packages/ember-cli-fastboot
         run: |
           yarn install --ignore-engines --frozen-lockfile
+      - name: Install NPM version 4
+        run: |
+          npm config set spin false
+          npm install -g npm@4
       - name: Run Mocha Tests
         working-directory: ./packages/ember-cli-fastboot
         run: |
           yarn test:mocha
 
 
-  test-ember:
-    name: Ember Tests
-    runs-on: ${{ matrix.os }}
+  # test-ember:
+  #   name: Ember Tests
+  #   runs-on: ${{ matrix.os }}
 
-    strategy:
-      matrix:
-        node-version: [12.x, 10.x]
-        os: [ubuntu-latest, windows-latest]
+  #   strategy:
+  #     matrix:
+  #       node-version: [12.x, 10.x]
+  #       os: [ubuntu-latest, windows-latest]
 
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Yarn Install
-        run: yarn install --ignore-engines --frozen-lockfile
-      - name: Run Tests
-        run: yarn workspace ember-cli-fastboot test:ember
+  #   steps:
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v2
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #     - name: Yarn Install
+  #       run: yarn install --ignore-engines --frozen-lockfile
+  #     - name: Run Tests
+  #       run: yarn workspace ember-cli-fastboot test:ember
 
-  test-packages:
-    name: Test Packages
-    runs-on: ${{ matrix.os }}
 
-    strategy:
-      matrix:
-        node-version: [12.x, 10.x]
-        os: [ubuntu-latest, windows-latest]
+  # test-packages:
+  #   name: Test Packages
+  #   runs-on: ${{ matrix.os }}
 
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Yarn Install
-        run: yarn install --ignore-engines --frozen-lockfile
-      - name: Basic App
-        run: yarn workspace basic-app test:mocha
+  #   strategy:
+  #     matrix:
+  #       node-version: [12.x, 10.x]
+  #       os: [ubuntu-latest, windows-latest]
+
+  #   steps:
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v2
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #     - name: Yarn Install
+  #       run: yarn install --ignore-engines --frozen-lockfile
+  #     - name: Basic App
+  #       run: yarn workspace basic-app test:mocha
