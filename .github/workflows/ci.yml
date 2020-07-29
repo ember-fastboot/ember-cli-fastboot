@@ -48,6 +48,7 @@ jobs:
       - name: Run Mocha Tests
         working-directory: ./packages/ember-cli-fastboot
         run: |
+          npm --version
           yarn test:mocha
 
 
