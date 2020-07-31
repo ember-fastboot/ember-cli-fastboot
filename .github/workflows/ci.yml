@@ -19,13 +19,16 @@ on:
   - cron:  '0 6 * * 0'
 
 jobs:
-  test-mocha:
+  test-legacy-mocha:
     name: Mocha Tests - ${{ matrix.node-version }}
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [12.x, 10.x]
+      include:
+        node: 12
+        continue-on-error: true
 
     steps:
       - name: Checkout Code
