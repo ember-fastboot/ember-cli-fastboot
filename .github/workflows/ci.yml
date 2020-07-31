@@ -36,6 +36,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      # Remove test-packages folder so that we don't leak node_modules between apps
+      - name: Remove test-packages
+        run: |
+          rm -rf test-packages
       - name: Yarn Install
         working-directory: ./packages/ember-cli-fastboot
         run: |
