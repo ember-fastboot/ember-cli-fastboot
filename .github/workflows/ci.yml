@@ -22,14 +22,16 @@ jobs:
   test-legacy-mocha:
     name: Mocha Tests - ${{ matrix.node-version }}
     runs-on: ubuntu-latest
-
+    
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
+      fail-fast: false
       matrix:
-        node-version: [12.x, 10.x]
+        node: [10]
+        experimental: [false]
         include:
-          node: 12
-          continue-on-error: true
-      continue-on-error: ${{ matrix.continue-on-error }}
+          - node: 12
+            experimental: true
 
     steps:
       - name: Checkout Code
