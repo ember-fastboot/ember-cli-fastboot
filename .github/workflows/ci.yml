@@ -29,6 +29,7 @@ jobs:
       include:
         node: 12
         continue-on-error: true
+      continue-on-error: ${{ matrix.continue-on-error }}
 
     steps:
       - name: Checkout Code
