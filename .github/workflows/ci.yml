@@ -36,9 +36,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Remove test-packages
-        run: |
-          rm -rf test-packages
       - name: Yarn Install
         working-directory: ./packages/ember-cli-fastboot
         run: |
