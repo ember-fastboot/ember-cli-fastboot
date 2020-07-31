@@ -22,24 +22,20 @@ jobs:
   test-legacy-mocha:
     name: Legacy Mocha Tests - ${{ matrix.node-version }}
     runs-on: ubuntu-latest
-    
-    continue-on-error: ${{ matrix.experimental }}
+
     strategy:
       fail-fast: false
       matrix:
-        node: [10]
-        experimental: [false]
-        include:
-          - node: 12
-            experimental: true
+        node-version: ['10', '12']
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: volta-cli/action@v1
         with:
           node-version: ${{ matrix.node-version }}
+
       - name: Remove test-packages
         run: |
           rm -rf test-packages
@@ -47,13 +43,10 @@ jobs:
         working-directory: ./packages/ember-cli-fastboot
         run: |
           yarn install --ignore-engines --frozen-lockfile
-      - name: Install NPM version 4
-        run: |
-          npm config set spin false
-          npm install -g npm@4
       - name: Run Mocha Tests
         working-directory: ./packages/ember-cli-fastboot
         run: |
+          volta install npm@4
           npm --version
           yarn test:mocha
 
