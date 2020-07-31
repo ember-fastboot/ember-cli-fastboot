@@ -26,9 +26,9 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x, 10.x]
-      include:
-        node: 12
-        continue-on-error: true
+        include:
+          node: 12
+          continue-on-error: true
       continue-on-error: ${{ matrix.continue-on-error }}
 
     steps:
