@@ -20,7 +20,7 @@ on:
 
 jobs:
   test-legacy-mocha:
-    name: Mocha Tests - ${{ matrix.node-version }}
+    name: Legacy Mocha Tests - ${{ matrix.node-version }}
     runs-on: ubuntu-latest
     
     continue-on-error: ${{ matrix.experimental }}
