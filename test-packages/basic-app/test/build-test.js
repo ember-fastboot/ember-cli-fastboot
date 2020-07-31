@@ -7,7 +7,7 @@ const execa = require("execa");
 chai.use(require('chai-fs'));
 
 describe('it builds', function() {
-  this.timeout(50000);
+  this.timeout(100000);
 
   it('builds into dist by default', async function() {
 
