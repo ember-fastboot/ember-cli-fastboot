@@ -2,7 +2,11 @@
   "name": "fake-addon-2",
   "version": "0.1.0",
   "ember-addon": {
-    "fastbootDependencies": ["bar", "baz", "path"]
+    "fastbootDependencies": [
+      "bar",
+      "baz",
+      "path"
+    ]
   },
   "dependencies": {
     "bar": "^0.1.2",

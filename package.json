@@ -3,6 +3,7 @@
   "private": true,
   "workspaces": [
     "packages/ember-cli-fastboot",
-    "test-packages/basic-app"
+    "test-packages/basic-app",
+    "test-packages/*"
   ]
 }
