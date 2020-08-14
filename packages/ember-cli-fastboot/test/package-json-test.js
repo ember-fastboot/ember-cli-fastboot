@@ -112,14 +112,3 @@ describe('generating package.json', function() {
   });
 });
 
-function addFastBootDeps(app) {
-  return app.editPackageJSON(pkg => {
-    pkg['devDependencies']['fake-addon'] = `*`;
-    pkg['devDependencies']['fake-addon-2'] = `*`;
-    pkg['fastbootDependencies'] = ["rsvp"];
-    pkg['dependencies'] = {
-      rsvp: '3.2.1',
-      'ember-fastboot-build-example': '0.1.2'
-    };
-  });
-}
