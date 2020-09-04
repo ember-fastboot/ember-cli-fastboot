@@ -14,7 +14,7 @@ describe('error handler acceptance', function() {
   before(function() {
     app = new AddonTestApp();
 
-    return app.create('error-handler')
+    return app.create('error-handler', { emberVersion: 'latest'})
       .then(function() {
         return app.startServer({
           command: 'serve'

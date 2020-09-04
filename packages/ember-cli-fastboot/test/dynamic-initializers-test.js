@@ -14,7 +14,7 @@ describe('dynamic initializers', function() {
   before(function() {
     app = new AddonTestApp();
 
-    return app.create('dynamic-initializers')
+    return app.create('dynamic-initializers', { emberVersion: 'latest'})
       .then(function() {
         return app.runEmberCommand('build');
       });

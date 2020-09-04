@@ -14,7 +14,7 @@ describe('shoebox - put', function() {
   before(function() {
     app = new AddonTestApp();
 
-    return app.create('shoebox')
+    return app.create('shoebox', { emberVersion: 'latest'})
       .then(function() {
         return app.startServer({
           command: 'serve'

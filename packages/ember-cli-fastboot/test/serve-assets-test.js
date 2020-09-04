@@ -14,7 +14,7 @@ describe('serve assets acceptance', function() {
   before(function() {
     app = new AddonTestApp();
 
-    return app.create('dummy')
+    return app.create('dummy', { emberVersion: 'latest'})
       .then(function() {
         return app.startServer({
           command: 'serve'

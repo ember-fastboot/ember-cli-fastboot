@@ -14,7 +14,7 @@ describe('FastBoot config', function() {
   before(function() {
     app = new AddonTestApp();
 
-    return app.create('fastboot-config')
+    return app.create('fastboot-config', { emberVersion: 'latest'})
       .then(function() {
         return app.startServer({
           command: 'serve'

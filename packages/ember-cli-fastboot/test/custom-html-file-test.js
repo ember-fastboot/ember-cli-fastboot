@@ -14,7 +14,7 @@ describe('custom htmlFile', function() {
   before(function() {
     app = new AddonTestApp();
 
-    return app.create('custom-html-file')
+    return app.create('custom-html-file', { emberVersion: 'latest'})
       .then(function() {
         return app.startServer({
           command: 'serve'
