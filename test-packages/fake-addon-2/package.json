@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "fake-addon-2",
   "version": "0.1.0",
   "ember-addon": {
