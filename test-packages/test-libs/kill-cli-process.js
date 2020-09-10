@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(childProcess) {
+module.exports = childProcess => {
   if (process.platform === 'win32') {
     childProcess.send({ kill: true });
   } else {

@@ -3,9 +3,9 @@
 const RSVP = require('rsvp');
 const request = RSVP.denodeify(require('request'));
 const expect = require('chai').use(require('chai-string')).expect;
-const { startServer, stopServer } = require('../../test-libs/index');
+const { startServer, stopServer } = require('../../test-libs');
 
-describe.only('serve assets acceptance', function() {
+describe('serve assets acceptance', function() {
   this.timeout(20000);
 
   before(function() {

@@ -12,7 +12,7 @@ const exec           = denodeify(childProcess.exec);
 
 const isWindows = process.platform === 'win32';
 
-module.exports = function run(/* command, args, options */) {
+module.exports = function run() {
   let command = arguments[0];
   let args = Array.prototype.slice.call(arguments, 1);
   let options = {};
@@ -21,7 +21,7 @@ module.exports = function run(/* command, args, options */) {
     options = args.pop();
   }
 
-  debug('running command=' + command + '; args=' + args + '; cwd=' + process.cwd());
+  debug(`running command=${command} args=${args}`);
 
   if (isWindows && (command === 'npm' || command === 'bower')) {
     return exec(command + ' ' + args.join(' '));

@@ -4,7 +4,7 @@ const debug    = require('./debug');
 const runEmber = require('./run-ember');
 const defaults = require('lodash/defaults');
 
-module.exports = function runServer(options) {
+const runServer = options => {
   return new Promise((resolve, reject) => {
     options = options || { };
 
@@ -48,6 +48,8 @@ module.exports = function runServer(options) {
       .catch(reject);
   });
 };
+
+module.exports = runServer;
 
 function detectServerStart(output) {
   let indicators = [
