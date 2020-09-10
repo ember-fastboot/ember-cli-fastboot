@@ -5,7 +5,7 @@ const request = RSVP.denodeify(require('request'));
 const expect = require('chai').use(require('chai-string')).expect;
 const { startServer, stopServer } = require('../../test-libs/index');
 
-describe.only('shoebox - put', function() {
+describe('shoebox - put', function() {
   this.timeout(20000);
 
   before(function() {
@@ -19,7 +19,7 @@ describe.only('shoebox - put', function() {
     return stopServer();
   });
 
-  it.only('put items into the shoebox', async () => {
+  it('put items into the shoebox', async () => {
     const response = await request({
       url: 'http://localhost:49741/',
       headers: {
