@@ -91,19 +91,6 @@
       "broccoli-serve-files"
     ]
   },
-  "release-it": {
-    "plugins": {
-      "release-it-lerna-changelog": {
-        "infile": "CHANGELOG.md"
-      }
-    },
-    "git": {
-      "tagName": "v${version}"
-    },
-    "github": {
-      "release": true
-    }
-  },
   "volta": {
     "node": "12.18.2",
     "yarn": "1.17.3"
