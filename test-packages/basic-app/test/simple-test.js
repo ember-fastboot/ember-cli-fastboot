@@ -5,8 +5,8 @@ const request = RSVP.denodeify(require('request'));
 const expect = require('chai').use(require('chai-string')).expect;
 const { startServer, stopServer } = require('../../test-libs/index');
 
-describe.only('simple acceptance', function() {
-  this.timeout(20000);
+describe('simple acceptance', function() {
+  this.timeout(30000);
 
   before(function() {
     return startServer({
@@ -68,7 +68,7 @@ describe.only('simple acceptance', function() {
 
     expect(response.statusCode).to.equal(200);
     expect(response.headers["content-type"]).to.equalIgnoreCase("text/html; charset=utf-8");
-    expect(response.body).to.contain("Welcome to Ember.js");
+    expect(response.body).to.contain("Basic fastboot ember app");
     expect(response.body).to.contain("Posts Route!");
   });
 
@@ -119,8 +119,8 @@ describe.only('simple acceptance', function() {
     expect(response.body).to.contain("Ember =");
   });
 
-  it('/assets/dummy.js', async () =>  {
-    const response = await request('http://localhost:49741/assets/dummy.js')
+  it('/assets/basic-app.js', async () =>  {
+    const response = await request('http://localhost:49741/assets/basic-app.js')
 
     expect(response.statusCode).to.equal(200);
     expect(response.headers["content-type"]).to.equalIgnoreCase("application/javascript; charset=utf-8");
