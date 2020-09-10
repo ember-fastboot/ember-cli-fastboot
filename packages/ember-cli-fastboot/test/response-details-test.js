@@ -16,7 +16,7 @@ describe('response details', function() {
 
     app = new AddonTestApp();
 
-    return app.create('response')
+    return app.create('response', { emberVersion: 'latest'})
       .then(function() {
         return app.startServer({
           command: 'serve'

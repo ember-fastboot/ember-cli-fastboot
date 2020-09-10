@@ -13,11 +13,12 @@ describe('FastBootLocation', function() {
   before(function() {
     app = new AddonTestApp();
 
-    return app.create('fastboot-location').then(function() {
-      return app.startServer({
-        command: 'serve'
+    return app.create('fastboot-location', { emberVersion: 'latest'})
+      .then(function() {
+        return app.startServer({
+          command: 'serve'
+        });
       });
-    });
   });
 
   after(function() {

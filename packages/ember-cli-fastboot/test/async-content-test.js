@@ -15,7 +15,7 @@ describe('async content via deferred content', function() {
   before(function() {
     app = new AddonTestApp();
 
-    return app.create('async-content')
+    return app.create('async-content', { emberVersion: 'latest'})
       .then(function() {
         return app.startServer({
           command: 'serve'

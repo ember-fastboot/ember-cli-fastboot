@@ -15,7 +15,8 @@ describe('head content acceptance', function() {
     app = new AddonTestApp();
 
     return app.create('head-content', {
-      skipNpm: true
+      skipNpm: true,
+      emberVersion: 'latest'
     })
       .then(addDependencies)
       .then(function() {

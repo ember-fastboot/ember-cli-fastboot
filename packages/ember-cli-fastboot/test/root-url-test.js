@@ -14,7 +14,7 @@ describe('rootUrl acceptance', function() {
   before(function() {
     app = new AddonTestApp();
 
-    return app.create('root-url')
+    return app.create('root-url', { emberVersion: 'latest'})
       .then(function() {
         return app.startServer({
           command: 'serve'

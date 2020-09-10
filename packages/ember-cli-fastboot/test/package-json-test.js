@@ -16,7 +16,7 @@ describe('generating package.json', function() {
     let customApp = new AddonTestApp();
 
     before(function() {
-      return customApp.create('customized-fingerprinting')
+      return customApp.create('customized-fingerprinting', { emberVersion: 'latest'})
         .then(function() {
           return customApp.runEmberCommand('build', '--environment=production');
         });

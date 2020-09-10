@@ -29,7 +29,8 @@ describe('request details', function() {
     app = new AddonTestApp();
 
     return app.create('request', {
-      skipNpm: true
+      skipNpm: true,
+      emberVersion: 'latest'
     })
       .then(() => injectMiddlewareAddon(app))
       .then(function() {
