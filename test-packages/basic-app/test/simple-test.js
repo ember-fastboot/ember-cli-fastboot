@@ -5,12 +5,13 @@ const request = RSVP.denodeify(require('request'));
 const expect = require('chai').use(require('chai-string')).expect;
 const { startServer, stopServer } = require('../../test-libs');
 
+const port = 44554
 describe('simple acceptance', function() {
   this.timeout(30000);
 
   before(function() {
     return startServer({
-      command: 'serve'
+      port,
     });
 
   });
@@ -21,7 +22,7 @@ describe('simple acceptance', function() {
 
   it('/ HTML contents', async () => {
     const response = await request({
-      url: 'http://localhost:49741/',
+      url: `http://localhost:${port}/`,
       headers: {
         'Accept': 'text/html'
       }
@@ -34,7 +35,7 @@ describe('simple acceptance', function() {
 
   it('with fastboot query parameter turned on', async () => {
     const response = await request({
-      url: 'http://localhost:49741/?fastboot=true',
+      url: `http://localhost:${port}/?fastboot=true`,
       headers: {
         'Accept': 'text/html'
       }
@@ -47,7 +48,7 @@ describe('simple acceptance', function() {
 
   it('with fastboot query parameter turned off', async () =>  {
     const response = await request({
-      url: 'http://localhost:49741/?fastboot=false',
+      url: `http://localhost:${port}/?fastboot=false`,
       headers: {
         'Accept': 'text/html'
       }
@@ -60,7 +61,7 @@ describe('simple acceptance', function() {
 
   it('/posts HTML contents', async () =>  {
     const response = await request({
-      url: 'http://localhost:49741/posts',
+      url: `http://localhost:${port}/posts`,
       headers: {
         'Accept': 'text/html'
       }
@@ -74,7 +75,7 @@ describe('simple acceptance', function() {
 
   it('/not-found HTML contents', async () =>  {
     const response = await request({
-      url: 'http://localhost:49741/not-found',
+      url: `http://localhost:${port}/not-found`,
       headers: {
         'Accept': 'text/html'
       }
@@ -87,7 +88,7 @@ describe('simple acceptance', function() {
 
   it('/boom HTML contents', async () =>  {
     const response = await request({
-      url: 'http://localhost:49741/boom',
+      url: `http://localhost:${port}/boom`,
       headers: {
         'Accept': 'text/html'
       }
@@ -100,7 +101,7 @@ describe('simple acceptance', function() {
 
   it('/imports HTML contents', async () =>  {
     const response = await request({
-      url: 'http://localhost:49741/imports',
+      url: `http://localhost:${port}/imports`,
       headers: {
         'Accept': 'text/html'
       }
@@ -112,7 +113,7 @@ describe('simple acceptance', function() {
   });
 
   it('/assets/vendor.js', async () =>  {
-    const response = await request('http://localhost:49741/assets/vendor.js')
+    const response = await request(`http://localhost:${port}/assets/vendor.js`)
 
     expect(response.statusCode).to.equal(200);
     expect(response.headers["content-type"]).to.equalIgnoreCase("application/javascript; charset=utf-8");
@@ -120,7 +121,7 @@ describe('simple acceptance', function() {
   });
 
   it('/assets/basic-app.js', async () =>  {
-    const response = await request('http://localhost:49741/assets/basic-app.js')
+    const response = await request(`http://localhost:${port}/assets/basic-app.js`)
 
     expect(response.statusCode).to.equal(200);
     expect(response.headers["content-type"]).to.equalIgnoreCase("application/javascript; charset=utf-8");

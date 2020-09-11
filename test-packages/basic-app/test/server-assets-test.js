@@ -5,12 +5,13 @@ const request = RSVP.denodeify(require('request'));
 const expect = require('chai').use(require('chai-string')).expect;
 const { startServer, stopServer } = require('../../test-libs');
 
+const port = 49561;
 describe('serve assets acceptance', function() {
   this.timeout(20000);
 
   before(function() {
     return startServer({
-      command: 'serve'
+      port,
     });
 
   });
@@ -20,7 +21,7 @@ describe('serve assets acceptance', function() {
   });
 
   it('/assets/vendor.js', async () => {
-    const response = await request('http://localhost:49741/assets/vendor.js')
+    const response = await request(`http://localhost:${port}/assets/vendor.js`)
 
     expect(response.statusCode).to.equal(200);
     expect(response.headers["content-type"]).to.equalIgnoreCase("application/javascript; charset=utf-8");
@@ -28,7 +29,7 @@ describe('serve assets acceptance', function() {
   });
 
   it('/assets/basic-app.js', async () => {
-    const response = await request('http://localhost:49741/assets/basic-app.js')
+    const response = await request(`http://localhost:${port}/assets/basic-app.js`)
 
     expect(response.statusCode).to.equal(200);
     expect(response.headers["content-type"]).to.equalIgnoreCase("application/javascript; charset=utf-8");
