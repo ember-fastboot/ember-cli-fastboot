@@ -22,7 +22,7 @@ const stopServer = () => {
 
   killCliProcess(server);
 
-  return longRunningServerPromise.then(() => {
+  return longRunningServerPromise.catch(() => {
     server = null;
   });
 };

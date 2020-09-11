@@ -5,8 +5,8 @@ const request = RSVP.denodeify(require('request'));
 const expect = require('chai').use(require('chai-string')).expect;
 const { startServer, stopServer } = require('../../test-libs');
 
-describe.only('shoebox - put', function() {
-  this.timeout(20000);
+describe('shoebox - put', function() {
+  this.timeout(30000);
 
   before(function() {
     return startServer();
