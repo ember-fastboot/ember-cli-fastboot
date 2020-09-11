@@ -6,7 +6,7 @@ const expect = require('chai').use(require('chai-string')).expect;
 const { startServer, stopServer } = require('../../test-libs');
 
 describe('serve assets acceptance', function() {
-  this.timeout(30000);
+  this.timeout(60000);
 
   before(function() {
     return startServer();
