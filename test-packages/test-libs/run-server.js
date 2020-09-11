@@ -9,7 +9,7 @@ const runServer = options => {
     options = options || { };
 
     defaults(options, {
-      port: '49741',
+      port: 45678,
       command: 'server',
       detectServerStart
     });
