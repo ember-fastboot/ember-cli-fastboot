@@ -1,3 +1,20 @@
+## v3.0.0-beta.2 (2020-09-18)
+
+#### :rocket: Enhancement
+* `ember-cli-fastboot`
+  * [#770](https://github.com/ember-fastboot/ember-cli-fastboot/pull/770) Add 'node: current' to the targets file on install ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* Other
+  * [#787](https://github.com/ember-fastboot/ember-cli-fastboot/pull/787) Don't update the test-package fake addon package versions ([@kiwiupover](https://github.com/kiwiupover))
+* `ember-cli-fastboot`
+  * [#786](https://github.com/ember-fastboot/ember-cli-fastboot/pull/786) Adding testing libs so we can tests a running ember app. ([@kiwiupover](https://github.com/kiwiupover))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Dave Laird ([@kiwiupover](https://github.com/kiwiupover))
+
+
 ## v3.0.0-beta.1 (2020-09-18)
 
 #### :boom: Breaking Change
