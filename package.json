@@ -1,5 +1,6 @@
 {
   "private": true,
+  "version": "2.2.3",
   "repository": {
     "type": "git",
     "url": "git@github.com:ember-fastboot/ember-cli-fastboot.git"
