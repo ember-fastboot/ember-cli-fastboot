@@ -29,8 +29,7 @@
         ],
         "additionalManifests": {
           "versionUpdates": [
-            "package.json",
-            "test-packages/*/package.json"
+            "package.json"
           ],
           "dependencyUpdates": [
             "package.json",

@@ -94,7 +94,7 @@ describe("generating package.json", function () {
 
       let config = pkg.fastboot.config["basic-app"];
 
-      expect(config.APP.version).to.include("0.0.0");
+      expect(config.APP.version).to.be;
 
       delete config.APP.version;
       expect(config).to.deep.equal({
