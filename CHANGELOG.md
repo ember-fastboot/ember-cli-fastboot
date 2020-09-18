@@ -1,3 +1,37 @@
+## v3.0.0-beta.1 (2020-09-18)
+
+#### :boom: Breaking Change
+* [#748](https://github.com/ember-fastboot/ember-cli-fastboot/pull/748) Update fastboot to the latest version 🚀 ([@greenkeeper[bot]](https://github.com/apps/greenkeeper))
+* [#695](https://github.com/ember-fastboot/ember-cli-fastboot/pull/695) Drop Node 6, 8, 9, 11, and 13 support. ([@rwjblue](https://github.com/rwjblue))
+
+#### :rocket: Enhancement
+* `ember-cli-fastboot`
+  * [#780](https://github.com/ember-fastboot/ember-cli-fastboot/pull/780) Update FastBoot to 3.1.0 ([@kiwiupover](https://github.com/kiwiupover))
+
+#### :bug: Bug Fix
+* [#772](https://github.com/ember-fastboot/ember-cli-fastboot/pull/772) Remove the second version of broccoli-file-creator from package.json ([@kiwiupover](https://github.com/kiwiupover))
+
+#### :memo: Documentation
+* [#771](https://github.com/ember-fastboot/ember-cli-fastboot/pull/771) Update README.md ([@jad359](https://github.com/jad359))
+
+#### :house: Internal
+* `ember-cli-fastboot`
+  * [#783](https://github.com/ember-fastboot/ember-cli-fastboot/pull/783) Add automated release setup. ([@rwjblue](https://github.com/rwjblue))
+  * [#778](https://github.com/ember-fastboot/ember-cli-fastboot/pull/778) Move package-json test to the basic-app ([@kiwiupover](https://github.com/kiwiupover))
+  * [#776](https://github.com/ember-fastboot/ember-cli-fastboot/pull/776) Move asset rewriting test to test-packages/basic-app ([@kiwiupover](https://github.com/kiwiupover))
+  * [#775](https://github.com/ember-fastboot/ember-cli-fastboot/pull/775) Adding basic test app ([@kiwiupover](https://github.com/kiwiupover))
+  * [#767](https://github.com/ember-fastboot/ember-cli-fastboot/pull/767) Migrate to monorepo structure (to easily add test apps) ([@kiwiupover](https://github.com/kiwiupover))
+* Other
+  * [#774](https://github.com/ember-fastboot/ember-cli-fastboot/pull/774) Move `.gitignore` into root ([@rwjblue](https://github.com/rwjblue))
+  * [#773](https://github.com/ember-fastboot/ember-cli-fastboot/pull/773) Remove travis in-favor of GitHub actions ([@kiwiupover](https://github.com/kiwiupover))
+  * [#769](https://github.com/ember-fastboot/ember-cli-fastboot/pull/769) Adding github action tests ([@kiwiupover](https://github.com/kiwiupover))
+
+#### Committers: 3
+- Dave Laird ([@kiwiupover](https://github.com/kiwiupover))
+- Jennifer ([@jad359](https://github.com/jad359))
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+
+
 ## v2.2.3 (2020-06-10)
 
 #### :bug: Bug Fix
