@@ -24,8 +24,6 @@ describe('async content via deferred content', function() {
       }
     });
 
-    console.log('body', response.body);
-
     expect(response.body).to.contain('Async content: Go Sounders');
   });
 });
