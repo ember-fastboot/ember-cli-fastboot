@@ -10,4 +10,5 @@ Router.map(function() {
   this.route('posts');
   this.route('boom');
   this.route('imports');
+  this.route('async-content');
 });
