@@ -108,6 +108,18 @@ describe('simple acceptance', function() {
     expect(response.body).to.contain("FastBoot compatible vendor file: FastBoot default default value");
   });
 
+  it('the body is contained between markers', async () => {
+    const response = await request({
+      url: `http://localhost:45678`,
+      headers: {
+        'Accept': 'text/html'
+      }
+    })
+
+    expect(response.body).to.contain('<script type="x/boundary" id="fastboot-body-start"></script>')
+    expect(response.body).to.contain('<script type="x/boundary" id="fastboot-body-end"></script>')
+  });
+
   it('/assets/vendor.js', async () =>  {
     const response = await request(`http://localhost:45678/assets/vendor.js`)
 
