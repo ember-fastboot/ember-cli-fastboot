@@ -11,4 +11,6 @@ Router.map(function() {
   this.route('boom');
   this.route('imports');
   this.route('async-content');
+  this.route('echo-request-headers');
+  this.route('return-status-code-418');
 });
