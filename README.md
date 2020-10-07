@@ -62,6 +62,8 @@ $ PORT=8000 node server.js
 This will start an HTTP server on port 8000. To stop the server, type
 `Ctrl-C`.
 
+NOTE: If you want to continue running `ember serve` in development, name the file `fastboot-server.js` instead.
+
 ## Application Builds
 
 When you build an Ember.js app via `ember build`, it will build the app
