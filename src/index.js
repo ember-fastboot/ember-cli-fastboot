@@ -30,19 +30,18 @@ function fastbootExpressMiddleware(distPath, options) {
 
     try {
       let result = await fastboot.visit(path, { request: req, response: res });
-      let responseBody = opts.chunkedResponse ? result.chunks() : result.html();
+      let body = opts.chunkedResponse ? await result.chunks() : await result.html();
 
-      let body = await responseBody;
+      if (result.error) {
+        log('RESILIENT MODE CAUGHT:', result.error.stack);
+        next(result.error);
+      }
+
       let headers = result.headers;
       let statusMessage = result.error ? 'NOT OK ' : 'OK ';
 
       for (var pair of headers.entries()) {
         res.append(pair[0], pair[1]);
-      }
-
-      if (result.error) {
-        log('RESILIENT MODE CAUGHT:', result.error.stack);
-        next(result.error);
       }
 
       log(result.statusCode, statusMessage + path);
