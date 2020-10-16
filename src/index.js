@@ -35,6 +35,7 @@ function fastbootExpressMiddleware(distPath, options) {
       if (result.error) {
         log('RESILIENT MODE CAUGHT:', result.error.stack);
         next(result.error);
+        return;
       }
 
       let headers = result.headers;
