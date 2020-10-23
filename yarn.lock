@@ -1460,10 +1460,10 @@ fast-levenshtein@~2.0.6:
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
 
-fastboot@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/fastboot/-/fastboot-3.1.0.tgz#e71a2d45c9b034f8a5909562a125888325100843"
-  integrity sha512-1GyX0seImE0l4Di/LVwTzL1XqXKECQvvDeEZmReNwMUDbsQxETGz3j7XUq/eWSxl1o4R/vZomvxOXdtae6kpfA==
+fastboot@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/fastboot/-/fastboot-3.1.1.tgz#95306636f4a9dae1bc237142e3cca0d337b419c6"
+  integrity sha512-qQ7zXzqJ2+qyM9Uy4rXzeOc/Qtk2o9Y9rKvHCrZoRWneOEwsH+/8bN56NP4PUgbMWtzYtWBFwhwGBuC6xPJA3w==
   dependencies:
     chalk "^3.0.0"
     cookie "^0.4.0"
