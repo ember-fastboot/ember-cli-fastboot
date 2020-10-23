@@ -328,12 +328,11 @@ class EmberApp {
         // if shoebox is not disabled, then create the shoebox and send API data
         createShoebox(doc, fastbootInfo);
       }
-
-      result._finalize();
     } catch (error) {
       // eslint-disable-next-line require-atomic-updates
       result.error = error;
     } finally {
+      result._finalize();
       // ensure we invoke `Ember.Application.destroy()` and
       // `Ember.ApplicationInstance.destroy()`, but use `result._destroy()` so
       // that the `result` object's internal `this.isDestroyed` flag is correct
