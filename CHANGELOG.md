@@ -1,3 +1,17 @@
+## v3.1.1 (2020-10-23)
+
+#### :bug: Bug Fix
+* [#277](https://github.com/ember-fastboot/fastboot/pull/277) Restore result finalization in resilient mode ([@bobisjan](https://github.com/bobisjan))
+
+#### :house: Internal
+* [#278](https://github.com/ember-fastboot/fastboot/pull/278) Update release setup. ([@rwjblue](https://github.com/rwjblue))
+* [#279](https://github.com/ember-fastboot/fastboot/pull/279) Migrate to GitHub Actions for CI. ([@rwjblue](https://github.com/rwjblue))
+
+#### Committers: 2
+- Jan Bobisud ([@bobisjan](https://github.com/bobisjan))
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+
+
 ## v3.1.0 (2020-05-26)
 
 #### :rocket: Enhancement
