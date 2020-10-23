@@ -25,46 +25,37 @@ function fastbootExpressMiddleware(distPath, options) {
     });
   }
 
-  return function(req, res, next) {
+  return async function(req, res, next) {
     let path = req.url;
-    fastboot.visit(path, { request: req, response: res }).then(success, failure);
 
-    function success(result) {
-      let responseBody = opts.chunkedResponse ? result.chunks() : result.html();
+    try {
+      let result = await fastboot.visit(path, { request: req, response: res });
+      let body = opts.chunkedResponse ? await result.chunks() : await result.html();
 
-      responseBody
-        .then(body => {
-          let headers = result.headers;
-          let statusMessage = result.error ? 'NOT OK ' : 'OK ';
+      if (result.error) {
+        log('RESILIENT MODE CAUGHT:', result.error.stack);
+        next(result.error);
+      }
 
-          for (var pair of headers.entries()) {
-            res.append(pair[0], pair[1]);
-          }
+      let headers = result.headers;
+      let statusMessage = result.error ? 'NOT OK ' : 'OK ';
 
-          if (result.error) {
-            log('RESILIENT MODE CAUGHT:', result.error.stack);
-            next(result.error);
-          }
+      for (var pair of headers.entries()) {
+        res.append(pair[0], pair[1]);
+      }
 
-          log(result.statusCode, statusMessage + path);
-          res.status(result.statusCode);
+      log(result.statusCode, statusMessage + path);
+      res.status(result.statusCode);
 
-          if (typeof body === 'string') {
-            res.send(body);
-          } else if (result.error) {
-            res.send(body[0]);
-          } else {
-            body.forEach(chunk => res.write(chunk));
-            res.end();
-          }
-        })
-        .catch(error => {
-          res.status(500);
-          next(error);
-        });
-    }
-
-    function failure(error) {
+      if (typeof body === 'string') {
+        res.send(body);
+      } else if (result.error) {
+        res.send(body[0]);
+      } else {
+        body.forEach(chunk => res.write(chunk));
+        res.end();
+      }
+    } catch (error) {
       if (error.name === 'UnrecognizedURLError') {
         next();
       } else {
