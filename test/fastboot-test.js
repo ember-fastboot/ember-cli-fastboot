@@ -242,7 +242,10 @@ describe('FastBoot', function() {
 
     return fastboot
       .visit('/')
-      .then(r => r.html())
+      .then(r => {
+        expect(r.finalized).to.be.true;
+        return r.html();
+      })
       .then(html => {
         expect(html).to.match(/<body>/);
       });
