@@ -17,7 +17,7 @@ class Worker {
     this.password = options.password;
     this.beforeMiddleware = options.beforeMiddleware;
     this.afterMiddleware = options.afterMiddleware;
-    this.sandboxGlobals = options.sandboxGlobals;
+    this.buildSandboxGlobals = options.buildSandboxGlobals;
     this.chunkedResponse = options.chunkedResponse;
 
     if (!this.httpServer) {
@@ -32,7 +32,7 @@ class Worker {
         password: this.password,
         beforeMiddleware: this.beforeMiddleware,
         afterMiddleware: this.afterMiddleware,
-        sandboxGlobals: options.sandboxGlobals,
+        buildSandboxGlobals: options.buildSandboxGlobals,
       });
     }
 
@@ -74,7 +74,7 @@ class Worker {
   buildMiddleware() {
     this.fastboot = new FastBoot({
       distPath: this.distPath,
-      sandboxGlobals: this.sandboxGlobals,
+      buildSandboxGlobals: this.buildSandboxGlobals,
     });
 
     return fastbootMiddleware({
