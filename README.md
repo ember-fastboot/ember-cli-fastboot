@@ -27,7 +27,7 @@ particular, you can provide a custom:
 
 ## Requirements
 
-FastBoot App Server requires Node.js v4.2 or later.
+FastBoot App Server requires Node.js v8 or later.
 
 ## Quick Start
 
