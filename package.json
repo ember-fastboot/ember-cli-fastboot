@@ -12,7 +12,7 @@
     "url": "git+https://github.com/ember-fastboot/fastboot-app-server.git"
   },
   "engines": {
-    "node": "8.* || 10.* || >= 12.*"
+    "node": "10.* || 12.* || >= 14"
   },
   "keywords": [
     "ember",
