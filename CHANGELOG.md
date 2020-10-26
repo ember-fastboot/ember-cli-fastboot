@@ -34,9 +34,6 @@
 - Robert Jackson ([@rwjblue](https://github.com/rwjblue))
 - Yoran Brondsema ([@YoranBrondsema](https://github.com/YoranBrondsema))
 
-
-# fastboot-app-server Changelog
-
 ### 1.1.2-beta.1
 
 * Bump fastboot version to allow opting into rehydration.
