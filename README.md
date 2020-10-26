@@ -217,6 +217,7 @@ server.start();
 * fastboot-s3-notifier
 * [fastboot-fs-notifier](https://github.com/iheanyi/fastboot-fs-notifier)
 * [fastboot-watch-notifier](https://github.com/pwfisher/fastboot-watch-notifier)
+* [fastboot-gcloud-storage-notifier](https://github.com/EmberSherpa/fastboot-gcloud-storage-notifier)
 
 ### Writing a Notifier
 
