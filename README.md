@@ -1,7 +1,5 @@
 ## Ember FastBoot App Server
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/ember-fastboot/fastboot-app-server.svg)](https://greenkeeper.io/)
-
 The FastBoot App Server is an application server for hosting Ember
 FastBoot apps. It manages downloading the Ember app, starting multiple
 HTTP server processes, and detecting when new versions of the
