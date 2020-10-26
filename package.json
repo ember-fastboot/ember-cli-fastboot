@@ -30,8 +30,8 @@
     "chalk": "^2.0.1",
     "compression": "^1.6.2",
     "express": "^4.13.3",
-    "fastboot": "^2.0.0",
-    "fastboot-express-middleware": "^2.0.0"
+    "fastboot": "^3.1.1",
+    "fastboot-express-middleware": "^3.0.0"
   },
   "devDependencies": {
     "chai": "^4.1.0",

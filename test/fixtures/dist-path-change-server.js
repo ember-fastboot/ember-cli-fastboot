@@ -35,7 +35,9 @@ const connector = new DownloaderNotifier({
 var server = new FastBootAppServer({
   notifier: connector,
   downloader: connector,
-  sandboxGlobals: { THE_GLOBAL: MY_GLOBAL }
+  buildSandboxGlobals(defaultGlobals) {
+    return Object.assign({}, defaultGlobals, { THE_GLOBAL: MY_GLOBAL });
+  }
 });
 
 const serverPromise = server.start();

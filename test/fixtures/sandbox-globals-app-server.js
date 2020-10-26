@@ -7,7 +7,9 @@ const MY_GLOBAL = 'MY GLOBAL';
 
 var server = new FastBootAppServer({
   distPath: path.resolve(__dirname, './global-app'),
-  sandboxGlobals: { THE_GLOBAL: MY_GLOBAL }
+  buildSandboxGlobals(defaultGlobals) {
+    return Object.assign({}, defaultGlobals, { THE_GLOBAL: MY_GLOBAL });
+  }
 });
 
 server.start();
