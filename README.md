@@ -77,7 +77,7 @@ application's `dist` directory.
 Because Node.js is single-threaded, you must run multiple processes to
 take advantage of multi-core systems. FastBoot App Server takes
 advantage of Node's clustering support out of the box, automatically
-spawning one worker HTTP server per core.
+spawning one worker HTTP server per core. You can override this via `options.workerCount`.
 
 The app server will automatically spawn a new worker if one dies while
 handling a request. When a new application deploy is detected, workers
