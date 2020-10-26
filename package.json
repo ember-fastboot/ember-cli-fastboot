@@ -23,10 +23,10 @@
     "test": "yarn lint:js && NODE_ENV=test mocha"
   },
   "dependencies": {
-    "basic-auth": "^2.0.0",
-    "chalk": "^2.0.1",
-    "compression": "^1.6.2",
-    "express": "^4.13.3",
+    "basic-auth": "^2.0.1",
+    "chalk": "^4.1.0",
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
     "fastboot": "^3.1.1",
     "fastboot-express-middleware": "^3.0.0"
   },
