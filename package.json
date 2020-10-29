@@ -17,6 +17,9 @@
   "license": "MIT",
   "author": "Tom Dale and FastBoot contributors",
   "main": "src/index.js",
+  "files": [
+    "src/"
+  ],
   "scripts": {
     "changelog": "lerna-changelog",
     "lint:js": "eslint --cache .",
