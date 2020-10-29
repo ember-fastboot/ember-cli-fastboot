@@ -1,3 +1,12 @@
+## v3.1.2 (2020-10-29)
+
+#### :bug: Bug Fix
+* [#281](https://github.com/ember-fastboot/fastboot/pull/281) Ensure extraneous files are not published. ([@rwjblue](https://github.com/rwjblue))
+
+#### Committers: 1
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+
+
 ## v3.1.1 (2020-10-23)
 
 #### :bug: Bug Fix
