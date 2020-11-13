@@ -18,7 +18,8 @@
     "lint:js": "eslint .",
     "start": "ember serve",
     "test": "npm-run-all lint:* test:*",
-    "test:ember": "ember test"
+    "test:ember": "ember test",
+    "test:mocha": "mocha"
   },
   "devDependencies": {
     "@ember/optional-features": "^1.3.0",
