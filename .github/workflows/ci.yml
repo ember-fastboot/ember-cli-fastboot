@@ -94,3 +94,5 @@ jobs:
         run: yarn install --ignore-engines --frozen-lockfile
       - name: Basic App
         run: yarn workspace basic-app test:mocha
+      - name: Custom App
+        run: yarn workspace custom-fastboot-app test:mocha
