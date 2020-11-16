@@ -26,7 +26,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: ['10', '12']
+        node-version: ['10', '12', '14']
 
     steps:
       - name: Checkout Code
@@ -58,7 +58,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 10.x]
+        node-version: [14.x, 12.x, 10.x]
         os: [ubuntu-latest, windows-latest]
 
     steps:
@@ -80,7 +80,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 10.x]
+        node-version: [14.x, 12.x, 10.x]]
         os: [ubuntu-latest, windows-latest]
 
     steps:
