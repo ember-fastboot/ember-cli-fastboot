@@ -23,7 +23,7 @@ describe('FastBoot', function() {
       });
     };
 
-    expect(fn).to.throw(/Couldn't find (.+)\/fixtures\/no-package-json/);
+    expect(fn).to.throw(/Couldn't find (.+)no-package-json/);
   });
 
   it('throws an error when manifest schema version is higher than fastboot schema version', function() {
@@ -47,9 +47,7 @@ describe('FastBoot', function() {
       });
     };
 
-    expect(fn).to.throw(
-      /(.+)\/fixtures\/empty-package-json\/package.json was malformed or did not contain a fastboot config/
-    );
+    expect(fn).to.throw(/(.+)package.json was malformed or did not contain a fastboot config/);
   });
 
   it('can render HTML', function() {

@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "3.0.0-beta.2",
+  "version": "3.1.2",
   "repository": {
     "type": "git",
     "url": "git@github.com:ember-fastboot/ember-cli-fastboot.git"
@@ -46,5 +46,9 @@
       "tokenRef": "GITHUB_AUTH"
     },
     "npm": false
+  },
+  "volta": {
+    "node": "12.19.0",
+    "yarn": "1.22.5"
   }
 }
