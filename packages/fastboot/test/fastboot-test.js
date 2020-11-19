@@ -50,41 +50,6 @@ describe('FastBoot', function() {
     expect(fn).to.throw(/(.+)package.json was malformed or did not contain a fastboot config/);
   });
 
-  it('can render HTML', function() {
-    var fastboot = new FastBoot({
-      distPath: fixture('basic-app'),
-    });
-
-    return fastboot
-      .visit('/')
-      .then(r => r.html())
-      .then(html => {
-        expect(html).to.match(/Welcome to Ember/);
-      });
-  });
-
-  it('can run multiple visits', async function() {
-    this.timeout(3000);
-
-    var fastboot = new FastBoot({
-      distPath: fixture('basic-app'),
-    });
-
-    let result = await fastboot.visit('/');
-    let html = await result.html();
-
-    expect(html).to.match(/Welcome to Ember/);
-
-    result = await fastboot.visit('/');
-    html = await result.html();
-
-    expect(html).to.match(/Welcome to Ember/);
-
-    result = await fastboot.visit('/');
-    html = await result.html();
-
-    expect(html).to.match(/Welcome to Ember/);
-  });
 
   it('can render HTML with array of app files defined in package.json', function() {
     var fastboot = new FastBoot({
@@ -96,21 +61,6 @@ describe('FastBoot', function() {
       .then(r => r.html())
       .then(html => {
         expect(html).to.match(/Welcome to Ember/);
-      });
-  });
-
-  it('cannot not render app HTML with shouldRender set as false', function() {
-    var fastboot = new FastBoot({
-      distPath: fixture('basic-app'),
-    });
-
-    return fastboot
-      .visit('/', {
-        shouldRender: false,
-      })
-      .then(r => r.html())
-      .then(html => {
-        expect(html).to.not.match(/Welcome to Ember/);
       });
   });
 
@@ -165,33 +115,6 @@ describe('FastBoot', function() {
       .then(r => r.html())
       .then(html => {
         expect(html).to.match(/<html data-before=1 data-after=2 +class="it-works"/);
-      });
-  });
-
-  it('can serialize the head and body', function() {
-    var fastboot = new FastBoot({
-      distPath: fixture('basic-app'),
-    });
-
-    return fastboot.visit('/').then(r => {
-      let contents = r.domContents();
-
-      expect(contents.head).to.equal('');
-      expect(contents.body).to.match(/Welcome to Ember/);
-    });
-  });
-
-  it('can forcefully destroy the app instance using destroyAppInstanceInMs', function() {
-    var fastboot = new FastBoot({
-      distPath: fixture('basic-app'),
-    });
-
-    return fastboot
-      .visit('/', {
-        destroyAppInstanceInMs: 5,
-      })
-      .catch(e => {
-        expect(e.message).to.equal('App instance was forcefully destroyed in 5ms');
       });
   });
 
@@ -262,56 +185,6 @@ describe('FastBoot', function() {
         expect(chunks.length).to.eq(1);
         expect(chunks[0]).to.match(/<body>/);
       });
-  });
-
-  it('can reload the distPath', function() {
-    var fastboot = new FastBoot({
-      distPath: fixture('basic-app'),
-    });
-
-    return fastboot
-      .visit('/')
-      .then(r => r.html())
-      .then(html => expect(html).to.match(/Welcome to Ember/))
-      .then(hotReloadApp)
-      .then(() => fastboot.visit('/'))
-      .then(r => r.html())
-      .then(html => expect(html).to.match(/Goodbye from Ember/));
-
-    function hotReloadApp() {
-      fastboot.reload({
-        distPath: fixture('hot-swap-app'),
-      });
-    }
-  });
-
-  it('can reload the app using the same buildSandboxGlobals', function() {
-    var fastboot = new FastBoot({
-      distPath: fixture('basic-app'),
-      buildSandboxGlobals(globals) {
-        return Object.assign({}, globals, {
-          foo: 5,
-          myVar: 'undefined',
-        });
-      },
-    });
-
-    return fastboot
-      .visit('/')
-      .then(r => r.html())
-      .then(html => expect(html).to.match(/Welcome to Ember/))
-      .then(hotReloadApp)
-      .then(() => fastboot.visit('/foo'))
-      .then(r => r.html())
-      .then(html => {
-        expect(html).to.match(/foo from sandbox: 5/);
-      });
-
-    function hotReloadApp() {
-      fastboot.reload({
-        distPath: fixture('custom-sandbox'),
-      });
-    }
   });
 
   it('reads the config from package.json', function() {

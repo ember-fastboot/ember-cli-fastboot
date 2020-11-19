@@ -1,0 +1,19 @@
+{
+  "name": "integration-tests",
+  "private": true,
+  "version": "3.1.2",
+  "repository": "",
+  "scripts": {
+    "test": "node lib/clean-dists.js && mocha"
+  },
+  "devDependencies": {
+    "ember-cli-fastboot": "3.1.2",
+    "fastboot": "3.1.2",
+    "basic-app": "3.1.2",
+    "mocha": "^8.2.1"
+  },
+  "volta": {
+    "node": "12.19.0",
+    "yarn": "1.22.5"
+  }
+}
