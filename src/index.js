@@ -29,7 +29,8 @@ function fastbootExpressMiddleware(distPath, options) {
     let path = req.url;
 
     try {
-      let result = await fastboot.visit(path, { request: req, response: res });
+      let visitOptions = Object.assign({}, opts.visitOptions, { request: req, response: res });
+      let result = await fastboot.visit(path, visitOptions);
       let body = opts.chunkedResponse ? await result.chunks() : await result.html();
 
       if (result.error) {
