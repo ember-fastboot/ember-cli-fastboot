@@ -107,6 +107,23 @@ which helps getting the HTML to clients faster.
 
 [ember-cli-fastboot]: https://github.com/ember-fastboot/ember-cli-fastboot
 
+## VisitOptions
+
+For sending over additional metadata so that it could be leveraged by the consuming app/addon, you can pass the `visitOptions` option that contains any extra information that might be necessary.
+
+Example usecase: If an addon relies on some metadata that is set by the consuming app, then in that case the addon will not have the access to the metadata value. In such cases, developing against dummy app becomes difficult. Hence, passing in the `visitOptions` will enable smoother local addon development.
+
+```js
+app.get('/*', fastbootMiddleware({
+  distPath: '/path/to/dist',
+  visitOptions: {
+    metadata: {
+      foo: 'bar'
+    }
+  }
+}));
+```
+
 ## Tests
 
 `npm test`

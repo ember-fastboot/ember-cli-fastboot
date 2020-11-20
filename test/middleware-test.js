@@ -94,6 +94,31 @@ describe('FastBoot', function() {
     expect(headers['x-fastboot']).to.eq('a, b, c');
   });
 
+  it('can pass metadata info to the app', async function() {
+    let middleware = fastbootMiddleware({
+      distPath: fixture('app-with-metadata'),
+      visitOptions: {
+        metadata: 'Fastboot Metadata',
+      },
+    });
+    server = new TestHTTPServer(middleware);
+    await server.start();
+
+    let html = await server.request('/');
+    expect(html).to.match(/Fastboot Metadata/);
+  });
+
+  it('works without metadata passed', async function() {
+    let middleware = fastbootMiddleware({
+      distPath: fixture('app-with-metadata'),
+    });
+    server = new TestHTTPServer(middleware);
+    await server.start();
+
+    let html = await server.request('/');
+    expect(html).to.match(/Hello Ember!/);
+  });
+
   /* eslint-disable mocha/no-setup-in-describe */
   [true, false].forEach(chunkedResponse => {
     describe(`when chunked response is ${chunkedResponse ? 'enabled' : 'disabled'}`, function() {
