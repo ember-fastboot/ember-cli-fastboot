@@ -1,3 +1,12 @@
+## v3.1.0 (2020-11-20)
+
+#### :rocket: Enhancement
+* [#66](https://github.com/ember-fastboot/fastboot-express-middleware/pull/66) Add support for passing metadata into visitOptions of fastboot visit ([@suchitadoshi1987](https://github.com/suchitadoshi1987))
+
+#### Committers: 1
+- Suchita Doshi ([@suchitadoshi1987](https://github.com/suchitadoshi1987))
+
+
 ## v3.0.0 (2020-10-23)
 
 #### :boom: Breaking Change

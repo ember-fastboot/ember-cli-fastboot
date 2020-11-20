@@ -1,6 +1,6 @@
 {
   "name": "fastboot-express-middleware",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "An Express middleware for rendering Ember apps with FastBoot",
   "keywords": [
     "fastboot",
