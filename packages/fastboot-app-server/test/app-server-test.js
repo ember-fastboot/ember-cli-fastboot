@@ -9,7 +9,7 @@ const request           = require('request-promise').defaults({ simple: false, r
 let server;
 
 describe("FastBootAppServer", function() {
-  this.timeout(3000);
+  this.timeout(10000);
 
   afterEach(function() {
     if (server) {

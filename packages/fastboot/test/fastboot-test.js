@@ -50,7 +50,6 @@ describe('FastBoot', function() {
     expect(fn).to.throw(/(.+)package.json was malformed or did not contain a fastboot config/);
   });
 
-
   it('can render HTML with array of app files defined in package.json', function() {
     var fastboot = new FastBoot({
       distPath: fixture('multiple-app-files'),

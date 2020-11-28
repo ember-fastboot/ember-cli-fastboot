@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/ember-fastboot/fastboot-express-middleware.svg?branch=master)](https://travis-ci.org/ember-fastboot/fastboot-express-middleware)
 
 This middleware is a small wrapper around the
-[fastboot](https://github.com/ember-fastboot/fastboot) package, which
+[fastboot](../fastboot/README.md) package, which
 renders Ember.js apps in Node.js.
 
 By adding this middleware to your Express app, you can serve HTML from a
@@ -16,7 +16,7 @@ Note that this is _just an Express middleware_ and there is more needed
 to serve apps in a production environment. If you want to server-side
 rendered Ember applications without doing a lot of work, you are
 recommended to consider the [FastBoot App
-Server](https://github.com/ember-fastboot/fastboot-app-server), which
+Server](../fastboot-app-server/README.md), which
 manages many of the hard parts for you.
 
 That said, this middleware is designed to be easy to integrate for those
@@ -41,7 +41,7 @@ app.listen(3000, function () {
 ## Building Your Ember App
 
 Before you can use your app with FastBoot, you must first install the
-[ember-cli-fastboot][ember-cli-fastboot] addon and build your app by
+[ember-cli-fastboot](../ember-cli-fastboot) addon and build your app by
 running `ember build`. The build process will compile your app into a
 version that is compatible with both Node.js and the browser and put it
 in the `dist` directory. This `dist` directory is the path you should
