@@ -239,7 +239,7 @@ module.exports = {
 
   /**
    * Need to handroll our own clone algorithm since JSON.stringy changes regex
-   * to empty objects which breaks hostWhiteList property of fastboot.
+   * to empty objects which breaks hostAllowList property of fastboot.
    *
    * @param {Object} config
    */

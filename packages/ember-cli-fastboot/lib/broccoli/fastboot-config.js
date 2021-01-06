@@ -50,7 +50,7 @@ module.exports = class FastBootConfig extends Plugin {
     this.buildConfig();
     this.buildDependencies();
     this.buildManifest();
-    this.buildHostWhitelist();
+    this.buildHostAllowlist();
 
     let outputPath = path.join(this.outputPath, 'package.json');
     this.writeFileIfContentChanged(outputPath, this.toJSONString());
@@ -85,7 +85,7 @@ module.exports = class FastBootConfig extends Plugin {
 
   buildDependencies() {
     let dependencies = {};
-    let moduleWhitelist = [];
+    let moduleAllowlist = [];
     let ui = this.ui;
 
     eachAddonPackage(this.project, pkg => {
@@ -101,7 +101,7 @@ module.exports = class FastBootConfig extends Plugin {
             return;
           }
 
-          moduleWhitelist.push(dep);
+          moduleAllowlist.push(dep);
 
           if (version) {
             dependencies[dep] = version;
@@ -115,7 +115,7 @@ module.exports = class FastBootConfig extends Plugin {
 
     if (projectDeps) {
       projectDeps.forEach(dep => {
-        moduleWhitelist.push(dep);
+        moduleAllowlist.push(dep);
 
         let version = pkg.dependencies && pkg.dependencies[dep];
         if (version) {
@@ -125,7 +125,7 @@ module.exports = class FastBootConfig extends Plugin {
     }
 
     this.dependencies = dependencies;
-    this.moduleWhitelist = uniq(moduleWhitelist);
+    this.moduleAllowlist = uniq(moduleAllowlist);
   }
 
   updateFastBootManifest(manifest) {
@@ -160,9 +160,9 @@ module.exports = class FastBootConfig extends Plugin {
     this.manifest = this.updateFastBootManifest(manifest);
   }
 
-  buildHostWhitelist() {
+  buildHostAllowlist() {
     if (this.fastbootAppConfig) {
-      this.hostWhitelist = this.fastbootAppConfig.hostWhitelist;
+      this.hostAllowlist = this.fastbootAppConfig.hostAllowlist;
     }
   }
 
@@ -170,22 +170,22 @@ module.exports = class FastBootConfig extends Plugin {
     return stringify({
       dependencies: this.dependencies,
       fastboot: {
-        moduleWhitelist: this.moduleWhitelist,
+        moduleAllowlist: this.moduleAllowlist,
         schemaVersion: LATEST_SCHEMA_VERSION,
         manifest: this.manifest,
-        hostWhitelist: this.normalizeHostWhitelist(),
+        hostAllowlist: this.normalizeHostAllowlist(),
         config: this.fastbootConfig,
         appName: this.appName,
       }
     }, null, 2);
   }
 
-  normalizeHostWhitelist() {
-    if (!this.hostWhitelist) {
+  normalizeHostAllowlist() {
+    if (!this.hostAllowlist) {
       return;
     }
 
-    return this.hostWhitelist.map(function(entry) {
+    return this.hostAllowlist.map(function(entry) {
       // Is a regex
       if (entry.source) {
         return '/' + entry.source + '/';
