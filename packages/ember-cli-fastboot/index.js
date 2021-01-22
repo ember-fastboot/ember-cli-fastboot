@@ -184,7 +184,8 @@ module.exports = {
     this._processAddons(this.project.addons, fastbootTrees);
     // check the parent containing the fastboot directory
     const projectFastbootPath = path.join(this.project.root, 'fastboot');
-    if (this.existsSync(projectFastbootPath)) {
+    // ignore the project's fastboot folder if we are an addon, as that is already handled above
+    if (!this.project.isEmberCLIAddon() && this.existsSync(projectFastbootPath)) {
       let fastbootTree = this.treeGenerator(projectFastbootPath);
       fastbootTrees.push(fastbootTree);
     }
