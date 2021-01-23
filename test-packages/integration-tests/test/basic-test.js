@@ -4,7 +4,7 @@ const expect = require("chai").expect;
 const fs = require("fs");
 const path = require("path");
 const FastBoot = require("fastboot");
-const buildDist = require("../lib/build-dist");
+const buildDist = require("../helpers/build-dist");
 
 function dummyRequest() {
   return {
@@ -22,7 +22,7 @@ function dummyResponse() {
 }
 
 describe("FastBoot", function() {
-  this.timeout(100_000);
+  this.timeout(100000);
   it("can render HTML", async function() {
     const distPath = await buildDist("basic-app");
     const fastboot = new FastBoot({
