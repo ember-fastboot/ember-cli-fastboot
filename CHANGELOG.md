@@ -1,3 +1,18 @@
+## v3.2.0-beta.2 (2021-01-29)
+
+#### :bug: Bug Fix
+* `ember-cli-fastboot`
+  * [#808](https://github.com/ember-fastboot/ember-cli-fastboot/pull/808) Fix treeForFastBoot when project is an addon ([@simonihmig](https://github.com/simonihmig))
+
+#### :house: Internal
+* `ember-cli-fastboot`
+  * [#803](https://github.com/ember-fastboot/ember-cli-fastboot/pull/803) Dave/custom fastboot app ([@kiwiupover](https://github.com/kiwiupover))
+
+#### Committers: 2
+- Dave Laird ([@kiwiupover](https://github.com/kiwiupover))
+- Simon Ihmig ([@simonihmig](https://github.com/simonihmig))
+
+
 ## v3.2.0-beta.1 (2021-01-29)
 
 #### :memo: Documentation

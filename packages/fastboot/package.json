@@ -1,6 +1,6 @@
 {
   "name": "fastboot",
-  "version": "3.2.0-beta.1",
+  "version": "3.2.0-beta.2",
   "description": "Library for rendering Ember apps in node.js",
   "keywords": [
     "ember",
