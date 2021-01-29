@@ -1,6 +1,6 @@
 {
   "name": "hot-swap-app",
-  "version": "3.1.2",
+  "version": "3.2.0-beta.1",
   "private": true,
   "description": "Small description for hot-swap-app goes here",
   "repository": "",
@@ -32,7 +32,7 @@
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-htmlbars": "^5.1.2",
     "ember-cli-inject-live-reload": "^2.0.2",
-    "ember-cli-fastboot": "3.1.2",
+    "ember-cli-fastboot": "3.2.0-beta.1",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-uglify": "^3.0.0",
     "ember-data": "~3.19.0",
