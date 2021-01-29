@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "3.0.0-beta.2",
+  "version": "3.1.2",
   "repository": {
     "type": "git",
     "url": "git@github.com:ember-fastboot/ember-cli-fastboot.git"
@@ -10,9 +10,9 @@
     "test-packages/*"
   ],
   "devDependencies": {
-    "release-it": "^14.0.2",
-    "release-it-lerna-changelog": "^2.4.0",
-    "release-it-yarn-workspaces": "^1.5.0"
+    "release-it": "^14.2.2",
+    "release-it-lerna-changelog": "^3.1.0",
+    "release-it-yarn-workspaces": "^2.0.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -29,7 +29,8 @@
         ],
         "additionalManifests": {
           "versionUpdates": [
-            "package.json"
+            "package.json",
+            "test-packages/*/package.json"
           ],
           "dependencyUpdates": [
             "package.json",
@@ -46,5 +47,9 @@
       "tokenRef": "GITHUB_AUTH"
     },
     "npm": false
+  },
+  "volta": {
+    "node": "12.19.0",
+    "yarn": "1.22.5"
   }
 }
