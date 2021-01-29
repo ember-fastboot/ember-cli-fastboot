@@ -3,8 +3,8 @@
 [![npm version](https://badge.fury.io/js/ember-cli-fastboot.svg)](https://badge.fury.io/js/ember-cli-fastboot)
 [![Actions Status](https://github.com/ember-fastboot/ember-cli-fastboot/workflows/CI/badge.svg)](https://github.com/ember-fastboot/ember-cli-fastboot/actions)
 
-An Ember CLI addon that allows you to render and serve Ember.js apps on
-the server. Using FastBoot, you can serve rendered HTML to browsers and
+FastBoot allows you to render and serve Ember.js apps on the server.
+Using FastBoot, you can serve rendered HTML to browsers and
 other clients without requiring them to download JavaScript assets.
 
 Currently, the set of Ember applications supported is extremely limited.
@@ -20,7 +20,7 @@ FastBoot requires Ember 2.3 or higher. It is also preferable that your app is ru
 
 From within your Ember CLI application, run the following command:
 
-```
+```sh
 ember install ember-cli-fastboot
 ```
 
@@ -35,13 +35,13 @@ You may be shocked to learn that minified code runs faster in Node than
 non-minified code, so you will probably want to run the production
 environment build for anything "serious."
 
-```
+```sh
 ember serve --environment production
 ```
 
 You can also specify the port (default is 4200):
 
-```
+```sh
 ember serve --port 8088
 ```
 
@@ -63,18 +63,20 @@ module.exports = function(environment) {
   let myGlobal = environment === 'production' ? process.env.MY_GLOBAL : 'testing';
 
   return {
-    sandboxGlobals: {
-      myGlobal;
+    buildSandboxGlobals(defaultGlobals) {
+      return Object.assign({}, defaultGlobals, {
+        myGlobal,
+      });
     }
   };
 }
 ```
 
-There are several options available, see FastBoot's [README](https://github.com/ember-fastboot/fastboot/tree/v2.0.3#usage) for more information, but be aware that `distPath` is provided internally by `ember-cli-fastboot`, hence it can not be modified by this file.
+There are several options available, see FastBoot's [README](./packages/fastboot/#usage) for more information, but be aware that `distPath` is provided internally by `ember-cli-fastboot`, hence it can not be modified by this file.
 
 ### FastBoot App Server Configuration
 
-When using FastBoot App Server for production environment you have to manually pass options from `config/fastboot.js` file.
+When using [FastBoot App Server](./packages/fastboot-app-server/README.md) for production environment you have to manually pass options from `config/fastboot.js` file.
 
 ```js
 const FastBootAppServer = require('fastboot-app-server');
@@ -358,9 +360,8 @@ The contents of the Shoebox are written to the HTML as strings within
 consumed by the browser rendered application.
 
 This looks like:
+
 ```html
-.
-.
 <script type="fastboot/shoebox" id="shoebox-main-store">
 {"data":[{"attributes":{"name":"AEC Professionals"},"id":106,"type":"audience"},
 {"attributes":{"name":"Components"},"id":111,"type":"audience"},
@@ -369,8 +370,6 @@ This looks like:
 {"attributes":{"name":"Staff"},"id":141,"type":"audience"},
 {"attributes":{"name":"Students"},"id":146,"type":"audience"}]}
 </script>
-.
-.
 ```
 
 You can add items into the shoebox with `shoebox.put`, and you can retrieve
@@ -413,7 +412,7 @@ Shoebox gives you great capabilities, but using it in the real app is pretty rou
 One way to abstract the shoebox data storage mechanics is to move the logic into
 the Application Adapter as shown below.
 
-```
+```js
 export default class ApplicationAdapter extends JSONAPIAdapter.extend(
   // ...snip...
 
@@ -446,6 +445,7 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
   }
 }
 ```
+
 With this strategy, any time an ember-data `findRecord` request happens while in
 Fastboot mode, the record will be put into the shoebox cache and returned. When
 subsequent calls are made for that record in the hydrated application, it will
@@ -636,7 +636,7 @@ Since `didInsertElement` hooks are designed to let your component
 directly manipulate the DOM, and that doesn't make sense on the server
 where there is no DOM, we do not invoke either `didInsertElement` or
 `willInsertElement` hooks. The only component lifecycle hooks called in
-FastBoot are `init`, `didReceiveAttrs`, `didUpdateAttrs`, `willRender`, `didRender`, and `willDestroy`.
+FastBoot are `init`, `didReceiveAttrs`, `didUpdateAttrs`, and `willDestroy`.
 
 ### No jQuery
 

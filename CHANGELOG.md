@@ -1,3 +1,20 @@
+## v3.2.0-beta.1 (2021-01-29)
+
+#### :memo: Documentation
+* [#800](https://github.com/ember-fastboot/ember-cli-fastboot/pull/800) Update README to match buildSandboxGlobals API ([@bobisjan](https://github.com/bobisjan))
+
+#### :house: Internal
+* `ember-cli-fastboot`, `fastboot-app-server`, `fastboot-express-middleware`, `fastboot`
+  * [#805](https://github.com/ember-fastboot/ember-cli-fastboot/pull/805) Migrate to a monorepo setup ([@xg-wang](https://github.com/xg-wang))
+* `ember-cli-fastboot`
+  * [#795](https://github.com/ember-fastboot/ember-cli-fastboot/pull/795) Move response-details-test from legacy-tests to basic-app tests ([@kiwiupover](https://github.com/kiwiupover))
+
+#### Committers: 73
+- Jan Bobisud ([@bobisjan](https://github.com/bobisjan))
+- Thomas Wang ([@xg-wang](https://github.com/xg-wang))
+- Dave Laird ([@kiwiupover](https://github.com/kiwiupover))
+
+
 ## v3.0.0-beta.2 (2020-09-18)
 
 #### :rocket: Enhancement
