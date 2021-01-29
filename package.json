@@ -29,8 +29,7 @@
         ],
         "additionalManifests": {
           "versionUpdates": [
-            "package.json",
-            "test-packages/*/package.json"
+            "package.json"
           ],
           "dependencyUpdates": [
             "package.json",
@@ -50,6 +49,6 @@
   },
   "volta": {
     "node": "12.19.0",
-    "yarn": "1.22.5"
+    "yarn": "1.22.10"
   }
 }
