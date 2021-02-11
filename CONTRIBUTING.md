@@ -1,19 +1,38 @@
 # How To Contribute
 
+It is always welcome to contribute to FastBoot project! Don't hesitate to open issues, submit PRs, or [chat with community](https://emberjs.com/community) for questions or help.
 
-### Code organization
+## Code of Conduct
+[Ember Community Guidelines](https://emberjs.com/guidelines/)
 
-The actual ember addon is in `./packages/ember-cli-fastboot`. We will be adding other `test-packages` to let us test with many different app scenarios with differing dependencies.
+## Code organization
 
+This project is organized in a monorepo, you can find the packages published to npm under `packages/` folder:
+- `fastboot`
+- `ember-cli-fastboot`
+- `fastboot-app-server`
+- `fastboot-express-middleware`
 
-### Installation
+The `test-packages` folder contains sample apps and integration test suite used for testing the published packages.
 
-* `git clone <repository-url>`
-* `cd packages/ember-cli-fastboot`
+## Installation
+
+* `git clone https://github.com/ember-fastboot/ember-cli-fastboot/`
+* `cd ember-cli-fastboot`
 * `yarn install`
 
 ## Running tests
-* `cd packages/ember-cli-fastboot`
-* `yarn test:mocha` – Runs the test suite on the current Ember version
-* `yarn test:ember` – Runs the test suite on the current Ember version
-* `yarn test:ember --server` – Runs the test suite in "watch mode"
+
+* `yarn workspace integration-tests test` - Run integration test suite
+* `yarn workspace basic-app test:mocha` - Run sample app's test suite
+* `yarn workspace ember-cli-fastboot test:ember` – Runs the `ember-cli-fastboot` test suite
+
+You can run each package's own test suite specified in its `package.json` via [`yarn workspace`](https://classic.yarnpkg.com/en/docs/cli/workspace#yarn-workspace-workspace_name-command-)
+
+## Where to write test
+
+The packages in this monorepo are tightly integrated, consider these when writing new tests:
+
+* Unit testing individual package: add to the package's own `test` folder
+* Integration test that involve multiple packages: add to `test-packages/integration-tests`
+* Testing FastBoot rendered sample app as `ember-cli-fastboot` consumer: add to `test-packages/<the-sample-app>/test`
