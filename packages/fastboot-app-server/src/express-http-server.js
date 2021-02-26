@@ -1,6 +1,7 @@
 "use strict";
 
 const express = require('express');
+const compression = require('compression');
 const basicAuth = require('./basic-auth');
 
 function noop() {}
@@ -14,7 +15,7 @@ class ExpressHTTPServer {
     this.username = options.username;
     this.password = options.password;
     this.cache = options.cache;
-    this.gzip = options.gzip || false;
+    this.gzip = options.gzip || true;
     this.host = options.host;
     this.port = options.port;
     this.beforeMiddleware = options.beforeMiddleware || noop;
@@ -31,7 +32,7 @@ class ExpressHTTPServer {
     this.beforeMiddleware(app);
 
     if (this.gzip) {
-      this.app.use(require('compression')());
+      this.app.use(compression());
     }
 
     if (username !== undefined || password !== undefined) {
