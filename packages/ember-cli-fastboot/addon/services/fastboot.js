@@ -69,6 +69,13 @@ const FastBootService = Service.extend({
   headers: deprecatingAlias('request.headers', { id: 'fastboot.headers-to-request', until: '0.9.9' }),
   isFastBoot: typeof FastBoot !== 'undefined',
 
+  isFastboot: computed(function() {
+    assert(
+      'The fastboot service does not have an `isFastboot` property. This is likely a typo. Please use `isFastBoot` instead.',
+      false
+    );
+  }),
+
   init() {
     this._super(...arguments);
 

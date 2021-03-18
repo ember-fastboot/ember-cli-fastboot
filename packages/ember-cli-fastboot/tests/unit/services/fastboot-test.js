@@ -10,6 +10,12 @@ module('Unit | Service | fastboot in the browser', function(hooks) {
     assert.equal(service.get('isFastBoot'), false, `it should be false`);
   });
 
+  test('isFastboot', function(assert) {
+    let service = this.owner.lookup('service:fastboot');
+    assert.throws(() => service.isFastboot, `it should throw`);
+    assert.throws(() => service.get('isFastboot'), `it should throw`);
+  });
+
   test('request', function(assert) {
     let service = this.owner.lookup('service:fastboot');
     assert.equal(service.get('request'), null, `it should be null`);
