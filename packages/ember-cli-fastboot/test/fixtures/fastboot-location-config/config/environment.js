@@ -8,7 +8,7 @@ module.exports = function(environment) {
     modulePrefix: 'fastboot-location-config',
     fastboot: {
       fastbootHeaders: false,
-      hostWhitelist: [/localhost:\d+/],
+      hostAllowlist: [/localhost:\d+/],
       redirectCode: 302,
     }
   };
