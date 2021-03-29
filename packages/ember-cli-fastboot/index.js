@@ -336,8 +336,13 @@ module.exports = {
             this.fastboot = new FastBoot(fastbootOptions);
           }
 
+          let appConfig = this._getHostAppConfig();
+
           let fastbootMiddleware = FastBootExpressMiddleware({
-            fastboot: this.fastboot
+            fastboot: this.fastboot,
+            visitOptions: {
+              renderMode: appConfig.fastboot.renderMode
+            }
           });
 
           fastbootMiddleware(req, resp, next);
