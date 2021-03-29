@@ -92,6 +92,7 @@ function loadConfig(distPath) {
     scripts,
     html,
     hostWhitelist: pkg.fastboot.hostWhitelist,
+    renderMode: pkg.fastboot.renderMode,
     config,
     appName,
     sandboxRequire,
