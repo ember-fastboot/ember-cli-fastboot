@@ -1,7 +1,6 @@
 /* global FastBoot */
-import { deprecate } from '@ember/application/deprecations';
 import { computed, get } from '@ember/object';
-import { deprecatingAlias, readOnly } from '@ember/object/computed';
+import { readOnly } from '@ember/object/computed';
 import { assert } from '@ember/debug';
 import EObject from '@ember/object';
 import Service from '@ember/service';
@@ -65,8 +64,6 @@ const Shoebox = EObject.extend({
 });
 
 const FastBootService = Service.extend({
-  cookies: deprecatingAlias('request.cookies', { id: 'fastboot.cookies-to-request', until: '0.9.9' }),
-  headers: deprecatingAlias('request.headers', { id: 'fastboot.headers-to-request', until: '0.9.9' }),
   isFastBoot: typeof FastBoot !== 'undefined',
 
   isFastboot: computed(function() {
@@ -82,16 +79,6 @@ const FastBootService = Service.extend({
     let shoebox = Shoebox.create({ fastboot: this });
     this.set('shoebox', shoebox);
   },
-
-  host: computed(function() {
-    deprecate(
-      'Usage of fastboot service\'s `host` property is deprecated.  Please use `request.host` instead.',
-      false,
-      { id: 'fastboot.host-to-request', until: '0.9.9' }
-    );
-
-    return this._fastbootInfo.request.host();
-  }),
 
   response: readOnly('_fastbootInfo.response'),
   metadata: readOnly('_fastbootInfo.metadata'),

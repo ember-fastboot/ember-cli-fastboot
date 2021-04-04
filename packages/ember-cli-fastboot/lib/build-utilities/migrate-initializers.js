@@ -2,10 +2,10 @@
 
 const path = require('path');
 const fs = require('fs-extra');
+const SilentError = require('silent-error');
 const existsSync = fs.existsSync;
 
-const fastbootInitializerTypes = [ 'initializers', 'instance-initializers'];
-const FASTBOOT_DIR = 'fastboot';
+const fastbootInitializerTypes = ['initializers', 'instance-initializers'];
 
 /**
  * Helper function to check if there are any `(instance-)?intializers/[browser|fastboot]/` path under the
@@ -36,7 +36,7 @@ function _checkBrowserInitializers(rootPath) {
   if (isBrowserInitializersPresent) {
     const errorMsg = `FastBoot build no longer supports ${rootPath}/app/(instance-)?initializers/browser structure. ` +
                          `Please refer to http://ember-fastboot.com/docs/addon-author-guide#browser-only-or-node-only-initializers for a migration path.`;
-    throw new Error(errorMsg);
+    throw new SilentError(errorMsg);
   }
 }
 
@@ -45,41 +45,11 @@ function _checkBrowserInitializers(rootPath) {
  * @param {Object} project
  * @param {String} rootPath
  */
-function _moveFastBootInitializers(project, rootPath) {
-
+function _checkFastBootInitializers(project, rootPath) {
   // check to see if it is a fastboot complaint addon
   const isFastbootAddon = _checkInitializerTypeExists(rootPath, 'fastboot');
   if (isFastbootAddon) {
-    project.ui.writeDeprecateLine(`Having fastboot specific code in app directory of ${rootPath} is deprecated. Please move it to fastboot/app directory.`);
-
-    const fastbootDirPath = path.join(rootPath, FASTBOOT_DIR);
-    // check if fastboot/app exists
-    if (!existsSync(fastbootDirPath)) {
-      fs.mkdirsSync(fastbootDirPath);
-    }
-
-    // copy over app/initializers/fastboot and app/instance/initializers/fastboot
-    fastbootInitializerTypes.forEach((fastbootInitializerType) => {
-      const srcFastbootPath = path.join(rootPath, 'app', fastbootInitializerType, 'fastboot');
-
-      if (existsSync(srcFastbootPath)) {
-        const destFastbootPath = path.join(fastbootDirPath, fastbootInitializerType);
-        if (!existsSync(destFastbootPath)) {
-          fs.mkdirSync(destFastbootPath);
-        }
-
-        // fastboot initializer type exists so we need to move this fastboot/app
-        const fastbootFiles = fs.readdirSync(srcFastbootPath);
-        fastbootFiles.forEach((fastbootFile) => {
-          const srcPath = path.join(srcFastbootPath, fastbootFile);
-          const destPath = path.join(destFastbootPath, fastbootFile);
-          fs.copySync(srcPath, destPath);
-
-          // delete the original path files so that there are no two initializers with the same name
-          fs.unlinkSync(srcPath);
-        });
-      }
-    });
+    throw new SilentError(`Having fastboot specific code in app directory of ${rootPath} is deprecated. Please move it to fastboot/app directory.`);
   }
 }
 
@@ -93,7 +63,7 @@ function _migrateAddonInitializers(project) {
     const currentAddonPath = addon.root;
 
     _checkBrowserInitializers(currentAddonPath);
-    _moveFastBootInitializers(project, currentAddonPath);
+    _checkFastBootInitializers(project, currentAddonPath);
   });
 }
 
@@ -106,7 +76,7 @@ function _migrateHostAppInitializers(project) {
   const hostAppPath = path.join(project.root);
 
   _checkBrowserInitializers(hostAppPath);
-  _moveFastBootInitializers(project, hostAppPath);
+  _checkFastBootInitializers(project, hostAppPath);
 }
 
 /**
