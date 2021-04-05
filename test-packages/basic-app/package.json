@@ -22,7 +22,6 @@
     "test:mocha": "mocha"
   },
   "dependencies": {
-    "ember-fastboot-build-example": "0.1.2",
     "rsvp": "^4.8.5"
   },
   "devDependencies": {
@@ -58,6 +57,7 @@
     "eslint-plugin-ember": "^8.6.0",
     "eslint-plugin-node": "^11.1.0",
     "execa": "^4.0.3",
+    "example-addon": "*",
     "fake-addon": "*",
     "fake-addon-2": "*",
     "loader.js": "^4.7.0",
