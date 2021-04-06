@@ -14,100 +14,82 @@ describe('FastbootConfig', function() {
   let subject;
   let project;
 
-  beforeEach(co.wrap(function* () {
-    input = yield createTempDir();
+  beforeEach(async function() {
+    input = await createTempDir();
     project = {
-      addons: [ ],
-      pkg:    { }
+      addons: [],
+      pkg: {},
     };
     subject = new FastbootConfig(input.path(), {
       project,
       outputPaths: {
         app: { js: 'app.js' },
-        vendor: { js: 'vendor.js' }
+        vendor: { js: 'vendor.js' },
       },
       appConfig: {
-        modulePrefix: 'app'
-      }
+        modulePrefix: 'app',
+      },
     });
     output = createBuilder(subject);
-  }));
+  });
 
-  afterEach(co.wrap(function* () {
-    yield input.dispose();
-    yield output.dispose();
-  }));
+  afterEach(async function() {
+    await input.dispose();
+    await output.dispose();
+  });
 
-  it('it builds only when information changes', co.wrap(function* () {
+  it('it builds only when information changes', async function() {
     input.write({
       'index.js': `export { A } from "./lib/a";`,
-      'lib': {
+      lib: {
         'a.js': `export class A {};`,
         'b.js': `export class B {};`,
-        'c.js': `export class C {};`
-      }
+        'c.js': `export class C {};`,
+      },
     });
 
-    yield output.build();
+    await output.build();
 
-    expect(
-      output.read()
-    ).to.deep.equal({
-      'package.json': `{"dependencies":{},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleWhitelist":[],"schemaVersion":3}}`
+    expect(output.read()).to.deep.equal({
+      'package.json': `{"dependencies":{},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleWhitelist":[],"schemaVersion":3}}`,
     });
 
-    yield output.build();
+    await output.build();
 
-    expect(
-      output.changes()
-    ).to.deep.equal({ });
+    expect(output.changes()).to.deep.equal({});
 
-    project.pkg.fastbootDependencies = [
-      'apple',
-      'orange'
-    ];
+    project.pkg.fastbootDependencies = ['apple', 'orange'];
 
     project.pkg.dependencies = {
       apple: '*',
       orange: '^1.0.0',
-      pizza: '^1.0.0'
+      pizza: '^1.0.0',
     };
 
-    yield output.build();
+    await output.build();
 
-    expect(
-      output.changes()
-    ).to.deep.equal({
-      'package.json': 'change'
+    expect(output.changes()).to.deep.equal({
+      'package.json': 'change',
     });
 
-    expect(
-      output.read()
-    ).to.deep.equal({
-      'package.json': `{"dependencies":{"apple":"*","orange":"^1.0.0"},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleWhitelist":["apple","orange"],"schemaVersion":3}}`
+    expect(output.read()).to.deep.equal({
+      'package.json': `{"dependencies":{"apple":"*","orange":"^1.0.0"},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleWhitelist":["apple","orange"],"schemaVersion":3}}`,
     });
 
-    project.pkg.fastbootDependencies = [
-      'apple',
-      'orange'
-    ];
+    project.pkg.fastbootDependencies = ['apple', 'orange'];
 
     project.pkg.dependencies.pizza = '^3.0.0';
 
-    yield output.build();
+    await output.build();
 
-    expect(
-      output.changes()
-    ).to.deep.equal({ });
+    expect(output.changes()).to.deep.equal({});
 
     project.pkg.dependencies.apple = '^3.0.0';
 
-    yield output.build();
+    await output.build();
 
-    expect(
-      output.read()
-    ).to.deep.equal({
-      'package.json': `{"dependencies":{"apple":"^3.0.0","orange":"^1.0.0"},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleWhitelist":["apple","orange"],"schemaVersion":3}}`
+    expect(output.read()).to.deep.equal({
+      'package.json': `{"dependencies":{"apple":"^3.0.0","orange":"^1.0.0"},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleWhitelist":["apple","orange"],"schemaVersion":3}}`,
     });
-  }));
+  });
 });
