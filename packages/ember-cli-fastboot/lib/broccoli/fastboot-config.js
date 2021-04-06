@@ -1,35 +1,31 @@
 /* eslint-env node */
 'use strict';
 
-const fs     = require('fs');
-const fmt    = require('util').format;
-const uniq   = require('ember-cli-lodash-subset').uniq;
-const merge  = require('ember-cli-lodash-subset').merge;
+const fs = require('fs');
+const fmt = require('util').format;
+const uniq = require('ember-cli-lodash-subset').uniq;
 const md5Hex = require('md5-hex');
-const path   = require('path');
+const path = require('path');
 const Plugin = require('broccoli-plugin');
+const SilentError = require('silent-error');
 
 const stringify = require('json-stable-stringify');
 
-const LATEST_SCHEMA_VERSION = 3;
+const LATEST_SCHEMA_VERSION = 5;
 
 module.exports = class FastBootConfig extends Plugin {
-  constructor(inputNode, options) {
+  constructor(inputNode, { project, ui, appConfig, outputPaths }) {
     super([inputNode], {
       annotation: 'Generate: FastBoot package.json',
-      persistentOutput: true
+      persistentOutput: true,
     });
 
-    this.project = options.project;
+    this.project = project;
 
-    this.name = options.name;
-    this.ui = options.ui;
-    this.fastbootAppConfig = options.fastbootAppConfig;
-    this.outputPaths = options.outputPaths;
-    this.appName = options.appConfig.modulePrefix;
-    const appConfigModule = `${this.appName}`;
-    this.fastbootConfig = {};
-    this.fastbootConfig[appConfigModule] = options.appConfig;
+    this.ui = ui;
+    this.fastbootAppConfig = appConfig.fastboot;
+    this.outputPaths = outputPaths;
+    this.appName = appConfig.modulePrefix;
     this._fileToChecksumMap = {};
 
     if (this.fastbootAppConfig && this.fastbootAppConfig.htmlFile) {
@@ -37,9 +33,7 @@ module.exports = class FastBootConfig extends Plugin {
     } else {
       this.htmlFile = 'index.html';
     }
-
   }
-
 
   /**
    * The main hook called by Broccoli Plugin. Used to build or
@@ -47,11 +41,8 @@ module.exports = class FastBootConfig extends Plugin {
    * and write it to `package.json`.
    */
   build() {
-    this.buildConfig();
-    this.buildDependencies();
-    this.buildManifest();
+    this.prepareDependencies();
     this.buildHostWhitelist();
-
     let outputPath = path.join(this.outputPath, 'package.json');
     this.writeFileIfContentChanged(outputPath, this.toJSONString());
   }
@@ -66,38 +57,28 @@ module.exports = class FastBootConfig extends Plugin {
     }
   }
 
-  buildConfig() {
-    // we only walk the host app's addons to grab the config since ideally
-    // addons that have dependency on other addons would never define
-    // this advance hook.
-    this.project.addons.forEach((addon) => {
-      if (addon.fastbootConfigTree) {
-        let configFromAddon = addon.fastbootConfigTree();
-
-        if (!configFromAddon) {
-          throw new Error('`fastbootConfigTree` requires a map to be returned');
-        }
-
-        merge(this.fastbootConfig, configFromAddon);
-      }
-    });
-  }
-
-  buildDependencies() {
+  prepareDependencies() {
     let dependencies = {};
     let moduleWhitelist = [];
     let ui = this.ui;
 
-    eachAddonPackage(this.project, pkg => {
+    eachAddonPackage(this.project, (pkg) => {
       let deps = getFastBootDependencies(pkg);
 
       if (deps) {
-        deps.forEach(dep => {
+        deps.forEach((dep) => {
           let version = getDependencyVersion(pkg, dep);
 
           if (dep in dependencies) {
             version = dependencies[dep];
-            ui.writeLine(fmt("Duplicate FastBoot dependency %s. Versions may mismatch. Using range %s.", dep, version), ui.WARNING);
+            ui.writeLine(
+              fmt(
+                'Duplicate FastBoot dependency %s. Versions may mismatch. Using range %s.',
+                dep,
+                version
+              ),
+              ui.WARNING
+            );
             return;
           }
 
@@ -114,7 +95,7 @@ module.exports = class FastBootConfig extends Plugin {
     let projectDeps = pkg.fastbootDependencies;
 
     if (projectDeps) {
-      projectDeps.forEach(dep => {
+      projectDeps.forEach((dep) => {
         moduleWhitelist.push(dep);
 
         let version = pkg.dependencies && pkg.dependencies[dep];
@@ -129,12 +110,14 @@ module.exports = class FastBootConfig extends Plugin {
   }
 
   updateFastBootManifest(manifest) {
-    this.project.addons.forEach(addon =>{
+    this.project.addons.forEach((addon) => {
       if (addon.updateFastBootManifest) {
         manifest = addon.updateFastBootManifest(manifest);
 
         if (!manifest) {
-          throw new Error(`${addon.name} did not return the updated manifest from updateFastBootManifest hook.`);
+          throw new Error(
+            `${addon.name} did not return the updated manifest from updateFastBootManifest hook.`
+          );
         }
       }
     });
@@ -154,10 +137,10 @@ module.exports = class FastBootConfig extends Plugin {
     let manifest = {
       appFiles: [appFilePath, appFastbootFilePath],
       vendorFiles: [vendorFilePath],
-      htmlFile: this.htmlFile
+      htmlFile: this.htmlFile,
     };
 
-    this.manifest = this.updateFastBootManifest(manifest);
+    return this.updateFastBootManifest(manifest);
   }
 
   buildHostWhitelist() {
@@ -167,17 +150,24 @@ module.exports = class FastBootConfig extends Plugin {
   }
 
   toJSONString() {
-    return stringify({
-      dependencies: this.dependencies,
-      fastboot: {
-        moduleWhitelist: this.moduleWhitelist,
-        schemaVersion: LATEST_SCHEMA_VERSION,
-        manifest: this.manifest,
-        hostWhitelist: this.normalizeHostWhitelist(),
-        config: this.fastbootConfig,
-        appName: this.appName,
-      }
-    }, null, 2);
+    let manifest = this.buildManifest();
+    return stringify(
+      {
+        name: this.appName,
+        dependencies: this.dependencies,
+        fastboot: {
+          moduleWhitelist: this.moduleWhitelist,
+          schemaVersion: LATEST_SCHEMA_VERSION,
+          hostWhitelist: this.normalizeHostWhitelist(),
+          // We can't drop manifest until broccoli-asset-rev also supports v5 HTML based manifest
+          // https://github.com/ember-cli/broccoli-asset-rev/blob/78f6047c15acb3bd348611f658b03bdd1041911f/lib/fastboot-manifest-rewrite.js
+          manifest,
+          htmlEntrypoint: manifest.htmlFile,
+        },
+      },
+      null,
+      2
+    );
   }
 
   normalizeHostWhitelist() {
@@ -185,7 +175,7 @@ module.exports = class FastBootConfig extends Plugin {
       return;
     }
 
-    return this.hostWhitelist.map(function(entry) {
+    return this.hostWhitelist.map(function (entry) {
       // Is a regex
       if (entry.source) {
         return '/' + entry.source + '/';
@@ -194,10 +184,10 @@ module.exports = class FastBootConfig extends Plugin {
       }
     });
   }
-}
+};
 
 function eachAddonPackage(project, cb) {
-  project.addons.map(addon => cb(addon.pkg));
+  project.addons.map((addon) => cb(addon.pkg));
 }
 
 function getFastBootDependencies(pkg) {
@@ -207,7 +197,11 @@ function getFastBootDependencies(pkg) {
   }
 
   if (addon.fastBootDependencies) {
-    throw new SilentError('ember-addon.fastBootDependencies has been replaced with ember-addon.fastbootDependencies [addon: ' + pkg.name + ']')
+    throw new SilentError(
+      'ember-addon.fastBootDependencies has been replaced with ember-addon.fastbootDependencies [addon: ' +
+        pkg.name +
+        ']'
+    );
   }
 
   return addon.fastbootDependencies;
@@ -215,7 +209,13 @@ function getFastBootDependencies(pkg) {
 
 function getDependencyVersion(pkg, dep) {
   if (!pkg.dependencies) {
-    throw new Error(fmt("Could not find FastBoot dependency '%s' in %s/package.json dependencies.", dep, pkg.name));
+    throw new Error(
+      fmt(
+        "Could not find FastBoot dependency '%s' in %s/package.json dependencies.",
+        dep,
+        pkg.name
+      )
+    );
   }
 
   return pkg.dependencies[dep];
