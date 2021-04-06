@@ -59,8 +59,7 @@
     "node": "10.* || >=12"
   },
   "volta": {
-    "node": "12.19.0",
-    "yarn": "1.22.5"
+    "extends": "../../package.json"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

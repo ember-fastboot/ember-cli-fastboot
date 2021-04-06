@@ -49,7 +49,6 @@
     "chai": "^4.1.2",
     "chai-fs": "^2.0.0",
     "chai-string": "^1.4.0",
-    "co": "^4.6.0",
     "ember-ajax": "^3.1.0",
     "ember-cli": "~3.3.0",
     "ember-cli-addon-tests": "^0.11.1",
@@ -92,7 +91,6 @@
     ]
   },
   "volta": {
-    "node": "12.19.0",
-    "yarn": "1.22.5"
+    "extends": "../../package.json"
   }
 }
