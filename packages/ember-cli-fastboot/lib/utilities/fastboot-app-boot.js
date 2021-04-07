@@ -2,8 +2,8 @@
 
 // Added as app boot code to app.js that allows booting of the application
 // in browser. This code is injected during app-boot type of contentFor hook for ember-cli.
-module.exports = function fastbootAppBoot(prefix, configAppAsString, isModuleUnification) {
-  var appSuffix = isModuleUnification ? "src/main" : "app";
+module.exports = function fastbootAppBoot(prefix, configAppAsString) {
+  var appSuffix = "app";
   return [
     "",
     "if (typeof FastBoot === 'undefined') {",
