@@ -32,6 +32,10 @@ module.exports = class FastBootConfig extends Plugin {
     this.fastbootConfig[appConfigModule] = options.appConfig;
     this._fileToChecksumMap = {};
 
+    if (options.appConfig.fastboot) {
+      this.renderMode = options.appConfig.fastboot.renderMode;
+    }
+
     if (this.fastbootAppConfig && this.fastbootAppConfig.htmlFile) {
       this.htmlFile = this.fastbootAppConfig.htmlFile;
     } else {
@@ -174,6 +178,7 @@ module.exports = class FastBootConfig extends Plugin {
         schemaVersion: LATEST_SCHEMA_VERSION,
         manifest: this.manifest,
         hostWhitelist: this.normalizeHostWhitelist(),
+        renderMode: this.renderMode,
         config: this.fastbootConfig,
         appName: this.appName,
       }

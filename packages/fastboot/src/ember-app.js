@@ -40,6 +40,7 @@ class EmberApp {
     this.appName = config.appName;
     this.html = config.html;
     this.sandboxRequire = config.sandboxRequire;
+    this.renderMode = config.renderMode;
 
     if (process.env.APP_CONFIG) {
       let appConfig = JSON.parse(process.env.APP_CONFIG);
@@ -298,7 +299,10 @@ class EmberApp {
     let buildSandboxPerVisit = options.buildSandboxPerVisit || false;
 
     let shouldRender = options.shouldRender !== undefined ? options.shouldRender : true;
-    let bootOptions = buildBootOptions(shouldRender);
+    let renderMode = process.env.EXPERIMENTAL_RENDER_MODE_SERIALIZE
+      ? 'serialize'
+      : options.renderMode || this.renderMode;
+    let bootOptions = buildBootOptions(shouldRender, renderMode);
     let fastbootInfo = new FastBootInfo(req, res, {
       hostWhitelist: this.hostWhitelist,
       metadata: options.metadata,
@@ -355,17 +359,16 @@ class EmberApp {
  * Builds an object with the options required to boot an ApplicationInstance in
  * FastBoot mode.
  */
-function buildBootOptions(shouldRender) {
+function buildBootOptions(shouldRender, renderMode) {
   let doc = new SimpleDOM.Document();
   let rootElement = doc.body;
-  let _renderMode = process.env.EXPERIMENTAL_RENDER_MODE_SERIALIZE ? 'serialize' : undefined;
 
   return {
     isBrowser: false,
     document: doc,
     rootElement,
     shouldRender,
-    _renderMode,
+    _renderMode: renderMode,
   };
 }
 
