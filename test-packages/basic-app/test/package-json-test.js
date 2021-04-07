@@ -61,11 +61,11 @@ describe("generating package.json", function () {
         appFiles: [
           "assets/basic-app.js",
           "assets/basic-app-fastboot.js",
-          "ember-fastboot-build-example/bar.js",
+          "example-addon/bar.js",
         ],
         htmlFile: "index.html",
         vendorFiles: [
-          "ember-fastboot-build-example/foo.js",
+          "example-addon/foo.js",
           "assets/vendor.js",
           "assets/auto-import-fastboot.js",
           "ember-fetch/fetch-fastboot.js",
@@ -127,7 +127,7 @@ describe("generating package.json", function () {
       });
     });
 
-    it("contains additional config from ember-fastboot-build-example addon", function () {
+    it("contains additional config from example-addon", function () {
       let pkg = fs.readJSONSync("dist/package.json");
 
       expect(pkg.fastboot.config["foo"]).to.equal("bar");

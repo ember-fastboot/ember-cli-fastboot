@@ -89,7 +89,7 @@ module.exports = class FastBootConfig extends Plugin {
     let ui = this.ui;
 
     eachAddonPackage(this.project, pkg => {
-      let deps = getFastBootDependencies(pkg, ui);
+      let deps = getFastBootDependencies(pkg);
 
       if (deps) {
         deps.forEach(dep => {
@@ -200,16 +200,14 @@ function eachAddonPackage(project, cb) {
   project.addons.map(addon => cb(addon.pkg));
 }
 
-function getFastBootDependencies(pkg, ui) {
+function getFastBootDependencies(pkg) {
   let addon = pkg['ember-addon'];
   if (!addon) {
     return addon;
   }
 
-  let deps = addon.fastBootDependencies;
-  if (deps) {
-    ui.writeDeprecateLine('ember-addon.fastBootDependencies has been replaced with ember-addon.fastbootDependencies [addon: ' + pkg.name + ']');
-    return deps;
+  if (addon.fastBootDependencies) {
+    throw new SilentError('ember-addon.fastBootDependencies has been replaced with ember-addon.fastbootDependencies [addon: ' + pkg.name + ']')
   }
 
   return addon.fastbootDependencies;
