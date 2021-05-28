@@ -30,8 +30,6 @@ function getVersionChecker(context) {
   return checker;
 }
 
-
-
 /*
  * Main entrypoint for the Ember CLI addon.
  */
@@ -62,10 +60,11 @@ module.exports = {
    * See: https://ember-cli.com/user-guide/#integration
    */
   included(app) {
-
     let assetRev = this.project.addons.find(addon => addon.name === 'broccoli-asset-rev');
-    if(assetRev && !assetRev.supportsFastboot) {
-      throw new SilentError("This version of ember-cli-fastboot requires a newer version of broccoli-asset-rev");
+    if (assetRev && !assetRev.supportsFastboot) {
+      throw new SilentError(
+        'This version of ember-cli-fastboot requires a newer version of broccoli-asset-rev'
+      );
     }
 
     // set autoRun to false since we will conditionally include creating app when app files
@@ -91,8 +90,8 @@ module.exports = {
    */
   importTransforms() {
     return {
-      fastbootShim: fastbootTransform
-    }
+      fastbootShim: fastbootTransform,
+    };
   },
 
   /**
@@ -102,16 +101,15 @@ module.exports = {
    */
   contentFor(type, config, contents) {
     if (type === 'body') {
-      return "<!-- EMBER_CLI_FASTBOOT_BODY -->";
+      return '<!-- EMBER_CLI_FASTBOOT_BODY -->';
     }
 
     if (type === 'head') {
-      return "<!-- EMBER_CLI_FASTBOOT_TITLE --><!-- EMBER_CLI_FASTBOOT_HEAD -->";
+      return '<!-- EMBER_CLI_FASTBOOT_TITLE --><!-- EMBER_CLI_FASTBOOT_HEAD -->';
     }
 
     if (type === 'app-boot') {
-      const isModuleUnification = this._isModuleUnification();
-      return fastbootAppBoot(config.modulePrefix, JSON.stringify(config.APP || {}), isModuleUnification);
+      return fastbootAppBoot(config.modulePrefix, JSON.stringify(config.APP || {}));
     }
 
     // if the fastboot addon is installed, we overwrite the config-module so that the config can be read
@@ -121,10 +119,10 @@ module.exports = {
       const appConfigModule = `${config.modulePrefix}`;
       contents.splice(0, contents.length);
       contents.push(
-        'if (typeof FastBoot !== \'undefined\') {',
-          'return FastBoot.config(\'' + appConfigModule + '\');',
+        "if (typeof FastBoot !== 'undefined') {",
+        "return FastBoot.config('" + appConfigModule + "');",
         '} else {',
-          originalContents,
+        originalContents,
         '}'
       );
       return;
@@ -144,7 +142,7 @@ module.exports = {
   },
 
   _processAddons(addons, fastbootTrees) {
-    addons.forEach((addon) => {
+    addons.forEach(addon => {
       this._processAddon(addon, fastbootTrees);
     });
   },
@@ -177,7 +175,6 @@ module.exports = {
    */
   _getFastbootTree() {
     const appName = this._name;
-    const isModuleUnification = this._isModuleUnification();
 
     let fastbootTrees = [];
 
@@ -192,22 +189,22 @@ module.exports = {
 
     // transpile the fastboot JS tree
     let mergedFastBootTree = new MergeTrees(fastbootTrees, {
-      overwrite: true
+      overwrite: true,
     });
 
     let funneledFastbootTrees = new Funnel(mergedFastBootTree, {
-      destDir: appName
+      destDir: appName,
     });
     const processExtraTree = p.preprocessJs(funneledFastbootTrees, '/', this._name, {
-      registry: this._appRegistry
+      registry: this._appRegistry,
     });
 
     // FastBoot app factory module
     const writeFile = require('broccoli-file-creator');
-    let appFactoryModuleTree = writeFile("app-factory.js", fastbootAppFactoryModule(appName, this._isModuleUnification()));
+    let appFactoryModuleTree = writeFile('app-factory.js', fastbootAppFactoryModule(appName));
 
     let newProcessExtraTree = new MergeTrees([processExtraTree, appFactoryModuleTree], {
-      overwrite: true
+      overwrite: true,
     });
 
     function stripLeadingSlash(filePath) {
@@ -216,7 +213,7 @@ module.exports = {
 
     let appFilePath = stripLeadingSlash(this.app.options.outputPaths.app.js);
     let finalFastbootTree = new Concat(newProcessExtraTree, {
-      outputFile: appFilePath.replace(/\.js$/, '-fastboot.js')
+      outputFile: appFilePath.replace(/\.js$/, '-fastboot.js'),
     });
 
     return finalFastbootTree;
@@ -235,7 +232,7 @@ module.exports = {
     let fastbootConfigTree = this._buildFastbootConfigTree(newTree);
 
     // Merge the package.json with the existing tree
-    return new MergeTrees([newTree, fastbootConfigTree], {overwrite: true});
+    return new MergeTrees([newTree, fastbootConfigTree], { overwrite: true });
   },
 
   /**
@@ -251,7 +248,7 @@ module.exports = {
 
     if (config instanceof Array) {
       let copy = [];
-      for (let i=0; i< config.length; i++) {
+      for (let i = 0; i < config.length; i++) {
         copy[i] = this._cloneConfigObject(config[i]);
       }
 
@@ -305,7 +302,7 @@ module.exports = {
       outputPaths: this.app.options.outputPaths,
       ui: this.ui,
       fastbootAppConfig: fastbootAppConfig,
-      appConfig: appConfig
+      appConfig: appConfig,
     });
   },
 
@@ -318,7 +315,8 @@ module.exports = {
       // that version contains API to hook fastboot into ember-cli
 
       app.use((req, resp, next) => {
-        const fastbootQueryParam = (req.query.hasOwnProperty('fastboot') && req.query.fastboot === 'false') ? false : true;
+        const fastbootQueryParam =
+          req.query.hasOwnProperty('fastboot') && req.query.fastboot === 'false' ? false : true;
         const enableFastBootServe = !process.env.FASTBOOT_DISABLED && fastbootQueryParam;
 
         if (req.serveUrl && enableFastBootServe) {
@@ -326,18 +324,16 @@ module.exports = {
           if (!this.fastboot) {
             const broccoliHeader = req.headers['x-broccoli'];
             const outputPath = broccoliHeader['outputPath'];
-            const fastbootOptions = Object.assign(
-              {},
-              this.fastbootOptions,
-              { distPath: outputPath }
-            );
+            const fastbootOptions = Object.assign({}, this.fastbootOptions, {
+              distPath: outputPath,
+            });
 
             this.ui.writeLine(chalk.green('App is being served by FastBoot'));
             this.fastboot = new FastBoot(fastbootOptions);
           }
 
           let fastbootMiddleware = FastBootExpressMiddleware({
-            fastboot: this.fastboot
+            fastboot: this.fastboot,
           });
 
           fastbootMiddleware(req, resp, next);
@@ -356,7 +352,7 @@ module.exports = {
       // in sandbox.
       this.ui.writeLine(chalk.blue('Reloading FastBoot...'));
       this.fastboot.reload({
-        distPath: result.directory
+        distPath: result.directory,
       });
     }
   },
@@ -378,10 +374,6 @@ module.exports = {
     return checker.for('ember', 'bower');
   },
 
-  _isModuleUnification() {
-    return (typeof this.project.isModuleUnification === 'function') && this.project.isModuleUnification();
-  },
-
   /**
    * Reads FastBoot configuration from application's `config/fastboot.js` file if present,
    * otherwise returns empty object.
@@ -398,5 +390,5 @@ module.exports = {
       return require(configPath)(environment);
     }
     return {};
-  }
+  },
 };
