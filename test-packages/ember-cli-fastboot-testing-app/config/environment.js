@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   let ENV = {
-    modulePrefix: 'custom-fastboot-testing-app',
+    modulePrefix: 'ember-cli-fastboot-testing-app',
     environment,
     rootURL: '/',
     locationType: 'auto',

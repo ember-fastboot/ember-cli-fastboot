@@ -32,16 +32,14 @@ module.exports = {
         'blueprints/*/index.js',
         'config/**/*.js',
         'lib/*/index.js',
-        'server/**/*.js',
-        'test/**/*.js'
+        'server/**/*.js'
       ],
       parserOptions: {
         sourceType: 'script'
       },
       env: {
         browser: false,
-        node: true,
-        mocha: true
+        node: true
       },
       plugins: ['node'],
       extends: ['plugin:node/recommended'],

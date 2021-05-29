@@ -90,3 +90,5 @@ jobs:
         run: yarn workspace basic-app test:mocha
       - name: Custom App
         run: yarn workspace custom-fastboot-app test:mocha
+      - name: Run ember-cli-fastboot-testing-app Tests        
+  	    run: yarn workspace ember-cli-fastboot-testing-app test:ember
