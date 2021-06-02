@@ -21,11 +21,10 @@ class FastBootAppServer {
     this.username = options.username;
     this.password = options.password;
     this.httpServer = options.httpServer;
-    this.beforeMiddleware = options.beforeMiddleware;
-    this.afterMiddleware = options.afterMiddleware;
     this.buildSandboxGlobals = options.buildSandboxGlobals;
     this.chunkedResponse = options.chunkedResponse;
     this.log = options.log;
+    this.workerPath = options.workerPath;
 
     if (!this.ui) {
       let UI = require('./ui');
@@ -230,8 +229,6 @@ class FastBootAppServer {
       username: this.username,
       password: this.password,
       httpServer: this.httpServer,
-      beforeMiddleware: this.beforeMiddleware,
-      afterMiddleware: this.afterMiddleware,
       buildSandboxGlobals: this.buildSandboxGlobals,
       chunkedResponse: this.chunkedResponse,
     };
