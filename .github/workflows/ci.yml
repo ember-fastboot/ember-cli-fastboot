@@ -119,6 +119,5 @@ jobs:
       - name: Run Mocha Tests
         working-directory: ./packages/ember-cli-fastboot
         run: |
-          volta install npm@4
           npm --version
           yarn test:mocha
