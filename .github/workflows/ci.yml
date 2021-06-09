@@ -66,7 +66,7 @@ jobs:
       - name: Yarn Install
         run: yarn install --ignore-engines --frozen-lockfile
       - name: Integration Tests
-        run: yarn workspace integration-tests test 
+        run: yarn workspace integration-tests test
 
   test-packages:
     name: Test Packages
@@ -90,3 +90,34 @@ jobs:
         run: yarn workspace basic-app test:mocha
       - name: Custom App
         run: yarn workspace custom-fastboot-app test:mocha
+
+  test-legacy-mocha:
+    name: Legacy Mocha Tests - ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ['14', '12', '10']
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: volta-cli/action@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Remove test-packages folder so that we don't leak node_modules between apps
+      - name: Remove test-packages
+        run: |
+          rm -rf test-packages
+      - name: Yarn Install
+        working-directory: ./packages/ember-cli-fastboot
+        run: |
+          yarn install --ignore-engines --frozen-lockfile
+      - name: Run Mocha Tests
+        working-directory: ./packages/ember-cli-fastboot
+        run: |
+          npm --version
+          yarn test:mocha
