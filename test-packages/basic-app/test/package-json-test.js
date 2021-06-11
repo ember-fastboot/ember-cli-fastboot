@@ -76,7 +76,7 @@ describe("generating package.json", function () {
     it("contains a list of allowed hosts from environment.js", function () {
       let pkg = fs.readJSONSync("dist/package.json");
 
-      expect(pkg.fastboot.hostAllowlist).to.deep.equal([
+      expect(pkg.fastboot.hostAllowList).to.deep.equal([
         "example.com",
         "subdomain.example.com",
         "/localhost:\\d+/",
@@ -117,7 +117,7 @@ describe("generating package.json", function () {
           autoboot: false,
         },
         fastboot: {
-          hostAllowlist: [
+          hostAllowList: [
             "example.com",
             "subdomain.example.com",
             "/localhost:\\d+/",

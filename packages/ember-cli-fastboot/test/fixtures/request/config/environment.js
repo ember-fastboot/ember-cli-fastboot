@@ -19,7 +19,7 @@ module.exports = function(environment) {
     },
 
     fastboot: {
-      hostAllowlist: ['example.com', 'subdomain.example.com', /localhost:\d+/]
+      hostAllowList: ['example.com', 'subdomain.example.com', /localhost:\d+/]
     }
   };
 

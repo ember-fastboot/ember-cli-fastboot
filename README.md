@@ -273,14 +273,14 @@ module.exports = function(environment) {
     },
 
     fastboot: {
-      hostAllowlist: ['example.com', 'subdomain.example.com', /^localhost:\d+$/]
+      hostAllowList: ['example.com', 'subdomain.example.com', /^localhost:\d+$/]
     }
   };
   // ...
 };
 ```
 
-The `hostAllowlist` can be a string or RegExp to match multiple hosts.
+The `hostAllowList` can be a string or RegExp to match multiple hosts.
 Care should be taken when using a RegExp, as the host function relies on
 the `Host` HTTP header, which can be forged. You could potentially allow
 a malicious request if your RegExp is too permissive when using the `host`
@@ -288,8 +288,8 @@ when making subsequent requests.
 
 Retrieving `host` will error on 2 conditions:
 
- 1. you do not have a `hostAllowlist` defined
- 2. the `Host` header does not match an entry in your `hostAllowlist`
+ 1. you do not have a `hostAllowList` defined
+ 2. the `Host` header does not match an entry in your `hostAllowList`
 
 ### Query Parameters
 

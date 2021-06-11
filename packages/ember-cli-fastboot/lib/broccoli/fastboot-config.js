@@ -162,7 +162,7 @@ module.exports = class FastBootConfig extends Plugin {
   buildHostAllowList() {
     if (this.fastbootAppConfig) {
       if ('hostWhitelist' in this.fastbootAppConfig) {
-        this.ui.writeLine('Please update your fastboot config to use `hostAllowList` of the deprecated `hostWhitelist`');
+        this.ui.writeLine('Please update your fastboot config to use `hostAllowList` instead of the deprecated `hostWhitelist`');
       }
       this.hostAllowList = this.fastbootAppConfig.hostAllowList || this.fastbootAppConfig.hostWhitelist
     }

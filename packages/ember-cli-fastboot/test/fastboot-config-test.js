@@ -54,6 +54,6 @@ describe('FastbootConfig', function() {
       'package.json': `{"dependencies":{},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"hostAllowList":["example.com","subdomain.example.com"],"manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleAllowlist":[],"schemaVersion":3}}`
     });
 
-    expect(output.builder.outputNode.ui.output).to.contain('Please update your fastboot config to use `hostAllowList` of the deprecated `hostWhitelist`');
+    expect(output.builder.outputNode.ui.output).to.contain('Please update your fastboot config to use `hostAllowList` instead of the deprecated `hostWhitelist`');
   });
 });
