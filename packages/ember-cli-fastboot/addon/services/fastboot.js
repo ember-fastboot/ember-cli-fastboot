@@ -40,6 +40,16 @@ const Shoebox = EObject.extend({
     fastbootInfo.shoebox[key] = value;
   },
 
+  stream(key, data) {
+    let fastbootInfo = this.get('fastboot._fastbootInfo');
+    const streamer = fastbootInfo.metadata.streamer;
+    if (!fastbootInfo.shoebox) { fastbootInfo.shoebox = {}; }
+    const shoeboxObj = JSON.parse(data);
+    fastbootInfo.shoebox[key] = shoeboxObj;
+    
+    streamer.push(`<code style="display: none;" id=shoebox-${key}> ${data} </code>`);
+  },
+
   retrieve(key) {
     if (this.get('fastboot.isFastBoot')) {
       let shoebox = this.get('fastboot._fastbootInfo.shoebox');

@@ -1,6 +1,7 @@
 'use strict';
 
 const EmberApp = require('./ember-app');
+const Streamer = require('./fastboot-streamable.js');
 
 /**
  * FastBoot renders your Ember.js applications in Node.js. Start by
@@ -62,6 +63,18 @@ class FastBoot {
     this.maxSandboxQueueSize = maxSandboxQueueSize;
 
     this._buildEmberApp(this.distPath, this.buildSandboxGlobals, maxSandboxQueueSize);
+  }
+
+  headData() {
+    return this._app.headData();
+  }
+
+  footData() {
+    return this._app.footData();
+  }
+
+  initStreamer(options, url) {
+    return new Streamer({ fastboot: this, options }, url);
   }
 
   /**

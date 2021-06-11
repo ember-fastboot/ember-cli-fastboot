@@ -141,6 +141,30 @@ class EmberApp {
     });
   }
 
+  headData() {
+    const html = this.html;
+    const HTML_HEAD_REGEX = /^([\s\S]*<body>)([\s\S]*)/;
+    let docParts = html.match(HTML_HEAD_REGEX);
+      if (!docParts || docParts.length === 1) {
+        return [html];
+      }
+      let head = docParts[1];
+      return head;
+
+  }
+
+  footData() {
+    const html = this.html;
+    const HTML_HEAD_REGEX = /^([\s\S]*<\/body>)([\s\S]*)/;
+    let docParts = html.match(HTML_HEAD_REGEX);
+      if (!docParts || docParts.length === 1) {
+        return [html];
+      }
+      let head = `</body>${docParts[2]}`;
+      return head;
+
+  }
+
   /**
    * @private
    *
@@ -396,10 +420,10 @@ function createShoebox(doc, fastbootInfo) {
     let scriptText = doc.createRawHTMLSection(textValue);
     let scriptEl = doc.createElement('script');
 
-    scriptEl.setAttribute('type', 'fastboot/shoebox');
-    scriptEl.setAttribute('id', `shoebox-${key}`);
-    scriptEl.appendChild(scriptText);
-    doc.body.appendChild(scriptEl);
+    // scriptEl.setAttribute('type', 'fastboot/shoebox');
+    // scriptEl.setAttribute('id', `shoebox-${key}`);
+    // scriptEl.appendChild(scriptText);
+    // doc.body.appendChild(scriptEl);
   }
 }
 
