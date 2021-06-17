@@ -56,6 +56,19 @@ module.exports = {
       env: {
         embertest: true
       }
+    },
+
+    // mocha test files
+    {
+      files: ['test/**/*.js'],
+      env: {
+        node: true,
+        mocha: true
+      },
+      plugins: ['node'],
+      rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
+        // add your custom rules and overrides for node files here
+      })
     }
   ]
 };
