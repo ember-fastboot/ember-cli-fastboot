@@ -301,7 +301,7 @@ class EmberApp {
     let bootOptions = buildBootOptions(shouldRender);
     let fastbootInfo = new FastBootInfo(req, res, {
       hostWhitelist: this.hostWhitelist,
-      metadata: options.metadata,
+      metadata: options.metadata || {},
     });
 
     let doc = bootOptions.document;
