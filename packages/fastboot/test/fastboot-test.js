@@ -63,6 +63,19 @@ describe('FastBoot', function() {
       });
   });
 
+  it('can render HTML with default metadata', function() {
+    var fastboot = new FastBoot({
+      distPath: fixture('app-with-default-metadata'),
+    });
+
+    return fastboot
+      .visit('/', { request: { headers: {} } })
+      .then(r => r.html())
+      .then(html => {
+        expect(html).to.match(/test fastboot metadata/);
+      });
+  });
+
   it('outputs html attributes from the fastboot app', function() {
     var fastboot = new FastBoot({
       distPath: fixture('custom-html-attrs'),
