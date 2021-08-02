@@ -1,4 +1,5 @@
 /* global FastBoot */
+import { getOwner } from '@ember/application';
 import { computed, get } from '@ember/object';
 import { readOnly } from '@ember/object/computed';
 import { assert } from '@ember/debug';
@@ -86,6 +87,11 @@ const FastBootService = Service.extend({
   request: computed(function() {
     if (!this.isFastBoot) return null;
     return RequestObject.create({ request: get(this, '_fastbootInfo.request') });
+  }),
+
+  _fastbootInfo: computed(function() {
+    // this getter is to avoid deprecation from [RFC - 680](https://github.com/emberjs/rfcs/pull/680)
+    return getOwner(this).lookup('info:-fastboot');
   }),
 
   deferRendering(promise) {
