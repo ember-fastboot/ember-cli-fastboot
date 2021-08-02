@@ -69,7 +69,7 @@ describe('FastBoot', function() {
     });
 
     return fastboot
-      .visit('/', { request: { headers: {} } })
+      .visit('/metadata', { request: { headers: {} } })
       .then(r => r.html())
       .then(html => {
         expect(html).to.match(/test fastboot metadata/);
