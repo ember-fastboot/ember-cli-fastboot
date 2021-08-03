@@ -1,7 +1,7 @@
 name: CI
 
 on:
-  pull_request: {}
+  pull_request:
   push:
     # Filtering branches here prevents duplicate builds from pull_request and push
     branches:
