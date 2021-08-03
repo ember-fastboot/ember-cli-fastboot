@@ -186,4 +186,20 @@ describe("FastBoot", function() {
       .then((r) => r.html());
     expect(html).to.match(/foo from sandbox: 5/);
   });
+
+  it("does not break the render with empty metadata", async function() {
+    const fastboot = new FastBoot({
+      distPath: await buildDist("basic-app"),
+    });
+
+    return fastboot
+      .visit("/metadata", {
+        request: dummyRequest(),
+        response: dummyResponse(),
+      })
+      .then((r) => r.html())
+      .then((html) => {
+        expect(html).to.match(/test fastboot metadata/);
+      });
+  });
 });
