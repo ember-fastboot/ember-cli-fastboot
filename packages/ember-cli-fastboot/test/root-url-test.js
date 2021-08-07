@@ -6,77 +6,83 @@ const request = RSVP.denodeify(require('request'));
 
 const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 
-describe('rootUrl acceptance', function() {
+describe('rootUrl acceptance', function () {
   this.timeout(300000);
 
   let app;
 
-  before(function() {
+  before(function () {
     app = new AddonTestApp();
 
-    return app.create('root-url', { emberVersion: 'latest'})
-      .then(function() {
+    return app
+      .create('root-url', {
+        emberVersion: 'latest',
+        emberDataVersion: '~3.19.0',
+      })
+      .then(function () {
         return app.startServer({
-          command: 'serve'
+          command: 'serve',
         });
       });
   });
 
-  after(function() {
+  after(function () {
     return app.stopServer();
   });
 
-  it('/ HTML contents', function() {
+  it('/ HTML contents', function () {
     return request({
       url: 'http://localhost:49741/my-root/',
       headers: {
-        'Accept': 'text/html'
-      }
-    })
-      .then(function(response) {
-        expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.equalIgnoreCase("text/html; charset=utf-8");
-        expect(response.body).to.contain("Welcome to Ember.js");
-      });
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
+      expect(response.statusCode).to.equal(200);
+      expect(response.headers['content-type']).to.equalIgnoreCase(
+        'text/html; charset=utf-8'
+      );
+      expect(response.body).to.contain('Welcome to Ember.js');
+    });
   });
 
-  it('Out of scope requests', function() {
+  it('Out of scope requests', function () {
     return request({
       url: 'http://localhost:49741/foo-bar/',
       headers: {
-        'Accept': 'text/html'
-      }
-    })
-      .then(function(response) {
-        expect(response.statusCode).to.equal(404);
-      });
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
+      expect(response.statusCode).to.equal(404);
+    });
   });
 
-  it('with fastboot query parameter turned on', function() {
+  it('with fastboot query parameter turned on', function () {
     return request({
       url: 'http://localhost:49741/my-root/?fastboot=true',
       headers: {
-        'Accept': 'text/html'
-      }
-    })
-      .then(function(response) {
-        expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.equalIgnoreCase("text/html; charset=utf-8");
-        expect(response.body).to.contain("Welcome to Ember.js");
-      });
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
+      expect(response.statusCode).to.equal(200);
+      expect(response.headers['content-type']).to.equalIgnoreCase(
+        'text/html; charset=utf-8'
+      );
+      expect(response.body).to.contain('Welcome to Ember.js');
+    });
   });
 
-  it('with fastboot query parameter turned off', function() {
+  it('with fastboot query parameter turned off', function () {
     return request({
       url: 'http://localhost:49741/my-root/?fastboot=false',
       headers: {
-        'Accept': 'text/html'
-      }
-    })
-      .then(function(response) {
-        expect(response.statusCode).to.equal(200);
-        expect(response.headers["content-type"]).to.equalIgnoreCase("text/html; charset=utf-8");
-        expect(response.body).to.contain("<!-- EMBER_CLI_FASTBOOT_BODY -->");
-      });
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
+      expect(response.statusCode).to.equal(200);
+      expect(response.headers['content-type']).to.equalIgnoreCase(
+        'text/html; charset=utf-8'
+      );
+      expect(response.body).to.contain('<!-- EMBER_CLI_FASTBOOT_BODY -->');
+    });
   });
 });

@@ -6,33 +6,37 @@ const request = RSVP.denodeify(require('request'));
 
 const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 
-describe('FastBootLocation', function() {
+describe('FastBootLocation', function () {
   this.timeout(300000);
 
   let app;
-  before(function() {
+  before(function () {
     app = new AddonTestApp();
 
-    return app.create('fastboot-location', { emberVersion: 'latest'})
-      .then(function() {
+    return app
+      .create('fastboot-location', {
+        emberVersion: 'latest',
+        emberDataVersion: '~3.19.0',
+      })
+      .then(function () {
         return app.startServer({
-          command: 'serve'
+          command: 'serve',
         });
       });
   });
 
-  after(function() {
+  after(function () {
     return app.stopServer();
   });
 
-  it('should NOT redirect when no transition is called', function() {
+  it('should NOT redirect when no transition is called', function () {
     return request({
       url: 'http://localhost:49741/my-root/test-passed',
       followRedirect: false,
       headers: {
-        Accept: 'text/html'
-      }
-    }).then(function(response) {
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
       if (response.statusCode === 500) throw new Error(response.body);
       expect(response.statusCode).to.equal(200);
 
@@ -46,15 +50,14 @@ describe('FastBootLocation', function() {
     });
   });
 
-  it('should NOT redirect when intermediateTransitionTo is called', function() {
+  it('should NOT redirect when intermediateTransitionTo is called', function () {
     return request({
-      url:
-        'http://localhost:49741/my-root/redirect-on-intermediate-transition-to',
+      url: 'http://localhost:49741/my-root/redirect-on-intermediate-transition-to',
       followRedirect: false,
       headers: {
-        Accept: 'text/html'
-      }
-    }).then(function(response) {
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
       if (response.statusCode === 500) throw new Error(response.body);
       expect(response.statusCode).to.equal(200);
 
@@ -69,14 +72,14 @@ describe('FastBootLocation', function() {
     });
   });
 
-  it('should redirect when transitionTo is called', function() {
+  it('should redirect when transitionTo is called', function () {
     return request({
       url: 'http://localhost:49741/my-root/redirect-on-transition-to',
       followRedirect: false,
       headers: {
-        Accept: 'text/html'
-      }
-    }).then(function(response) {
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
       if (response.statusCode === 500) throw new Error(response.body);
       expect(response.statusCode).to.equal(307);
 
@@ -92,14 +95,14 @@ describe('FastBootLocation', function() {
     });
   });
 
-  it('should redirect when replaceWith is called', function() {
+  it('should redirect when replaceWith is called', function () {
     return request({
       url: 'http://localhost:49741/my-root/redirect-on-replace-with',
       followRedirect: false,
       headers: {
-        Accept: 'text/html'
-      }
-    }).then(function(response) {
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
       if (response.statusCode === 500) throw new Error(response.body);
       expect(response.statusCode).to.equal(307);
 
@@ -115,14 +118,14 @@ describe('FastBootLocation', function() {
     });
   });
 
-  it('should NOT redirect when transitionTo is called with identical route name', function() {
+  it('should NOT redirect when transitionTo is called with identical route name', function () {
     return request({
       url: 'http://localhost:49741/my-root/noop-transition-to',
       followRedirect: false,
       headers: {
-        Accept: 'text/html'
-      }
-    }).then(function(response) {
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
       if (response.statusCode === 500) throw new Error(response.body);
       expect(response.statusCode).to.equal(200);
 
@@ -136,14 +139,14 @@ describe('FastBootLocation', function() {
     });
   });
 
-  it('should NOT redirect when replaceWith is called with identical route name', function() {
+  it('should NOT redirect when replaceWith is called with identical route name', function () {
     return request({
       url: 'http://localhost:49741/my-root/noop-replace-with',
       followRedirect: false,
       headers: {
-        Accept: 'text/html'
-      }
-    }).then(function(response) {
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
       if (response.statusCode === 500) throw new Error(response.body);
       expect(response.statusCode).to.equal(200);
 

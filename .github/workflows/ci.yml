@@ -119,7 +119,6 @@ jobs:
         run: |
           yarn install --ignore-engines --frozen-lockfile
       - name: Run Mocha Tests
-        working-directory: ./packages/ember-cli-fastboot
         run: |
           npm --version
-          yarn test:mocha
+          yarn workspace ember-cli-fastboot test:mocha
