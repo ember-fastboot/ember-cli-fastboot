@@ -7,96 +7,103 @@ const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 const request = RSVP.denodeify(require('request'));
 
 function injectMiddlewareAddon(app) {
-  app.editPackageJSON(function(pkg) {
-    pkg.devDependencies['body-parser'] = process.env.npm_package_devDependencies_body_parser;
-    pkg.dependencies = pkg.dependencies || {}
-    pkg.dependencies['fastboot-express-middleware'] = process.env.npm_package_dependencies_fastboot_express_middleware;
+  app.editPackageJSON(function (pkg) {
+    pkg.devDependencies['body-parser'] =
+      process.env.npm_package_devDependencies_body_parser;
+    pkg.dependencies = pkg.dependencies || {};
+    pkg.dependencies['fastboot-express-middleware'] =
+      process.env.npm_package_dependencies_fastboot_express_middleware;
     pkg['ember-addon'] = {
-      paths: [
-        'lib/post-middleware'
-      ]
+      paths: ['lib/post-middleware'],
     };
+    delete pkg.devDependencies['ember-fetch'];
   });
-  return app.run('npm', 'install')
+  return app.run('npm', 'install');
 }
 
-describe('request details', function() {
+describe('request details', function () {
   this.timeout(300000);
 
   let app;
 
-  before(function() {
+  before(function () {
     app = new AddonTestApp();
 
-    return app.create('request', {
-      skipNpm: true,
-      emberVersion: 'latest'
-    })
+    return app
+      .create('request', {
+        skipNpm: true,
+        emberVersion: 'latest',
+        emberDataVersion: '~3.19.0',
+      })
       .then(() => injectMiddlewareAddon(app))
-      .then(function() {
+      .then(function () {
         return app.startServer({
-          command: 'serve'
+          command: 'serve',
         });
       });
   });
 
-  after(function() {
+  after(function () {
     return app.stopServer();
   });
 
-  it('makes host available via a service', function() {
+  it('makes host available via a service', function () {
     return request({
       url: 'http://localhost:49741/show-host',
       headers: {
-        'Accept': 'text/html'
-      }
-    })
-      .then(function(response) {
-        expect(response.body).to.contain('Host: localhost:49741');
-        expect(response.body).to.contain('Host from Instance Initializer: localhost:49741');
-      });
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
+      expect(response.body).to.contain('Host: localhost:49741');
+      expect(response.body).to.contain(
+        'Host from Instance Initializer: localhost:49741'
+      );
+    });
   });
 
-  it('makes protocol available via a service', function() {
+  it('makes protocol available via a service', function () {
     return request({
       url: 'http://localhost:49741/show-protocol',
       headers: {
-        'Accept': 'text/html'
-      }
-    })
-      .then(function(response) {
-        expect(response.body).to.contain('Protocol: http:');
-        expect(response.body).to.contain('Protocol from Instance Initializer: http:');
-      });
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
+      expect(response.body).to.contain('Protocol: http:');
+      expect(response.body).to.contain(
+        'Protocol from Instance Initializer: http:'
+      );
+    });
   });
 
-  it('makes path available via a service', function() {
+  it('makes path available via a service', function () {
     return request({
       url: 'http://localhost:49741/show-path',
       headers: {
-        'Accept': 'text/html'
-      }
-    })
-      .then(function(response) {
-        expect(response.body).to.contain('Path: /show-path');
-        expect(response.body).to.contain('Path from Instance Initializer: /show-path');
-      });
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
+      expect(response.body).to.contain('Path: /show-path');
+      expect(response.body).to.contain(
+        'Path from Instance Initializer: /show-path'
+      );
+    });
   });
 
-  it('makes query params available via a service', function() {
+  it('makes query params available via a service', function () {
     return request({
       url: 'http://localhost:49741/list-query-params?foo=bar',
       headers: {
-        'Accept': 'text/html'
-      }
-    })
-      .then(function(response) {
-        expect(response.body).to.contain('Query Params: bar');
-        expect(response.body).to.contain('Query Params from Instance Initializer: bar');
-      });
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
+      expect(response.body).to.contain('Query Params: bar');
+      expect(response.body).to.contain(
+        'Query Params from Instance Initializer: bar'
+      );
+    });
   });
 
-  it('makes cookies available via a service', function() {
+  it('makes cookies available via a service', function () {
     let jar = request.jar();
     let cookie = request.cookie('city=Cluj');
 
@@ -105,56 +112,56 @@ describe('request details', function() {
     return request({
       url: 'http://localhost:49741/list-cookies',
       headers: {
-        'Accept': 'text/html'
+        Accept: 'text/html',
       },
-      jar: jar
-    })
-      .then(function(response) {
-        expect(response.body).to.contain('Cookies: Cluj');
-        expect(response.body).to.contain('Cookies from Instance Initializer: Cluj');
-      });
+      jar: jar,
+    }).then(function (response) {
+      expect(response.body).to.contain('Cookies: Cluj');
+      expect(response.body).to.contain(
+        'Cookies from Instance Initializer: Cluj'
+      );
+    });
   });
 
-  it('makes headers available via a service', function() {
+  it('makes headers available via a service', function () {
     return request({
       url: 'http://localhost:49741/list-headers',
       headers: {
         'X-FastBoot-info': 'foobar',
-        'Accept': 'text/html'
-      }
-    })
-      .then(function(response) {
-        expect(response.body).to.contain('Headers: foobar');
-        expect(response.body).to.contain('Headers from Instance Initializer: foobar');
-      });
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
+      expect(response.body).to.contain('Headers: foobar');
+      expect(response.body).to.contain(
+        'Headers from Instance Initializer: foobar'
+      );
+    });
   });
 
-  it('makes method available via a service', function() {
+  it('makes method available via a service', function () {
     return request({
       url: 'http://localhost:49741/show-method',
       headers: {
-        'Accept': 'text/html'
-      }
-    })
-      .then(function(response) {
-        expect(response.body).to.contain('Method: GET');
-        expect(response.body).to.contain('Method from Instance Initializer: GET');
-      });
+        Accept: 'text/html',
+      },
+    }).then(function (response) {
+      expect(response.body).to.contain('Method: GET');
+      expect(response.body).to.contain('Method from Instance Initializer: GET');
+    });
   });
 
-  it('makes body available via a service', function() {
+  it('makes body available via a service', function () {
     return request({
       url: 'http://localhost:49741/show-body',
       method: 'POST',
       headers: {
-        'Accept': 'text/html',
-        'Content-Type': 'text/plain'
+        Accept: 'text/html',
+        'Content-Type': 'text/plain',
       },
-      body: 'TEST'
-    })
-      .then(function(response) {
-        expect(response.body).to.contain('Body: TEST');
-        expect(response.body).to.contain('Body from Instance Initializer: TEST');
-      });
+      body: 'TEST',
+    }).then(function (response) {
+      expect(response.body).to.contain('Body: TEST');
+      expect(response.body).to.contain('Body from Instance Initializer: TEST');
+    });
   });
 });

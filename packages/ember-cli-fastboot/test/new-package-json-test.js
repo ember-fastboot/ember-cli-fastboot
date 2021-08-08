@@ -5,7 +5,6 @@ const expect = require('chai').expect;
 const helpers = require('broccoli-test-helper');
 const createBuilder = helpers.createBuilder;
 const createTempDir = helpers.createTempDir;
-const co = require('co');
 const FastbootConfig = require('../lib/broccoli/fastboot-config');
 
 describe('FastbootConfig', function() {
