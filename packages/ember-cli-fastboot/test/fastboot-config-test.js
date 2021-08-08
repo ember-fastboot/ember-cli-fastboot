@@ -16,8 +16,15 @@ describe('FastBoot config', function () {
 
     return app
       .create('fastboot-config', {
+        skipNpm: true,
         emberVersion: 'latest',
         emberDataVersion: '~3.19.0',
+      })
+      .then(function () {
+        app.editPackageJSON((pkg) => {
+          delete pkg.devDependencies['ember-fetch'];
+        });
+        return app.run('npm', 'install');
       })
       .then(function () {
         return app.startServer({
