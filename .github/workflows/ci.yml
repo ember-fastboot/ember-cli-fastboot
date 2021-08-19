@@ -22,6 +22,7 @@ jobs:
   test-all-packages:
     name: Ember Tests
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
 
     strategy:
       matrix:
@@ -50,6 +51,7 @@ jobs:
   integration-tests:
     name: Integration Tests
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
 
     strategy:
       matrix:
@@ -71,6 +73,7 @@ jobs:
   releases:
     name: Ember Release Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 12
 
     strategy:
       matrix:
@@ -89,6 +92,7 @@ jobs:
   test-packages:
     name: Test Packages
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
 
     strategy:
       matrix:
@@ -114,6 +118,7 @@ jobs:
   test-legacy-mocha:
     name: Legacy Mocha Tests - ${{ matrix.node-version }}
     runs-on: ubuntu-latest
+    timeout-minutes: 12
 
     strategy:
       fail-fast: false
