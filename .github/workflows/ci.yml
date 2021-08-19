@@ -86,7 +86,7 @@ jobs:
           node-version: 14.x
       - name: Yarn Install
         run: yarn install --ignore-engines --frozen-lockfile
-      - name: Integration Tests ${{ matrix.release }}
+      - name: Tests with ${{ matrix.release }}
         run: yarn workspace ember-cli-fastboot-testing-app test:try-one ${{ matrix.release }}
 
   test-packages:
