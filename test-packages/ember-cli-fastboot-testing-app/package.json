@@ -18,6 +18,7 @@
     "lint:js": "eslint .",
     "start": "ember serve",
     "test": "npm-run-all lint:* test:*",
+    "test:try-one": "ember try:one --",
     "test:ember": "ember test"
   },
   "devDependencies": {
