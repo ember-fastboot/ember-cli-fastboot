@@ -1,7 +1,7 @@
 (function() {
   if (typeof FastBoot === 'undefined') {
     var current = document.getElementById('fastboot-body-start');
-    var Ember = require('ember').default;
+    var Ember = require.has('ember') ? require('ember').default : Ember;
 
     if (
       current &&
