@@ -67,6 +67,7 @@ describe("generating package.json", function () {
         vendorFiles: [
           "example-addon/foo.js",
           "assets/vendor.js",
+          "assets/auto-import-fastboot.js",
           "ember-fetch/fetch-fastboot.js",
         ],
       });
