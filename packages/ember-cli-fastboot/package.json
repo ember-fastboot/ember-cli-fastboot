@@ -74,7 +74,7 @@
     "ember-load-initializers": "^2.1.2",
     "ember-maybe-import-regenerator-for-testing": "^1.0.0",
     "ember-page-title": "^6.2.1",
-    "ember-qunit": "^5.1.4",
+    "ember-qunit": "^4.6.0",
     "ember-resolver": "^8.0.2",
     "ember-sinon": "^2.2.0",
     "ember-source": "~3.26.1",
