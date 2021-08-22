@@ -109,16 +109,9 @@ jobs:
         uses: volta-cli/action@v1
         with:
           node-version: ${{ matrix.node-version }}
-
-      # Remove test-packages folder so that we don't leak node_modules between apps
-      - name: Remove test-packages
-        run: |
-          rm -rf test-packages
       - name: Yarn Install
-        working-directory: ./packages/ember-cli-fastboot
         run: |
           yarn install --ignore-engines --frozen-lockfile
       - name: Run Mocha Tests
         run: |
-          npm --version
           yarn workspace ember-cli-fastboot test:mocha
