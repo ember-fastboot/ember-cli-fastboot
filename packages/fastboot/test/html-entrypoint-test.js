@@ -250,6 +250,7 @@ describe('htmlEntrypoint', function() {
         <html>
           <meta name="my-app/config/environment" content="%7B%22rootURL%22%3A%22%2Fcustom-root-url%2F%22%7D" >
           <body>
+            <fastboot-script src="foo.js"></fastboot-script>
             <script src="/custom-root-url/bar.js"></script>
           </body>
         </html>
@@ -259,6 +260,6 @@ describe('htmlEntrypoint', function() {
     fixturify.writeSync(tmpLocation, project);
 
     let { scripts } = htmlEntrypoint('my-app', tmpLocation, 'index.html');
-    expect(scripts).to.deep.equal([`${tmpLocation}/bar.js`]);
+    expect(scripts).to.deep.equal([`${tmpLocation}/foo.js`, `${tmpLocation}/bar.js`]);
   });
 });

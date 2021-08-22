@@ -27,6 +27,8 @@ function htmlEntrypoint(appName, distPath, htmlPath) {
       let relativeSrc = urlWithin(src, rootURL);
       if (relativeSrc) {
         scripts.push(path.join(distPath, relativeSrc));
+      } else if (element.tagName === 'FASTBOOT-SCRIPT') {
+        scripts.push(path.join(distPath, src));
       }
     }
     if (element.tagName === 'FASTBOOT-SCRIPT') {
