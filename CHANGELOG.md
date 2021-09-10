@@ -1,3 +1,46 @@
+## v3.2.0-beta.3 (2021-09-10)
+
+#### :boom: Breaking Change
+* `ember-cli-fastboot`, `fastboot-app-server`, `fastboot-express-middleware`, `fastboot`
+  * [#834](https://github.com/ember-fastboot/ember-cli-fastboot/pull/834) Update using ember-cli-update and drop support for Node 10 ([@mansona](https://github.com/mansona))
+* `ember-cli-fastboot`
+  * [#825](https://github.com/ember-fastboot/ember-cli-fastboot/pull/825) Drop module unification support ([@xg-wang](https://github.com/xg-wang))
+  * [#820](https://github.com/ember-fastboot/ember-cli-fastboot/pull/820) Remove deprecated features for ember-cli-fastboot v3 release ([@xg-wang](https://github.com/xg-wang))
+
+#### :rocket: Enhancement
+* `ember-cli-fastboot`
+  * [#814](https://github.com/ember-fastboot/ember-cli-fastboot/pull/814) Throw a helpful error when people use `isFastboot` instead of `isFastBoot` ([@bertdeblock](https://github.com/bertdeblock))
+* `fastboot-app-server`
+  * [#811](https://github.com/ember-fastboot/ember-cli-fastboot/pull/811) [fastboot-app-server] turn on gzip by default ([@xg-wang](https://github.com/xg-wang))
+
+#### :bug: Bug Fix
+* `fastboot`
+  * [#853](https://github.com/ember-fastboot/ember-cli-fastboot/pull/853) Fix fastboot-script assets with cutom root url ([@xg-wang](https://github.com/xg-wang))
+  * [#840](https://github.com/ember-fastboot/ember-cli-fastboot/pull/840) Add a default state for metadata ([@suchitadoshi1987](https://github.com/suchitadoshi1987))
+
+#### :memo: Documentation
+* [#810](https://github.com/ember-fastboot/ember-cli-fastboot/pull/810) doc: update CONTRIBUTING.md for code structure and tests ([@xg-wang](https://github.com/xg-wang))
+
+#### :house: Internal
+* `ember-cli-fastboot`
+  * [#841](https://github.com/ember-fastboot/ember-cli-fastboot/pull/841) Avoid implicit injection _fastbootInfo deprecation ([@snewcomer](https://github.com/snewcomer))
+  * [#836](https://github.com/ember-fastboot/ember-cli-fastboot/pull/836) Restore the legacy tests ([@kiwiupover](https://github.com/kiwiupover))
+* Other
+  * [#842](https://github.com/ember-fastboot/ember-cli-fastboot/pull/842) Add test scripts ([@xg-wang](https://github.com/xg-wang))
+  * [#832](https://github.com/ember-fastboot/ember-cli-fastboot/pull/832) Testing ember-cli-fastboot-testing in new test-package ([@ankushdharkar](https://github.com/ankushdharkar))
+* `ember-cli-fastboot`, `fastboot-app-server`, `fastboot-express-middleware`, `fastboot`
+  * [#821](https://github.com/ember-fastboot/ember-cli-fastboot/pull/821) Convert co to async in test; cleanup some configurations ([@xg-wang](https://github.com/xg-wang))
+
+#### Committers: 7
+- Ankush Dharkar ([@ankushdharkar](https://github.com/ankushdharkar))
+- Bert De Block ([@bertdeblock](https://github.com/bertdeblock))
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Dave Laird ([@kiwiupover](https://github.com/kiwiupover))
+- Scott Newcomer ([@snewcomer](https://github.com/snewcomer))
+- Suchita Doshi ([@suchitadoshi1987](https://github.com/suchitadoshi1987))
+- Thomas Wang ([@xg-wang](https://github.com/xg-wang))
+
+
 ## v3.2.0-beta.2 (2021-01-29)
 
 #### :bug: Bug Fix

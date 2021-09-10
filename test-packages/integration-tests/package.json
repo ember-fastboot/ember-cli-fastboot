@@ -7,8 +7,8 @@
     "test": "node helpers/clean-dists.js && mocha"
   },
   "devDependencies": {
-    "ember-cli-fastboot": "3.2.0-beta.2",
-    "fastboot": "3.2.0-beta.2",
+    "ember-cli-fastboot": "3.2.0-beta.3",
+    "fastboot": "3.2.0-beta.3",
     "mocha": "^8.2.1"
   },
   "volta": {
