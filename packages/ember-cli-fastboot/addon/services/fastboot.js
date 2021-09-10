@@ -4,7 +4,6 @@ import { computed, get, set } from '@ember/object';
 import { assert } from '@ember/debug';
 import EObject from '@ember/object';
 import Service from '@ember/service';
-import { cached } from '@glimmer/tracking';
 
 const RequestObject = EObject.extend({
   init() {
@@ -64,6 +63,7 @@ const Shoebox = EObject.extend({
   }
 });
 
+let requestObjectInstance;
 class FastBootService extends Service {
   isFastBoot = typeof FastBoot !== 'undefined';
 
@@ -88,10 +88,12 @@ class FastBootService extends Service {
     return this._fastbootInfo.metadata;
   }
 
-  @cached
   get request() {
     if (!this.isFastBoot) return null;
-    return RequestObject.create({ request: get(this, '_fastbootInfo.request') });
+    if (!requestObjectInstance) return requestObjectInstance;
+
+    requestObjectInstance = RequestObject.create({ request: get(this, '_fastbootInfo.request') });
+    return requestObjectInstance;
   }
 
   get _fastbootInfo() {
