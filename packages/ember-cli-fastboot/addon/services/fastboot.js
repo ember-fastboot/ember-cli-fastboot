@@ -99,7 +99,7 @@ class FastBootService extends Service {
     return getOwner(this).lookup('info:-fastboot');
   }
 
-  // setter required
+  // setter required to avoid deprecation
   set _fastbootInfo() {}
 
   deferRendering(promise) {
