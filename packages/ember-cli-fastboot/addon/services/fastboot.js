@@ -1,10 +1,10 @@
 /* global FastBoot */
 import { getOwner } from '@ember/application';
-import { computed, get } from '@ember/object';
-import { readOnly } from '@ember/object/computed';
+import { computed, get, set } from '@ember/object';
 import { assert } from '@ember/debug';
 import EObject from '@ember/object';
 import Service from '@ember/service';
+import { cached } from '@glimmer/tracking';
 
 const RequestObject = EObject.extend({
   init() {
@@ -64,50 +64,48 @@ const Shoebox = EObject.extend({
   }
 });
 
-const FastBootService = Service.extend({
-  isFastBoot: typeof FastBoot !== 'undefined',
+class FastBootService extends Service {
+  isFastBoot = typeof FastBoot !== 'undefined';
 
-  isFastboot: computed(function() {
+  get isFastboot() {
     assert(
       'The fastboot service does not have an `isFastboot` property. This is likely a typo. Please use `isFastBoot` instead.',
       false
     );
-  }),
+  }
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     let shoebox = Shoebox.create({ fastboot: this });
-    this.set('shoebox', shoebox);
-  },
+    set(this, 'shoebox', shoebox);
+  }
 
-  response: readOnly('_fastbootInfo.response'),
-  metadata: readOnly('_fastbootInfo.metadata'),
+  get response() {
+    return this._fastbootInfo.response;
+  }
+  get metadata() {
+    return this._fastbootInfo.metadata;
+  }
 
-  request: computed(function() {
+  @cached
+  get request() {
     if (!this.isFastBoot) return null;
     return RequestObject.create({ request: get(this, '_fastbootInfo.request') });
-  }),
+  }
 
-  // this getter/setter pair is to avoid deprecation from [RFC - 680](https://github.com/emberjs/rfcs/pull/680)
-  _fastbootInfo: computed({
-    get() {
-      if (this.__fastbootInfo) {
-        return this.__fastbootInfo;
-      }
+  get _fastbootInfo() {
+    // this getter is to avoid deprecation from [RFC - 680](https://github.com/emberjs/rfcs/pull/680)
+    return getOwner(this).lookup('info:-fastboot');
+  }
 
-      return getOwner(this).lookup('info:-fastboot');
-    },
-    set(_key, value) {
-      this.__fastbootInfo = value;
-      return value;
-    }
-  }),
+  // setter required
+  set _fastbootInfo() {}
 
   deferRendering(promise) {
     assert('deferRendering requires a promise or thennable object', typeof promise.then === 'function');
     this._fastbootInfo.deferRendering(promise);
   }
-});
+}
 
 export default FastBootService;
