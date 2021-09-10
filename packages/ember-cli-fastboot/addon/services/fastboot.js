@@ -100,7 +100,7 @@ class FastBootService extends Service {
   }
 
   // setter required to avoid deprecation
-  set _fastbootInfo() {}
+  set _fastbootInfo(_val) {}
 
   deferRendering(promise) {
     assert('deferRendering requires a promise or thennable object', typeof promise.then === 'function');
