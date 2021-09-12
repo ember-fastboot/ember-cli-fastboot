@@ -90,7 +90,7 @@ class FastBootService extends Service {
 
   get request() {
     if (!this.isFastBoot) return null;
-    if (!requestObjectInstance) return requestObjectInstance;
+    if (requestObjectInstance) return requestObjectInstance;
 
     requestObjectInstance = RequestObject.create({ request: get(this, '_fastbootInfo.request') });
     return requestObjectInstance;
