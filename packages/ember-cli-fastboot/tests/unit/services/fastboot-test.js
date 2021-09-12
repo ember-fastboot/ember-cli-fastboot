@@ -4,6 +4,10 @@ import { setupTest } from 'ember-qunit';
 module('Unit | Service | fastboot in the browser', function(hooks) {
   setupTest(hooks);
 
+  hooks.beforeEach(function() {
+    this.owner.register('info:-fastboot', class {}, { instantiate: false });
+  });
+
   test('isFastBoot', function(assert) {
     let service = this.owner.lookup('service:fastboot');
     assert.equal(service.isFastBoot, false, `it should be false`);

@@ -78,14 +78,13 @@ module('Unit | Service | fastboot | shoebox', function(hooks) {
   });
 
   test('retrieve returns value if isFastBoot true and key is present', function(assert) {
-    let service = this.owner.factoryFor('service:fastboot').create({
-      isFastBoot: true,
-      _fastbootInfo: {
+    let service = this.owner.lookup('service:fastboot');
+    Object.defineProperty(service, 'isFastBoot', { value: true });
+    Object.defineProperty(service, '_fastbootInfo', { value: {
         shoebox: {
           foo: 'bar'
         }
-      }
-    });
+    }});
 
     assert.strictEqual(service.get('shoebox').retrieve('foo'), 'bar');
   });
