@@ -60,7 +60,10 @@ module('Unit | Service | fastboot | shoebox', function(hooks) {
   test('retrieve returns undefined if isFastBoot true and shoebox is missing', function(assert) {
     let service = this.owner.factoryFor('service:fastboot').create({
       isFastBoot: true,
-      _fastbootInfo: {}
+    });
+
+    Object.defineProperty(service, '_fastbootInfo', { 
+      value: {}
     });
 
     assert.strictEqual(service.get('shoebox').retrieve('foo'), undefined);
@@ -69,8 +72,11 @@ module('Unit | Service | fastboot | shoebox', function(hooks) {
   test('retrieve returns undefined if isFastBoot true and key is missing', function(assert) {
     let service = this.owner.factoryFor('service:fastboot').create({
       isFastBoot: true,
-      _fastbootInfo: {
-        shoebox: {}
+    });
+
+    Object.defineProperty(service, '_fastbootInfo', { 
+      value: {
+        shoebox: {},
       }
     });
 
