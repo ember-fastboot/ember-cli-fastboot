@@ -98,12 +98,20 @@ class FastBootService extends Service {
   }
 
   get _fastbootInfo() {
+    if (this.isFastBoot) {
+      this.__fastbootInfo;
+    }
+
     return getOwner(this).lookup('info:-fastboot');
   }
 
   deferRendering(promise) {
     assert('deferRendering requires a promise or thennable object', typeof promise.then === 'function');
     this._fastbootInfo.deferRendering(promise);
+  }
+
+  registerFastBootInfo(fastbootInfoInstance) {
+    this.__fastbootInfo = fastbootInfoInstance;
   }
 }
 
