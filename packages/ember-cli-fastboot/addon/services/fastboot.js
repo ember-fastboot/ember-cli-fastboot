@@ -97,11 +97,9 @@ class FastBootService extends Service {
     return requestObjectInstance;
   }
 
-  // this getter/setter pair is to avoid deprecation from [RFC - 680](https://github.com/emberjs/rfcs/pull/680)
   get _fastbootInfo() {
     return getOwner(this).lookup('info:-fastboot');
   }
-  set _fastbootInfo(_val) {}
 
   deferRendering(promise) {
     assert('deferRendering requires a promise or thennable object', typeof promise.then === 'function');
