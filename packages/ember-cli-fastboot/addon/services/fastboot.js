@@ -89,13 +89,13 @@ const FastBootService = Service.extend({
     return RequestObject.create({ request: get(this, '_fastbootInfo.request') });
   }),
 
+  // this getter/setter pair is to avoid deprecation from [RFC - 680](https://github.com/emberjs/rfcs/pull/680)
   _fastbootInfo: computed({
     get() {
       if (this.__fastbootInfo) {
         return this.__fastbootInfo;
       }
 
-      // this getter is to avoid deprecation from [RFC - 680](https://github.com/emberjs/rfcs/pull/680)
       return getOwner(this).lookup('info:-fastboot');
     },
     set(_key, value) {
