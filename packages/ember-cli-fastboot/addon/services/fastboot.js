@@ -29,7 +29,7 @@ const RequestObject = EObject.extend({
   })
 });
 
-const Shoebox = EObject.extend({
+class Shoebox extends EObject {
   put(key, value) {
     assert('shoebox.put is only invoked from the FastBoot rendered application', this.get('fastboot.isFastBoot'));
     assert('the provided key is a string', typeof key === 'string');
@@ -38,7 +38,7 @@ const Shoebox = EObject.extend({
     if (!fastbootInfo.shoebox) { fastbootInfo.shoebox = {}; }
 
     fastbootInfo.shoebox[key] = value;
-  },
+  }
 
   retrieve(key) {
     if (this.get('fastboot.isFastBoot')) {
@@ -61,9 +61,10 @@ const Shoebox = EObject.extend({
 
     return shoeboxItem;
   }
-});
+}
 
 let requestObjectInstance;
+
 class FastBootService extends Service {
   isFastBoot = typeof FastBoot !== 'undefined';
 
@@ -96,12 +97,10 @@ class FastBootService extends Service {
     return requestObjectInstance;
   }
 
+  // this getter/setter pair is to avoid deprecation from [RFC - 680](https://github.com/emberjs/rfcs/pull/680)
   get _fastbootInfo() {
-    // this getter is to avoid deprecation from [RFC - 680](https://github.com/emberjs/rfcs/pull/680)
     return getOwner(this).lookup('info:-fastboot');
   }
-
-  // setter required to avoid deprecation
   set _fastbootInfo(_val) {}
 
   deferRendering(promise) {
