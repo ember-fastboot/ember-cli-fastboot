@@ -259,7 +259,11 @@ class EmberApp {
     let instance = await app.buildInstance();
     result.applicationInstanceInstance = instance;
 
-    registerFastBootInfo(fastbootInfo, instance);
+    /*
+    * Builds a new FastBootInfo instance with the request and response and injects
+    * it into the application instance.
+    */
+    fastbootInfo.register(instance);
 
     await instance.boot(bootOptions);
     await instance.visit(path, bootOptions);
@@ -417,14 +421,6 @@ function escapeJSONString(string) {
   return string.replace(JSON_ESCAPE_REGEXP, function(match) {
     return JSON_ESCAPE[match];
   });
-}
-
-/*
- * Builds a new FastBootInfo instance with the request and response and injects
- * it into the application instance.
- */
-function registerFastBootInfo(info, instance) {
-  info.register(instance);
 }
 
 function buildScripts(filePaths) {
