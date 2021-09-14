@@ -134,6 +134,8 @@ jobs:
           - ember-classic
           - embroider-safe
           - embroider-optimized
+          - no-deprecations
+          - ember-release-no-deprecations
 
     steps:
       - uses: actions/checkout@v2
