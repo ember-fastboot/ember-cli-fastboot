@@ -1,3 +1,22 @@
+## v3.2.0-beta.4 (2021-09-14)
+
+#### :bug: Bug Fix
+* `ember-cli-fastboot`
+  * [#857](https://github.com/ember-fastboot/ember-cli-fastboot/pull/857) Avoid implicit injection _fastbootInfo deprecation pt 2 ([@snewcomer](https://github.com/snewcomer))
+  * [#849](https://github.com/ember-fastboot/ember-cli-fastboot/pull/849) Fix use of Ember global, breaking Ember 4 ([@simonihmig](https://github.com/simonihmig))
+* `fastboot`
+  * [#854](https://github.com/ember-fastboot/ember-cli-fastboot/pull/854) Support extracting fastboot specific config from meta tag ([@xg-wang](https://github.com/xg-wang))
+
+#### :memo: Documentation
+* [#826](https://github.com/ember-fastboot/ember-cli-fastboot/pull/826) Provide instructions how to debug app via VS Code ([@SergeAstapov](https://github.com/SergeAstapov))
+
+#### Committers: 4
+- Scott Newcomer ([@snewcomer](https://github.com/snewcomer))
+- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))
+- Simon Ihmig ([@simonihmig](https://github.com/simonihmig))
+- Thomas Wang ([@xg-wang](https://github.com/xg-wang))
+
+
 ## v3.2.0-beta.3 (2021-09-10)
 
 #### :boom: Breaking Change
