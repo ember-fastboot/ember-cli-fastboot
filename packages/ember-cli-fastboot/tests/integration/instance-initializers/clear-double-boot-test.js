@@ -29,7 +29,7 @@ module('Instance-initializer: clear-double-boot', function(hooks) {
     `);
 
     // render the whole tree dynamically to more closely mimc bad markup cases
-    await render(hbs`{{{BAD_HTML}}}`);
+    await render(hbs`{{{this.BAD_HTML}}}`);
 
     clearHtml();
     assert.notOk(this.element.querySelector('#fastboot-body-start'), 'There is no start marker');
@@ -41,7 +41,7 @@ module('Instance-initializer: clear-double-boot', function(hooks) {
     this.set('BAD_HTML', `<script type="x/boundary" id="fastboot-body-start"></script>`);
 
     // render the whole tree dynamically to more closely mimc bad markup cases
-    await render(hbs`{{{BAD_HTML}}}`);
+    await render(hbs`{{{this.BAD_HTML}}}`);
 
     clearHtml();
 
