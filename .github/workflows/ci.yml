@@ -77,7 +77,7 @@ jobs:
 
     strategy:
       matrix:
-        release: [ember-release]
+        release: [ember-release, ember-beta]
 
     steps:
       - uses: actions/checkout@v2
