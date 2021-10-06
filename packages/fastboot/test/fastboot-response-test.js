@@ -7,9 +7,11 @@ describe('FastBootResponse', function() {
 
   beforeEach(function() {
     var mockResponse = {
-      _headers: {
-        'i-am-a': ['mock header', 'me too'],
-        cookie: '',
+      getHeaders() {
+        return {
+          'i-am-a': ['mock header', 'me too'],
+          cookie: '',
+        };
       },
     };
 
