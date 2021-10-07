@@ -36,7 +36,7 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
     "express": "^4.13.4",
-    "mocha": "^5.0.0",
+    "mocha": "^9.1.2",
     "prettier": "^1.19.1",
     "release-it": "^14.2.0",
     "release-it-lerna-changelog": "^3.0.0",

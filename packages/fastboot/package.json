@@ -48,7 +48,7 @@
     "express": "^4.17.1",
     "fixturify": "^2.1.0",
     "lerna-changelog": "^1.0.0",
-    "mocha": "^7.0.1",
+    "mocha": "^9.1.2",
     "prettier": "^1.19.1",
     "release-it": "^14.2.0",
     "release-it-lerna-changelog": "^3.0.0",
