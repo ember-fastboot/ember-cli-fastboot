@@ -18,7 +18,11 @@ function dummyRequest() {
   };
 }
 function dummyResponse() {
-  return { _headers: {} };
+  return {
+    getHeaders() {
+      return {};
+    },
+  };
 }
 
 describe("FastBoot", function() {
