@@ -25,7 +25,8 @@
     "test": "npm-run-all lint test:*",
     "test:mocha": "node fix-node-modules.mjs && mocha && node fix-node-modules.mjs -r",
     "test:ember": "ember test",
-    "test:precook": "node node_modules/ember-cli-addon-tests/scripts/precook-node-modules.js"
+    "test:precook": "node node_modules/ember-cli-addon-tests/scripts/precook-node-modules.js",
+    "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
     "broccoli-concat": "^3.7.1",
@@ -78,7 +79,9 @@
     "ember-resolver": "^8.0.2",
     "ember-sinon": "^2.2.0",
     "ember-source": "~3.26.1",
+    "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^3.2.0",
+    "ember-try": "^1.4.0",
     "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-ember": "^10.3.0",
