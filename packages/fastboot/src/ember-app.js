@@ -260,9 +260,9 @@ class EmberApp {
     result.applicationInstanceInstance = instance;
 
     /*
-    * Builds a new FastBootInfo instance with the request and response and injects
-    * it into the application instance.
-    */
+     * Builds a new FastBootInfo instance with the request and response and injects
+     * it into the application instance.
+     */
     fastbootInfo.register(instance);
 
     await instance.boot(bootOptions);
