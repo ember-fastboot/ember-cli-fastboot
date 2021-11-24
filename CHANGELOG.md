@@ -1,3 +1,22 @@
+## v3.2.0-beta.5 (2021-11-24)
+
+#### :bug: Bug Fix
+* `ember-cli-fastboot`
+  * [#862](https://github.com/ember-fastboot/ember-cli-fastboot/pull/862) Ensure rehydration works on Ember < 3.27 ([@rwjblue](https://github.com/rwjblue))
+* `fastboot`
+  * [#859](https://github.com/ember-fastboot/ember-cli-fastboot/pull/859) Removes call to deprecated OutgoingMessage.prototype._headers ([@SergeAstapov](https://github.com/SergeAstapov))
+
+#### :house: Internal
+* `ember-cli-fastboot`
+  * [#861](https://github.com/ember-fastboot/ember-cli-fastboot/pull/861) Add tests for Ember 3.24 + 3.28 + 4.0 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#858](https://github.com/ember-fastboot/ember-cli-fastboot/pull/858) Add ember-try testing for ember-cli-fastboot ([@mansona](https://github.com/mansona))
+
+#### Committers: 4
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## v3.2.0-beta.4 (2021-09-14)
 
 #### :bug: Bug Fix
