@@ -107,7 +107,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "ember": {
-    "edition": "classic"
+    "edition": "octane"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
