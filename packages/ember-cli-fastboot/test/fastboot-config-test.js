@@ -17,7 +17,7 @@ describe('FastBoot config', function () {
     return app
       .create('fastboot-config', {
         skipNpm: true,
-        emberVersion: 'latest',
+        emberVersion: '3.28.6',
         emberDataVersion: '~3.19.0',
       })
       .then(function () {
