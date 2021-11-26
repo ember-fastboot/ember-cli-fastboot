@@ -25,6 +25,7 @@
 /CONTRIBUTING.md
 /ember-cli-build.js
 /testem.js
+/test/
 /tests/
 /yarn.lock
 .gitkeep
