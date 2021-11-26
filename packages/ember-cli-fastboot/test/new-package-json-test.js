@@ -7,13 +7,13 @@ const createBuilder = helpers.createBuilder;
 const createTempDir = helpers.createTempDir;
 const FastbootConfig = require('../lib/broccoli/fastboot-config');
 
-describe('FastbootConfig', function() {
+describe('FastbootConfig', function () {
   let input;
   let output;
   let subject;
   let project;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     input = await createTempDir();
     project = {
       addons: [],
@@ -32,12 +32,12 @@ describe('FastbootConfig', function() {
     output = createBuilder(subject);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await input.dispose();
     await output.dispose();
   });
 
-  it('it builds only when information changes', async function() {
+  it('it builds only when information changes', async function () {
     input.write({
       'index.js': `export { A } from "./lib/a";`,
       lib: {
@@ -49,13 +49,16 @@ describe('FastbootConfig', function() {
 
     await output.build();
 
-    expect(output.read()).to.deep.equal({
-      'package.json': `{"dependencies":{},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleWhitelist":[],"schemaVersion":3}}`,
-    });
+    expect(output.read()).to.deep.equal(
+      {
+        'package.json': `{"dependencies":{},"fastboot":{"htmlEntrypoint":"index.html","manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleWhitelist":[],"schemaVersion":5},"name":"app"}`,
+      },
+      'builds correctly before changing fastbootDependencies'
+    );
 
     await output.build();
 
-    expect(output.changes()).to.deep.equal({});
+    expect(output.changes()).to.deep.equal({}, 'no changes when rebuild');
 
     project.pkg.fastbootDependencies = ['apple', 'orange'];
 
@@ -67,13 +70,19 @@ describe('FastbootConfig', function() {
 
     await output.build();
 
-    expect(output.changes()).to.deep.equal({
-      'package.json': 'change',
-    });
+    expect(output.changes()).to.deep.equal(
+      {
+        'package.json': 'change',
+      },
+      'package.json changes'
+    );
 
-    expect(output.read()).to.deep.equal({
-      'package.json': `{"dependencies":{"apple":"*","orange":"^1.0.0"},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleWhitelist":["apple","orange"],"schemaVersion":3}}`,
-    });
+    expect(output.read()).to.deep.equal(
+      {
+        'package.json': `{"dependencies":{"apple":"*","orange":"^1.0.0"},"fastboot":{"htmlEntrypoint":"index.html","manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleWhitelist":["apple","orange"],"schemaVersion":5},"name":"app"}`,
+      },
+      'dependencies changes are reflected'
+    );
 
     project.pkg.fastbootDependencies = ['apple', 'orange'];
 
@@ -81,14 +90,20 @@ describe('FastbootConfig', function() {
 
     await output.build();
 
-    expect(output.changes()).to.deep.equal({});
+    expect(output.changes()).to.deep.equal(
+      {},
+      'changing non-fastbootDependencies does not trigger change'
+    );
 
     project.pkg.dependencies.apple = '^3.0.0';
 
     await output.build();
 
-    expect(output.read()).to.deep.equal({
-      'package.json': `{"dependencies":{"apple":"^3.0.0","orange":"^1.0.0"},"fastboot":{"appName":"app","config":{"app":{"modulePrefix":"app"}},"manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleWhitelist":["apple","orange"],"schemaVersion":3}}`,
-    });
+    expect(output.read()).to.deep.equal(
+      {
+        'package.json': `{"dependencies":{"apple":"^3.0.0","orange":"^1.0.0"},"fastboot":{"htmlEntrypoint":"index.html","manifest":{"appFiles":["app.js","app-fastboot.js"],"htmlFile":"index.html","vendorFiles":["vendor.js"]},"moduleWhitelist":["apple","orange"],"schemaVersion":5},"name":"app"}`,
+      },
+      'updated version is reflected'
+    );
   });
 });
