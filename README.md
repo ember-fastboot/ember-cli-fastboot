@@ -7,13 +7,6 @@ FastBoot allows you to render and serve Ember.js apps on the server.
 Using FastBoot, you can serve rendered HTML to browsers and
 other clients without requiring them to download JavaScript assets.
 
-Currently, the set of Ember applications supported is extremely limited.
-As we fix more issues, we expect that set to grow rapidly. See [Known
-Limitations](#known-limitations) below for a full-list.
-
-The bottom line is that you should not (yet) expect to install this add-on in
-your production app and have FastBoot work.
-
 ## Installation
 
 FastBoot requires Ember 2.3 or higher. It is also preferable that your app is running `ember-cli` 2.12.0 and higher.
@@ -623,12 +616,6 @@ fastbootConfigTree() {
 ```
 
 The above configuration will be available in Node via the `FastBoot.config()` function. Therefore, in order to get the above config, the addon/app can call `FastBoot.config('<engine-name>')`.
-
-## Known Limitations
-
-While FastBoot is under active development, there are several major
-restrictions you should be aware of. Only the most brave should even
-consider deploying this to production.
 
 ### No `didInsertElement`
 
