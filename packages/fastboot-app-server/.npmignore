@@ -1,6 +1,0 @@
-.gitignore
-.eslintcache
-.eslintignore
-.eslintrc.js
-.travis.yml
-test/
