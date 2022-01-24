@@ -17,6 +17,7 @@ function injectMiddlewareAddon(app) {
       paths: ['lib/post-middleware'],
     };
     delete pkg.devDependencies['ember-fetch'];
+    delete pkg.devDependencies['ember-welcome-page'];
   });
   return app.run('npm', 'install');
 }

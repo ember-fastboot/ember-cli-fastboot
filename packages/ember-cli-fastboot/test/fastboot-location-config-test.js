@@ -23,6 +23,7 @@ describe('FastBootLocation Configuration', function () {
       .then(function () {
         app.editPackageJSON((pkg) => {
           delete pkg.devDependencies['ember-fetch'];
+          delete pkg.devDependencies['ember-welcome-page'];
         });
         return app.run('npm', 'install');
       })

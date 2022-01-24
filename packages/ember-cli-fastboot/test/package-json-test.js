@@ -25,6 +25,7 @@ describe('generating package.json', function () {
         .then(function () {
           customApp.editPackageJSON((pkg) => {
             delete pkg.devDependencies['ember-fetch'];
+            delete pkg.devDependencies['ember-welcome-page'];
           });
           return customApp.run('npm', 'install');
         })
