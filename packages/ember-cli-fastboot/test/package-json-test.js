@@ -19,8 +19,8 @@ describe('generating package.json', function () {
       return customApp
         .create('customized-outputpaths', {
           skipNpm: true,
-          emberVersion: '3.28.6',
-          emberDataVersion: '~3.19.0',
+          emberVersion: 'latest',
+          emberDataVersion: 'latest',
         })
         .then(function () {
           customApp.editPackageJSON((pkg) => {

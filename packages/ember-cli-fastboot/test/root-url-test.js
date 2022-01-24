@@ -17,8 +17,8 @@ describe('rootUrl acceptance', function () {
     return app
       .create('root-url', {
         skipNpm: true,
-        emberVersion: '3.28.6',
-        emberDataVersion: '~3.19.0',
+        emberVersion: 'latest',
+        emberDataVersion: 'latest',
       })
       .then(function () {
         app.editPackageJSON((pkg) => {
