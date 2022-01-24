@@ -28,16 +28,16 @@
     "postversion": "git push origin master --tags"
   },
   "dependencies": {
-    "chalk": "^3.0.0",
-    "cookie": "^0.4.0",
-    "debug": "^4.1.1",
-    "jsdom": "^16.2.2",
-    "resolve": "^1.15.0",
+    "chalk": "^4.1.2",
+    "cookie": "^0.4.1",
+    "debug": "^4.3.3",
+    "jsdom": "^19.0.0",
+    "resolve": "^1.22.0",
     "simple-dom": "^1.4.0",
-    "source-map-support": "^0.5.16"
+    "source-map-support": "^0.5.21"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
+    "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
@@ -45,13 +45,13 @@
     "eslint-plugin-mocha": "^6.2.2",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
-    "express": "^4.17.1",
+    "express": "^4.17.2",
     "fixturify": "^2.1.0",
     "lerna-changelog": "^1.0.0",
     "mocha": "^9.1.2",
     "prettier": "^1.19.1",
-    "release-it": "^14.2.0",
-    "release-it-lerna-changelog": "^3.0.0",
+    "release-it": "^14.2.2",
+    "release-it-lerna-changelog": "^3.1.0",
     "rimraf": "^3.0.1",
     "tmp": "^0.2.1"
   },
