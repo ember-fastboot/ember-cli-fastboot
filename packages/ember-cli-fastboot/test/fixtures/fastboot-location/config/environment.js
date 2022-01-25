@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   var ENV = {
     rootURL: '/my-root/',
     locationType: 'auto',
@@ -8,8 +8,8 @@ module.exports = function(environment) {
     modulePrefix: 'fastboot-location',
     fastboot: {
       fastbootHeaders: true,
-      hostWhitelist: [/localhost:\d+/]
-    }
+      hostWhitelist: [/localhost:\d+/],
+    },
   };
 
   return ENV;

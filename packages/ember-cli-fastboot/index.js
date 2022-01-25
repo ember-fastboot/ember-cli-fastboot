@@ -60,7 +60,9 @@ module.exports = {
    * See: https://ember-cli.com/user-guide/#integration
    */
   included(app) {
-    let assetRev = this.project.addons.find(addon => addon.name === 'broccoli-asset-rev');
+    let assetRev = this.project.addons.find(
+      (addon) => addon.name === 'broccoli-asset-rev'
+    );
     if (assetRev && !assetRev.supportsFastboot) {
       throw new SilentError(
         'This version of ember-cli-fastboot requires a newer version of broccoli-asset-rev'
@@ -109,7 +111,10 @@ module.exports = {
     }
 
     if (type === 'app-boot') {
-      return fastbootAppBoot(config.modulePrefix, JSON.stringify(config.APP || {}));
+      return fastbootAppBoot(
+        config.modulePrefix,
+        JSON.stringify(config.APP || {})
+      );
     }
 
     // if the fastboot addon is installed, we overwrite the config-module so that the config can be read
@@ -134,15 +139,19 @@ module.exports = {
 
     // check the ember version and conditionally patch the DOM api
     if (this._getEmberVersion().lt('2.10.0-alpha.1')) {
-      fastbootHtmlBarsTree = this.treeGenerator(path.resolve(__dirname, 'fastboot-app-lt-2-9'));
-      return tree ? new MergeTrees([tree, fastbootHtmlBarsTree]) : fastbootHtmlBarsTree;
+      fastbootHtmlBarsTree = this.treeGenerator(
+        path.resolve(__dirname, 'fastboot-app-lt-2-9')
+      );
+      return tree
+        ? new MergeTrees([tree, fastbootHtmlBarsTree])
+        : fastbootHtmlBarsTree;
     }
 
     return tree;
   },
 
   _processAddons(addons, fastbootTrees) {
-    addons.forEach(addon => {
+    addons.forEach((addon) => {
       this._processAddon(addon, fastbootTrees);
     });
   },
@@ -182,7 +191,10 @@ module.exports = {
     // check the parent containing the fastboot directory
     const projectFastbootPath = path.join(this.project.root, 'fastboot');
     // ignore the project's fastboot folder if we are an addon, as that is already handled above
-    if (!this.project.isEmberCLIAddon() && this.existsSync(projectFastbootPath)) {
+    if (
+      !this.project.isEmberCLIAddon() &&
+      this.existsSync(projectFastbootPath)
+    ) {
       let fastbootTree = this.treeGenerator(projectFastbootPath);
       fastbootTrees.push(fastbootTree);
     }
@@ -195,17 +207,28 @@ module.exports = {
     let funneledFastbootTrees = new Funnel(mergedFastBootTree, {
       destDir: appName,
     });
-    const processExtraTree = p.preprocessJs(funneledFastbootTrees, '/', this._name, {
-      registry: this._appRegistry,
-    });
+    const processExtraTree = p.preprocessJs(
+      funneledFastbootTrees,
+      '/',
+      this._name,
+      {
+        registry: this._appRegistry,
+      }
+    );
 
     // FastBoot app factory module
     const writeFile = require('broccoli-file-creator');
-    let appFactoryModuleTree = writeFile('app-factory.js', fastbootAppFactoryModule(appName));
+    let appFactoryModuleTree = writeFile(
+      'app-factory.js',
+      fastbootAppFactoryModule(appName)
+    );
 
-    let newProcessExtraTree = new MergeTrees([processExtraTree, appFactoryModuleTree], {
-      overwrite: true,
-    });
+    let newProcessExtraTree = new MergeTrees(
+      [processExtraTree, appFactoryModuleTree],
+      {
+        overwrite: true,
+      }
+    );
 
     function stripLeadingSlash(filePath) {
       return filePath.replace(/^\//, '');
@@ -264,7 +287,7 @@ module.exports = {
     if (config instanceof Object) {
       let copy = {};
       for (let attr in config) {
-        if (config.hasOwnProperty(attr)) {
+        if (Object.prototype.hasOwnProperty.call(config, attr)) {
           copy[attr] = this._cloneConfigObject(config[attr]);
         }
       }
@@ -315,9 +338,12 @@ module.exports = {
       // that version contains API to hook fastboot into ember-cli
 
       app.use((req, resp, next) => {
-        const fastbootQueryParam =
-          req.query.hasOwnProperty('fastboot') && req.query.fastboot === 'false' ? false : true;
-        const enableFastBootServe = !process.env.FASTBOOT_DISABLED && fastbootQueryParam;
+        const fastbootQueryParam = !(
+          Object.prototype.hasOwnProperty.call(req.query, 'fastboot') &&
+          req.query.fastboot === 'false'
+        );
+        const enableFastBootServe =
+          !process.env.FASTBOOT_DISABLED && fastbootQueryParam;
 
         if (req.serveUrl && enableFastBootServe) {
           // if it is a base page request, then have fastboot serve the base page
@@ -384,7 +410,10 @@ module.exports = {
    * TODO Allow add-ons to provide own options and merge them with the application's options.
    */
   _fastbootOptionsFor(environment, project) {
-    const configPath = path.join(path.dirname(project.configPath()), 'fastboot.js');
+    const configPath = path.join(
+      path.dirname(project.configPath()),
+      'fastboot.js'
+    );
 
     if (fs.existsSync(configPath)) {
       return require(configPath)(environment);

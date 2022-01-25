@@ -1,7 +1,7 @@
-module.exports = function(environment) {
+module.exports = function (/*environment*/) {
   return {
     sandboxGlobals: {
-      myGlobal: 'My Global'
-    }
+      myGlobal: 'My Global',
+    },
   };
-}
+};

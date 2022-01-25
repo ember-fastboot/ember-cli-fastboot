@@ -4,6 +4,9 @@ export default {
     let showBodyController = applicationInstance.lookup('controller:show-body');
     let fastbootInfo = applicationInstance.lookup('info:-fastboot');
 
-    showBodyController.set('instanceInitializerBody', fastbootInfo.request.body);
-  }
+    showBodyController.set(
+      'instanceInitializerBody',
+      fastbootInfo.request.body
+    );
+  },
 };

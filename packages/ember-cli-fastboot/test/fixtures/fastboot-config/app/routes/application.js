@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
+export default class extends Route {
   model() {
     if (typeof FastBoot !== 'undefined') {
       return window.myGlobal;
     }
   }
-});
+}

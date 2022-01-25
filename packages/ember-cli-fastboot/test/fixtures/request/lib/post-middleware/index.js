@@ -5,23 +5,22 @@ var FastBoot = require('fastboot');
 module.exports = {
   name: 'post-middleware',
 
-  serverMiddleware: function(options) {
+  serverMiddleware: function (options) {
     var app = options.app;
     app.use(bodyParser.text());
-    app.use(function(req, resp, next) {
+    app.use(function (req, resp, next) {
       var broccoliHeader = req.headers['x-broccoli'];
       var outputPath = broccoliHeader['outputPath'];
 
       if (req.method === 'POST') {
-
         if (!this.fastboot) {
           this.fastboot = new FastBoot({
-            distPath: outputPath
+            distPath: outputPath,
           });
         }
 
         var fastbootMiddleware = FastBootExpressMiddleware({
-          fastboot: this.fastboot
+          fastboot: this.fastboot,
         });
 
         fastbootMiddleware(req, resp, next);
@@ -29,5 +28,5 @@ module.exports = {
         next();
       }
     });
-  }
+  },
 };

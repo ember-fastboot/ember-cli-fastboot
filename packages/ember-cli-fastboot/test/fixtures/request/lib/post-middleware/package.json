@@ -7,5 +7,10 @@
   },
   "keywords": [
     "ember-addon"
-  ]
+  ],
+  "peerDependencies": {
+    "body-parser": "*",
+    "fastboot": "*",
+    "fastboot-express-middleware": "*"
+  }
 }

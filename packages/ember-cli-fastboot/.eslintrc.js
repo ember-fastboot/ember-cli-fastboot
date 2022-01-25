@@ -17,13 +17,13 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   env: {
-    browser: true
+    browser: true,
   },
   rules: {
+    'ember/no-classic-classes': 'warn',
     'ember/no-get': 'warn',
-    'ember/require-computed-property-dependencies': 'warn'
+    'ember/require-computed-property-dependencies': 'warn',
   },
-  rules: {},
   overrides: [
     // node files
     {
@@ -37,7 +37,11 @@ module.exports = {
         'blueprints/*/index.js',
         'config/**/*.js',
         'tests/dummy/config/**/*.js',
-        'lib/**/*.js'
+        'lib/**/*.js',
+        'test/*.js',
+        'test/**/ember-cli-build.js',
+        'test/**/config/**/*.js',
+        'test/**/lib/**/*.js',
       ],
       excludedFiles: [
         'app/**',
@@ -55,6 +59,12 @@ module.exports = {
       },
       plugins: ['node'],
       extends: ['plugin:node/recommended'],
+    },
+    {
+      // mocha test files
+      files: ['test/*-test.{js,ts}'],
+      plugins: ['mocha'],
+      extends: ['plugin:mocha/recommended'],
     },
   ],
 };

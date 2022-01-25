@@ -1,11 +1,12 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
-export default Ember.Route.extend({
-  fastboot: Ember.inject.service(),
+export default class extends Route {
+  @service fastboot;
 
   model() {
     return {
-      path: this.get('fastboot.request.path')
+      path: this.fastboot.request.path,
     };
   }
-});
+}

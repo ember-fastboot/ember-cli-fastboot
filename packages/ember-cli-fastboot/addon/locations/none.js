@@ -1,8 +1,8 @@
 import { computed, get } from '@ember/object';
 import { bool, readOnly } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { getOwner } from '@ember/application'
-import NoneLocation from '@ember/routing/none-location'
+import { getOwner } from '@ember/application';
+import NoneLocation from '@ember/routing/none-location';
 
 const TEMPORARY_REDIRECT_CODE = 307;
 
@@ -16,8 +16,10 @@ export default NoneLocation.extend({
 
   _fastbootHeadersEnabled: bool('_config.fastboot.fastbootHeaders'),
 
-  _redirectCode: computed(function () {
-    return get(this, '_config.fastboot.redirectCode') || TEMPORARY_REDIRECT_CODE;
+  _redirectCode: computed('_config.fastboot.redirectCode', function () {
+    return (
+      get(this, '_config.fastboot.redirectCode') || TEMPORARY_REDIRECT_CODE
+    );
   }),
 
   _response: readOnly('fastboot.response'),
@@ -25,8 +27,8 @@ export default NoneLocation.extend({
 
   setURL(path) {
     if (get(this, 'fastboot.isFastBoot')) {
-      let response = get(this, '_response');
-      let currentPath = get(this, 'path');
+      let response = this._response;
+      let currentPath = this.path;
       let isInitialPath = !currentPath || currentPath.length === 0;
 
       if (!isInitialPath) {
@@ -37,17 +39,17 @@ export default NoneLocation.extend({
           let host = get(this, '_request.host');
           let redirectURL = `//${host}${path}`;
 
-          response.statusCode = this.get('_redirectCode');
+          response.statusCode = this._redirectCode;
           response.headers.set('location', redirectURL);
         }
       }
 
       // for testing and debugging
-      if (get(this, '_fastbootHeadersEnabled')) {
+      if (this._fastbootHeadersEnabled) {
         response.headers.set('x-fastboot-path', path);
       }
     }
 
     this._super(...arguments);
-  }
+  },
 });

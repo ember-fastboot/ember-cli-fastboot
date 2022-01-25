@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   var ENV = {
     rootURL: '/',
     locationType: 'auto',
@@ -10,7 +10,7 @@ module.exports = function(environment) {
       fastbootHeaders: false,
       hostWhitelist: [/localhost:\d+/],
       redirectCode: 302,
-    }
+    },
   };
 
   return ENV;

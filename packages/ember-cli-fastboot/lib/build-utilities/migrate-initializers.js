@@ -16,11 +16,18 @@ const fastbootInitializerTypes = ['initializers', 'instance-initializers'];
  * @returns {Boolean} true if path exists
  */
 function _checkInitializerTypeExists(rootPath, type) {
-  const isTypeExists = fastbootInitializerTypes.some((fastbootInitializerType) => {
-    const pathType = path.join(rootPath, 'app', fastbootInitializerType, type);
+  const isTypeExists = fastbootInitializerTypes.some(
+    (fastbootInitializerType) => {
+      const pathType = path.join(
+        rootPath,
+        'app',
+        fastbootInitializerType,
+        type
+      );
 
-    return existsSync(pathType);
-  });
+      return existsSync(pathType);
+    }
+  );
 
   return isTypeExists;
 }
@@ -31,11 +38,15 @@ function _checkInitializerTypeExists(rootPath, type) {
  * @param {String} rootPath
  */
 function _checkBrowserInitializers(rootPath) {
-  const isBrowserInitializersPresent = _checkInitializerTypeExists(rootPath, 'browser');
+  const isBrowserInitializersPresent = _checkInitializerTypeExists(
+    rootPath,
+    'browser'
+  );
 
   if (isBrowserInitializersPresent) {
-    const errorMsg = `FastBoot build no longer supports ${rootPath}/app/(instance-)?initializers/browser structure. ` +
-                         `Please refer to http://ember-fastboot.com/docs/addon-author-guide#browser-only-or-node-only-initializers for a migration path.`;
+    const errorMsg =
+      `FastBoot build no longer supports ${rootPath}/app/(instance-)?initializers/browser structure. ` +
+      `Please refer to http://ember-fastboot.com/docs/addon-author-guide#browser-only-or-node-only-initializers for a migration path.`;
     throw new SilentError(errorMsg);
   }
 }
@@ -49,7 +60,9 @@ function _checkFastBootInitializers(project, rootPath) {
   // check to see if it is a fastboot complaint addon
   const isFastbootAddon = _checkInitializerTypeExists(rootPath, 'fastboot');
   if (isFastbootAddon) {
-    throw new SilentError(`Having fastboot specific code in app directory of ${rootPath} is deprecated. Please move it to fastboot/app directory.`);
+    throw new SilentError(
+      `Having fastboot specific code in app directory of ${rootPath} is deprecated. Please move it to fastboot/app directory.`
+    );
   }
 }
 
@@ -59,7 +72,7 @@ function _checkFastBootInitializers(project, rootPath) {
  * @param {Object} project
  */
 function _migrateAddonInitializers(project) {
-  project.addons.forEach(addon => {
+  project.addons.forEach((addon) => {
     const currentAddonPath = addon.root;
 
     _checkBrowserInitializers(currentAddonPath);
