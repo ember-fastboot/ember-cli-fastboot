@@ -8,18 +8,22 @@
 // likely to collide with user code, since it is not possible to
 // define a module with a name like this in the file system.
 module.exports = function fastBootAppFactoryModule(prefix) {
-  var appSuffix = "app";
+  var appSuffix = 'app';
   return [
-    "define('~fastboot/app-factory', ['{{MODULE_PREFIX}}/" + appSuffix + "', '{{MODULE_PREFIX}}/config/environment'], function(App, config) {",
+    "define('~fastboot/app-factory', ['{{MODULE_PREFIX}}/" +
+      appSuffix +
+      "', '{{MODULE_PREFIX}}/config/environment'], function(App, config) {",
     "  App = App['default'];",
     "  config = config['default'];",
-    "",
-    "  return {",
+    '',
+    '  return {',
     "    'default': function() {",
-    "      return App.create(config.APP);",
-    "    }",
-    "  };",
-    "});",
-    ""
-  ].join("\n").replace(/\{\{MODULE_PREFIX\}\}/g, prefix);
+    '      return App.create(config.APP);',
+    '    }',
+    '  };',
+    '});',
+    '',
+  ]
+    .join('\n')
+    .replace(/\{\{MODULE_PREFIX\}\}/g, prefix);
 };

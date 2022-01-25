@@ -28,7 +28,7 @@ session.connect();
 
 let file;
 // uses whatever the "current" file is
-session.on('HeapProfiler.addHeapSnapshotChunk', m => {
+session.on('HeapProfiler.addHeapSnapshotChunk', (m) => {
   fs.writeSync(file, m.params.chunk);
 });
 

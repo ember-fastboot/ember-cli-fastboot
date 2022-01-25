@@ -4,6 +4,9 @@ export default {
     let showPathController = applicationInstance.lookup('controller:show-path');
     let fastbootInfo = applicationInstance.lookup('info:-fastboot');
 
-    showPathController.set('instanceInitializerPath', fastbootInfo.request.path);
-  }
+    showPathController.set(
+      'instanceInitializerPath',
+      fastbootInfo.request.path
+    );
+  },
 };

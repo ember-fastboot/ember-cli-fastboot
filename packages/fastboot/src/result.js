@@ -80,7 +80,7 @@ class Result {
       this._body,
       this._bodyAttributes,
       this._bodyClass
-    ).then(html => {
+    ).then((html) => {
       let docParts = html.match(HTML_HEAD_REGEX);
       if (!docParts || docParts.length === 1) {
         return [html];
@@ -97,7 +97,7 @@ class Result {
       let [plainBody, ...shoeboxes] = body.split(SHOEBOX_TAG_PATTERN);
 
       let chunks = [head, plainBody].concat(
-        shoeboxes.map(shoebox => `${SHOEBOX_TAG_PATTERN}${shoebox}`)
+        shoeboxes.map((shoebox) => `${SHOEBOX_TAG_PATTERN}${shoebox}`)
       );
 
       return chunks;
@@ -203,10 +203,10 @@ function extractExtraAttributes(element) {
   let klass;
   let attributes;
   if (element.attributes.length > 0) {
-    let elementClass = element.attributes.find(attr => attr.name === 'class');
+    let elementClass = element.attributes.find((attr) => attr.name === 'class');
     if (elementClass) {
       klass = elementClass;
-      let otherAttrs = element.attributes.filter(attr => attr.name !== 'class');
+      let otherAttrs = element.attributes.filter((attr) => attr.name !== 'class');
       if (otherAttrs.length > 0) {
         attributes = HTMLSerializer.attributes(otherAttrs);
       } else {
@@ -229,9 +229,9 @@ function missingTag(tag) {
 }
 
 function addClass(html, regex, newClass) {
-  return html.replace(regex, function(_, tag, attributes) {
+  return html.replace(regex, function (_, tag, attributes) {
     if (/class="([^"]*)"/i.test(attributes)) {
-      attributes = attributes.replace(/class="([^"]*)"/i, function(_, klass) {
+      attributes = attributes.replace(/class="([^"]*)"/i, function (_, klass) {
         return `class="${klass} ${newClass}"`;
       });
     } else {
@@ -256,7 +256,7 @@ async function insertIntoIndexHTML(
   let isBodyReplaced = false;
   let isHeadReplaced = false;
 
-  html = html.replace(/<!-- EMBER_CLI_FASTBOOT_(HEAD|BODY) -->/g, function(match, tag) {
+  html = html.replace(/<!-- EMBER_CLI_FASTBOOT_(HEAD|BODY) -->/g, function (match, tag) {
     if (tag === 'HEAD' && head && !isHeadReplaced) {
       isHeadReplaced = true;
       return head;
@@ -271,7 +271,7 @@ async function insertIntoIndexHTML(
     html = addClass(html, /<(html)(.*)>/i, htmlClass.value);
   }
   if (htmlAttributes) {
-    html = html.replace(/<html[^>]*/i, function(match) {
+    html = html.replace(/<html[^>]*/i, function (match) {
       return match + ' ' + htmlAttributes;
     });
   }
@@ -280,7 +280,7 @@ async function insertIntoIndexHTML(
     html = addClass(html, /<(body)(.*)>/i, bodyClass.value);
   }
   if (bodyAttributes) {
-    html = html.replace(/<body[^>]*/i, function(match) {
+    html = html.replace(/<body[^>]*/i, function (match) {
       return match + ' ' + bodyAttributes;
     });
   }
