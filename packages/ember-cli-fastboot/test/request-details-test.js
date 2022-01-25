@@ -17,6 +17,7 @@ function injectMiddlewareAddon(app) {
       paths: ['lib/post-middleware'],
     };
     delete pkg.devDependencies['ember-fetch'];
+    delete pkg.devDependencies['ember-welcome-page'];
   });
   return app.run('npm', 'install');
 }
@@ -33,7 +34,7 @@ describe('request details', function () {
       .create('request', {
         skipNpm: true,
         emberVersion: 'latest',
-        emberDataVersion: '~3.19.0',
+        emberDataVersion: 'latest',
       })
       .then(() => injectMiddlewareAddon(app))
       .then(function () {

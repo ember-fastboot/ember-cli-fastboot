@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
-    "@ember/test-helpers": "^2.2.5",
+    "@ember/test-helpers": "^2.6.0",
     "@embroider/test-setup": "^0.37.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
@@ -64,7 +64,7 @@
     "chai-fs": "^2.0.0",
     "chai-string": "^1.4.0",
     "ember-auto-import": "^2.2.1",
-    "ember-cli": "~3.26.1",
+    "ember-cli": "~4.1.0",
     "ember-cli-addon-tests": "^0.11.1",
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-inject-live-reload": "^2.0.2",
@@ -74,8 +74,8 @@
     "ember-export-application-global": "^2.0.1",
     "ember-load-initializers": "^2.1.2",
     "ember-maybe-import-regenerator-for-testing": "^1.0.0",
-    "ember-page-title": "^6.2.1",
-    "ember-qunit": "^5.1.4",
+    "ember-page-title": "^7.0.0",
+    "ember-qunit": "^5.1.5",
     "ember-resolver": "^8.0.2",
     "ember-sinon": "^2.2.0",
     "ember-source": "~3.26.1",
@@ -107,7 +107,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "ember": {
-    "edition": "classic"
+    "edition": "octane"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",

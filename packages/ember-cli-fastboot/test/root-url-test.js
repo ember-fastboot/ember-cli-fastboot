@@ -18,11 +18,12 @@ describe('rootUrl acceptance', function () {
       .create('root-url', {
         skipNpm: true,
         emberVersion: 'latest',
-        emberDataVersion: '~3.19.0',
+        emberDataVersion: 'latest',
       })
       .then(function () {
         app.editPackageJSON((pkg) => {
           delete pkg.devDependencies['ember-fetch'];
+          delete pkg.devDependencies['ember-welcome-page'];
         });
         return app.run('npm', 'install');
       })

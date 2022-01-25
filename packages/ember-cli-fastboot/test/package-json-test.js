@@ -20,11 +20,12 @@ describe('generating package.json', function () {
         .create('customized-outputpaths', {
           skipNpm: true,
           emberVersion: 'latest',
-          emberDataVersion: '~3.19.0',
+          emberDataVersion: 'latest',
         })
         .then(function () {
           customApp.editPackageJSON((pkg) => {
             delete pkg.devDependencies['ember-fetch'];
+            delete pkg.devDependencies['ember-welcome-page'];
           });
           return customApp.run('npm', 'install');
         })
