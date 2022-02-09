@@ -1,3 +1,39 @@
+## v3.2.0 (2022-02-09)
+
+Version numbering got weird here because several packages were combined into one monorepo with shared version numbers:
+
+ - The previous stable `ember-cli-fastboot` release was 2.2.3, so this is a **semver major**.
+ - The previous stable `fastboot` release was 3.1.2, so this is a semver minor.
+ - The previous stable `fastboot-app-server` release was 3.0.0, so this is a semver minor.
+ - The previous stable `fastboot-express-middleware` release was 3.1.0, so this is a semver minor.
+
+#### :rocket: Enhancement
+* Works with Ember 4
+* Works with Embroider
+
+#### :boom: Breaking Change
+* `ember-cli-fastboot`, `fastboot-app-server`, `fastboot-express-middleware`, `fastboot`
+  * [#834](https://github.com/ember-fastboot/ember-cli-fastboot/pull/834) Update using ember-cli-update and drop support for Node 10 ([@mansona](https://github.com/mansona))
+* `ember-cli-fastboot`
+  * [#825](https://github.com/ember-fastboot/ember-cli-fastboot/pull/825) Drop module unification support ([@xg-wang](https://github.com/xg-wang))
+  * [#820](https://github.com/ember-fastboot/ember-cli-fastboot/pull/820) Remove deprecated features for ember-cli-fastboot v3 release ([@xg-wang](https://github.com/xg-wang))
+
+
+#### :house: Internal
+* `ember-cli-fastboot`, `fastboot-app-server`, `fastboot-express-middleware`, `fastboot`
+  * [#886](https://github.com/ember-fastboot/ember-cli-fastboot/pull/886) Update and synchronize dependencies in the monorepo ([@SergeAstapov](https://github.com/SergeAstapov))
+* `fastboot-app-server`, `fastboot-express-middleware`, `fastboot`
+  * [#867](https://github.com/ember-fastboot/ember-cli-fastboot/pull/867) Remove unused nested github actions setup ([@SergeAstapov](https://github.com/SergeAstapov))
+* `ember-cli-fastboot`
+  * [#866](https://github.com/ember-fastboot/ember-cli-fastboot/pull/866) Make edition=octane and update deps for Ember v4 compatibility ([@SergeAstapov](https://github.com/SergeAstapov))
+* `ember-cli-fastboot`, `fastboot-app-server`, `fastboot-express-middleware`
+  * [#865](https://github.com/ember-fastboot/ember-cli-fastboot/pull/865) Update .npmignore to ignore .github and test folders ([@SergeAstapov](https://github.com/SergeAstapov))
+* Other
+  * [#864](https://github.com/ember-fastboot/ember-cli-fastboot/pull/864) Cache dependencies in GitHub Actions CI workflow ([@SergeAstapov](https://github.com/SergeAstapov))
+
+#### Committers: 1
+- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))
+
 ## v3.2.0-beta.5 (2021-11-24)
 
 #### :bug: Bug Fix
