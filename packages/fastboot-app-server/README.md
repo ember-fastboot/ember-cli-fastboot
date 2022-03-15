@@ -42,6 +42,7 @@ let server = new FastBootAppServer({
   host: '0.0.0.0', // Optional - Sets the host the server listens on.
   port: 4000, // Optional - Sets the port the server listens on (defaults to the PORT env var or 3000).
   buildSandboxGlobals(defaultGlobals) { // Optional - Make values available to the Ember app running in the FastBoot server, e.g. "MY_GLOBAL" will be available as "GLOBAL_VALUE"
+  log: true, // Optional - Specifies whether the server should use its default request logging. Useful for turning off default logging when providing custom logging middlewares
     return Object.assign({}, defaultGlobals, { GLOBAL_VALUE: MY_GLOBAL });
   },
   chunkedResponse: true // Optional - Opt-in to chunked transfer encoding, transferring the head, body and potential shoeboxes in separate chunks. Chunked transfer encoding should have a positive effect in particular when the app transfers a lot of data in the shoebox.
@@ -132,6 +133,26 @@ const server = FastBootAppServer({
   beforeMiddleware: function (app) { app.use(modifyRequest); },
   afterMiddleware: function (app) { app.use(handleErrors); }
 })
+```
+
+## Logging
+
+We provide simple log output by default, but if you want more logging control, you can disable the
+simple logger using the `log: false` option, and provide a custom middleware that suits your logging needs:
+
+```js
+let server = new FastBootAppServer({
+  log: false,
+  beforeMiddleware: function(app) {
+    let logger = function(req, res, next) {
+      console.log('Hello from custom request logger');
+
+      next();
+    };
+
+    app.use(logger);
+  },
+});
 ```
 
 ## Downloaders
