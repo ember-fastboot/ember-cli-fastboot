@@ -624,9 +624,7 @@ The above configuration will be available in Node via the `FastBoot.config()` fu
 
 ## Known Limitations
 
-While FastBoot is under active development, there are several major
-restrictions you should be aware of. Only the most brave should even
-consider deploying this to production.
+There are a few key restrictions developers should be aware of with FastBoot.
 
 ### No `didInsertElement`
 
