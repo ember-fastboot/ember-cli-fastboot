@@ -7,12 +7,10 @@ FastBoot allows you to render and serve Ember.js apps on the server.
 Using FastBoot, you can serve rendered HTML to browsers and
 other clients without requiring them to download JavaScript assets.
 
-Currently, the set of Ember applications supported is extremely limited.
-As we fix more issues, we expect that set to grow rapidly. See [Known
-Limitations](#known-limitations) below for a full-list.
-
-The bottom line is that you should not (yet) expect to install this add-on in
-your production app and have FastBoot work.
+While FastBoot is has decent support in the Ember ecosystem these days, some
+application code, add-ons or other dependencies may need to be modified to work
+when being rendered serverside (e.g. you cannot call the `window` object during
+FastBoot).
 
 ## Installation
 
