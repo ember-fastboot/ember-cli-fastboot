@@ -1,3 +1,12 @@
+## v3.3.0 (2022-03-21)
+
+#### :rocket: Enhancement
+* `fastboot-app-server`
+  * [#890](https://github.com/ember-fastboot/ember-cli-fastboot/pull/890) Allow disabling default logging in fastboot-app-server ([@jurgenwerk](https://github.com/jurgenwerk))
+
+#### Committers: 1
+- Matic Jurglič ([@jurgenwerk](https://github.com/jurgenwerk))
+
 ## v3.2.0 (2022-02-09)
 
 Version numbering got weird here because several packages were combined into one monorepo with shared version numbers:
