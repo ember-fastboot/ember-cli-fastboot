@@ -25,6 +25,7 @@ class FastBootAppServer {
     this.afterMiddleware = options.afterMiddleware;
     this.buildSandboxGlobals = options.buildSandboxGlobals;
     this.chunkedResponse = options.chunkedResponse;
+    this.log = options.log;
 
     if (!this.ui) {
       let UI = require('./ui');
