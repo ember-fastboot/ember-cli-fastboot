@@ -17,9 +17,11 @@ module.exports = class Sandbox {
     let URL = require('url');
     let globals = this.globals;
 
+    const sourceMapConfig = process.setSourceMapsEnabled ? {} : { sourceMapSupport };
+
     let sandbox = Object.assign(
       {
-        sourceMapSupport,
+        sourceMapConfig,
         console,
         setTimeout,
         clearTimeout,
@@ -41,10 +43,10 @@ module.exports = class Sandbox {
   buildWrappedConsole() {
     let wrappedConsole = Object.create(console);
 
-    wrappedConsole.error = function(...args) {
+    wrappedConsole.error = function (...args) {
       console.error.apply(
         console,
-        args.map(function(a) {
+        args.map(function (a) {
           return typeof a === 'string' ? chalk.red(a) : a;
         })
       );

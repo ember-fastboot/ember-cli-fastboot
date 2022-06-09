@@ -54,10 +54,16 @@ class EmberApp {
       this.config = allConfig;
     }
 
-    this.scripts = buildScripts([
-      require.resolve('./scripts/install-source-map-support'),
-      ...config.scripts,
-    ]);
+    if (process.setSourceMapsEnabled) {
+      process.setSourceMapsEnabled(true);
+
+      this.scripts = buildScripts([...config.scripts]);
+    } else {
+      this.scripts = buildScripts([
+        require.resolve('./scripts/install-source-map-support'),
+        ...config.scripts,
+      ]);
+    }
 
     // default to 1 if maxSandboxQueueSize is not defined so the sandbox is pre-warmed when process comes up
     const maxSandboxQueueSize = options.maxSandboxQueueSize || 1;
@@ -161,7 +167,7 @@ class EmberApp {
     debug('files evaluated');
 
     // Retrieve the application factory from within the sandbox
-    let AppFactory = sandbox.run(function(ctx) {
+    let AppFactory = sandbox.run(function (ctx) {
       return ctx.require('~fastboot/app-factory');
     });
 
@@ -312,7 +318,7 @@ class EmberApp {
     if (destroyAppInstanceInMs > 0) {
       // start a timer to destroy the appInstance forcefully in the given ms.
       // This is a failure mechanism so that node process doesn't get wedged if the `visit` never completes.
-      destroyAppInstanceTimer = setTimeout(function() {
+      destroyAppInstanceTimer = setTimeout(function () {
         if (result._destroy()) {
           result.error = new Error(
             'App instance was forcefully destroyed in ' + destroyAppInstanceInMs + 'ms'
@@ -414,7 +420,7 @@ const JSON_ESCAPE = {
 const JSON_ESCAPE_REGEXP = /[\u2028\u2029&><]/g;
 
 function escapeJSONString(string) {
-  return string.replace(JSON_ESCAPE_REGEXP, function(match) {
+  return string.replace(JSON_ESCAPE_REGEXP, function (match) {
     return JSON_ESCAPE[match];
   });
 }
@@ -428,7 +434,7 @@ function registerFastBootInfo(info, instance) {
 }
 
 function buildScripts(filePaths) {
-  return filePaths.filter(Boolean).map(filePath => {
+  return filePaths.filter(Boolean).map((filePath) => {
     let source = fs.readFileSync(filePath, { encoding: 'utf8' });
 
     return new vm.Script(source, { filename: filePath });
