@@ -17,11 +17,10 @@ module.exports = class Sandbox {
     let URL = require('url');
     let globals = this.globals;
 
-    const sourceMapConfig = process.setSourceMapsEnabled ? {} : { sourceMapSupport };
+    const sourceMapConfig = process.setSourceMapsEnabled ? null : { sourceMapSupport };
 
     let sandbox = Object.assign(
       {
-        sourceMapConfig,
         console,
         setTimeout,
         clearTimeout,
@@ -30,6 +29,7 @@ module.exports = class Sandbox {
         // Convince jQuery not to assume it's in a browser
         module: { exports: {} },
       },
+      sourceMapConfig,
       globals
     );
 
