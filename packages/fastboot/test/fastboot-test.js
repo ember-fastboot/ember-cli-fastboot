@@ -6,18 +6,18 @@ const path = require('path');
 const fixture = require('./helpers/fixture-path');
 const FastBoot = require('./../src/index');
 
-describe('FastBoot', function () {
-  it('throws an exception if no distPath is provided', function () {
-    var fn = function () {
+describe('FastBoot', function() {
+  it('throws an exception if no distPath is provided', function() {
+    var fn = function() {
       return new FastBoot();
     };
 
     expect(fn).to.throw(/You must instantiate FastBoot with a distPath option/);
   });
 
-  it('throws an exception if no package.json exists in the provided distPath', function () {
+  it('throws an exception if no package.json exists in the provided distPath', function() {
     var distPath = fixture('no-package-json');
-    var fn = function () {
+    var fn = function() {
       return new FastBoot({
         distPath: distPath,
       });
@@ -26,9 +26,9 @@ describe('FastBoot', function () {
     expect(fn).to.throw(/Couldn't find (.+)no-package-json/);
   });
 
-  it('throws an error when manifest schema version is higher than fastboot schema version', function () {
+  it('throws an error when manifest schema version is higher than fastboot schema version', function() {
     var distPath = fixture('higher-schema-version');
-    var fn = function () {
+    var fn = function() {
       return new FastBoot({
         distPath: distPath,
       });
@@ -39,9 +39,9 @@ describe('FastBoot', function () {
     );
   });
 
-  it("doesn't throw an exception if a package.json is provided", function () {
+  it("doesn't throw an exception if a package.json is provided", function() {
     var distPath = fixture('empty-package-json');
-    var fn = function () {
+    var fn = function() {
       return new FastBoot({
         distPath: distPath,
       });
@@ -50,74 +50,74 @@ describe('FastBoot', function () {
     expect(fn).to.throw(/(.+)package.json was malformed or did not contain a fastboot config/);
   });
 
-  it('can render HTML with array of app files defined in package.json', function () {
+  it('can render HTML with array of app files defined in package.json', function() {
     var fastboot = new FastBoot({
       distPath: fixture('multiple-app-files'),
     });
 
     return fastboot
       .visit('/')
-      .then((r) => r.html())
-      .then((html) => {
+      .then(r => r.html())
+      .then(html => {
         expect(html).to.match(/Welcome to Ember/);
       });
   });
 
-  it('outputs html attributes from the fastboot app', function () {
+  it('outputs html attributes from the fastboot app', function() {
     var fastboot = new FastBoot({
       distPath: fixture('custom-html-attrs'),
     });
 
     return fastboot
       .visit('/')
-      .then((r) => r.html())
-      .then((html) => {
+      .then(r => r.html())
+      .then(html => {
         expect(html).to.match(/<html data-before=1 +class="a b it-works" data-after=2/);
       });
   });
 
-  it('outputs body attributes from the fastboot app', function () {
+  it('outputs body attributes from the fastboot app', function() {
     var fastboot = new FastBoot({
       distPath: fixture('custom-body-attrs'),
     });
 
     return fastboot
       .visit('/')
-      .then((r) => r.html())
-      .then((html) => {
+      .then(r => r.html())
+      .then(html => {
         expect(html).to.match(
           /<body data-before=1 +class="no-js default-class it-works" data-after=2/
         );
       });
   });
 
-  it('appends classes correctly even when there are no classes in the original body', function () {
+  it('appends classes correctly even when there are no classes in the original body', function() {
     var fastboot = new FastBoot({
       distPath: fixture('custom-body-attrs-with-no-default-classes'),
     });
 
     return fastboot
       .visit('/')
-      .then((r) => r.html())
-      .then((html) => {
+      .then(r => r.html())
+      .then(html => {
         expect(html).to.match(/<body data-before=1 data-after=2 +class="it-works"/);
       });
   });
 
-  it('appends classes correctly even when there are no classes in the original html', function () {
+  it('appends classes correctly even when there are no classes in the original html', function() {
     var fastboot = new FastBoot({
       distPath: fixture('custom-html-attrs-with-no-default-classes'),
     });
 
     return fastboot
       .visit('/')
-      .then((r) => r.html())
-      .then((html) => {
+      .then(r => r.html())
+      .then(html => {
         expect(html).to.match(/<html data-before=1 data-after=2 +class="it-works"/);
       });
   });
 
-  it('can render HTML when a custom set of sandbox globals is provided', function () {
+  it('can render HTML when a custom set of sandbox globals is provided', function() {
     var fastboot = new FastBoot({
       distPath: fixture('custom-sandbox'),
       buildSandboxGlobals(globals) {
@@ -130,13 +130,13 @@ describe('FastBoot', function () {
 
     return fastboot
       .visit('/foo')
-      .then((r) => r.html())
-      .then((html) => {
+      .then(r => r.html())
+      .then(html => {
         expect(html).to.match(/foo from sandbox: 5/);
       });
   });
 
-  it('rejects the promise if an error occurs', function () {
+  it('rejects the promise if an error occurs', function() {
     var fastboot = new FastBoot({
       distPath: fixture('rejected-promise'),
     });
@@ -144,17 +144,17 @@ describe('FastBoot', function () {
     return expect(fastboot.visit('/')).to.be.rejected;
   });
 
-  it('catches the error if an error occurs', function () {
+  it('catches the error if an error occurs', function() {
     var fastboot = new FastBoot({
       distPath: fixture('rejected-promise'),
     });
 
-    fastboot.visit('/').catch(function (err) {
+    fastboot.visit('/').catch(function(err) {
       return expect(err).to.be.not.null;
     });
   });
 
-  it('renders an empty page if the resilient flag is set', function () {
+  it('renders an empty page if the resilient flag is set', function() {
     var fastboot = new FastBoot({
       distPath: fixture('rejected-promise'),
       resilient: true,
@@ -162,16 +162,16 @@ describe('FastBoot', function () {
 
     return fastboot
       .visit('/')
-      .then((r) => {
+      .then(r => {
         expect(r.finalized).to.be.true;
         return r.html();
       })
-      .then((html) => {
+      .then(html => {
         expect(html).to.match(/<body>/);
       });
   });
 
-  it('returns only one chunk if the resilient flag is set', function () {
+  it('returns only one chunk if the resilient flag is set', function() {
     var fastboot = new FastBoot({
       distPath: fixture('rejected-promise'),
       resilient: true,
@@ -179,25 +179,25 @@ describe('FastBoot', function () {
 
     return fastboot
       .visit('/')
-      .then((r) => r.chunks())
-      .then((chunks) => {
+      .then(r => r.chunks())
+      .then(chunks => {
         expect(chunks.length).to.eq(1);
         expect(chunks[0]).to.match(/<body>/);
       });
   });
 
-  it('reads the config from package.json', function () {
+  it('reads the config from package.json', function() {
     var fastboot = new FastBoot({
       distPath: fixture('config-app'),
     });
 
     return fastboot
       .visit('/')
-      .then((r) => r.html())
-      .then((html) => expect(html).to.match(/Config foo: bar/));
+      .then(r => r.html())
+      .then(html => expect(html).to.match(/Config foo: bar/));
   });
 
-  it('prefers APP_CONFIG environment variable', function () {
+  it('prefers APP_CONFIG environment variable', function() {
     var config = {
       modulePrefix: 'fastboot-test',
       environment: 'development',
@@ -223,22 +223,22 @@ describe('FastBoot', function () {
 
     return fastboot
       .visit('/')
-      .then((r) => r.html())
-      .then((html) => expect(html).to.match(/Config foo: baz/));
+      .then(r => r.html())
+      .then(html => expect(html).to.match(/Config foo: baz/));
   });
 
-  it('handles apps with config defined in app.js', function () {
+  it('handles apps with config defined in app.js', function() {
     var fastboot = new FastBoot({
       distPath: fixture('config-not-in-meta-app'),
     });
 
     return fastboot
       .visit('/')
-      .then((r) => r.html())
-      .then((html) => expect(html).to.match(/Welcome to Ember/));
+      .then(r => r.html())
+      .then(html => expect(html).to.match(/Welcome to Ember/));
   });
 
-  it('reloads the config when package.json changes', async function () {
+  it('reloads the config when package.json changes', async function() {
     var distPath = fixture('config-swap-app');
     var packagePath = path.join(distPath, 'package.json');
     var package1Path = path.join(distPath, 'package-1.json');
@@ -253,14 +253,14 @@ describe('FastBoot', function () {
     try {
       await fastboot
         .visit('/')
-        .then((r) => r.html())
-        .then((html) => expect(html).to.match(/Config foo: bar/))
+        .then(r => r.html())
+        .then(html => expect(html).to.match(/Config foo: bar/))
         .then(() => deletePackage())
         .then(() => copyPackage(package2Path))
         .then(hotReloadApp)
         .then(() => fastboot.visit('/'))
-        .then((r) => r.html())
-        .then((html) => expect(html).to.match(/Config foo: boo/));
+        .then(r => r.html())
+        .then(html => expect(html).to.match(/Config foo: boo/));
     } finally {
       deletePackage();
     }
@@ -280,29 +280,29 @@ describe('FastBoot', function () {
     }
   });
 
-  it('handles apps boot-time failures by throwing Errors', function () {
+  it('handles apps boot-time failures by throwing Errors', function() {
     var fastboot = new FastBoot({
       distPath: fixture('boot-time-failing-app'),
     });
 
-    return fastboot.visit('/').catch((e) => expect(e).to.be.an('error'));
+    return fastboot.visit('/').catch(e => expect(e).to.be.an('error'));
   });
 
-  it('can read multiple configs', function () {
+  it('can read multiple configs', function() {
     var fastboot = new FastBoot({
       distPath: fixture('app-with-multiple-config'),
     });
 
     return fastboot
       .visit('/')
-      .then((r) => r.html())
-      .then((html) => {
+      .then(r => r.html())
+      .then(html => {
         expect(html).to.match(/App Name: app-with-multiple-configs/);
         expect(html).to.match(/Other Config {"default":"bar"}/);
       });
   });
 
-  it('in app prototype mutations do not leak across visits with buildSandboxPerVisit=true', async function () {
+  it('in app prototype mutations do not leak across visits with buildSandboxPerVisit=true', async function() {
     this.timeout(3000);
 
     var fastboot = new FastBoot({
@@ -337,7 +337,7 @@ describe('FastBoot', function () {
     });
   });
 
-  it('errors can be properly attributed with buildSandboxPerVisit=true', async function () {
+  it('errors can be properly attributed with buildSandboxPerVisit=true', async function() {
     this.timeout(3000);
 
     var fastboot = new FastBoot({
@@ -365,7 +365,7 @@ describe('FastBoot', function () {
       () => {
         throw new Error('Visit should not resolve!');
       },
-      (error) => {
+      error => {
         expect(error.stack).to.contain(
           'packages/fastboot/test/fixtures/onerror-per-visit/assets/onerror-per-visit.js:166:25'
         );
@@ -375,7 +375,7 @@ describe('FastBoot', function () {
     );
   });
 
-  it('it eagerly builds sandbox when queue is empty', async function () {
+  it('it eagerly builds sandbox when queue is empty', async function() {
     this.timeout(3000);
 
     var fastboot = new FastBoot({
@@ -417,7 +417,7 @@ describe('FastBoot', function () {
     });
   });
 
-  it('it leverages sandbox from queue when present', async function () {
+  it('it leverages sandbox from queue when present', async function() {
     this.timeout(3000);
 
     var fastboot = new FastBoot({
@@ -459,15 +459,15 @@ describe('FastBoot', function () {
     });
   });
 
-  it('htmlEntrypoint works', function () {
+  it('htmlEntrypoint works', function() {
     var fastboot = new FastBoot({
       distPath: fixture('html-entrypoint'),
     });
 
     return fastboot
       .visit('/')
-      .then((r) => r.html())
-      .then((html) => {
+      .then(r => r.html())
+      .then(html => {
         expect(html).to.match(/Welcome to Ember/);
         expect(html).to.not.match(/fastboot-script/);
       });
