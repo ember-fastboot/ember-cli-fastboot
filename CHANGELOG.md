@@ -1,3 +1,17 @@
+## v3.3.1 (2022-06-15)
+
+#### :bug: Bug Fix
+* `fastboot`
+  * [#895](https://github.com/ember-fastboot/ember-cli-fastboot/pull/895) fix: removes slow leak by emptying cache for source maps ([@gabrielcsapo](https://github.com/gabrielcsapo))
+
+#### :memo: Documentation
+* [#891](https://github.com/ember-fastboot/ember-cli-fastboot/pull/891) chore/remove-outdated-readme-warnings ([@rahulk94](https://github.com/rahulk94))
+
+#### Committers: 2
+- Gabriel Csapo ([@gabrielcsapo](https://github.com/gabrielcsapo))
+- Rahul Kumar ([@rahulk94](https://github.com/rahulk94))
+
+
 ## v3.3.0 (2022-03-21)
 
 #### :rocket: Enhancement
