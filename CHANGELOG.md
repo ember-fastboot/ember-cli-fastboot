@@ -1,3 +1,12 @@
+## v3.3.2 (2022-06-21)
+
+#### :bug: Bug Fix
+* `fastboot-app-server`
+  * [#892](https://github.com/ember-fastboot/ember-cli-fastboot/pull/892) Pass the log argument to worker in fastboot-app-server ([@Aierie](https://github.com/Aierie))
+
+#### Committers: 1
+- [@Aierie](https://github.com/Aierie)
+
 ## v3.3.1 (2022-06-15)
 
 #### :bug: Bug Fix
