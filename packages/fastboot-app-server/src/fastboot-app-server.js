@@ -49,6 +49,7 @@ class FastBootAppServer {
         afterMiddleware: this.afterMiddleware,
         buildSandboxGlobals: this.buildSandboxGlobals,
         chunkedResponse: this.chunkedResponse,
+        log: this.log,
       });
 
       this.worker.start();
