@@ -16,4 +16,5 @@ Router.map(function() {
   this.route('echo-request-headers');
   this.route('return-status-code-418');
   this.route('metadata');
+  this.route('fetch');
 });
