@@ -4,6 +4,5 @@ function initialize(instance) {
 }
 
 export default {
-  name: 'fastboot:fetch', // `ember-fetch` addon registers as `fetch`
   initialize,
 };

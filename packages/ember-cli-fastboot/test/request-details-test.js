@@ -12,8 +12,14 @@ function injectMiddlewareAddon(app) {
     pkg.devDependencies['body-parser'] =
       process.env.npm_package_devDependencies_body_parser;
     pkg.dependencies = pkg.dependencies || {};
-    pkg.dependencies['fastboot'] = `file:${path.resolve(__dirname, '../../fastboot')}`
-    pkg.dependencies['fastboot-express-middleware'] = `file:${path.resolve(__dirname, '../../fastboot-express-middleware')}`
+    pkg.dependencies['fastboot'] = `file:${path.resolve(
+      __dirname,
+      '../../fastboot'
+    )}`;
+    pkg.dependencies['fastboot-express-middleware'] = `file:${path.resolve(
+      __dirname,
+      '../../fastboot-express-middleware'
+    )}`;
     pkg['ember-addon'] = {
       paths: ['lib/post-middleware'],
     };
