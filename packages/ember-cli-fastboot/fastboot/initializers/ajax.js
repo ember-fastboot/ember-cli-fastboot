@@ -1,5 +1,6 @@
 /* globals najax */
 import Ember from 'ember';
+import { gte } from 'ember-compatibility-helpers';
 
 const { get } = Ember;
 
@@ -30,7 +31,10 @@ export default {
 
   initialize: function(application) {
     application.register('ajax:node', nodeAjax, { instantiate: false });
-    application.inject('adapter', '_ajaxRequest', 'ajax:node');
-    application.inject('adapter', 'fastboot', 'service:fastboot');
+
+    if (!gte('4.0.0')) {
+      application.inject('adapter', '_ajaxRequest', 'ajax:node');
+      application.inject('adapter', 'fastboot', 'service:fastboot');
+    }
   }
 };

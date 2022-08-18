@@ -8330,6 +8330,17 @@ ember-compatibility-helpers@^1.2.1:
     fs-extra "^9.1.0"
     semver "^5.4.1"
 
+ember-compatibility-helpers@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/ember-compatibility-helpers/-/ember-compatibility-helpers-1.2.6.tgz#603579ab2fb14be567ef944da3fc2d355f779cd8"
+  integrity sha512-2UBUa5SAuPg8/kRVaiOfTwlXdeVweal1zdNPibwItrhR0IvPrXpaqwJDlEZnWKEoB+h33V0JIfiWleSG6hGkkA==
+  dependencies:
+    babel-plugin-debug-macros "^0.2.0"
+    ember-cli-version-checker "^5.1.1"
+    find-up "^5.0.0"
+    fs-extra "^9.1.0"
+    semver "^5.4.1"
+
 ember-data@~3.19.0:
   version "3.19.0"
   resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-3.19.0.tgz#f0c75f0143c0f9d9801c486c9c592240b80b5d75"

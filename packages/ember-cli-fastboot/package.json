@@ -39,6 +39,7 @@
     "ember-cli-lodash-subset": "^2.0.1",
     "ember-cli-preprocess-registry": "^3.3.0",
     "ember-cli-version-checker": "^5.1.2",
+    "ember-compatibility-helpers": "^1.2.6",
     "fastboot": "3.3.2",
     "fastboot-express-middleware": "3.3.2",
     "fastboot-transform": "^0.1.3",
