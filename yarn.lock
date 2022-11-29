@@ -17937,9 +17937,9 @@ workerpool@6.1.5, workerpool@^6.1.4:
   integrity sha512-XdKkCK0Zqc6w3iTxLckiuJ81tiD/o5rBE/m+nXpRCB+/Sq4DqkfXZ/x0jW02DG1tGsfUGXbTJyZDP+eu67haSw==
 
 workerpool@^2.3.0:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/workerpool/-/workerpool-2.3.3.tgz#49a70089bd55e890d68cc836a19419451d7c81d7"
-  integrity sha512-L1ovlYHp6UObYqElXXpbd214GgbEKDED0d3sj7pRdFXjNkb2+un/AUcCkceHizO0IVI6SOGGncrcjozruCkRgA==
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/workerpool/-/workerpool-2.3.4.tgz#661335ded59a08c01ca009e30cc96929a7b4b0aa"
+  integrity sha512-c2EWrgB9IKHi1jbf4LG9sxKgHYOY+Ej5li6siEGtFecCXWG7eQOqATPEJ0rg1KFETXROEkErc1t5XiNrLG666Q==
   dependencies:
     object-assign "4.1.1"
 
