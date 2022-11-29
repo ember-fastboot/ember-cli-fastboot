@@ -15,7 +15,6 @@ describe('FastBootLocation', function () {
 
     return app
       .create('fastboot-location', {
-        skipNpm: true,
         emberVersion: 'latest',
         emberDataVersion: 'latest',
       })
@@ -23,6 +22,8 @@ describe('FastBootLocation', function () {
         app.editPackageJSON((pkg) => {
           delete pkg.devDependencies['ember-fetch'];
           delete pkg.devDependencies['ember-welcome-page'];
+          // needed because @ember-data/store does `FastBoot.require('crypto')`
+          pkg.fastbootDependencies = ['crypto'];
         });
         return app.run('npm', 'install');
       })

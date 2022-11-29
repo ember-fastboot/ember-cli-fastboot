@@ -16,7 +16,6 @@ describe('rootUrl acceptance', function () {
 
     return app
       .create('root-url', {
-        skipNpm: true,
         emberVersion: 'latest',
         emberDataVersion: 'latest',
       })
@@ -24,6 +23,8 @@ describe('rootUrl acceptance', function () {
         app.editPackageJSON((pkg) => {
           delete pkg.devDependencies['ember-fetch'];
           delete pkg.devDependencies['ember-welcome-page'];
+          // needed because @ember-data/store does `FastBoot.require('crypto')`
+          pkg.fastbootDependencies = ['crypto'];
         });
         return app.run('npm', 'install');
       })
