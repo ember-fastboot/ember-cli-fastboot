@@ -6,7 +6,7 @@ const execa = require("execa");
 chai.use(require('chai-fs'));
 
 describe('rewriting HTML', function () {
-  this.timeout(100000);
+  this.timeout(150000);
 
   it('builds an index.html that points to the browser build', async function () {
 
