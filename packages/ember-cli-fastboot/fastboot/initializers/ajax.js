@@ -30,7 +30,5 @@ export default {
 
   initialize: function(application) {
     application.register('ajax:node', nodeAjax, { instantiate: false });
-    application.inject('adapter', '_ajaxRequest', 'ajax:node');
-    application.inject('adapter', 'fastboot', 'service:fastboot');
   }
 };
