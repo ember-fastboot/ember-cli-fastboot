@@ -18,6 +18,8 @@ function injectMiddlewareAddon(app) {
     };
     delete pkg.devDependencies['ember-fetch'];
     delete pkg.devDependencies['ember-welcome-page'];
+    // needed because @ember-data/store does `FastBoot.require('crypto')`
+    pkg.fastbootDependencies = ['crypto'];
   });
   return app.run('npm', 'install');
 }
@@ -32,7 +34,6 @@ describe('request details', function () {
 
     return app
       .create('request', {
-        skipNpm: true,
         emberVersion: 'latest',
         emberDataVersion: 'latest',
       })
