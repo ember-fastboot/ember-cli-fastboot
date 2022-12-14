@@ -189,7 +189,9 @@ function buildWhitelistedRequire(whitelist, distPath, isLegacyWhitelist) {
         }
       } else {
         throw new Error(
-          "Unable to require module '" + moduleName + "' because it was not in the whitelist."
+          "Unable to require module '" +
+            moduleName +
+            "' in Fastboot because it was not explicitly allowed in 'fastbootDependencies' in your package.json."
         );
       }
     }
@@ -197,9 +199,9 @@ function buildWhitelistedRequire(whitelist, distPath, isLegacyWhitelist) {
     throw new Error(
       "Unable to require module '" +
         moduleName +
-        "' because its package '" +
+        "' in Fastboot because its package '" +
         packageName +
-        "' was not in the whitelist."
+        "' was not explicitly allowed in 'fastbootDependencies' in your package.json."
     );
   };
 }
