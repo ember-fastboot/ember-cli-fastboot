@@ -1,3 +1,19 @@
+## v4.0.0 (2022-12-16)
+
+#### :boom: Breaking Change
+* `ember-cli-fastboot`
+  * [#904](https://github.com/ember-fastboot/ember-cli-fastboot/pull/904) Remove deprecated implicit-injections ([@mikrostew](https://github.com/mikrostew))
+  * [#902](https://github.com/ember-fastboot/ember-cli-fastboot/pull/902) Update CI and drop support for Node 12 ([@mikrostew](https://github.com/mikrostew))
+
+#### :rocket: Enhancement
+* `fastboot`
+  * [#903](https://github.com/ember-fastboot/ember-cli-fastboot/pull/903) fix: Provide a more meaningful error when whitelist entry is missing ([@runspired](https://github.com/runspired))
+
+#### Committers: 2
+- Chris Thoburn ([@runspired](https://github.com/runspired))
+- Michael Stewart ([@mikrostew](https://github.com/mikrostew))
+
+
 ## v3.3.2 (2022-06-21)
 
 #### :bug: Bug Fix

@@ -1,6 +1,6 @@
 {
   "name": "fastboot-app-server",
-  "version": "3.3.2",
+  "version": "4.0.0",
   "description": "A production-ready app server for running Ember FastBoot apps",
   "keywords": [
     "ember",
@@ -28,8 +28,8 @@
     "chalk": "^4.1.2",
     "compression": "^1.7.4",
     "express": "^4.17.2",
-    "fastboot": "3.3.2",
-    "fastboot-express-middleware": "3.3.2"
+    "fastboot": "4.0.0",
+    "fastboot-express-middleware": "4.0.0"
   },
   "devDependencies": {
     "chai": "^4.3.4",
