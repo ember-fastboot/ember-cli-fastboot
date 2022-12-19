@@ -54,10 +54,14 @@ class EmberApp {
       this.config = allConfig;
     }
 
-    this.scripts = buildScripts([
-      require.resolve('./scripts/install-source-map-support'),
-      ...config.scripts,
-    ]);
+    if (process.env.FASTBOOT_SOURCEMAPS_DISABLE) {
+      this.scripts = buildScripts([...config.scripts]);
+    } else {
+      this.scripts = buildScripts([
+        require.resolve('./scripts/install-source-map-support'),
+        ...config.scripts,
+      ]);
+    }
 
     // default to 1 if maxSandboxQueueSize is not defined so the sandbox is pre-warmed when process comes up
     const maxSandboxQueueSize = options.maxSandboxQueueSize || 1;
