@@ -60,6 +60,8 @@ FastBoot.distPath // readOnly accessor that provides the dist path for the curre
 
 ### Additional configuration
 
+> By default source maps are enabled by the source-maps-support package. Setting an environment variable `FASTBOOT_SOURCEMAPS_DISABLE=true` will bypass this package effectively disabling source maps support.
+
 `app.visit` takes a second parameter as `options` above which a map and allows to define additional optional per request
 configuration:
 
