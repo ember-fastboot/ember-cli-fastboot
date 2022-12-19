@@ -1,3 +1,13 @@
+## v4.1.0 (2022-12-19)
+
+#### :rocket: Enhancement
+* `fastboot`
+  * [#896](https://github.com/ember-fastboot/ember-cli-fastboot/pull/896) feat: adds a environment variable to opt out of source maps ([@gabrielcsapo](https://github.com/gabrielcsapo))
+
+#### Committers: 1
+- Gabriel Csapo ([@gabrielcsapo](https://github.com/gabrielcsapo))
+
+
 ## v4.0.0 (2022-12-16)
 
 #### :boom: Breaking Change

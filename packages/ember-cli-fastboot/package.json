@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-fastboot",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Server-side rendering for Ember.js apps",
   "keywords": [
     "ember-addon"
@@ -39,8 +39,8 @@
     "ember-cli-lodash-subset": "^2.0.1",
     "ember-cli-preprocess-registry": "^3.3.0",
     "ember-cli-version-checker": "^5.1.2",
-    "fastboot": "4.0.0",
-    "fastboot-express-middleware": "4.0.0",
+    "fastboot": "4.1.0",
+    "fastboot-express-middleware": "4.1.0",
     "fastboot-transform": "^0.1.3",
     "fs-extra": "^10.0.0",
     "json-stable-stringify": "^1.0.1",
