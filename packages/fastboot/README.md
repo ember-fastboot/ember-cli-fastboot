@@ -71,7 +71,7 @@ configuration:
 - `shouldRender`: boolean to indicate whether the app should do rendering or not. If set to false, it puts the app in routing-only. Defaults to true.
 - `disableShoebox`: boolean to indicate whether we should send the API data in the shoebox. If set to false, it will not send the API data used for rendering the app on server side in the index.html. Defaults to false.
 - `destroyAppInstanceInMs`: whether to destroy the instance in the given number of ms. This is a failure mechanism to not wedge the Node process
-- `buildSandboxPerVisit`: whether to create a new sandbox context per-visit (slows down each visit, but guarantees no prototype leakages can occur), or reuse the existing sandbox (faster per-request, but each request shares the same set of prototypes). Defaults to false. When using this flag, also set `maxSandboxQueue` to represent the QPS of your application so that sandboxes can be queued for next requests. When not provided, it defaults to storing only one sandbox
+- `buildSandboxPerVisit`: whether to create a new sandbox context per-visit (slows down each visit, but guarantees no prototype leakages can occur), or reuse the existing sandbox (faster per-request, but each request shares the same set of prototypes). Defaults to false. When using this flag, also set `maxSandboxQueueSize` to represent the QPS of your application so that sandboxes can be queued for next requests. When not provided, it defaults to storing only one sandbox
 
 ### Build Your App
 
