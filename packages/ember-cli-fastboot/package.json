@@ -78,7 +78,7 @@
     "ember-qunit": "^5.1.5",
     "ember-resolver": "^8.0.2",
     "ember-sinon": "^2.2.0",
-    "ember-source": "~3.26.1",
+    "ember-source": "~3.28.11",
     "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^3.2.0",
     "ember-try": "^2.0.0",
