@@ -31,13 +31,14 @@ module.exports = class FastBootInfo {
     this.deferredPromise = Promise.all([this.deferredPromise, promise]);
   }
 
-  /*
+  /**
    * Registers this FastBootInfo instance in the registry of an Ember
    * ApplicationInstance. It is configured to be injected into the FastBoot
    * service, ensuring it is available inside instance initializers.
+   *
+   * @param {import('@ember/engine/instance').default} instance
    */
   register(instance) {
     instance.register('info:-fastboot', this, { instantiate: false });
-    instance.inject('service:fastboot', '_fastbootInfo', 'info:-fastboot');
   }
 };
