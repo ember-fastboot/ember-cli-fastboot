@@ -1,32 +1,41 @@
-import { computed, get } from '@ember/object';
-import { bool, readOnly } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { getOwner } from '@ember/application'
-import NoneLocation from '@ember/routing/none-location'
+import { getOwner } from '@ember/application';
+import NoneLocation from '@ember/routing/none-location';
 
 const TEMPORARY_REDIRECT_CODE = 307;
 
-export default NoneLocation.extend({
-  implementation: 'fastboot',
-  fastboot: service(),
+export default class FastbootLocation extends NoneLocation {
+  implementation = 'fastboot';
 
-  _config: computed(function () {
-    return getOwner(this).resolveRegistration('config:environment');
-  }),
+  @service fastboot;
 
-  _fastbootHeadersEnabled: bool('_config.fastboot.fastbootHeaders'),
+  #config;
+  get _config() {
+    return (
+      this.#config ??
+      (this.#config = getOwner(this).resolveRegistration('config:environment'))
+    );
+  }
 
-  _redirectCode: computed(function () {
-    return get(this, '_config.fastboot.redirectCode') || TEMPORARY_REDIRECT_CODE;
-  }),
+  get _fastbootHeadersEnabled() {
+    return this._config.fastboot.fastbootHeaders;
+  }
 
-  _response: readOnly('fastboot.response'),
-  _request: readOnly('fastboot.request'),
+  get _redirectCode() {
+    return this._config.fastboot.redirectCode || TEMPORARY_REDIRECT_CODE;
+  }
+
+  get _response() {
+    return this.fastboot.response;
+  }
+  get _request() {
+    return this.fastboot.request;
+  }
 
   setURL(path) {
-    if (get(this, 'fastboot.isFastBoot')) {
-      let response = get(this, '_response');
-      let currentPath = get(this, 'path');
+    if (this.fastboot.isFastBoot) {
+      let response = this._response;
+      let currentPath = this.path;
       let isInitialPath = !currentPath || currentPath.length === 0;
 
       if (!isInitialPath) {
@@ -34,20 +43,20 @@ export default NoneLocation.extend({
         let isTransitioning = currentPath !== path;
 
         if (isTransitioning) {
-          let host = get(this, '_request.host');
+          let host = this._request.host;
           let redirectURL = `//${host}${path}`;
 
-          response.statusCode = this.get('_redirectCode');
+          response.statusCode = this._redirectCode;
           response.headers.set('location', redirectURL);
         }
       }
 
       // for testing and debugging
-      if (get(this, '_fastbootHeadersEnabled')) {
+      if (this._fastbootHeadersEnabled) {
         response.headers.set('x-fastboot-path', path);
       }
     }
 
-    this._super(...arguments);
+    super.setURL(...arguments);
   }
-});
+}
