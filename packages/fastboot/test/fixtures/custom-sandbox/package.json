@@ -1,0 +1,27 @@
+{
+  "dependencies": {},
+  "fastboot": {
+    "moduleWhitelist": [],
+    "schemaVersion": 1,
+    "manifest": {
+      "appFile": "assets/fastboot-trial.js",
+      "vendorFile": "assets/vendor.js",
+      "htmlFile": "index.html"
+    },
+    "appConfig": {
+      "modulePrefix": "fastboot-trial",
+      "environment": "development",
+      "rootURL": "/",
+      "locationType": "auto",
+      "EmberENV": {
+        "FEATURES": {}
+      },
+      "APP": {
+        "name": "fastboot-trial",
+        "version": "0.0.0+1b96048b",
+        "autoboot": false
+      },
+      "exportApplicationGlobal": true
+    }
+  }
+}

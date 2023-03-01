@@ -1,0 +1,64 @@
+{
+  "private": true,
+  "version": "4.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ember-fastboot/ember-cli-fastboot.git"
+  },
+  "workspaces": [
+    "packages/*",
+    "test-packages/*"
+  ],
+  "scripts": {
+    "test": "npm-run-all test:*",
+    "test:ember-cli-fastboot": "yarn workspace ember-cli-fastboot test:ember",
+    "test:fastboot": "yarn workspace fastboot test",
+    "test:fastboot-express-middleware": "yarn workspace fastboot-express-middleware test",
+    "test:fastboot-app-server": "yarn workspace fastboot-app-server test:mocha",
+    "test:integration": "yarn workspace integration-tests test",
+    "test:extra": "yarn workspace basic-app test:mocha && yarn workspace custom-fastboot-app test:mocha"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "release-it": "^14.2.2",
+    "release-it-lerna-changelog": "^3.1.0",
+    "release-it-yarn-workspaces": "^2.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md",
+        "launchEditor": true
+      },
+      "release-it-yarn-workspaces": {
+        "workspaces": [
+          "packages/*"
+        ],
+        "additionalManifests": {
+          "versionUpdates": [
+            "package.json"
+          ],
+          "dependencyUpdates": [
+            "package.json",
+            "test-packages/*/package.json"
+          ]
+        }
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    },
+    "npm": false
+  },
+  "volta": {
+    "node": "16.18.1",
+    "yarn": "1.22.19"
+  }
+}
