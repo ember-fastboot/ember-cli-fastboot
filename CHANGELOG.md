@@ -1,3 +1,20 @@
+## v4.1.1 (2023-05-05)
+
+#### :bug: Bug Fix
+* `fastboot`
+  * [#905](https://github.com/ember-fastboot/ember-cli-fastboot/pull/905) remove deprecated implicit injection ([@amiarSlimane](https://github.com/amiarSlimane))
+
+#### :memo: Documentation
+* Other
+  * [#912](https://github.com/ember-fastboot/ember-cli-fastboot/pull/912) Update readme examples to use native class syntax ([@SergeAstapov](https://github.com/SergeAstapov))
+* `fastboot`
+  * [#906](https://github.com/ember-fastboot/ember-cli-fastboot/pull/906) chore: updates correct name for variable maxSandboxQueue -> maxSandboxQueueSize ([@gabrielcsapo](https://github.com/gabrielcsapo))
+
+#### Committers: 3
+- Gabriel Csapo ([@gabrielcsapo](https://github.com/gabrielcsapo))
+- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))
+- Slimane Amiar ([@amiarSlimane](https://github.com/amiarSlimane))
+
 ## v4.1.0 (2022-12-19)
 
 #### :rocket: Enhancement
