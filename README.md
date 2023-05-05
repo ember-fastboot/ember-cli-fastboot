@@ -174,24 +174,24 @@ rendering the entire page. Note how the call should be wrapped in a `fastboot.is
 check since the method will throw an exception outside of that context:
 
 ```js
-import Ember from 'ember';
+import Component from '@glimmer/component';
 
-export default Ember.Component.extend({
-  fastboot: Ember.inject.service(),
-  model: Ember.inject.service(),
+export default class MyComponent extends Component {
+  @service fastboot;
+  @service model;
 
-  init() {
-    this._super(...arguments);
+  constructor(owner, args) {
+    super(owner, args);
 
-    let promise = this.get('store').findAll('post').then((posts) => {
-      this.set('posts', posts);
+    let promise = this.store.findAll('post').then((posts) => {
+      this.posts = posts;
     });
 
-    if (this.get('fastboot.isFastBoot')) {
-      this.get('fastboot').deferRendering(promise);
+    if (this.fastboot.isFastBoot) {
+      this.fastboot.deferRendering(promise);
     }
   }
-});
+}
 ```
 
 ### Cookies
@@ -200,14 +200,16 @@ You can access cookies for the current request via `fastboot.request`
 in the `fastboot` service.
 
 ```js
-export default Ember.Route.extend({
-  fastboot: Ember.inject.service(),
+import Route from '@ember/routing/route';
+
+export default class MyRoute extends Route {
+  @service fastboot;
 
   model() {
-    let authToken = this.get('fastboot.request.cookies.auth');
+    let authToken = this.fastboot.request.cookies.auth;
     // ...
   }
-});
+}
 ```
 
 The service's `cookies` property is an object containing the request's
@@ -225,15 +227,17 @@ functions available are
 [`getAll`](https://developer.mozilla.org/en-US/docs/Web/API/Headers/getAll).
 
 ```js
-export default Ember.Route.extend({
-  fastboot: Ember.inject.service(),
+import Route from '@ember/routing/route';
+
+export default class MyRoute extends Route {
+  @service fastboot;
 
   model() {
-    let headers = this.get('fastboot.request.headers');
+    let headers = this.fastboot.request.headers;
     let xRequestHeader = headers.get('X-Request');
     // ...
   }
-});
+}
 ```
 
 ### Host
@@ -243,14 +247,16 @@ is responding to via `fastboot.request` in the `fastboot` service. The
 `host` property will return the host (`example.com` or `localhost:3000`).
 
 ```js
-export default Ember.Route.extend({
-  fastboot: Ember.inject.service(),
+import Route from '@ember/routing/route';
+
+export default class MyRoute extends Route {
+  @service fastboot;
 
   model() {
-    let host = this.get('fastboot.request.host');
+    let host = this.fastboot.request.host;
     // ...
   }
-});
+}
 ```
 
 To retrieve the host of the current request, you must specify a list of
@@ -295,14 +301,16 @@ You can access query parameters for the current request via `fastboot.request`
 in the `fastboot` service.
 
 ```js
-export default Ember.Route.extend({
-  fastboot: Ember.inject.service(),
+import Route from '@ember/routing/route';
+
+export default class MyRoute extends Route {
+  @service fastboot;
 
   model() {
-    let authToken = this.get('fastboot.request.queryParams.auth');
+    let authToken = this.fastboot.request.queryParams.auth;
     // ...
   }
-});
+}
 ```
 
 The service's `queryParams` property is an object containing the request's
@@ -315,14 +323,16 @@ current FastBoot server is responding to via `fastboot.request` in the
 `fastboot` service.
 
 ```js
-export default Ember.Route.extend({
-  fastboot: Ember.inject.service(),
+import Route from '@ember/routing/route';
+
+export default class MyRoute extends Route {
+  @service fastboot;
 
   model() {
-    let path = this.get('fastboot.request.path');
+    let path = this.fastboot.request.path;
     // ...
   }
-});
+}
 ```
 
 ### Protocol
@@ -332,14 +342,16 @@ current FastBoot server is responding to via `fastboot.request` in the
 `fastboot` service.
 
 ```js
-export default Ember.Route.extend({
-  fastboot: Ember.inject.service(),
+import Route from '@ember/routing/route';
+
+export default class MyRoute extends Route {
+  @service fastboot;
 
   model() {
-    let protocol = this.get('fastboot.request.protocol');
+    let protocol = this.fastboot.request.protocol;
     // ...
   }
-});
+}
 ```
 
 ### The Shoebox
@@ -379,14 +391,16 @@ application, it will grab the `shoeboxStore` from the shoebox and retrieve
 the record necessary for rendering this route.
 
 ```js
-export default Ember.Route.extend({
-  fastboot: Ember.inject.service(),
+import Route from '@ember/routing/route';
+
+export default class MyRoute extends Route {
+  @service fastboot;
 
   model(params) {
-    let shoebox = this.get('fastboot.shoebox');
+    let shoebox = this.fastboot.shoebox;
     let shoeboxStore = shoebox.retrieve('my-store');
 
-    if (this.get('fastboot.isFastBoot')) {
+    if (this.fastboot.isFastBoot) {
       return this.store.findRecord('post', params.post_id).then(post => {
         if (!shoeboxStore) {
           shoeboxStore = {};
@@ -398,7 +412,7 @@ export default Ember.Route.extend({
       return shoeboxStore && shoeboxStore[params.post_id];
     }
   }
-});
+}
 ```
 
 ### Think out of the Shoebox
@@ -460,13 +474,15 @@ After installing the addon and applying the mixin, your routes can look like thi
 ```javascript
 import Route from '@ember/routing/route';
 
-export default  Route.extend({
+export default class MyRoute extends Route {
+  @service fastboot;
+
   model() {
     // first call in a server makes actual ajax request.
     // second call in a browser serves cached response
     return this.store.findAll('posts')
   }
-})
+}
 ```
 And they still take advantage of caching in the `shoebox`. No more redundant AJAX for already acquired data. Installation details are available in the addon [documentation](https://embermap.github.io/ember-data-storefront/docs).
 
