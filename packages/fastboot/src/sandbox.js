@@ -41,10 +41,10 @@ module.exports = class Sandbox {
   buildWrappedConsole() {
     let wrappedConsole = Object.create(console);
 
-    wrappedConsole.error = function(...args) {
+    wrappedConsole.error = function (...args) {
       console.error.apply(
         console,
-        args.map(function(a) {
+        args.map(function (a) {
           return typeof a === 'string' ? chalk.red(a) : a;
         })
       );
