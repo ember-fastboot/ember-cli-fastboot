@@ -145,7 +145,7 @@ jobs:
   try-scenarios:
     name: "ember-try for ember-cli-fastboot: ${{ matrix.ember-try-scenario }}"
     runs-on: ubuntu-latest
-    timeout-minutes: 7
+    timeout-minutes: 10
 
     strategy:
       fail-fast: false
