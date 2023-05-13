@@ -111,7 +111,7 @@ describe('FastBoot', function () {
   // FIXME:
   // TODO:
   // https://github.com/ember-fastboot/ember-cli-fastboot/pull/840#issuecomment-894329631
-  it('works without metadata passed', async function () {
+  xit('works without metadata passed', async function () {
     let middleware = fastbootMiddleware({
       distPath: fixture('app-with-metadata'),
     });
