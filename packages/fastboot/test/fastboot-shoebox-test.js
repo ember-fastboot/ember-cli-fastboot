@@ -4,16 +4,16 @@ const expect = require('chai').expect;
 const fixture = require('./helpers/fixture-path');
 const FastBoot = require('./../src/index');
 
-describe('FastBootShoebox', function () {
-  it('can render the escaped shoebox HTML', function () {
+describe('FastBootShoebox', function() {
+  it('can render the escaped shoebox HTML', function() {
     var fastboot = new FastBoot({
       distPath: fixture('shoebox'),
     });
 
     return fastboot
       .visit('/')
-      .then((r) => r.html())
-      .then((html) => {
+      .then(r => r.html())
+      .then(html => {
         expect(html).to.match(
           /<script type="fastboot\/shoebox" id="shoebox-key1">{"foo":"bar"}<\/script>/
         );
@@ -32,7 +32,7 @@ describe('FastBootShoebox', function () {
       });
   });
 
-  it('can render the escaped shoebox HTML with shouldRender set to false', function () {
+  it('can render the escaped shoebox HTML with shouldRender set to false', function() {
     var fastboot = new FastBoot({
       distPath: fixture('shoebox'),
     });
@@ -41,8 +41,8 @@ describe('FastBootShoebox', function () {
       .visit('/', {
         shouldRender: false,
       })
-      .then((r) => r.html())
-      .then((html) => {
+      .then(r => r.html())
+      .then(html => {
         expect(html).to.match(
           /<script type="fastboot\/shoebox" id="shoebox-key1">{"foo":"bar"}<\/script>/
         );
@@ -61,7 +61,7 @@ describe('FastBootShoebox', function () {
       });
   });
 
-  it('cannot render the escaped shoebox HTML when disableShoebox is set to true', function () {
+  it('cannot render the escaped shoebox HTML when disableShoebox is set to true', function() {
     var fastboot = new FastBoot({
       distPath: fixture('shoebox'),
     });
@@ -70,8 +70,8 @@ describe('FastBootShoebox', function () {
       .visit('/', {
         disableShoebox: true,
       })
-      .then((r) => r.html())
-      .then((html) => {
+      .then(r => r.html())
+      .then(html => {
         expect(html).to.not.match(
           /<script type="fastboot\/shoebox" id="shoebox-key1">{"foo":"bar"}<\/script>/
         );

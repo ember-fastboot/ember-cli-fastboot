@@ -127,7 +127,7 @@ function loadManifest(distPath, fastbootConfig, schemaVersion) {
     }
   }
 
-  let scripts = manifest.vendorFiles.concat(manifest.appFiles).map(function (file) {
+  let scripts = manifest.vendorFiles.concat(manifest.appFiles).map(function(file) {
     return path.join(distPath, file);
   });
   let html = fs.readFileSync(path.join(distPath, manifest.htmlFile), 'utf8');
@@ -149,7 +149,7 @@ function loadManifest(distPath, fastbootConfig, schemaVersion) {
  * @param {boolean} isLegacyWhiteList flag to enable legacy behavior
  */
 function buildWhitelistedRequire(whitelist, distPath, isLegacyWhitelist) {
-  whitelist.forEach(function (whitelistedModule) {
+  whitelist.forEach(function(whitelistedModule) {
     debug('module whitelisted; module=%s', whitelistedModule);
 
     if (isLegacyWhitelist) {
@@ -161,7 +161,7 @@ function buildWhitelistedRequire(whitelist, distPath, isLegacyWhitelist) {
     }
   });
 
-  return function (moduleName) {
+  return function(moduleName) {
     let packageName = getPackageName(moduleName);
     let isWhitelisted = whitelist.indexOf(packageName) > -1;
 

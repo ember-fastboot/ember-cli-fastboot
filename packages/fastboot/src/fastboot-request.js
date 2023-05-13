@@ -23,7 +23,7 @@ class FastBootRequest {
     }
 
     var host = this.headers.get('host');
-    var matchFound = this.hostWhitelist.some(function (entry) {
+    var matchFound = this.hostWhitelist.some(function(entry) {
       if (entry[0] === '/' && entry.slice(-1) === '/') {
         var regexp = new RegExp(entry.slice(1, -1));
         return regexp.test(host);

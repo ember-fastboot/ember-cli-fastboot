@@ -35,7 +35,7 @@ class TestHTTPServer {
       });
     }
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       let port = options.port || 3000;
       let host = options.host || 'localhost';
 

@@ -8,7 +8,7 @@ const { JSDOM } = require('jsdom');
 
 tmp.setGracefulCleanup();
 
-Assertion.addChainableMethod('equalHTML', function (expectedHTML) {
+Assertion.addChainableMethod('equalHTML', function(expectedHTML) {
   function normalizeHTML(html) {
     return new JSDOM(html).serialize().replace(/[ \t]*\n[ \t]*/g, '\n');
   }
@@ -23,8 +23,8 @@ Assertion.addChainableMethod('equalHTML', function (expectedHTML) {
   );
 });
 
-describe('htmlEntrypoint', function () {
-  it('correctly works with no scripts', function () {
+describe('htmlEntrypoint', function() {
+  it('correctly works with no scripts', function() {
     let tmpobj = tmp.dirSync();
     let tmpLocation = tmpobj.name;
 
@@ -44,7 +44,7 @@ describe('htmlEntrypoint', function () {
     expect(scripts).to.deep.equal([]);
   });
 
-  it('correctly works with scripts', function () {
+  it('correctly works with scripts', function() {
     let tmpobj = tmp.dirSync();
     let tmpLocation = tmpobj.name;
 
@@ -71,7 +71,7 @@ describe('htmlEntrypoint', function () {
     ]);
   });
 
-  it('consumes and removes fastboot-scripts', function () {
+  it('consumes and removes fastboot-scripts', function() {
     let tmpobj = tmp.dirSync();
     let tmpLocation = tmpobj.name;
 
@@ -101,7 +101,7 @@ describe('htmlEntrypoint', function () {
     expect(scripts).to.deep.equal([`${tmpLocation}/foo.js`, `${tmpLocation}/bar.js`]);
   });
 
-  it('trims whitespace when removing fastboot-scripts', function () {
+  it('trims whitespace when removing fastboot-scripts', function() {
     let tmpobj = tmp.dirSync();
     let tmpLocation = tmpobj.name;
 
@@ -131,7 +131,7 @@ describe('htmlEntrypoint', function () {
     `);
   });
 
-  it('can ignore scripts with data-fastboot-ignore', function () {
+  it('can ignore scripts with data-fastboot-ignore', function() {
     let tmpobj = tmp.dirSync();
     let tmpLocation = tmpobj.name;
 
@@ -161,7 +161,7 @@ describe('htmlEntrypoint', function () {
     expect(scripts).to.deep.equal([`${tmpLocation}/foo.js`]);
   });
 
-  it('can use fastboot-specific src', function () {
+  it('can use fastboot-specific src', function() {
     let tmpobj = tmp.dirSync();
     let tmpLocation = tmpobj.name;
 
@@ -191,7 +191,7 @@ describe('htmlEntrypoint', function () {
     expect(scripts).to.deep.equal([`${tmpLocation}/foo.js`, `${tmpLocation}/bar.js`]);
   });
 
-  it('gracefully ignores absolute URLs', function () {
+  it('gracefully ignores absolute URLs', function() {
     let tmpobj = tmp.dirSync();
     let tmpLocation = tmpobj.name;
 
@@ -219,7 +219,7 @@ describe('htmlEntrypoint', function () {
     expect(scripts).to.deep.equal([]);
   });
 
-  it('extracts configs from meta', function () {
+  it('extracts configs from meta', function() {
     let tmpobj = tmp.dirSync();
     let tmpLocation = tmpobj.name;
     let configObj = {
@@ -263,7 +263,7 @@ describe('htmlEntrypoint', function () {
     expect(config).to.deep.equal(configObj);
   });
 
-  it('support config fallback name "config/environement" when there is no fastboot-environement in HTML', function () {
+  it('support config fallback name "config/environement" when there is no fastboot-environement in HTML', function() {
     let tmpobj = tmp.dirSync();
     let tmpLocation = tmpobj.name;
     let configObj = {
@@ -308,7 +308,7 @@ describe('htmlEntrypoint', function () {
     expect(config).to.deep.equal(configObj);
   });
 
-  it('understands customized rootURL', function () {
+  it('understands customized rootURL', function() {
     let tmpobj = tmp.dirSync();
     let tmpLocation = tmpobj.name;
     let config = {

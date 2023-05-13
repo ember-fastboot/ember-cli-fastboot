@@ -55,7 +55,7 @@ class FastBoot {
       console.warn(
         '[DEPRECATION] Instantiating `fastboot` with a `sandboxGlobals` option has been deprecated. Please migrate to specifying `buildSandboxGlobals` instead.'
       );
-      buildSandboxGlobals = (globals) => Object.assign({}, globals, options.sandboxGlobals);
+      buildSandboxGlobals = globals => Object.assign({}, globals, options.sandboxGlobals);
     }
 
     this.buildSandboxGlobals = buildSandboxGlobals;

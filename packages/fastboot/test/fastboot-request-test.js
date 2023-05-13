@@ -1,8 +1,8 @@
 var expect = require('chai').expect;
 var FastBootRequest = require('./../src/fastboot-request.js');
 
-describe('FastBootRequest', function () {
-  it('throws an exception if no hostWhitelist is provided', function () {
+describe('FastBootRequest', function() {
+  it('throws an exception if no hostWhitelist is provided', function() {
     var request = {
       protocol: 'http',
       headers: {
@@ -11,13 +11,13 @@ describe('FastBootRequest', function () {
     };
     var fastbootRequest = new FastBootRequest(request);
 
-    var fn = function () {
+    var fn = function() {
       fastbootRequest.host();
     };
     expect(fn).to.throw(/You must provide a hostWhitelist to retrieve the host/);
   });
 
-  it('throws an exception if the host header does not match an entry in the hostWhitelist', function () {
+  it('throws an exception if the host header does not match an entry in the hostWhitelist', function() {
     var request = {
       protocol: 'http',
       headers: {
@@ -28,7 +28,7 @@ describe('FastBootRequest', function () {
     var hostWhitelist = ['example.com', 'localhost:4200'];
     var fastbootRequest = new FastBootRequest(request, hostWhitelist);
 
-    var fn = function () {
+    var fn = function() {
       fastbootRequest.host();
     };
     expect(fn).to.throw(
@@ -36,7 +36,7 @@ describe('FastBootRequest', function () {
     );
   });
 
-  it('returns the host if it is in the hostWhitelist', function () {
+  it('returns the host if it is in the hostWhitelist', function() {
     var request = {
       protocol: 'http',
       headers: {
@@ -51,7 +51,7 @@ describe('FastBootRequest', function () {
     expect(host).to.equal('localhost:4200');
   });
 
-  it('returns the host if it matches a regex in the hostWhitelist', function () {
+  it('returns the host if it matches a regex in the hostWhitelist', function() {
     var request = {
       protocol: 'http',
       headers: {
@@ -66,7 +66,7 @@ describe('FastBootRequest', function () {
     expect(host).to.equal('localhost:4200');
   });
 
-  it('captures the query params from the request', function () {
+  it('captures the query params from the request', function() {
     var request = {
       protocol: 'http',
       query: {
@@ -81,7 +81,7 @@ describe('FastBootRequest', function () {
     expect(fastbootRequest.queryParams.foo).to.equal('bar');
   });
 
-  it('captures the path from the request', function () {
+  it('captures the path from the request', function() {
     var request = {
       protocol: 'http',
       url: '/foo',
@@ -94,7 +94,7 @@ describe('FastBootRequest', function () {
     expect(fastbootRequest.path).to.equal('/foo');
   });
 
-  it('captures the headers from the request', function () {
+  it('captures the headers from the request', function() {
     var request = {
       protocol: 'http',
       url: '/foo',
@@ -108,7 +108,7 @@ describe('FastBootRequest', function () {
     expect(fastbootRequest.headers.get('Host')).to.equal('localhost:4200');
   });
 
-  it('captures the protocol from the request', function () {
+  it('captures the protocol from the request', function() {
     var request = {
       protocol: 'http',
       url: '/foo',
@@ -122,7 +122,7 @@ describe('FastBootRequest', function () {
     expect(fastbootRequest.protocol).to.equal('http:');
   });
 
-  it('captures the cookies from the request', function () {
+  it('captures the cookies from the request', function() {
     var request = {
       protocol: 'http',
       url: '/foo',
@@ -136,7 +136,7 @@ describe('FastBootRequest', function () {
     expect(fastbootRequest.cookies.test).to.equal('bar');
   });
 
-  it('captures the method from the request', function () {
+  it('captures the method from the request', function() {
     var request = {
       protocol: 'http',
       url: '/foo',
@@ -151,7 +151,7 @@ describe('FastBootRequest', function () {
     expect(fastbootRequest.method).to.equal('GET');
   });
 
-  it('captures the body from the request', function () {
+  it('captures the body from the request', function() {
     var request = {
       protocol: 'http',
       url: '/foo',

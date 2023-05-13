@@ -3,18 +3,18 @@
 const expect = require('chai').expect;
 const Queue = require('../src/utils/queue');
 
-describe('Queue', function () {
+describe('Queue', function() {
   const builderFn = () => {
     return 'Foo';
   };
 
-  it('creates a queue when maxSize is not provided', function () {
+  it('creates a queue when maxSize is not provided', function() {
     const queue = new Queue(builderFn);
 
     expect(queue.maxSize).to.equals(1);
   });
 
-  it('creates a queue and can enqueue items', function () {
+  it('creates a queue and can enqueue items', function() {
     const queue = new Queue(builderFn, 3);
 
     queue.enqueue();
@@ -24,7 +24,7 @@ describe('Queue', function () {
     expect(queue.isEmpty()).to.be.false;
   });
 
-  it('does not add items when queue is full', function () {
+  it('does not add items when queue is full', function() {
     const queue = new Queue(builderFn, 3);
 
     queue.enqueue();
@@ -36,7 +36,7 @@ describe('Queue', function () {
     expect(queue.size()).to.equals(3);
   });
 
-  it('can dequeue if item is in queue', function () {
+  it('can dequeue if item is in queue', function() {
     const queue = new Queue(builderFn, 3);
 
     queue.enqueue();
@@ -46,19 +46,19 @@ describe('Queue', function () {
     expect(queue.dequeue()).to.deep.equals({ item: 'Foo', isItemPreBuilt: true });
   });
 
-  it('builds item on demand when there is no item to dequeue', function () {
+  it('builds item on demand when there is no item to dequeue', function() {
     const queue = new Queue(builderFn, 3);
 
     expect(queue.dequeue()).to.deep.equals({ item: 'Foo', isItemPreBuilt: false });
   });
 
-  it('isEmpty returns true when queue is empty', function () {
+  it('isEmpty returns true when queue is empty', function() {
     const queue = new Queue(builderFn, 3);
 
     expect(queue.isEmpty()).to.be.true;
   });
 
-  it('isEmpty returns false when queue has items', function () {
+  it('isEmpty returns false when queue has items', function() {
     const queue = new Queue(builderFn, 3);
 
     queue.enqueue();
@@ -67,7 +67,7 @@ describe('Queue', function () {
     expect(queue.isEmpty()).to.be.false;
   });
 
-  it('isFull returns true when queue has reached limit', function () {
+  it('isFull returns true when queue has reached limit', function() {
     const queue = new Queue(builderFn, 3);
 
     queue.enqueue();
@@ -77,7 +77,7 @@ describe('Queue', function () {
     expect(queue.isFull()).to.be.true;
   });
 
-  it('isFull returns false when queue has not reached limit', function () {
+  it('isFull returns false when queue has not reached limit', function() {
     const queue = new Queue(builderFn, 3);
 
     queue.enqueue();

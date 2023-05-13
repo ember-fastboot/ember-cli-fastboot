@@ -3,8 +3,8 @@
 var expect = require('chai').expect;
 var FastBootHeaders = require('./../src/fastboot-headers.js');
 
-describe('FastBootHeaders', function () {
-  it('lower normalizes the headers to lowercase', function () {
+describe('FastBootHeaders', function() {
+  it('lower normalizes the headers to lowercase', function() {
     var headers = {
       'X-Test-Header': 'value1, value2',
     };
@@ -13,7 +13,7 @@ describe('FastBootHeaders', function () {
     expect(headers.getAll('x-test-header')).to.deep.equal(['value1, value2']);
   });
 
-  it('returns an array from getAll when header value is string', function () {
+  it('returns an array from getAll when header value is string', function() {
     var headers = {
       'x-test-header': 'value1, value2',
     };
@@ -22,7 +22,7 @@ describe('FastBootHeaders', function () {
     expect(headers.getAll('x-test-header')).to.deep.equal(['value1, value2']);
   });
 
-  it('returns an array of header values from getAll, regardless of header name casing', function () {
+  it('returns an array of header values from getAll, regardless of header name casing', function() {
     var headers = {
       'x-test-header': ['value1', 'value2'],
     };
@@ -32,7 +32,7 @@ describe('FastBootHeaders', function () {
     expect(headers.getAll('x-test-header')).to.deep.equal(['value1', 'value2']);
   });
 
-  it('returns an emtpy array when a header is not present', function () {
+  it('returns an emtpy array when a header is not present', function() {
     var headers = {
       'x-test-header': ['value1', 'value2'],
     };
@@ -42,7 +42,7 @@ describe('FastBootHeaders', function () {
     expect(headers.getAll('host')).to.deep.equal([]);
   });
 
-  it('returns the first value when using get, regardless of case', function () {
+  it('returns the first value when using get, regardless of case', function() {
     var headers = {
       'x-test-header': ['value1', 'value2'],
     };
@@ -52,7 +52,7 @@ describe('FastBootHeaders', function () {
     expect(headers.get('x-test-header')).to.equal('value1');
   });
 
-  it('returns null when using get when a header is not present', function () {
+  it('returns null when using get when a header is not present', function() {
     var headers = {
       'x-test-header': ['value1', 'value2'],
     };
@@ -62,7 +62,7 @@ describe('FastBootHeaders', function () {
     expect(headers.get('host')).to.be.null;
   });
 
-  it('returns whether or not a header is present via has, regardless of casing', function () {
+  it('returns whether or not a header is present via has, regardless of casing', function() {
     var headers = {
       'x-test-header': ['value1', 'value2'],
     };
@@ -74,7 +74,7 @@ describe('FastBootHeaders', function () {
     expect(headers.has('host')).to.be.false;
   });
 
-  it('appends entries onto a header, regardless of casing', function () {
+  it('appends entries onto a header, regardless of casing', function() {
     var headers = new FastBootHeaders();
 
     expect(headers.has('x-foo')).to.be.false;
@@ -87,7 +87,7 @@ describe('FastBootHeaders', function () {
     expect(headers.getAll('x-foo')).to.deep.equal(['bar', 'baz']);
   });
 
-  it('deletes entries onto a header, regardless of casing', function () {
+  it('deletes entries onto a header, regardless of casing', function() {
     var headers = new FastBootHeaders();
 
     headers.append('X-Foo', 'bar');
@@ -97,7 +97,7 @@ describe('FastBootHeaders', function () {
     expect(headers.has('x-foo')).to.be.false;
   });
 
-  it('returns an iterator for the header/value pairs when calling entries', function () {
+  it('returns an iterator for the header/value pairs when calling entries', function() {
     var headers = new FastBootHeaders();
 
     headers.append('X-Foo', 'foo');
@@ -111,7 +111,7 @@ describe('FastBootHeaders', function () {
     expect(entriesIterator.next()).to.deep.equal({ value: undefined, done: true });
   });
 
-  it('returns an iterator for keys containing all the keys', function () {
+  it('returns an iterator for keys containing all the keys', function() {
     var headers = new FastBootHeaders();
 
     headers.append('X-Foo', 'foo');
@@ -125,7 +125,7 @@ describe('FastBootHeaders', function () {
     expect(entriesIterator.next()).to.deep.equal({ value: undefined, done: true });
   });
 
-  it('sets a header, overwriting existing values, regardless of casing', function () {
+  it('sets a header, overwriting existing values, regardless of casing', function() {
     var headers = new FastBootHeaders();
 
     expect(headers.getAll('x-foo')).to.deep.equal([]);
@@ -141,7 +141,7 @@ describe('FastBootHeaders', function () {
     expect(headers.getAll('x-bar')).to.deep.equal(['baz']);
   });
 
-  it('returns an iterator for values containing all the values', function () {
+  it('returns an iterator for values containing all the values', function() {
     var headers = new FastBootHeaders();
 
     headers.append('X-Foo', 'foo');
@@ -155,7 +155,7 @@ describe('FastBootHeaders', function () {
     expect(entriesIterator.next()).to.deep.equal({ value: undefined, done: true });
   });
 
-  it('when mistakenly used `Ember.get` with an unknown property, it attempts to get the header with that name and warns the user to use `headers.get` instead', function () {
+  it('when mistakenly used `Ember.get` with an unknown property, it attempts to get the header with that name and warns the user to use `headers.get` instead', function() {
     var headers = {
       'x-test-header': ['value1', 'value2'],
     };

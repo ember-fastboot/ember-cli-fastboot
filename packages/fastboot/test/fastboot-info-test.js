@@ -4,7 +4,7 @@ var FastBootResponse = require('./../src/fastboot-response.js');
 var FastBootRequest = require('./../src/fastboot-request.js');
 
 function delayFor(ms) {
-  let promise = new Promise((resolve) => {
+  let promise = new Promise(resolve => {
     setTimeout(() => {
       resolve();
     }, ms);
@@ -13,7 +13,7 @@ function delayFor(ms) {
   return promise;
 }
 
-describe('FastBootInfo', function () {
+describe('FastBootInfo', function() {
   var response;
   var request;
   var fastbootInfo;
@@ -22,13 +22,13 @@ describe('FastBootInfo', function () {
     baz: 'apple',
   };
 
-  beforeEach(function () {
+  beforeEach(function() {
     response = {};
     request = {
       cookie: '',
       protocol: 'http',
       headers: {},
-      get: function () {
+      get: function() {
         return this.cookie;
       },
     };
@@ -36,19 +36,19 @@ describe('FastBootInfo', function () {
     fastbootInfo = new FastBootInfo(request, response, { metadata });
   });
 
-  it('has a FastBootRequest', function () {
+  it('has a FastBootRequest', function() {
     expect(fastbootInfo.request).to.be.an.instanceOf(FastBootRequest);
   });
 
-  it('has a FastBootResponse', function () {
+  it('has a FastBootResponse', function() {
     expect(fastbootInfo.response).to.be.an.instanceOf(FastBootResponse);
   });
 
-  it('has metadata', function () {
+  it('has metadata', function() {
     expect(fastbootInfo.metadata).to.deep.equal(metadata);
   });
 
-  it('can use deferRendering', async function () {
+  it('can use deferRendering', async function() {
     let steps = [];
 
     steps.push('deferRendering called');
