@@ -24,6 +24,9 @@
     "release-it-lerna-changelog": "^3.1.0",
     "release-it-yarn-workspaces": "^2.0.0"
   },
+  "resolutions": {
+    "fastboot": "4.1.1"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
