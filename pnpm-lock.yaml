@@ -521,8 +521,8 @@ importers:
         specifier: ~4.1.0
         version: 4.1.0
       ember-cli-app-version:
-        specifier: ^3.2.0
-        version: 3.2.0(@babel/core@7.21.8)
+        specifier: ^6.0.0
+        version: 6.0.1(ember-source@3.28.12)
       ember-cli-babel:
         specifier: ^7.20.5
         version: 7.26.6
@@ -656,8 +656,8 @@ importers:
         specifier: ~4.1.0
         version: 4.1.0
       ember-cli-app-version:
-        specifier: ^3.2.0
-        version: 3.2.0(@babel/core@7.21.8)
+        specifier: ^6.0.0
+        version: 6.0.1(ember-source@3.28.12)
       ember-cli-babel:
         specifier: ^7.20.5
         version: 7.26.6
@@ -755,8 +755,8 @@ importers:
         specifier: ~4.1.0
         version: 4.1.0
       ember-cli-app-version:
-        specifier: ^3.2.0
-        version: 3.2.0(@babel/core@7.21.8)
+        specifier: ^6.0.0
+        version: 6.0.1(ember-source@3.28.12)
       ember-cli-babel:
         specifier: ^7.20.5
         version: 7.26.6
@@ -844,8 +844,8 @@ importers:
         specifier: ~4.1.0
         version: 4.1.0
       ember-cli-app-version:
-        specifier: ^3.2.0
-        version: 3.2.0(@babel/core@7.21.8)
+        specifier: ^6.0.0
+        version: 6.0.1(ember-source@3.28.12)
       ember-cli-babel:
         specifier: ^7.20.5
         version: 7.26.6
@@ -1053,8 +1053,8 @@ importers:
         specifier: ~4.1.0
         version: 4.1.0
       ember-cli-app-version:
-        specifier: ^3.2.0
-        version: 3.2.0(@babel/core@7.21.8)
+        specifier: ^6.0.0
+        version: 6.0.1(ember-source@3.28.12)
       ember-cli-babel:
         specifier: ^7.20.5
         version: 7.26.6
@@ -7841,14 +7841,16 @@ packages:
       - supports-color
     dev: true
 
-  /ember-cli-app-version@3.2.0(@babel/core@7.21.8):
-    resolution: {integrity: sha512-fHWOJElSw8JL03FNCHrT0RdWhGpWEQ4VQ10unEwwhVZ+OANNcOLz8O2dA3D5iuB4bb0fMLwjEwYZGM62+TBs1Q==}
-    engines: {node: ^4.5 || 6.* || >= 7.*}
+  /ember-cli-app-version@6.0.1(ember-source@3.28.12):
+    resolution: {integrity: sha512-XA1FwkWA5QytmWF0jcJqEr3jcZoiCl9Fb33TZgOVfClL7Voxe+/RwzISEprBRQgbf7j8z1xf8/RJCKfclUy3rQ==}
+    engines: {node: 14.* || 16.* || >= 18}
+    peerDependencies:
+      ember-source: ^3.28.0 || >= 4.0.0
     dependencies:
-      ember-cli-babel: 6.18.0(@babel/core@7.21.8)
-      git-repo-version: 1.0.2
+      ember-cli-babel: 7.26.11
+      ember-source: 3.28.12(@babel/core@7.21.8)
+      git-repo-info: 2.1.1
     transitivePeerDependencies:
-      - '@babel/core'
       - supports-color
     dev: true
 
@@ -10834,20 +10836,9 @@ packages:
     resolution: {integrity: sha512-Y7wLWcrLUXwk2noSka166byGCvhMtDRpgHdzCno1UQv/n/Hegp++a2xBWJL1lJarnKD3SWaljD+0z1ztqxuKyQ==}
     dev: true
 
-  /git-repo-info@1.4.1:
-    resolution: {integrity: sha512-oqzBH6cNvE8Cq3p61ps4m0POZrVMKlARntc2BxLnuqTK+HeWpKfUMJQ7H1CvescHRINj+0a7TKA+Pp/bOq5F1Q==}
-    dev: true
-
   /git-repo-info@2.1.1:
     resolution: {integrity: sha512-8aCohiDo4jwjOwma4FmYFd3i97urZulL8XL24nIPxuE+GZnfsAyy/g2Shqx6OjUiFKUXZM+Yy+KHnOmmA3FVcg==}
     engines: {node: '>= 4.0'}
-    dev: true
-
-  /git-repo-version@1.0.2:
-    resolution: {integrity: sha512-OPtwtHx9E8/rTMcWT+BU6GNj6Kq/O40bHJZaZAGy+pN2RXGmeKcfr0ix4M+SQuFY8vl5L/wfPSGOAtvUT/e3Qg==}
-    engines: {node: ^ 4.5 || 6.* || >= 7.*}
-    dependencies:
-      git-repo-info: 1.4.1
     dev: true
 
   /git-up@4.0.5:
