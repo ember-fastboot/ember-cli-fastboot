@@ -13,7 +13,7 @@ function fastbootExpressMiddleware(distPath, options) {
 
   opts = opts || {};
 
-  let log = opts.log !== false ? _log : function() {};
+  let log = opts.log !== false ? _log : function () {};
 
   let fastboot = opts.fastboot;
 
@@ -25,7 +25,7 @@ function fastbootExpressMiddleware(distPath, options) {
     });
   }
 
-  return async function(req, res, next) {
+  return async function (req, res, next) {
     let path = req.url;
 
     try {
@@ -53,7 +53,7 @@ function fastbootExpressMiddleware(distPath, options) {
       } else if (result.error) {
         res.send(body[0]);
       } else {
-        body.forEach(chunk => res.write(chunk));
+        body.forEach((chunk) => res.write(chunk));
         res.end();
       }
     } catch (error) {

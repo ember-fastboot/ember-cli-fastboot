@@ -6,27 +6,27 @@ const fastbootMiddleware = require('./../src/index');
 const fixture = require('./helpers/fixture-path');
 const TestHTTPServer = require('./helpers/test-http-server');
 
-describe('FastBoot', function() {
+describe('FastBoot', function () {
   let server;
 
   this.timeout(10000);
 
-  afterEach(function() {
+  afterEach(function () {
     if (server) {
       server.stop();
       server = null;
     }
   });
 
-  it('throws an exception if no distPath is provided', function() {
-    let fn = function() {
+  it('throws an exception if no distPath is provided', function () {
+    let fn = function () {
       fastbootMiddleware();
     };
 
     expect(fn).to.throw(/You must instantiate FastBoot with a distPath option/);
   });
 
-  it('can provide distPath as the first argument', async function() {
+  it('can provide distPath as the first argument', async function () {
     let middleware = fastbootMiddleware(fixture('basic-app'));
     server = new TestHTTPServer(middleware);
     await server.start();
@@ -35,7 +35,7 @@ describe('FastBoot', function() {
     expect(html).to.match(/Welcome to Ember/);
   });
 
-  it('can provide distPath as an option', async function() {
+  it('can provide distPath as an option', async function () {
     let middleware = fastbootMiddleware({
       distPath: fixture('basic-app'),
     });
@@ -46,7 +46,7 @@ describe('FastBoot', function() {
     expect(html).to.match(/Welcome to Ember/);
   });
 
-  it('can be provided with a custom FastBoot instance', async function() {
+  it('can be provided with a custom FastBoot instance', async function () {
     let fastboot = new FastBoot({
       distPath: fixture('basic-app'),
     });
@@ -62,7 +62,7 @@ describe('FastBoot', function() {
     expect(html).to.match(/Welcome to Ember/);
   });
 
-  it('can reload the FastBoot instance', async function() {
+  it('can reload the FastBoot instance', async function () {
     let fastboot = new FastBoot({
       distPath: fixture('basic-app'),
     });
@@ -85,7 +85,7 @@ describe('FastBoot', function() {
     expect(html).to.match(/Goodbye from Ember/);
   });
 
-  it('it appends multivalue headers', async function() {
+  it('it appends multivalue headers', async function () {
     let middleware = fastbootMiddleware(fixture('multivalue-headers'));
     server = new TestHTTPServer(middleware);
     await server.start();
@@ -94,7 +94,7 @@ describe('FastBoot', function() {
     expect(headers['x-fastboot']).to.eq('a, b, c');
   });
 
-  it('can pass metadata info to the app', async function() {
+  it('can pass metadata info to the app', async function () {
     let middleware = fastbootMiddleware({
       distPath: fixture('app-with-metadata'),
       visitOptions: {
@@ -111,7 +111,7 @@ describe('FastBoot', function() {
   // FIXME:
   // TODO:
   // https://github.com/ember-fastboot/ember-cli-fastboot/pull/840#issuecomment-894329631
-  it.skip('works without metadata passed', async function() {
+  it('works without metadata passed', async function () {
     let middleware = fastbootMiddleware({
       distPath: fixture('app-with-metadata'),
     });
@@ -123,10 +123,10 @@ describe('FastBoot', function() {
   });
 
   /* eslint-disable mocha/no-setup-in-describe */
-  [true, false].forEach(chunkedResponse => {
-    describe(`when chunked response is ${chunkedResponse ? 'enabled' : 'disabled'}`, function() {
+  [true, false].forEach((chunkedResponse) => {
+    describe(`when chunked response is ${chunkedResponse ? 'enabled' : 'disabled'}`, function () {
       if (chunkedResponse) {
-        it('responds with a chunked response', async function() {
+        it('responds with a chunked response', async function () {
           let middleware = fastbootMiddleware({
             distPath: fixture('basic-app'),
             chunkedResponse,
@@ -140,7 +140,7 @@ describe('FastBoot', function() {
         });
       }
 
-      it("returns 404 when navigating to a URL that doesn't exist", async function() {
+      it("returns 404 when navigating to a URL that doesn't exist", async function () {
         let middleware = fastbootMiddleware({
           distPath: fixture('basic-app'),
           chunkedResponse,
@@ -155,7 +155,7 @@ describe('FastBoot', function() {
         }
       });
 
-      it('returns a 500 error if an error occurs', async function() {
+      it('returns a 500 error if an error occurs', async function () {
         let middleware = fastbootMiddleware({
           distPath: fixture('rejected-promise'),
           chunkedResponse,
@@ -170,8 +170,8 @@ describe('FastBoot', function() {
         }
       });
 
-      describe('when resilient mode is enabled', function() {
-        it('renders no FastBoot markup', async function() {
+      describe('when resilient mode is enabled', function () {
+        it('renders no FastBoot markup', async function () {
           let middleware = fastbootMiddleware({
             distPath: fixture('rejected-promise'),
             resilient: true,
@@ -184,7 +184,7 @@ describe('FastBoot', function() {
           expect(html).to.not.match(/error/);
         });
 
-        it('propagates to error handling middleware', async function() {
+        it('propagates to error handling middleware', async function () {
           let middleware = fastbootMiddleware({
             distPath: fixture('rejected-promise'),
             resilient: true,
@@ -201,7 +201,7 @@ describe('FastBoot', function() {
           expect(body).to.match(/hello world/);
         });
 
-        it('is does not propagate errors when and there is no error handling middleware', async function() {
+        it('is does not propagate errors when and there is no error handling middleware', async function () {
           let middleware = fastbootMiddleware({
             distPath: fixture('rejected-promise'),
             resilient: true,
@@ -219,7 +219,7 @@ describe('FastBoot', function() {
           expect(body).to.match(/hello world/);
         });
 
-        it('allows post-fastboot middleware to recover the response when it fails', async function() {
+        it('allows post-fastboot middleware to recover the response when it fails', async function () {
           let middleware = fastbootMiddleware({
             distPath: fixture('rejected-promise'),
             resilient: true,
@@ -237,8 +237,8 @@ describe('FastBoot', function() {
         });
       });
 
-      describe('when resilient mode is disabled', function() {
-        it('propagates to error handling middleware', async function() {
+      describe('when resilient mode is disabled', function () {
+        it('propagates to error handling middleware', async function () {
           let middleware = fastbootMiddleware({
             distPath: fixture('rejected-promise'),
             resilient: false,
@@ -257,7 +257,7 @@ describe('FastBoot', function() {
           }
         });
 
-        it('allows post-fastboot middleware to recover the response when it fails', async function() {
+        it('allows post-fastboot middleware to recover the response when it fails', async function () {
           let middleware = fastbootMiddleware({
             distPath: fixture('rejected-promise'),
             resilient: false,
