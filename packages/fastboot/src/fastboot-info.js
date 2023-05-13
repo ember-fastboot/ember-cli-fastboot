@@ -38,5 +38,9 @@ module.exports = class FastBootInfo {
    */
   register(instance) {
     instance.register('info:-fastboot', this, { instantiate: false });
+    const fastbootService = instance.lookup('service:fastboot');
+    if (fastbootService) {
+      fastbootService._fastbootInfo = this;
+    }
   }
 };
