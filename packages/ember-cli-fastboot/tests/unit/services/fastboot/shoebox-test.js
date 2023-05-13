@@ -8,7 +8,7 @@ module('Unit | Service | fastboot | shoebox', function(hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function() {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
   });
 
   hooks.afterEach(function() {
