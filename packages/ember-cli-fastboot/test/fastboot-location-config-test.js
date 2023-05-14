@@ -17,15 +17,15 @@ describe('FastBootLocation Configuration', function () {
 
     return app
       .create('fastboot-location-config', {
-        emberVersion: 'latest',
-        emberDataVersion: 'latest',
+        emberVersion: '~3.28.12',
+        emberDataVersion: '~3.28.12',
       })
       .then(function () {
         app.editPackageJSON((pkg) => {
           delete pkg.devDependencies['ember-fetch'];
           delete pkg.devDependencies['ember-welcome-page'];
           // needed because @ember-data/store does `FastBoot.require('crypto')`
-          pkg.fastbootDependencies = ['crypto'];
+          pkg.fastbootDependencies = ['node-fetch', 'path', 'crypto'];
         });
         return app.run('npm', 'install');
       })

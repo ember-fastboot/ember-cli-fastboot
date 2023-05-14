@@ -12,6 +12,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const packagesDir = path.resolve(__dirname, '../../packages');
 const nodeModulesDir = path.resolve(__dirname, 'node_modules');
+const precookedDir = path.resolve(__dirname, 'tmp', 'precooked_node_modules');
 
 // eslint-disable-next-line no-undef
 const shouldRestore = process.argv[2];
@@ -29,10 +30,15 @@ Options:
 function run(shouldRestore) {
   ['fastboot', 'fastboot-express-middleware'].forEach((packageName) => {
     const nodeModulesPackageDir = path.join(nodeModulesDir, packageName);
+    const precookedPackageDir = path.join(precookedDir, packageName);
     const workspacesPackageDir = path.resolve(packagesDir, packageName);
     if (fs.existsSync(nodeModulesPackageDir)) {
       console.log(chalk.blue(`remove ${nodeModulesPackageDir}`));
       fs.removeSync(nodeModulesPackageDir);
+    }
+    if (fs.existsSync(precookedPackageDir)) {
+      console.log(chalk.blue(`remove ${precookedPackageDir}`));
+      fs.removeSync(precookedPackageDir);
     }
     if (!shouldRestore) {
       console.log(
@@ -41,6 +47,10 @@ function run(shouldRestore) {
         )
       );
       fs.symlinkSync(workspacesPackageDir, nodeModulesPackageDir, 'dir');
+      console.log(
+        chalk.green(`symlink ${precookedPackageDir} -> ${workspacesPackageDir}`)
+      );
+      fs.symlinkSync(workspacesPackageDir, precookedPackageDir, 'dir');
     }
   });
 }

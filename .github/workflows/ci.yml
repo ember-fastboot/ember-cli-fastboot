@@ -140,6 +140,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter ember-cli-fastboot pretest:precook
       - run: pnpm --filter ember-cli-fastboot test:mocha
 
   try-scenarios:
