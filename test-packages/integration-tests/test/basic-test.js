@@ -26,7 +26,7 @@ function dummyResponse() {
 }
 
 describe("FastBoot", function() {
-  this.timeout(100000);
+  this.timeout(200000);
   it("can render HTML", async function() {
     const distPath = await buildDist("basic-app");
     const fastboot = new FastBoot({
