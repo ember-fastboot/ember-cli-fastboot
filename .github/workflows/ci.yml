@@ -116,7 +116,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: volta-cli/action@v1
+        uses: volta-cli/action@v4
         with:
           node-version: ${{ matrix.node-version }}
       - name: Yarn Install
@@ -130,7 +130,7 @@ jobs:
           yarn workspace ember-cli-fastboot test:mocha
 
   try-scenarios:
-    name: "ember-try for ember-cli-fastboot: ${{ matrix.ember-try-scenario }}"
+    name: "${{ matrix.ember-try-scenario }} Scenario for ember-cli-fastboot"
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -143,6 +143,8 @@ jobs:
           - ember-lts-3.24
           - ember-lts-3.28
           - ember-lts-4.4
+          - ember-lts-4.8
+          - ember-lts-4.12
           - ember-release
           - ember-beta
           - ember-canary
