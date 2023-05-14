@@ -22,10 +22,10 @@
     "release": "release-it",
     "lint:js:fix": "eslint . --fix",
     "start": "ember serve",
-    "test": "npm-run-all lint test:*",
-    "test:mocha": "node fix-node-modules.mjs && mocha && node fix-node-modules.mjs -r",
+    "pretest:precook": "node node_modules/ember-cli-addon-tests/scripts/precook-node-modules.js",
+    "test": "npm-run-all -s lint pretest:* test:*",
+    "test:mocha": "node fix-node-modules.mjs && mocha",
     "test:ember": "ember test",
-    "test:precook": "node node_modules/ember-cli-addon-tests/scripts/precook-node-modules.js",
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
@@ -45,9 +45,13 @@
     "fs-extra": "^10.0.0",
     "json-stable-stringify": "^1.0.1",
     "md5-hex": "^3.0.1",
+    "node-fetch": "^2.6.7",
     "recast": "^0.19.1",
     "silent-error": "^1.1.1"
   },
+  "fastbootDependencies": [
+    "node-fetch"
+  ],
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.6.0",

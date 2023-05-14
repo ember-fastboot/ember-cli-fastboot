@@ -7,28 +7,36 @@ const RSVP = require('rsvp');
 const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
 const request = RSVP.denodeify(require('request'));
 
-function injectMiddlewareAddon(app) {
+async function injectMiddlewareAddon(app) {
   app.editPackageJSON(function (pkg) {
     pkg.devDependencies['body-parser'] =
       process.env.npm_package_devDependencies_body_parser;
     pkg.dependencies = pkg.dependencies || {};
-    pkg.dependencies['fastboot'] = `file:${path.resolve(
-      __dirname,
-      '../../fastboot'
-    )}`;
-    pkg.dependencies['fastboot-express-middleware'] = `file:${path.resolve(
-      __dirname,
-      '../../fastboot-express-middleware'
-    )}`;
     pkg['ember-addon'] = {
       paths: ['lib/post-middleware'],
     };
     delete pkg.devDependencies['ember-fetch'];
     delete pkg.devDependencies['ember-welcome-page'];
     // needed because @ember-data/store does `FastBoot.require('crypto')`
-    pkg.fastbootDependencies = ['crypto'];
+    pkg.fastbootDependencies = ['node-fetch', 'crypto'];
   });
-  return app.run('npm', 'install');
+  await app.run('npm', 'install', '--no-package-lock');
+  await app.run(
+    'ln',
+    '-s',
+    path.resolve(__dirname, '../../fastboot'),
+    path.resolve(app.path, 'node_modules/fastboot')
+  );
+  await app.run(
+    'ln',
+    '-s',
+    path.resolve(__dirname, '../../fastboot-express-middleware'),
+    path.resolve(app.path, 'node_modules/fastboot-express-middleware')
+  );
+  app.editPackageJSON(function (pkg) {
+    pkg.dependencies['fastboot'] = '*';
+    pkg.dependencies['fastboot-express-middleware'] = '*';
+  });
 }
 
 describe('request details', function () {
@@ -41,8 +49,8 @@ describe('request details', function () {
 
     return app
       .create('request', {
-        emberVersion: 'latest',
-        emberDataVersion: 'latest',
+        emberVersion: '~3.28.12',
+        emberDataVersion: '~3.28.12',
       })
       .then(() => injectMiddlewareAddon(app))
       .then(function () {

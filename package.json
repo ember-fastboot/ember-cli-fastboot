@@ -5,10 +5,15 @@
     "type": "git",
     "url": "git@github.com:ember-fastboot/ember-cli-fastboot.git"
   },
-  "workspaces": [
-    "packages/*",
-    "test-packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "test-packages/*"
+    ],
+    "nohoist": [
+      "**/ember-cli-addon-tests"
+    ]
+  },
   "scripts": {
     "test": "npm-run-all test:*",
     "test:ember-cli-fastboot": "yarn workspace ember-cli-fastboot test:ember",
