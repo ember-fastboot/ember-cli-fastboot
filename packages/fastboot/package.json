@@ -28,10 +28,12 @@
     "postversion": "git push origin master --tags"
   },
   "dependencies": {
+    "abortcontroller-polyfill": "^1.7.3",
     "chalk": "^4.1.2",
     "cookie": "^0.4.1",
     "debug": "^4.3.3",
     "jsdom": "^19.0.0",
+    "node-fetch": "^2.6.7",
     "resolve": "^1.22.0",
     "simple-dom": "^1.4.0",
     "source-map-support": "^0.5.21"
