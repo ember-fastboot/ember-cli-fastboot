@@ -24,6 +24,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         node-version: [16.x, 14.x]
         os: [ubuntu-latest, windows-latest]
@@ -53,6 +54,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         node-version: [16.x, 14.x]
         os: [ubuntu-latest, windows-latest]
@@ -75,6 +77,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         node-version: [16.x, 14.x]
         os: [ubuntu-latest, windows-latest]
