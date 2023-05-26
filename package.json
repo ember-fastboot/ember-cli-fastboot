@@ -5,24 +5,20 @@
     "type": "git",
     "url": "git@github.com:ember-fastboot/ember-cli-fastboot.git"
   },
-  "workspaces": [
-    "packages/*",
-    "test-packages/*"
-  ],
   "scripts": {
     "test": "npm-run-all test:*",
-    "test:ember-cli-fastboot": "yarn workspace ember-cli-fastboot test:ember",
-    "test:fastboot": "yarn workspace fastboot test",
-    "test:fastboot-express-middleware": "yarn workspace fastboot-express-middleware test",
-    "test:fastboot-app-server": "yarn workspace fastboot-app-server test:mocha",
-    "test:integration": "yarn workspace integration-tests test",
-    "test:extra": "yarn workspace basic-app test:mocha && yarn workspace custom-fastboot-app test:mocha"
+    "test:ember-cli-fastboot": "pnpm --filter ember-cli-fastboot test:ember",
+    "test:fastboot": "pnpm --filter fastboot test",
+    "test:fastboot-express-middleware": "pnpm --filter fastboot-express-middleware test",
+    "test:fastboot-app-server": "pnpm --filter fastboot-app-server test:mocha",
+    "test:integration": "pnpm --filter integration-tests test",
+    "test:extra": "pnpm --filter basic-app test:mocha && pnpm --filter custom-fastboot-app test:mocha"
   },
   "devDependencies": {
+    "@release-it-plugins/lerna-changelog": "^5.0.0",
+    "@release-it-plugins/workspaces": "^3.2.0",
     "npm-run-all": "^4.1.5",
-    "release-it": "^14.2.2",
-    "release-it-lerna-changelog": "^3.1.0",
-    "release-it-yarn-workspaces": "^2.0.0"
+    "release-it": "^14.2.2"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -33,7 +29,7 @@
         "infile": "CHANGELOG.md",
         "launchEditor": true
       },
-      "release-it-yarn-workspaces": {
+      "@release-it-plugins/workspaces": {
         "workspaces": [
           "packages/*"
         ],

@@ -5,11 +5,7 @@ const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 
 module.exports = async function () {
   return {
-    useYarn: true,
-    // don't use default `--no-lockfile` option, which has been causing these to fail
-    buildManagerOptions(/* scenario */) {
-      return ['--ignore-engines'];
-    },
+    usePnpm: true,
     scenarios: [
       {
         name: 'ember-lts-3.16',

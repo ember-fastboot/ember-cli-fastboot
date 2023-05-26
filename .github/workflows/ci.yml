@@ -24,77 +24,79 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         node-version: [16.x, 14.x]
         os: [ubuntu-latest, windows-latest]
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: yarn
-      - name: Yarn Install
-        run: yarn install --ignore-engines --frozen-lockfile
-      - name: Run ember-cli-fastboot Tests
-        run: yarn workspace ember-cli-fastboot test:ember
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:ember-cli-fastboot
       - name: Run fastboot Tests
         if: ${{ matrix.os != 'windows-latest' }}
-        run: yarn workspace fastboot test
-      - name: Run fastboot-express-middleware Tests
-        run: yarn workspace fastboot-express-middleware test
-      - name: Run fastboot-app-server Tests
-        run: yarn workspace fastboot-app-server test:mocha
+        run: pnpm test:fastboot
+      - run: pnpm test:fastboot-express-middleware
+      - run: pnpm test:fastboot-app-server
 
   integration-tests:
     name: Integration Tests
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         node-version: [16.x, 14.x]
         os: [ubuntu-latest, windows-latest]
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+            version: 7
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: yarn
-      - name: Yarn Install
-        run: yarn install --ignore-engines --frozen-lockfile
-      - name: Integration Tests
-        run: yarn workspace integration-tests test
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:integration
 
   test-packages:
     name: Test Packages
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         node-version: [16.x, 14.x]
         os: [ubuntu-latest, windows-latest]
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+            version: 7
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: yarn
-      - name: Yarn Install
-        run: yarn install --ignore-engines --frozen-lockfile
-      - name: Basic App
-        run: yarn workspace basic-app test:mocha
-      - name: Custom App
-        run: yarn workspace custom-fastboot-app test:mocha
-      - name: Run ember-cli-fastboot-testing-app Tests
-        run: yarn workspace ember-cli-fastboot-testing-app test:ember
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter basic-app test:mocha
+      - run: pnpm --filter custom-fastboot-app test:mocha
+      - run: pnpm --filter ember-cli-fastboot-testing-app test:ember
 
   test-legacy-mocha:
     name: Legacy Mocha Tests - ${{ matrix.node-version }}
@@ -107,17 +109,17 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+            version: 7
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: volta-cli/action@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Yarn Install
-        run: |
-          yarn install --ignore-engines --frozen-lockfile
-      - name: Run Mocha Tests
-        run: |
-          yarn workspace ember-cli-fastboot test:mocha
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter ember-cli-fastboot test:mocha
 
   try-scenarios:
     name: "ember-try for ember-cli-fastboot: ${{ matrix.ember-try-scenario }}"
@@ -144,11 +146,14 @@ jobs:
           - ember-release-no-deprecations
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+            version: 7
+      - uses: actions/setup-node@v3
         with:
           node-version: 14
-          cache: yarn
-      - run: yarn install --ignore-engines --frozen-lockfile
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - name: test
-        run: yarn workspace ember-cli-fastboot ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
+        run: pnpm --filter ember-cli-fastboot exec ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
