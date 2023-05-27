@@ -419,8 +419,6 @@ importers:
 
   packages/fastboot-express-middleware/test/fixtures/basic-app: {}
 
-  packages/fastboot-express-middleware/test/fixtures/empty-package-json: {}
-
   packages/fastboot-express-middleware/test/fixtures/hot-swap-app: {}
 
   packages/fastboot-express-middleware/test/fixtures/multivalue-headers: {}
@@ -433,7 +431,7 @@ importers:
     dependencies:
       foo:
         specifier: workspace:*
-        version: link:../empty-package-json
+        version: link:../../../../../test-packages/foo
 
   packages/fastboot/test/fixtures/app-with-multiple-config: {}
 
