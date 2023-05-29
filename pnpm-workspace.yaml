@@ -2,4 +2,4 @@ packages:
   - 'packages/**'
   # This is already implicit but I've added it here for clarity
   - 'packages/fastboot/test/fixtures/**'
-  - 'test-packages/**'
+  - 'test-packages/*'
