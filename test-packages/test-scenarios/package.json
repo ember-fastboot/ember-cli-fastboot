@@ -1,0 +1,22 @@
+{
+  "name": "fastboot-test-scenarios",
+  "scripts": {
+    "test": "qunit *-test.mjs",
+    "test:list": "scenario-tester-esm list --files=*-test.mjs",
+    "test:output": "scenario-tester-esm output --files=*-test.mjs",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-n": "^16.0.1",
+    "eslint-plugin-prettier": "^5.0.0",
+    "fastboot": "workspace:*",
+    "lodash": "^4.17.21",
+    "prettier": "^3.0.2",
+    "qunit": "^2.19.4",
+    "scenario-tester": "^3.1.0"
+  }
+}
