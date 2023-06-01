@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 export default {
   name: 'test-host',
   initialize(applicationInstance) {

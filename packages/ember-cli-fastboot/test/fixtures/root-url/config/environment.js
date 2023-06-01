@@ -1,3 +1,4 @@
+/* eslint-disable no-undef, prettier/prettier */
 'use strict';
 
 module.exports = function(environment) {

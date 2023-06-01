@@ -1,3 +1,4 @@
+/* eslint-disable no-dupe-keys, prettier/prettier */
 'use strict';
 
 module.exports = {

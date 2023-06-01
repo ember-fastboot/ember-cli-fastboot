@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-env node */
 const recast = require('recast');
 const { readFileSync, writeFileSync } = require('fs');

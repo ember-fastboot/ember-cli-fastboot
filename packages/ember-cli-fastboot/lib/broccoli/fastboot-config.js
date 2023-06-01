@@ -1,3 +1,4 @@
+/* eslint-disable no-undef, prettier/prettier */
 /* eslint-env node */
 'use strict';
 
