@@ -22,8 +22,8 @@
   ],
   "scripts": {
     "changelog": "lerna-changelog",
-    "lint:js": "eslint --cache .",
-    "test": "npm run-script lint:js && mocha",
+    "lint": "eslint --cache .",
+    "test": "mocha",
     "preversion": "npm test",
     "postversion": "git push origin master --tags"
   },
