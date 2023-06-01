@@ -19,6 +19,23 @@ on:
   - cron:  '0 6 * * 0'
 
 jobs:
+  lint-all-packages:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter "./packages/*" lint
+
   test-all-packages:
     name: Ember Tests
     runs-on: ${{ matrix.os }}
