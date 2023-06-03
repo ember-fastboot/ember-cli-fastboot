@@ -1,3 +1,4 @@
+/* eslint-disable ember/no-classic-classes, ember/no-get, prettier/prettier */
 import Route from '@ember/routing/route';
 import { inject } from '@ember/service';
 import { readOnly } from '@ember/object/computed';

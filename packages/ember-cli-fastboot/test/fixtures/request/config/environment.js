@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* jshint node: true */
 'use strict';
 

@@ -1,7 +1,7 @@
 export default {
   name: "cat",
 
-  initialize: function(application) {
+  initialize: function() {
     console.log("I got a cat");
   }
 };

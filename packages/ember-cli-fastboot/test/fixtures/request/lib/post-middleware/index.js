@@ -1,3 +1,4 @@
+/* eslint-disable node/no-extraneous-require, prettier/prettier */
 var bodyParser = require('body-parser');
 var FastBootExpressMiddleware = require('fastboot-express-middleware');
 var FastBoot = require('fastboot');

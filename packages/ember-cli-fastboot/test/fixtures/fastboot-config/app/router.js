@@ -1,3 +1,4 @@
+/* eslint-disable ember/new-module-imports, prettier/prettier */
 import Ember from 'ember';
 import config from './config/environment';
 

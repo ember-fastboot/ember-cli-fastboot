@@ -20,7 +20,7 @@
   "author": "Tom Dale <tom@tomdale.net>",
   "main": "src/index.js",
   "scripts": {
-    "lint:js": "eslint --cache .",
+    "lint": "eslint --cache .",
     "test": "yarn lint:js && mocha"
   },
   "dependencies": {

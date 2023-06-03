@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins, prettier/prettier */
 /* eslint-env node */
 'use strict';
 
