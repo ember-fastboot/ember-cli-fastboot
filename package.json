@@ -6,6 +6,7 @@
     "url": "git@github.com:ember-fastboot/ember-cli-fastboot.git"
   },
   "scripts": {
+    "lint": "pnpm --filter './*packages/**' lint",
     "test": "npm-run-all test:*",
     "test:ember-cli-fastboot": "pnpm --filter ember-cli-fastboot test:ember",
     "test:fastboot": "pnpm --filter fastboot test",
