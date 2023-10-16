@@ -7,8 +7,8 @@ module('Unit | Service | fastboot in the browser', function(hooks) {
 
   test('isFastBoot', function(assert) {
     let service = this.owner.lookup('service:fastboot');
-    assert.equal(service.isFastBoot, false, `it should be false`);
-    assert.equal(service.get('isFastBoot'), false, `it should be false`);
+    assert.false(service.isFastBoot, `it should be false`);
+    assert.false(service.get('isFastBoot'), `it should be false`);
   });
 
   test('isFastboot', function(assert) {

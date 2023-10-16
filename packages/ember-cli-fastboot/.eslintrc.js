@@ -29,14 +29,15 @@ module.exports = {
     // node files
     {
       files: [
-        './.eslintrc.js',
+        './**/.eslintrc.js',
         './.prettierrc.js',
         './.template-lintrc.js',
-        './ember-cli-build.js',
+        './**/ember-cli-build.js',
         './index.js',
         './testem.js',
         './blueprints/*/index.js',
         './config/**/*.js',
+        './**/lib/**/*.js',
         './tests/dummy/config/**/*.js',
       ],
       parserOptions: {
