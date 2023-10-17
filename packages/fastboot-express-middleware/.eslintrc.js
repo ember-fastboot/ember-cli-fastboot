@@ -9,6 +9,14 @@ module.exports = {
     node: true,
     es6: true,
   },
+  rules: {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      },
+    ],
+  },
   overrides: [
     {
       files: ['test/**/*-test.js'],
