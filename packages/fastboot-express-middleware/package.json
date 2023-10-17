@@ -20,8 +20,8 @@
   "author": "Tom Dale <tom@tomdale.net>",
   "main": "src/index.js",
   "scripts": {
-    "lint": "eslint --cache .",
-    "test": "yarn lint:js && mocha"
+    "lint:js": "eslint --cache .",
+    "test": "pnpm lint:js && mocha"
   },
   "dependencies": {
     "chalk": "^4.1.2",
