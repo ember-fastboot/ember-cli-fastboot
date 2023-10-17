@@ -614,7 +614,7 @@ importers:
         specifier: ^2.17.2
         version: 2.20.0
       qunit-dom:
-        specifier: ^1.2.0
+        specifier: ^1.6.0
         version: 1.6.0
 
   test-packages/custom-fastboot-app:
@@ -728,7 +728,7 @@ importers:
         specifier: ^2.17.2
         version: 2.20.0
       qunit-dom:
-        specifier: ^1.2.0
+        specifier: ^1.6.0
         version: 1.6.0
 
   test-packages/custom-sandbox-app:
@@ -827,7 +827,7 @@ importers:
         specifier: ^2.17.2
         version: 2.20.0
       qunit-dom:
-        specifier: ^1.2.0
+        specifier: ^1.6.0
         version: 1.6.0
 
   test-packages/ember-cli-fastboot-testing-app:
@@ -845,8 +845,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       ember-auto-import:
-        specifier: ^1.5.3
-        version: 1.12.2
+        specifier: ^2.6.1
+        version: 2.6.3(webpack@5.58.1)
       ember-cli:
         specifier: ~4.1.0
         version: 4.1.0
@@ -863,8 +863,8 @@ importers:
         specifier: 4.1.1
         version: link:../../packages/ember-cli-fastboot
       ember-cli-fastboot-testing:
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.6.1
+        version: 0.6.1(ember-source@3.28.12)(webpack@5.58.1)
       ember-cli-htmlbars:
         specifier: ^5.1.2
         version: 5.7.1
@@ -923,8 +923,11 @@ importers:
         specifier: ^2.17.2
         version: 2.20.0
       qunit-dom:
-        specifier: ^1.2.0
+        specifier: ^1.6.0
         version: 1.6.0
+      webpack:
+        specifier: ^5.58.1
+        version: 5.58.1
 
   test-packages/ember-cli-fastboot-testing-app/dist: {}
 
@@ -1022,7 +1025,7 @@ importers:
         specifier: ^2.17.2
         version: 2.20.0
       qunit-dom:
-        specifier: ^1.2.0
+        specifier: ^1.6.0
         version: 1.6.0
 
   test-packages/fake-addon:
@@ -1141,7 +1144,7 @@ importers:
         specifier: ^2.17.2
         version: 2.20.0
       qunit-dom:
-        specifier: ^1.2.0
+        specifier: ^1.6.0
         version: 1.6.0
 
   test-packages/integration-tests:
@@ -4252,12 +4255,30 @@ packages:
       ajv: 6.12.6
     dev: true
 
+  /ajv-formats@2.1.1:
+    resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependenciesMeta:
+      ajv:
+        optional: true
+    dependencies:
+      ajv: 8.12.0
+    dev: true
+
   /ajv-keywords@3.5.2(ajv@6.12.6):
     resolution: {integrity: sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==}
     peerDependencies:
       ajv: ^6.9.1
     dependencies:
       ajv: 6.12.6
+    dev: true
+
+  /ajv-keywords@5.1.0(ajv@8.12.0):
+    resolution: {integrity: sha512-YCS/JNFAUyr5vAuhk1DWm1CBxRHW9LbJ2ozWeemrIqpbsqKjHVxYPyi5GC0rjZIT5JxJ3virVTS8wk4i/Z+krw==}
+    peerDependencies:
+      ajv: ^8.8.2
+    dependencies:
+      ajv: 8.12.0
+      fast-deep-equal: 3.1.3
     dev: true
 
   /ajv@6.12.6:
@@ -8143,6 +8164,47 @@ packages:
       - webpack
     dev: true
 
+  /ember-auto-import@2.6.3(webpack@5.58.1):
+    resolution: {integrity: sha512-uLhrRDJYWCRvQ4JQ1e64XlSrqAKSd6PXaJ9ZsZI6Tlms9T4DtQFxNXasqji2ZRJBVrxEoLCRYX3RTldsQ0vNGQ==}
+    engines: {node: 12.* || 14.* || >= 16}
+    dependencies:
+      '@babel/core': 7.21.8
+      '@babel/plugin-proposal-class-properties': 7.18.6(@babel/core@7.21.8)
+      '@babel/plugin-proposal-decorators': 7.21.0(@babel/core@7.21.8)
+      '@babel/preset-env': 7.21.5(@babel/core@7.21.8)
+      '@embroider/macros': 1.13.2
+      '@embroider/shared-internals': 2.5.0
+      babel-loader: 8.3.0(@babel/core@7.21.8)(webpack@5.58.1)
+      babel-plugin-ember-modules-api-polyfill: 3.5.0
+      babel-plugin-ember-template-compilation: 2.2.0
+      babel-plugin-htmlbars-inline-precompile: 5.3.1
+      babel-plugin-syntax-dynamic-import: 6.18.0
+      broccoli-debug: 0.6.5
+      broccoli-funnel: 3.0.8
+      broccoli-merge-trees: 4.2.0
+      broccoli-plugin: 4.0.7
+      broccoli-source: 3.0.1
+      css-loader: 5.2.7(webpack@5.58.1)
+      debug: 4.3.4
+      fs-extra: 10.0.0
+      fs-tree-diff: 2.0.1
+      handlebars: 4.7.7
+      js-string-escape: 1.0.1
+      lodash: 4.17.21
+      mini-css-extract-plugin: 2.7.6(webpack@5.58.1)
+      parse5: 6.0.1
+      resolve: 1.22.2
+      resolve-package-path: 4.0.3
+      semver: 7.5.1
+      style-loader: 2.0.0(webpack@5.58.1)
+      typescript-memoize: 1.1.1
+      walk-sync: 3.0.0
+    transitivePeerDependencies:
+      - '@glint/template'
+      - supports-color
+      - webpack
+    dev: true
+
   /ember-cache-primitive-polyfill@1.0.1:
     resolution: {integrity: sha512-hSPcvIKarA8wad2/b6jDd/eU+OtKmi6uP+iYQbzi5TQpjsqV6b4QdRqrLk7ClSRRKBAtdTuutx+m+X+WlEd2lw==}
     engines: {node: 10.* || >= 12}
@@ -8309,26 +8371,29 @@ packages:
       - supports-color
     dev: true
 
-  /ember-cli-fastboot-testing@0.5.0:
-    resolution: {integrity: sha512-BZmqXSYI9zCDWby9AkpbUnwUK0ubm78a84NUpp5Mv3QSY2HDar6JgEu+XAQA49dKQBfMVuNU4YMq4AGG5dx6yA==}
-    engines: {node: 8.* || >= 10.*}
+  /ember-cli-fastboot-testing@0.6.1(ember-source@3.28.12)(webpack@5.58.1):
+    resolution: {integrity: sha512-nevPv77Wjk0Mslb0AF0wgHfbjki6Fi3/dapTrFz17WLX6n5maLr/MTL1hZcZdbT+69DHdgckCza8Z1WyxiUbBA==}
+    engines: {node: 12.* || 14.* || 16.* || >= 18}
+    peerDependencies:
+      ember-source: ^3.28.0 || ^4.0.0 || ^5.0.0
     dependencies:
       body-parser: 1.20.2
-      ember-auto-import: 1.12.2
+      ember-auto-import: 2.6.3(webpack@5.58.1)
       ember-cli-babel: 7.26.11
+      ember-source: 3.28.12
       fastboot: 4.1.1
       json-fn: 1.1.1
       minimist: 1.2.8
-      nock: 12.0.3
+      nock: 13.3.4
       resolve: 1.22.2
       whatwg-fetch: 3.6.2
     transitivePeerDependencies:
+      - '@glint/template'
       - bufferutil
       - canvas
       - supports-color
       - utf-8-validate
-      - webpack-cli
-      - webpack-command
+      - webpack
     dev: true
 
   /ember-cli-get-component-path-option@1.0.0:
@@ -10866,7 +10931,6 @@ packages:
       graceful-fs: 4.2.11
       jsonfile: 6.1.0
       universalify: 2.0.0
-    dev: false
 
   /fs-extra@4.0.3:
     resolution: {integrity: sha512-q6rbdDd1o2mAnQreO7YADIxf/Whx4AHBiRf6d+/cVT8h44ss+lHgxf1FemcqDnQt9X3ct4McHr+JMGlYSsK7Cg==}
@@ -13841,6 +13905,16 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /mini-css-extract-plugin@2.7.6(webpack@5.58.1):
+    resolution: {integrity: sha512-Qk7HcgaPkGG6eD77mLvZS1nmxlao3j+9PkrT9Uc7HAE1id3F41+DdBRYRYkbyfNRGzm8/YWtzhw7nVPmwhqTQw==}
+    engines: {node: '>= 12.13.0'}
+    peerDependencies:
+      webpack: ^5.0.0
+    dependencies:
+      schema-utils: 4.2.0
+      webpack: 5.58.1
+    dev: true
+
   /minimalistic-assert@1.0.1:
     resolution: {integrity: sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A==}
     dev: true
@@ -14137,8 +14211,8 @@ packages:
       tslib: 2.5.2
     dev: true
 
-  /nock@12.0.3:
-    resolution: {integrity: sha512-QNb/j8kbFnKCiyqi9C5DD0jH/FubFGj5rt9NQFONXwQm3IPB0CULECg/eS3AU1KgZb/6SwUa4/DTRKhVxkGABw==}
+  /nock@13.3.4:
+    resolution: {integrity: sha512-DDpmn5oLEdCTclEqweOT4U7bEpuoifBMFUXem9sA4turDAZ5tlbrEoWqCorwXey8CaAw44mst5JOQeVNiwtkhw==}
     engines: {node: '>= 10.13'}
     dependencies:
       debug: 4.3.4
@@ -16160,6 +16234,16 @@ packages:
       '@types/json-schema': 7.0.12
       ajv: 6.12.6
       ajv-keywords: 3.5.2(ajv@6.12.6)
+    dev: true
+
+  /schema-utils@4.2.0:
+    resolution: {integrity: sha512-L0jRsrPpjdckP3oPug3/VxNKt2trR8TcabrM6FOAAlvC/9Phcmm+cuAgTlxBqdBR1WJx7Naj9WHw+aOmheSVbw==}
+    engines: {node: '>= 12.13.0'}
+    dependencies:
+      '@types/json-schema': 7.0.12
+      ajv: 8.12.0
+      ajv-formats: 2.1.1
+      ajv-keywords: 5.1.0(ajv@8.12.0)
     dev: true
 
   /semver-diff@3.1.1:
