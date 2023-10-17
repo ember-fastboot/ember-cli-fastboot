@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: false
   excludeLinksFromLockfile: false
 
+overrides:
+  fastboot: 4.1.1
+
 importers:
 
   .:
@@ -8313,7 +8316,7 @@ packages:
       body-parser: 1.20.2
       ember-auto-import: 1.12.2
       ember-cli-babel: 7.26.11
-      fastboot: 3.3.2
+      fastboot: 4.1.1
       json-fn: 1.1.1
       minimist: 1.2.8
       nock: 12.0.3
@@ -10411,8 +10414,8 @@ packages:
       - supports-color
     dev: false
 
-  /fastboot@3.3.2:
-    resolution: {integrity: sha512-2NKTW32GvEsDyBrdw1trW1JsbS+9/7sAQuKwkht12mNitimRrSKVLP2AxsM/HSXQE+aiET4XCfKdyeIy0kQbKQ==}
+  /fastboot@4.1.1:
+    resolution: {integrity: sha512-XG7YprsAuAGZrUDhmJ0NFuEP0gpWg9LZwGWSS1I5+f0ETHKPWqb4x59sN2rU1nvCEETBK70z68tLsWsl9daomg==}
     engines: {node: 12.* || 14.* || >=16}
     dependencies:
       chalk: 4.1.2
