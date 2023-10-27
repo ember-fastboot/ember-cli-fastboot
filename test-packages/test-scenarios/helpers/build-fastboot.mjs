@@ -1,7 +1,7 @@
 import { join } from 'path';
 import FastBoot from 'fastboot';
 
-export default async function buildFastboot(app) {
+export default async function buildFastboot(app, options) {
   let result = await app.execute(`node node_modules/ember-cli/bin/ember build`);
 
   if (result.exitCode !== 0) {
@@ -11,5 +11,6 @@ export default async function buildFastboot(app) {
   return new FastBoot({
     distPath: join(app.dir, 'dist'),
     resilient: false,
+    ...options,
   });
 }
