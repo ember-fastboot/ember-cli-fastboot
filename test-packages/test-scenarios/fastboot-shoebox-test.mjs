@@ -1,30 +1,14 @@
-// can render the escaped shoebox HTML
-
-import { baseApp } from './scenarios.mjs';
-import { Scenarios } from 'scenario-tester';
 import qunit from 'qunit';
-import { join } from 'path';
-import FastBoot from 'fastboot';
 import lodash from 'lodash';
 import { expect } from 'chai';
+
+import { appScenarios } from './scenarios.mjs';
+import buildFastboot from './helpers/build-fastboot.mjs';
 
 const { merge } = lodash;
 const { module: Qmodule, test } = qunit;
 
-async function buildFastboot(app) {
-  let result = await app.execute(`node node_modules/ember-cli/bin/ember build`);
-
-  if (result.exitCode !== 0) {
-    throw new Error(`failed to build app for fastboot: ${result.output}`);
-  }
-
-  return new FastBoot({
-    distPath: join(app.dir, 'dist'),
-    resilient: false,
-  });
-}
-
-Scenarios.fromProject(baseApp)
+appScenarios
   .map('fastboot-shoebox-test', (project) => {
     merge(project.files, {
       app: {
