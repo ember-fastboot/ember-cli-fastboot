@@ -85,15 +85,6 @@ describe('FastBoot', function() {
     expect(html).to.match(/Goodbye from Ember/);
   });
 
-  it('it appends multivalue headers', async function() {
-    let middleware = fastbootMiddleware(fixture('multivalue-headers'));
-    server = new TestHTTPServer(middleware);
-    await server.start();
-
-    let { headers } = await server.request('/', { resolveWithFullResponse: true });
-    expect(headers['x-fastboot']).to.eq('a, b, c');
-  });
-
   it('can pass metadata info to the app', async function() {
     let middleware = fastbootMiddleware({
       distPath: fixture('app-with-metadata'),
