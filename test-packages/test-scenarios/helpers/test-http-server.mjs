@@ -71,7 +71,14 @@ export default class TestHTTPServer {
 
   stop() {
     if (this.listener) {
-      this.listener.close();
+      return new Promise((resolve, reject) => {
+        this.listener.close(function (err) {
+          if (err) {
+            return reject(err);
+          }
+          resolve();
+        });
+      });
     }
   }
 }
