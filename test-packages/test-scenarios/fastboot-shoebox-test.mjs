@@ -1,11 +1,10 @@
 import qunit from 'qunit';
-import lodash from 'lodash';
+import { merge } from 'lodash-es';
 import { expect } from 'chai';
 
 import { appScenarios } from './scenarios.mjs';
 import buildFastboot from './helpers/build-fastboot.mjs';
 
-const { merge } = lodash;
 const { module: Qmodule, test } = qunit;
 
 appScenarios

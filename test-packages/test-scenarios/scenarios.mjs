@@ -4,7 +4,7 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 
-function baseApp() {
+export function baseApp() {
   return Project.fromDir(dirname(require.resolve('../classic-app-template/package.json')), {
     linkDevDeps: true,
   });

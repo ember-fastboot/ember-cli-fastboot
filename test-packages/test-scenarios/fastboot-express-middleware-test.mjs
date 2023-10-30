@@ -1,18 +1,22 @@
 import qunit from 'qunit';
-import lodash from 'lodash';
+import { merge } from 'lodash-es';
 import { join } from 'path';
 
 import { appScenarios } from './scenarios.mjs';
 import fastbootMiddleware from 'fastboot-express-middleware';
 import TestHTTPServer from './helpers/test-http-server.mjs';
 
-const { merge } = lodash;
 const { module: Qmodule, test } = qunit;
 
-qunit.extend(qunit.assert, {
-  matches: function (actual, regex, message) {
+Object.assign(qunit.assert, {
+  matches(actual, regex, message) {
     var success = !!regex && !!actual && new RegExp(regex).test(actual);
     var expected = 'String matching /' + regex.toString() + '/';
+    this.push(success, actual, expected, message);
+  },
+  notMatches(actual, regex, message) {
+    var success = !!regex && !!actual && !(new RegExp(regex).test(actual));
+    var expected = 'String should not be matching /' + regex.toString() + '/';
     this.push(success, actual, expected, message);
   },
 });

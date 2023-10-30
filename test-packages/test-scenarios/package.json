@@ -9,17 +9,22 @@
   },
   "devDependencies": {
     "chai": "^4.3.7",
+    "ember-cli-head": "^2.0.0",
     "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-prettier": "^5.0.0",
+    "execa": "^8.0.1",
     "express": "^4.18.2",
-    "request-promise": "^4.2.6",
+    "fake-addon": "workspace:*",
+    "fake-addon-2": "workspace:*",
     "fastboot": "workspace:*",
     "fastboot-express-middleware": "workspace:*",
-    "lodash": "^4.17.21",
+    "globby": "^13.2.2",
+    "lodash-es": "^4.0.0",
     "prettier": "^3.0.2",
     "qunit": "^2.19.4",
+    "request-promise": "^4.2.6",
     "scenario-tester": "^3.1.0"
   }
 }
