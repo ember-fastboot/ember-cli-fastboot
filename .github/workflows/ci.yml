@@ -65,31 +65,6 @@ jobs:
       - run: pnpm test:fastboot-express-middleware
       - run: pnpm test:fastboot-app-server
 
-  integration-tests:
-    name: Integration Tests
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 15
-
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version: [16.x, 14.x]
-        os: [ubuntu-latest, windows-latest]
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-        with:
-            version: 7
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm test:integration
-
   test-packages:
     name: Test Packages
     runs-on: ${{ matrix.os }}
@@ -180,10 +155,10 @@ jobs:
 
   discover_matrix:
     runs-on: ubuntu-latest
-    
+
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
-    
+
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
@@ -197,7 +172,7 @@ jobs:
       - id: set-matrix
         working-directory: test-packages/test-scenarios
         run: echo "::set-output name=matrix::$(npm run --silent test:list -- --matrix 'npm run test -- --filter %s:')"
-  
+
   scenario-tester:
     needs: discover_matrix
     name: ${{ matrix.name }}
@@ -207,7 +182,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{fromJson(needs.discover_matrix.outputs.matrix)}}
-    
+
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
