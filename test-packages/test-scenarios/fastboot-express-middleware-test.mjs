@@ -15,7 +15,7 @@ Object.assign(qunit.assert, {
     this.push(success, actual, expected, message);
   },
   notMatches(actual, regex, message) {
-    var success = !!regex && !!actual && !(new RegExp(regex).test(actual));
+    var success = !!regex && !!actual && !new RegExp(regex).test(actual);
     var expected = 'String should not be matching /' + regex.toString() + '/';
     this.push(success, actual, expected, message);
   },
