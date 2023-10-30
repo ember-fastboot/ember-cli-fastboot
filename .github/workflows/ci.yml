@@ -166,12 +166,12 @@ jobs:
             version: 7
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - id: set-matrix
         working-directory: test-packages/test-scenarios
-        run: echo "::set-output name=matrix::$(npm run --silent test:list -- --matrix 'npm run test -- --filter %s:')"
+        run: echo "matrix=$(npm run --silent test:list -- --matrix 'npm run test -- --filter %s:')" >> $GITHUB_OUTPUT
 
   scenario-tester:
     needs: discover_matrix
@@ -190,7 +190,7 @@ jobs:
             version: 7
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: test
