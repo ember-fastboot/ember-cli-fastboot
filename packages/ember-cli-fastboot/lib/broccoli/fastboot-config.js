@@ -178,7 +178,7 @@ module.exports = class FastBootConfig extends Plugin {
         config: this.fastbootConfig,
         appName: this.appName,
       }
-    }, null, 2);
+    }, { space: 2 });
   }
 
   normalizeHostWhitelist() {
