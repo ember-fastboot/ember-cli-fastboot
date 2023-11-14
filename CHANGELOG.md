@@ -1,3 +1,21 @@
+
+## v4.1.2 (2023-11-14)
+
+#### :bug: Bug Fix
+* `ember-cli-fastboot`
+  * [#929](https://github.com/ember-fastboot/ember-cli-fastboot/pull/929) fix json stringify in fastboot-config ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* Other
+  * [#931](https://github.com/ember-fastboot/ember-cli-fastboot/pull/931) update release-it ([@mansona](https://github.com/mansona))
+  * [#926](https://github.com/ember-fastboot/ember-cli-fastboot/pull/926) make sure that we lint (relevant) test-packages ([@mansona](https://github.com/mansona))
+* `ember-cli-fastboot`, `fastboot-express-middleware`, `fastboot`
+  * [#920](https://github.com/ember-fastboot/ember-cli-fastboot/pull/920) Add Linting to CI ([@mansona](https://github.com/mansona))
+  * [#917](https://github.com/ember-fastboot/ember-cli-fastboot/pull/917) move to pnpm ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## v4.1.1 (2023-05-05)
 
 #### :bug: Bug Fix
