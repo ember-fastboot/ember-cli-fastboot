@@ -952,6 +952,9 @@ importers:
       lodash-es:
         specifier: ^4.0.0
         version: 4.17.21
+      node-fetch:
+        specifier: ^2.0.0
+        version: 2.6.11
       prettier:
         specifier: ^3.0.2
         version: 3.2.5
@@ -2881,7 +2884,7 @@ packages:
       find-up: 5.0.0
       lodash: 4.17.21
       resolve: 1.22.2
-      semver: 7.5.1
+      semver: 7.6.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4470,12 +4473,12 @@ packages:
       acorn: 7.4.1
       acorn-walk: 7.2.0
 
-  /acorn-import-assertions@1.9.0(acorn@8.11.2):
+  /acorn-import-assertions@1.9.0(acorn@8.11.3):
     resolution: {integrity: sha512-cmMwop9x+8KFhxvKrKfPYmN6/pKTYYHBqLa0DfvVZcKMJWNyWLnaqND7dx/qn66R7ewM1UX5XMaDVP5wlVTaVA==}
     peerDependencies:
       acorn: ^8
     dependencies:
-      acorn: 8.11.2
+      acorn: 8.11.3
     dev: true
 
   /acorn-import-assertions@1.9.0(acorn@8.8.2):
@@ -8914,6 +8917,47 @@ packages:
       - webpack
     dev: true
 
+  /ember-auto-import@2.6.3(webpack@5.89.0):
+    resolution: {integrity: sha512-uLhrRDJYWCRvQ4JQ1e64XlSrqAKSd6PXaJ9ZsZI6Tlms9T4DtQFxNXasqji2ZRJBVrxEoLCRYX3RTldsQ0vNGQ==}
+    engines: {node: 12.* || 14.* || >= 16}
+    dependencies:
+      '@babel/core': 7.21.8
+      '@babel/plugin-proposal-class-properties': 7.18.6(@babel/core@7.21.8)
+      '@babel/plugin-proposal-decorators': 7.21.0(@babel/core@7.21.8)
+      '@babel/preset-env': 7.21.5(@babel/core@7.21.8)
+      '@embroider/macros': 1.13.5
+      '@embroider/shared-internals': 2.5.2
+      babel-loader: 8.3.0(@babel/core@7.21.8)(webpack@5.89.0)
+      babel-plugin-ember-modules-api-polyfill: 3.5.0
+      babel-plugin-ember-template-compilation: 2.2.1
+      babel-plugin-htmlbars-inline-precompile: 5.3.1
+      babel-plugin-syntax-dynamic-import: 6.18.0
+      broccoli-debug: 0.6.5
+      broccoli-funnel: 3.0.8
+      broccoli-merge-trees: 4.2.0
+      broccoli-plugin: 4.0.7
+      broccoli-source: 3.0.1
+      css-loader: 5.2.7(webpack@5.89.0)
+      debug: 4.3.4
+      fs-extra: 10.0.0
+      fs-tree-diff: 2.0.1
+      handlebars: 4.7.7
+      js-string-escape: 1.0.1
+      lodash: 4.17.21
+      mini-css-extract-plugin: 2.7.6(webpack@5.89.0)
+      parse5: 6.0.1
+      resolve: 1.22.2
+      resolve-package-path: 4.0.3
+      semver: 7.5.1
+      style-loader: 2.0.0(webpack@5.89.0)
+      typescript-memoize: 1.1.1
+      walk-sync: 3.0.0
+    transitivePeerDependencies:
+      - '@glint/template'
+      - supports-color
+      - webpack
+    dev: true
+
   /ember-auto-import@2.7.2(webpack@5.58.1):
     resolution: {integrity: sha512-pkWIljmJClYL17YBk8FjO7NrZPQoY9v0b+FooJvaHf/xlDQIBYVP7OaDHbNuNbpj7+wAwSDAnnwxjCoLsmm4cw==}
     engines: {node: 12.* || 14.* || >= 16}
@@ -8950,47 +8994,6 @@ packages:
       resolve-package-path: 4.0.3
       semver: 7.5.1
       style-loader: 2.0.0(webpack@5.58.1)
-      typescript-memoize: 1.1.1
-      walk-sync: 3.0.0
-    transitivePeerDependencies:
-      - '@glint/template'
-      - supports-color
-      - webpack
-    dev: true
-
-  /ember-auto-import@2.6.3(webpack@5.89.0):
-    resolution: {integrity: sha512-uLhrRDJYWCRvQ4JQ1e64XlSrqAKSd6PXaJ9ZsZI6Tlms9T4DtQFxNXasqji2ZRJBVrxEoLCRYX3RTldsQ0vNGQ==}
-    engines: {node: 12.* || 14.* || >= 16}
-    dependencies:
-      '@babel/core': 7.21.8
-      '@babel/plugin-proposal-class-properties': 7.18.6(@babel/core@7.21.8)
-      '@babel/plugin-proposal-decorators': 7.21.0(@babel/core@7.21.8)
-      '@babel/preset-env': 7.21.5(@babel/core@7.21.8)
-      '@embroider/macros': 1.13.2
-      '@embroider/shared-internals': 2.5.0
-      babel-loader: 8.3.0(@babel/core@7.21.8)(webpack@5.89.0)
-      babel-plugin-ember-modules-api-polyfill: 3.5.0
-      babel-plugin-ember-template-compilation: 2.2.0
-      babel-plugin-htmlbars-inline-precompile: 5.3.1
-      babel-plugin-syntax-dynamic-import: 6.18.0
-      broccoli-debug: 0.6.5
-      broccoli-funnel: 3.0.8
-      broccoli-merge-trees: 4.2.0
-      broccoli-plugin: 4.0.7
-      broccoli-source: 3.0.1
-      css-loader: 5.2.7(webpack@5.89.0)
-      debug: 4.3.4
-      fs-extra: 10.0.0
-      fs-tree-diff: 2.0.1
-      handlebars: 4.7.7
-      js-string-escape: 1.0.1
-      lodash: 4.17.21
-      mini-css-extract-plugin: 2.7.6(webpack@5.89.0)
-      parse5: 6.0.1
-      resolve: 1.22.2
-      resolve-package-path: 4.0.3
-      semver: 7.5.1
-      style-loader: 2.0.0(webpack@5.89.0)
       typescript-memoize: 1.1.1
       walk-sync: 3.0.0
     transitivePeerDependencies:
@@ -15783,6 +15786,16 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dev: true
 
+  /mini-css-extract-plugin@2.7.6(webpack@5.89.0):
+    resolution: {integrity: sha512-Qk7HcgaPkGG6eD77mLvZS1nmxlao3j+9PkrT9Uc7HAE1id3F41+DdBRYRYkbyfNRGzm8/YWtzhw7nVPmwhqTQw==}
+    engines: {node: '>= 12.13.0'}
+    peerDependencies:
+      webpack: ^5.0.0
+    dependencies:
+      schema-utils: 4.2.0
+      webpack: 5.89.0
+    dev: true
+
   /mini-css-extract-plugin@2.8.0(webpack@5.58.1):
     resolution: {integrity: sha512-CxmUYPFcTgET1zImteG/LZOy/4T5rTojesQXkSNBiquhydn78tfbCE9sjIjnJ/UcjNjOC1bphTCCW5rrS7cXAg==}
     engines: {node: '>= 12.13.0'}
@@ -15792,16 +15805,6 @@ packages:
       schema-utils: 4.2.0
       tapable: 2.2.1
       webpack: 5.58.1
-    dev: true
-
-  /mini-css-extract-plugin@2.7.6(webpack@5.89.0):
-    resolution: {integrity: sha512-Qk7HcgaPkGG6eD77mLvZS1nmxlao3j+9PkrT9Uc7HAE1id3F41+DdBRYRYkbyfNRGzm8/YWtzhw7nVPmwhqTQw==}
-    engines: {node: '>= 12.13.0'}
-    peerDependencies:
-      webpack: ^5.0.0
-    dependencies:
-      schema-utils: 4.2.0
-      webpack: 5.89.0
     dev: true
 
   /minimalistic-assert@1.0.1:
@@ -19707,7 +19710,7 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
-      acorn: 8.11.2
+      acorn: 8.11.3
       commander: 2.20.3
       source-map: 0.6.1
       source-map-support: 0.5.21
@@ -19719,7 +19722,7 @@ packages:
     hasBin: true
     dependencies:
       '@jridgewell/source-map': 0.3.3
-      acorn: 8.11.2
+      acorn: 8.11.3
       commander: 2.20.3
       source-map-support: 0.5.21
     dev: true
@@ -20562,7 +20565,7 @@ packages:
     deprecated: The library contains critical security issues and should not be used for production! The maintenance of the project has been discontinued. Consider migrating your code to isolated-vm.
     hasBin: true
     dependencies:
-      acorn: 8.8.2
+      acorn: 8.11.3
       acorn-walk: 8.3.0
     dev: true
 
@@ -20845,8 +20848,8 @@ packages:
       '@webassemblyjs/ast': 1.11.6
       '@webassemblyjs/wasm-edit': 1.11.6
       '@webassemblyjs/wasm-parser': 1.11.6
-      acorn: 8.11.2
-      acorn-import-assertions: 1.9.0(acorn@8.11.2)
+      acorn: 8.11.3
+      acorn-import-assertions: 1.9.0(acorn@8.11.3)
       browserslist: 4.21.5
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.15.0

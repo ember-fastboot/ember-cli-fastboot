@@ -22,6 +22,7 @@
     "fastboot-express-middleware": "workspace:*",
     "globby": "^13.2.2",
     "lodash-es": "^4.0.0",
+    "node-fetch": "^2.0.0",
     "prettier": "^3.0.2",
     "qunit": "^2.19.4",
     "request-promise": "^4.2.6",
