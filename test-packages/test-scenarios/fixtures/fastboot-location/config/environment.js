@@ -6,7 +6,7 @@ module.exports = function(environment) {
     rootURL: '/my-root/',
     locationType: 'auto',
     environment: environment,
-    modulePrefix: 'fastboot-location',
+    modulePrefix: 'classic-app-template',
     fastboot: {
       fastbootHeaders: true,
       hostWhitelist: [/localhost:\d+/]
