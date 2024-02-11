@@ -8,7 +8,7 @@ import fetch from 'node-fetch';
 const { module: Qmodule, test } = qunit;
 
 appScenarios
-  .map('fastboot-location-config', (project) => {
+  .map('fastboot-config-location', (project) => {
     merge(project.files, {
       app: {
         routes: {
