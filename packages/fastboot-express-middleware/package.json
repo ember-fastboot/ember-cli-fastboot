@@ -21,7 +21,7 @@
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint --cache .",
-    "test": "yarn lint:js && mocha"
+    "test": "mocha"
   },
   "dependencies": {
     "chalk": "^4.1.2",

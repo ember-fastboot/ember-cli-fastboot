@@ -29,7 +29,7 @@
     "chai": "^4.2.0",
     "chai-fs": "^2.0.0",
     "chai-string": "^1.5.0",
-    "ember-auto-import": "^1.5.3",
+    "ember-auto-import": "^2.6.3",
     "ember-cli": "~4.1.0",
     "ember-cli-app-version": "^3.2.0",
     "ember-cli-babel": "^7.20.5",
@@ -52,10 +52,12 @@
     "eslint": "^7.1.0",
     "eslint-plugin-ember": "^8.6.0",
     "eslint-plugin-node": "^11.1.0",
+    "execa": "5",
     "loader.js": "^4.7.0",
     "mocha": "^9.1.2",
     "npm-run-all": "^4.1.5",
-    "qunit-dom": "^1.2.0"
+    "qunit-dom": "^1.2.0",
+    "webpack": "^5.89.0"
   },
   "engines": {
     "node": "10.* || >= 12"
