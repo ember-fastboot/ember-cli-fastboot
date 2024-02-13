@@ -95,7 +95,7 @@ appScenarios
           },
           redirect: 'manual',
         });
-        if (response.status === 500) throw new Error(await response.body.text());
+        if (response.status === 500) throw new Error(await response.text());
         assert.equal(response.status, 302);
         assert.equal(
           response.headers.get('location'),
@@ -114,7 +114,7 @@ appScenarios
               },
             }
           );
-          if (response.status === 500) throw new Error(await response.body.text());
+          if (response.status === 500) throw new Error(await response.text());
           assert.notOk(response.headers.has('x-fastboot-path'));
         });
       });
