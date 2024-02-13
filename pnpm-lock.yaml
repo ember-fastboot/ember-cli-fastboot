@@ -81,6 +81,9 @@ importers:
       '@ember/optional-features':
         specifier: ^2.0.0
         version: 2.0.0
+      '@ember/string':
+        specifier: ^3.1.1
+        version: 3.1.1
       '@ember/test-helpers':
         specifier: ^2.6.0
         version: 2.6.0
