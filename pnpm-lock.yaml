@@ -88,8 +88,8 @@ importers:
         specifier: ^2.6.0
         version: 2.6.0
       '@embroider/test-setup':
-        specifier: ^0.37.0
-        version: 0.37.0
+        specifier: ^3.0.3
+        version: 3.0.3
       '@glimmer/component':
         specifier: ^1.0.4
         version: 1.0.4
@@ -2855,11 +2855,23 @@ packages:
       - supports-color
     dev: true
 
-  /@embroider/test-setup@0.37.0:
-    resolution: {integrity: sha512-4jme5zEonjGvKeyVRygyXmooMuwmaa3nBiIxwbkRA6KWh0BLyZSqPwlQl93s7IT7S5PO5U9TqNiqI4yp2k5T7Q==}
+  /@embroider/test-setup@3.0.3:
+    resolution: {integrity: sha512-3K5KSyTdnxAkZQill6+TdC/XTRr6226LNwZMsrhRbBM0FFZXw2D8qmJSHPvZLheQx3A1jnF9t1lyrAzrKlg6Yw==}
+    engines: {node: 12.* || 14.* || >= 16}
+    peerDependencies:
+      '@embroider/compat': ^3.3.0
+      '@embroider/core': ^3.4.0
+      '@embroider/webpack': ^3.2.1
+    peerDependenciesMeta:
+      '@embroider/compat':
+        optional: true
+      '@embroider/core':
+        optional: true
+      '@embroider/webpack':
+        optional: true
     dependencies:
       lodash: 4.17.21
-      resolve: 1.22.0
+      resolve: 1.22.2
     dev: true
 
   /@eslint-community/eslint-utils@4.4.0(eslint@8.56.0):
