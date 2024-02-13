@@ -4,7 +4,7 @@
 
 module.exports = function (environment) {
   let ENV = {
-    modulePrefix: 'request',
+    modulePrefix: 'classic-app-template',
     environment,
     rootURL: '/',
     locationType: 'auto',

@@ -235,8 +235,6 @@ importers:
         specifier: ^5.58.1
         version: 5.58.1
 
-  packages/ember-cli-fastboot/test/fixtures/request/lib/post-middleware: {}
-
   packages/fastboot:
     dependencies:
       chalk:
@@ -910,6 +908,9 @@ importers:
 
   test-packages/test-scenarios:
     devDependencies:
+      body-parser:
+        specifier: ^1.18.3
+        version: 1.20.1
       chai:
         specifier: ^4.3.7
         version: 4.3.7
@@ -9163,7 +9164,7 @@ packages:
     resolution: {integrity: sha512-BZmqXSYI9zCDWby9AkpbUnwUK0ubm78a84NUpp5Mv3QSY2HDar6JgEu+XAQA49dKQBfMVuNU4YMq4AGG5dx6yA==}
     engines: {node: 8.* || >= 10.*}
     dependencies:
-      body-parser: 1.18.3
+      body-parser: 1.20.1
       ember-auto-import: 1.12.2
       ember-cli-babel: 7.26.11
       fastboot: 3.3.2
@@ -16391,7 +16392,7 @@ packages:
     engines: {node: '>= 0.8'}
     dependencies:
       array.prototype.reduce: 1.0.5
-      call-bind: 1.0.2
+      call-bind: 1.0.5
       define-properties: 1.2.0
       es-abstract: 1.21.2
       safe-array-concat: 1.0.0
@@ -18352,8 +18353,8 @@ packages:
     resolution: {integrity: sha512-9dVEFruWIsnie89yym+xWTAYASdpw3CJV7Li/6zBewGf9z2i1j31rP6jnY0pHEO4QZh6N0K11bFjWmdR8UGdPQ==}
     engines: {node: '>=0.4'}
     dependencies:
-      call-bind: 1.0.2
-      get-intrinsic: 1.2.1
+      call-bind: 1.0.5
+      get-intrinsic: 1.2.2
       has-symbols: 1.0.3
       isarray: 2.0.5
     dev: true

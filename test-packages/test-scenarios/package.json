@@ -8,6 +8,7 @@
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
+    "body-parser": "^1.18.3",
     "chai": "^4.3.7",
     "ember-cli-head": "^2.0.0",
     "eslint": "^8.48.0",
