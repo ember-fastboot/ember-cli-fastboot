@@ -1,4 +1,3 @@
-/* eslint-disable no-dupe-keys, prettier/prettier */
 'use strict';
 
 module.exports = {
@@ -18,34 +17,23 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   env: {
-    browser: true
-  },
-  rules: {
-    'ember/no-get': 'warn',
-    'ember/require-computed-property-dependencies': 'warn'
+    browser: true,
   },
   rules: {},
   overrides: [
     // node files
     {
       files: [
-        '.eslintrc.js',
-        '.prettierrc.js',
-        '.template-lintrc.js',
-        'ember-cli-build.js',
-        'index.js',
-        'testem.js',
-        'blueprints/*/index.js',
-        'config/**/*.js',
-        'tests/dummy/config/**/*.js',
-        'lib/**/*.js'
-      ],
-      excludedFiles: [
-        'app/**',
-        'addon/**',
-        'addon-test-support/**',
-        'app/**',
-        'tests/dummy/app/**',
+        './.eslintrc.js',
+        './.prettierrc.js',
+        './.template-lintrc.js',
+        './ember-cli-build.js',
+        './index.js',
+        './testem.js',
+        './blueprints/*/index.js',
+        './config/**/*.js',
+        './tests/dummy/config/**/*.js',
+        './lib/**/*.js',
       ],
       parserOptions: {
         sourceType: 'script',
@@ -56,6 +44,11 @@ module.exports = {
       },
       plugins: ['node'],
       extends: ['plugin:node/recommended'],
+    },
+    {
+      // Test files:
+      files: ['tests/**/*-test.{js,ts}'],
+      extends: ['plugin:qunit/recommended'],
     },
   ],
 };
