@@ -1,4 +1,4 @@
-/* eslint-disable prettier/prettier */
+/* eslint-disable prettier/prettier, qunit/no-assert-equal */
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
