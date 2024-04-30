@@ -65,31 +65,6 @@ jobs:
       - run: pnpm test:fastboot-express-middleware
       - run: pnpm test:fastboot-app-server
 
-  integration-tests:
-    name: Integration Tests
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 15
-
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version: [16.x, 14.x]
-        os: [ubuntu-latest, windows-latest]
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-        with:
-            version: 7
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm test:integration
-
   test-packages:
     name: Test Packages
     runs-on: ${{ matrix.os }}
@@ -177,3 +152,47 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: test
         run: pnpm --filter ember-cli-fastboot exec ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
+
+  discover_matrix:
+    runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+            version: 7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - id: set-matrix
+        working-directory: test-packages/test-scenarios
+        run: echo "matrix=$(npm run --silent test:list -- --matrix 'npm run test -- --filter %s:')" >> $GITHUB_OUTPUT
+
+  scenario-tester:
+    needs: discover_matrix
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.discover_matrix.outputs.matrix)}}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+            version: 7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: test
+        run: ${{ matrix.command }}
+        working-directory: test-packages/test-scenarios

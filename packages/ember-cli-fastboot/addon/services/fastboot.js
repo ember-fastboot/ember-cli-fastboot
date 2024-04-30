@@ -14,15 +14,15 @@ const RequestObject = EObject.extend({
     let request = this.request;
     delete this.request;
 
-    this.method = request.method;
-    this.body = request.body;
-    this.cookies = request.cookies;
-    this.headers = request.headers;
-    this.queryParams = request.queryParams;
-    this.path = request.path;
-    this.protocol = request.protocol;
+    this.method = request?.method;
+    this.body = request?.body;
+    this.cookies = request?.cookies;
+    this.headers = request?.headers;
+    this.queryParams = request?.queryParams;
+    this.path = request?.path;
+    this.protocol = request?.protocol;
     this._host = function() {
-      return request.host();
+      return request?.host();
     };
   },
 
