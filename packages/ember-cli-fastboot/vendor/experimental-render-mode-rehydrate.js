@@ -2,7 +2,14 @@
 (function() {
   if (typeof FastBoot === 'undefined') {
     var current = document.getElementById('fastboot-body-start');
-    var _Ember = require.has('ember') ? require('ember').default : Ember;
+
+    var _Ember = require.has('ember') ? require('ember').default : window.Ember;
+
+    if (current && !_Ember) {
+      console.error(`Experimental render mode rehydrate isn't working because it couldn't find Ember via AMD or global.
+See https://github.com/ember-fastboot/ember-cli-fastboot/issues/938 for the current state of the fix.`);
+      return;
+    }
 
     if (
       current &&
