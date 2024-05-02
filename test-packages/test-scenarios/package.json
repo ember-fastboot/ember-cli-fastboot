@@ -1,5 +1,6 @@
 {
   "name": "fastboot-test-scenarios",
+  "private": true,
   "scripts": {
     "test": "qunit *-test.mjs",
     "test:list": "scenario-tester-esm list --files=*-test.mjs",
