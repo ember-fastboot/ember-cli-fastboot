@@ -2,6 +2,23 @@
 
 ## Release (2024-05-02)
 
+ember-cli-fastboot 4.1.4 (patch)
+fastboot 4.1.4 (patch)
+fastboot-app-server 4.1.3 (patch)
+
+#### :bug: Bug Fix
+* `ember-cli-fastboot`
+  * [#943](https://github.com/ember-fastboot/ember-cli-fastboot/pull/943) fix ember-source peer declaration ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `fastboot`, `custom-fastboot-app`, `ember-cli-fastboot-testing-app`
+  * [#944](https://github.com/ember-fastboot/ember-cli-fastboot/pull/944) always use workspace deps ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
+## Release (2024-05-02)
+
 ember-cli-fastboot 4.1.3 (patch)
 fastboot 4.1.3 (patch)
 
