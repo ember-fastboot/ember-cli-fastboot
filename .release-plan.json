@@ -1,0 +1,48 @@
+{
+  "solution": {
+    "ember-cli-fastboot": {
+      "impact": "patch",
+      "oldVersion": "4.1.2",
+      "newVersion": "4.1.3",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        },
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on fastboot"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./packages/ember-cli-fastboot/package.json"
+    },
+    "fastboot": {
+      "impact": "patch",
+      "oldVersion": "4.1.2",
+      "newVersion": "4.1.3",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./packages/fastboot/package.json"
+    },
+    "fastboot-app-server": {
+      "oldVersion": "4.1.2"
+    },
+    "fastboot-express-middleware": {
+      "oldVersion": "4.1.2"
+    },
+    "empty-package-json": {},
+    "fastboot-test": {},
+    "foo": {
+      "oldVersion": "0.0.0"
+    }
+  },
+  "description": "## Release (2024-05-02)\n\nember-cli-fastboot 4.1.3 (patch)\nfastboot 4.1.3 (patch)\n\n#### :bug: Bug Fix\n* `ember-cli-fastboot`\n  * [#939](https://github.com/ember-fastboot/ember-cli-fastboot/pull/939) Fix embroider-optimised ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `fastboot-test-scenarios`\n  * [#942](https://github.com/ember-fastboot/ember-cli-fastboot/pull/942) mark fastboot-test-scenarios as private ([@mansona](https://github.com/mansona))\n* `fastboot`\n  * [#941](https://github.com/ember-fastboot/ember-cli-fastboot/pull/941) add names to private tests packages ([@mansona](https://github.com/mansona))\n* Other\n  * [#937](https://github.com/ember-fastboot/ember-cli-fastboot/pull/937) start using release-plan ([@mansona](https://github.com/mansona))\n  * [#932](https://github.com/ember-fastboot/ember-cli-fastboot/pull/932) update CI action versions ([@mansona](https://github.com/mansona))\n* `ember-cli-fastboot`\n  * [#935](https://github.com/ember-fastboot/ember-cli-fastboot/pull/935) update to Ember 5.8 using ember-cli-update ([@mansona](https://github.com/mansona))\n* `ember-cli-fastboot`, `ember-cli-fastboot-testing-app`, `example-addon`\n  * [#934](https://github.com/ember-fastboot/ember-cli-fastboot/pull/934) Update ember-cli-fastboot to 4.12 with ember-cli-update ([@mansona](https://github.com/mansona))\n* `ember-cli-fastboot`, `fastboot`, `classic-app-template`, `custom-fastboot-app`, `ember-cli-fastboot-testing-app`, `fastboot-test-scenarios`\n  * [#919](https://github.com/ember-fastboot/ember-cli-fastboot/pull/919) Move some failing tests from pre-built fixtures to scenario-tester ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+}
