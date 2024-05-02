@@ -1,4 +1,6 @@
 {
+  "private": true,
+  "name": "app-with-dependencies",
   "dependencies": {
     "foo": "workspace:*"
   },

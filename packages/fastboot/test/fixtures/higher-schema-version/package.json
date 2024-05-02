@@ -1,4 +1,6 @@
 {
+  "private": true,
+  "name": "higher-schema-version",
   "dependencies": {},
   "fastboot": {
     "moduleWhitelist": [],

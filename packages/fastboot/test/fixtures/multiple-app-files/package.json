@@ -1,4 +1,6 @@
 {
+  "private": true,
+  "name": "multiple-app-files",
   "dependencies": {},
   "fastboot": {
     "moduleWhitelist": [],

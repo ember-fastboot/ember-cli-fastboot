@@ -1,4 +1,6 @@
 {
+  "private": true,
+  "name": "custom-not-in-meta-app",
   "dependencies": {},
   "fastboot": {
     "moduleWhitelist": [],

@@ -1,4 +1,6 @@
 {
+  "private": true,
+  "name": "basic-app",
   "dependencies": {},
   "fastboot": {
     "moduleWhitelist": [],
