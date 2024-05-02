@@ -1,4 +1,6 @@
 {
+  "private": true,
+  "name": "boot-time-failing-app",
   "dependencies": {},
   "fastboot": {
     "moduleWhitelist": [],

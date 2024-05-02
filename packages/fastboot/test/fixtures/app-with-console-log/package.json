@@ -1,4 +1,6 @@
 {
+  "private": true,
+  "name": "app-with-console-log",
   "dependencies": {},
   "fastboot": {
     "moduleWhitelist": [],

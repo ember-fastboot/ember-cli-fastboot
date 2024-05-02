@@ -1,4 +1,6 @@
 {
+  "private": true,
+  "name": "config-app",
   "dependencies": {},
   "fastboot": {
     "moduleWhitelist": [],

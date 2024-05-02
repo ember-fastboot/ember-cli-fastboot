@@ -1,4 +1,6 @@
 {
+  "private": true,
+  "name": "hot-swap-app",
   "dependencies": {},
   "fastboot": {
     "moduleWhitelist": [],

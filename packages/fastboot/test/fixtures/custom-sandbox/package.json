@@ -1,4 +1,6 @@
 {
+  "private": true,
+  "name": "custom-sandbox",
   "dependencies": {},
   "fastboot": {
     "moduleWhitelist": [],

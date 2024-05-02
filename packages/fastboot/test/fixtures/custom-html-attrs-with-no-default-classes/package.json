@@ -1,4 +1,6 @@
 {
+  "private": true,
+  "name": "custom-html-attrs-with-no-default-classes",
   "dependencies": {},
   "fastboot": {
     "moduleWhitelist": [],

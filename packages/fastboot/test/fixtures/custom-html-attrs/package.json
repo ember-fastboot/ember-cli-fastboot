@@ -1,4 +1,6 @@
 {
+  "private": true,
+  "name": "custom-html-attrs",
   "dependencies": {},
   "fastboot": {
     "moduleWhitelist": [],
