@@ -7,13 +7,14 @@
     "fastboot",
     "server"
   ],
-  "homepage": "https://github.com/ember-fastboot/fastboot-app-server#readme",
+  "homepage": "https://github.com/ember-fastboot/ember-cli-fastboot/tree/master/packages/fastboot-app-server",
   "bugs": {
-    "url": "https://github.com/ember-fastboot/fastboot-app-server/issues"
+    "url": "https://github.com/ember-fastboot/ember-cli-fastboot/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ember-fastboot/fastboot-app-server.git"
+    "url": "git+https://github.com/ember-fastboot/ember-cli-fastboot.git",
+    "directory": "packages/fastboot-app-server"
   },
   "license": "MIT",
   "author": "Tom Dale <tom@tomdale.net>",
