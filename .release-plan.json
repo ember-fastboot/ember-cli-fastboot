@@ -2,13 +2,9 @@
   "solution": {
     "ember-cli-fastboot": {
       "impact": "patch",
-      "oldVersion": "4.1.3",
-      "newVersion": "4.1.4",
+      "oldVersion": "4.1.4",
+      "newVersion": "4.1.5",
       "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on fastboot"
@@ -18,20 +14,20 @@
     },
     "fastboot": {
       "impact": "patch",
-      "oldVersion": "4.1.3",
-      "newVersion": "4.1.4",
+      "oldVersion": "4.1.4",
+      "newVersion": "4.1.5",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./packages/fastboot/package.json"
     },
     "fastboot-app-server": {
       "impact": "patch",
-      "oldVersion": "4.1.2",
-      "newVersion": "4.1.3",
+      "oldVersion": "4.1.3",
+      "newVersion": "4.1.4",
       "constraints": [
         {
           "impact": "patch",
@@ -49,5 +45,5 @@
       "oldVersion": "0.0.0"
     }
   },
-  "description": "## Release (2024-05-02)\n\nember-cli-fastboot 4.1.4 (patch)\nfastboot 4.1.4 (patch)\nfastboot-app-server 4.1.3 (patch)\n\n#### :bug: Bug Fix\n* `ember-cli-fastboot`\n  * [#943](https://github.com/ember-fastboot/ember-cli-fastboot/pull/943) fix ember-source peer declaration ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `fastboot`, `custom-fastboot-app`, `ember-cli-fastboot-testing-app`\n  * [#944](https://github.com/ember-fastboot/ember-cli-fastboot/pull/944) always use workspace deps ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2024-05-21)\n\nember-cli-fastboot 4.1.5 (patch)\nfastboot 4.1.5 (patch)\nfastboot-app-server 4.1.4 (patch)\n\n#### :bug: Bug Fix\n* `fastboot`\n  * [#946](https://github.com/ember-fastboot/ember-cli-fastboot/pull/946) Update url for fastboot-app-server in package.json for npm ([@SergeAstapov](https://github.com/SergeAstapov))\n\n#### Committers: 1\n- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))\n"
 }

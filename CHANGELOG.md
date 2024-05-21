@@ -1,5 +1,18 @@
 # Changelog
 
+## Release (2024-05-21)
+
+ember-cli-fastboot 4.1.5 (patch)
+fastboot 4.1.5 (patch)
+fastboot-app-server 4.1.4 (patch)
+
+#### :bug: Bug Fix
+* `fastboot`
+  * [#946](https://github.com/ember-fastboot/ember-cli-fastboot/pull/946) Update url for fastboot-app-server in package.json for npm ([@SergeAstapov](https://github.com/SergeAstapov))
+
+#### Committers: 1
+- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))
+
 ## Release (2024-05-02)
 
 ember-cli-fastboot 4.1.4 (patch)
