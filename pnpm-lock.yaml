@@ -348,7 +348,7 @@ importers:
         specifier: ^4.1.2
         version: 4.1.2
       fastboot:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../fastboot
     devDependencies:
       chai:
