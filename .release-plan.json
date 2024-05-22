@@ -2,8 +2,8 @@
   "solution": {
     "ember-cli-fastboot": {
       "impact": "patch",
-      "oldVersion": "4.1.4",
-      "newVersion": "4.1.5",
+      "oldVersion": "4.1.5",
+      "newVersion": "4.1.6",
       "constraints": [
         {
           "impact": "patch",
@@ -14,8 +14,8 @@
     },
     "fastboot": {
       "impact": "patch",
-      "oldVersion": "4.1.4",
-      "newVersion": "4.1.5",
+      "oldVersion": "4.1.5",
+      "newVersion": "4.1.6",
       "constraints": [
         {
           "impact": "patch",
@@ -26,8 +26,8 @@
     },
     "fastboot-app-server": {
       "impact": "patch",
-      "oldVersion": "4.1.3",
-      "newVersion": "4.1.4",
+      "oldVersion": "4.1.4",
+      "newVersion": "4.1.5",
       "constraints": [
         {
           "impact": "patch",
@@ -45,5 +45,5 @@
       "oldVersion": "0.0.0"
     }
   },
-  "description": "## Release (2024-05-21)\n\nember-cli-fastboot 4.1.5 (patch)\nfastboot 4.1.5 (patch)\nfastboot-app-server 4.1.4 (patch)\n\n#### :bug: Bug Fix\n* `fastboot`\n  * [#946](https://github.com/ember-fastboot/ember-cli-fastboot/pull/946) Update url for fastboot-app-server in package.json for npm ([@SergeAstapov](https://github.com/SergeAstapov))\n\n#### Committers: 1\n- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))\n"
+  "description": "## Release (2024-05-22)\n\nember-cli-fastboot 4.1.6 (patch)\nfastboot 4.1.6 (patch)\nfastboot-app-server 4.1.5 (patch)\n\n#### :bug: Bug Fix\n* `fastboot`\n  * [#949](https://github.com/ember-fastboot/ember-cli-fastboot/pull/949) Update url for fastboot-express-middleware in package.json for npm ([@SergeAstapov](https://github.com/SergeAstapov))\n\n#### Committers: 1\n- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))\n"
 }
