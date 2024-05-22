@@ -8,13 +8,14 @@
     "express",
     "middleware"
   ],
-  "homepage": "https://github.com/ember-fastboot/fastboot-express-middleware#readme",
+  "homepage": "https://github.com/ember-fastboot/ember-cli-fastboot/tree/master/packages/fastboot-express-middleware",
   "bugs": {
-    "url": "https://github.com/ember-fastboot/fastboot-express-middleware/issues"
+    "url": "https://github.com/ember-fastboot/ember-cli-fastboot/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ember-fastboot/fastboot-express-middleware.git"
+    "url": "git+https://github.com/ember-fastboot/fastboot-express-middleware.git",
+    "directory": "packages/fastboot-express-middleware"
   },
   "license": "MIT",
   "author": "Tom Dale <tom@tomdale.net>",
