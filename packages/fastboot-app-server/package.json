@@ -39,8 +39,6 @@
     "eslint-plugin-node": "^11.1.0",
     "mocha": "^9.1.2",
     "npm-run-all": "^4.1.5",
-    "release-it": "^14.2.2",
-    "release-it-lerna-changelog": "^3.1.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
   },
@@ -52,20 +50,5 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
-  },
-  "release-it": {
-    "plugins": {
-      "release-it-lerna-changelog": {
-        "infile": "CHANGELOG.md",
-        "launchEditor": true
-      }
-    },
-    "git": {
-      "tagName": "v${version}"
-    },
-    "github": {
-      "release": true,
-      "tokenRef": "GITHUB_AUTH"
-    }
   }
 }
