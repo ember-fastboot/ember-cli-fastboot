@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-fastboot",
-  "version": "4.1.5",
+  "version": "4.1.6",
   "description": "Server-side rendering for Ember.js apps",
   "keywords": [
     "ember-addon"
