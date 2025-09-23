@@ -62,7 +62,7 @@
     "webpack": "^5.90.1"
   },
   "engines": {
-    "node": "12.* || 14.* || >= 16"
+    "node": "20.* || 22.* || >= 24"
   },
   "ember": {
     "edition": "octane"

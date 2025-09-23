@@ -31,7 +31,7 @@ jobs:
           version: 7
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
@@ -44,7 +44,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [16.x, 14.x]
+        node-version: [20.x, 22.x, 24.x]
         os: [ubuntu-latest, windows-latest]
 
     steps:
@@ -74,7 +74,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [16.x, 14.x]
+        node-version: [20.x, 22.x, 24.x]
         os: [ubuntu-latest, windows-latest]
 
     steps:
@@ -101,7 +101,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [16.x, 14.x]
+        node-version: [20.x, 22.x, 24.x]
 
     steps:
       - name: Checkout Code
@@ -149,7 +149,7 @@ jobs:
           version: 7
       - uses: actions/setup-node@v4
         with:
-          node-version: 14
+          node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: test
@@ -168,7 +168,7 @@ jobs:
           version: 7
       - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - id: set-matrix
@@ -192,7 +192,7 @@ jobs:
           version: 7
       - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: test
