@@ -16,12 +16,14 @@
     "test:extra": "pnpm --filter basic-app test:mocha && pnpm --filter custom-fastboot-app test:mocha"
   },
   "devDependencies": {
-    "@release-it-plugins/lerna-changelog": "^5.0.0",
-    "@release-it-plugins/workspaces": "^3.2.0",
     "npm-run-all": "^4.1.5",
     "release-plan": "^0.9.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
+  },
+  "volta": {
+    "node": "18.20.4",
+    "pnpm": "7.33.7"
   }
 }
