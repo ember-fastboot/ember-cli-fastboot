@@ -29,8 +29,8 @@
     "chalk": "^4.1.2",
     "compression": "^1.7.4",
     "express": "^4.17.2",
-    "fastboot": "workspace:*",
-    "fastboot-express-middleware": "workspace:*"
+    "fastboot": "workspace:^*",
+    "fastboot-express-middleware": "workspace:^*"
   },
   "devDependencies": {
     "chai": "^4.3.4",
