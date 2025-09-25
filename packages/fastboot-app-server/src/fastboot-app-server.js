@@ -63,7 +63,7 @@ class FastBootAppServer {
     }
   }
 
-  start() {
+  start(callback) {
     if (cluster.isWorker) { return; }
 
     return this.initializeApp()
@@ -72,6 +72,11 @@ class FastBootAppServer {
       .then(() => {
         if (this.initializationError) {
           this.broadcast({ event: 'error', error: this.initializationError.stack });
+        }
+      })
+      .then(() => {
+        if (typeof callback === "function") {
+          callback();
         }
       })
       .catch(err => {
