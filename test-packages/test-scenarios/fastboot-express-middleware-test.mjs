@@ -27,7 +27,7 @@ appScenarios
       app: {
         routes: {
           'index.js': `import Route from '@ember/routing/route';
-          import { inject as service } from '@ember/service';
+          import { service } from '@ember/service';
 
           function isEmptyObject(obj) {
             return Object.keys(obj).length === 0 && obj.constructor.name === 'Object';
@@ -46,7 +46,7 @@ appScenarios
             }
           }`,
           'application.js': `import Route from '@ember/routing/route';
-          import { inject as service } from '@ember/service';
+          import { service } from '@ember/service';
 
           export default class ApplicationRoute extends Route {
             @service fastboot;

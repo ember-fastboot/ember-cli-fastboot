@@ -14,7 +14,7 @@ appScenarios
         routes: {
           'redirect-on-transition-to.js': `
           import Route from '@ember/routing/route';
-          import { inject as service } from '@ember/service';
+          import { service } from '@ember/service';
 
           export default class MyRoute extends Route {
             @service
