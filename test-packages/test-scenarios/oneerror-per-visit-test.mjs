@@ -24,7 +24,7 @@ appScenarios
           });
         });`,
         'instance-initializers': {
-          'setup-onerror.js': `import Ember from 'ember';
+          'setup-onerror.js': `import { setOnerror } from '@ember/-internals/error-handling';
           export function initialize(owner) {
             let isFastBoot = typeof 'FastBoot' !== 'undefined';
             let fastbootRequestPath;
@@ -36,12 +36,12 @@ appScenarios
 
             console.log('setting up error handler ' + fastbootRequestPath);
 
-            Ember.onerror = function (error) {
+            setOnerror(function (error) {
               if (isFastBoot) {
                 error.fastbootRequestPath = fastbootRequestPath;
                 throw error;
               }
-            };
+            });
           }
 
           export default {
@@ -52,12 +52,15 @@ appScenarios
         routes: {
           'application.js': `import Route from '@ember/routing/route';
           import { action } from '@ember/object';
-          import Ember from 'ember';
+          import { getOnerror } from '@ember/-internals/error-handling';
 
           export default class ApplicationRoute extends Route {
             @action
             error(err) {
-              Ember.onerror(err);
+              const onerror = getOnerror();
+              if (onerror) {
+                onerror(err);
+              }
             }
           }
           `,
