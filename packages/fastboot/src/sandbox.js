@@ -21,12 +21,32 @@ module.exports = class Sandbox {
       {
         sourceMapSupport,
         console,
+        fetch,
+        document,
+        navigator,
         setTimeout,
         clearTimeout,
         URL,
 
         // Convince jQuery not to assume it's in a browser
         module: { exports: {} },
+
+        MutationObserver,
+        ResizeObserver,
+        AbortController,
+        ReadableStream:
+            typeof ReadableStream !== 'undefined'
+                ? ReadableStream
+                : require('node:stream/web').ReadableStream,
+        WritableStream:
+            typeof WritableStream !== 'undefined'
+                ? WritableStream
+                : require('node:stream/web').WritableStream,
+        TransformStream:
+            typeof TransformStream !== 'undefined'
+                ? TransformStream
+                : require('node:stream/web').TransformStream,
+        Headers: typeof Headers !== 'undefined' ? Headers : undefined,
       },
       globals
     );
