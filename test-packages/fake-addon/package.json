@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "fake-addon",
+  "version": "0.1.0",
+  "ember-addon": {
+    "fastbootDependencies": [
+      "path",
+      "foo",
+      "bar"
+    ]
+  },
+  "dependencies": {
+    "foo": "1.0.0",
+    "bar": "^0.1.2"
+  },
+  "keywords": [
+    "ember-addon"
+  ]
+}

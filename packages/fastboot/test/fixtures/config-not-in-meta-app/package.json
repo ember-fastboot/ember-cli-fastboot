@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "custom-not-in-meta-app",
+  "dependencies": {},
+  "fastboot": {
+    "moduleWhitelist": [],
+    "schemaVersion": 1,
+    "manifest": {
+      "appFile": "assets/fastboot-test.js",
+      "htmlFile": "index.html",
+      "vendorFile": "assets/vendor.js"
+    }
+  }
+}

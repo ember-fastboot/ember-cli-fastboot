@@ -1,0 +1,10 @@
+{
+  "fastboot": {
+    "moduleWhitelist": [],
+    "manifest": {
+      "appFile": "app.js",
+      "vendorFile": "vendor.js",
+      "htmlFile": "index.html"
+    }
+  }
+}

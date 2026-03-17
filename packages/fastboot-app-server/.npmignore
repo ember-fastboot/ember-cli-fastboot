@@ -1,0 +1,8 @@
+.gitignore
+.eslintcache
+.eslintignore
+.eslintrc.js
+.mocharc.js
+.travis.yml
+test/
+/.github/
