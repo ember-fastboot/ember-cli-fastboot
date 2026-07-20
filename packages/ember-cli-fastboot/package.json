@@ -29,13 +29,14 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
+    "@babel/core": "^7.28.4",
     "broccoli-concat": "^4.2.5",
     "broccoli-file-creator": "^2.1.1",
     "broccoli-funnel": "^3.0.8",
     "broccoli-merge-trees": "^4.2.0",
     "broccoli-plugin": "^4.0.7",
     "chalk": "^4.1.2",
-    "ember-cli-babel": "^7.26.11",
+    "ember-cli-babel": "^8.3.1",
     "ember-cli-lodash-subset": "^2.0.1",
     "ember-cli-preprocess-registry": "^3.3.0",
     "ember-cli-version-checker": "^5.1.2",
