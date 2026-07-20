@@ -19,15 +19,17 @@ The `test-packages` folder contains sample apps and integration test suite used 
 
 * `git clone https://github.com/ember-fastboot/ember-cli-fastboot/`
 * `cd ember-cli-fastboot`
-* `yarn install`
+* `pnpm install`
 
 ## Running tests
 
-* `yarn workspace integration-tests test` - Run integration test suite
-* `yarn workspace basic-app test:mocha` - Run sample app's test suite
-* `yarn workspace ember-cli-fastboot test:ember` – Runs the `ember-cli-fastboot` test suite
+If you want to **all** the tests you can run 
 
-You can run each package's own test suite specified in its `package.json` via [`yarn workspace`](https://classic.yarnpkg.com/en/docs/cli/workspace#yarn-workspace-workspace_name-command-)
+```
+pnpm test
+```
+
+in the root of the monorepo. You will see that it is calling `npm-run-all` on other scripts listed in `package.json` with the prefix `test:` so if you want to run any specific test again you can just use that package.json sript
 
 ## Where to write test
 
