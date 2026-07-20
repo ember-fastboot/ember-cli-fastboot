@@ -13,7 +13,7 @@ describe("generating package.json", function () {
   describe('with customized fingerprinting options', function() {
 
     before(async function () {
-      await execa("yarn", ["build:prod"]);
+      await execa("pnpm", ["build:prod"]);
     });
 
     it("builds a package.json", async function () {

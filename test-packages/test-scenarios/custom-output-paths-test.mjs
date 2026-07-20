@@ -14,6 +14,11 @@ appScenarios
 
       module.exports = function(defaults) {
         var app = new EmberApp(defaults, {
+          // it seems like something changed in ember-auto-import to break the inserter
+          // when customising output paths
+          autoImport: {
+            insertScriptsAt: 'auto-import-script',
+          },
           outputPaths: {
             app: {
               html: 'index.html',
@@ -31,6 +36,19 @@ appScenarios
         return app.toTree();
       };`,
     });
+
+    project.files.app['index.html'].replace(
+      '<script src="{{rootURL}}assets/classic-app-template.js"></script>',
+      `<auto-import-script entrypoint="app"></auto-import-script>
+       <script src="{{rootURL}}assets/classic-app-template.js"></script>`
+    );
+
+    project.files.tests['index.html'].replace(
+      '<script src="{{rootURL}}assets/test-support.js"></script>',
+      `<auto-import-script entrypoint="app"></auto-import-script>
+    <script src="{{rootURL}}assets/test-support.js"></script>
+    <auto-import-script entrypoint="tests"></auto-import-script>`
+    );
 
     project.removeDependency('ember-fetch');
   })
