@@ -339,9 +339,7 @@ module.exports = {
 
       app.use((req, resp, next) => {
         const fastbootQueryParam =
-          req.query.hasOwnProperty('fastboot') && req.query.fastboot === 'false'
-            ? false
-            : true;
+          req.query?.fastboot === 'false' ? false : true;
         const enableFastBootServe =
           !process.env.FASTBOOT_DISABLED && fastbootQueryParam;
 
