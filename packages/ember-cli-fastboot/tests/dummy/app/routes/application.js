@@ -13,8 +13,8 @@ export default Route.extend({
     if (!fastboot.get('isFastBoot')) {
       return {
         key1: shoebox.retrieve('key1'),
-        key2: shoebox.retrieve('key2')
+        key2: shoebox.retrieve('key2'),
       };
     }
-  }
+  },
 });

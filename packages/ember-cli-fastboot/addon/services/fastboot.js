@@ -21,23 +21,28 @@ const RequestObject = EObject.extend({
     this.queryParams = request?.queryParams;
     this.path = request?.path;
     this.protocol = request?.protocol;
-    this._host = function() {
+    this._host = function () {
       return request?.host();
     };
   },
 
-  host: computed(function() {
+  host: computed(function () {
     return this._host();
-  })
+  }),
 });
 
 const Shoebox = EObject.extend({
   put(key, value) {
-    assert('shoebox.put is only invoked from the FastBoot rendered application', this.get('fastboot.isFastBoot'));
+    assert(
+      'shoebox.put is only invoked from the FastBoot rendered application',
+      this.get('fastboot.isFastBoot'),
+    );
     assert('the provided key is a string', typeof key === 'string');
 
     let fastbootInfo = this.get('fastboot._fastbootInfo');
-    if (!fastbootInfo.shoebox) { fastbootInfo.shoebox = {}; }
+    if (!fastbootInfo.shoebox) {
+      fastbootInfo.shoebox = {};
+    }
 
     fastbootInfo.shoebox[key] = value;
   },
@@ -45,33 +50,41 @@ const Shoebox = EObject.extend({
   retrieve(key) {
     if (this.get('fastboot.isFastBoot')) {
       let shoebox = this.get('fastboot._fastbootInfo.shoebox');
-      if (!shoebox) { return; }
+      if (!shoebox) {
+        return;
+      }
 
       return shoebox[key];
     }
 
     let shoeboxItem = this.get(key);
-    if (shoeboxItem) { return shoeboxItem; }
+    if (shoeboxItem) {
+      return shoeboxItem;
+    }
 
     let el = document.querySelector(`#shoebox-${key}`);
-    if (!el) { return; }
+    if (!el) {
+      return;
+    }
     let valueString = el.textContent;
-    if (!valueString) { return; }
+    if (!valueString) {
+      return;
+    }
 
     shoeboxItem = JSON.parse(valueString);
     this.set(key, shoeboxItem);
 
     return shoeboxItem;
-  }
+  },
 });
 
 const FastBootService = Service.extend({
   isFastBoot: typeof FastBoot !== 'undefined',
 
-  isFastboot: computed(function() {
+  isFastboot: computed(function () {
     assert(
       'The fastboot service does not have an `isFastboot` property. This is likely a typo. Please use `isFastBoot` instead.',
-      false
+      false,
     );
   }),
 
@@ -85,9 +98,11 @@ const FastBootService = Service.extend({
   response: readOnly('_fastbootInfo.response'),
   metadata: readOnly('_fastbootInfo.metadata'),
 
-  request: computed(function() {
+  request: computed(function () {
     if (!this.isFastBoot) return null;
-    return RequestObject.create({ request: get(this, '_fastbootInfo.request') });
+    return RequestObject.create({
+      request: get(this, '_fastbootInfo.request'),
+    });
   }),
 
   // this getter/setter pair is to avoid deprecation from [RFC - 680](https://github.com/emberjs/rfcs/pull/680)
@@ -102,13 +117,16 @@ const FastBootService = Service.extend({
     set(_key, value) {
       this.__fastbootInfo = value;
       return value;
-    }
+    },
   }),
 
   deferRendering(promise) {
-    assert('deferRendering requires a promise or thennable object', typeof promise.then === 'function');
+    assert(
+      'deferRendering requires a promise or thennable object',
+      typeof promise.then === 'function',
+    );
     this._fastbootInfo.deferRendering(promise);
-  }
+  },
 });
 
 export default FastBootService;

@@ -92,7 +92,7 @@ export default [
       '.template-lintrc.js',
       'ember-cli-build.js',
       'blueprints/ember-cli-fastboot/index.js',
-      'lib/**/*.js'
+      'lib/**/*.js',
     ],
     plugins: {
       n,

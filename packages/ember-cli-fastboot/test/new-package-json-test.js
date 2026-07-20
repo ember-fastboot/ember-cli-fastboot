@@ -7,13 +7,13 @@ const createBuilder = helpers.createBuilder;
 const createTempDir = helpers.createTempDir;
 const FastbootConfig = require('../lib/broccoli/fastboot-config');
 
-describe('FastbootConfig', function() {
+describe('FastbootConfig', function () {
   let input;
   let output;
   let subject;
   let project;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     input = await createTempDir();
     project = {
       addons: [],
@@ -32,12 +32,12 @@ describe('FastbootConfig', function() {
     output = createBuilder(subject);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await input.dispose();
     await output.dispose();
   });
 
-  it('it builds only when information changes', async function() {
+  it('it builds only when information changes', async function () {
     input.write({
       'index.js': `export { A } from "./lib/a";`,
       lib: {
