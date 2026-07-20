@@ -79,7 +79,6 @@
     "ember-resolver": "^13.2.0",
     "ember-source": "~6.12.0",
     "ember-source-channel-url": "^3.0.0",
-    "ember-template-imports": "^4.4.0",
     "ember-template-lint": "^6.1.0",
     "ember-try": "^4.0.0",
     "eslint": "^9.39.4",

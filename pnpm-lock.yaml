@@ -170,9 +170,6 @@ importers:
       ember-source-channel-url:
         specifier: ^3.0.0
         version: 3.0.0(encoding@0.1.13)
-      ember-template-imports:
-        specifier: ^4.4.0
-        version: 4.4.0
       ember-template-lint:
         specifier: ^6.1.0
         version: 6.1.0
@@ -5745,10 +5742,6 @@ packages:
   ember-template-imports@3.4.2:
     resolution: {integrity: sha512-OS8TUVG2kQYYwP3netunLVfeijPoOKIs1SvPQRTNOQX4Pu8xGGBEZmrv0U1YTnQn12Eg+p6w/0UdGbUnITjyzw==}
     engines: {node: 12.* || >= 14}
-
-  ember-template-imports@4.4.0:
-    resolution: {integrity: sha512-HNOHabTEMbRluci1uScvh3ljMDo9E46dHHNcJAIf5yjOhIQ/zN4Y0DVDWrRfcbihlHvt4v/iF69G+8tffC1YkA==}
-    engines: {node: 16.* || >= 18}
 
   ember-template-lint@2.21.0:
     resolution: {integrity: sha512-19QbEqJQdMfcRS7PsQsubflRowEtnkbD0tpYR4q/xq4lodmhU7hhOFvlTQgbxD/jwW5Ur+tkOwH4KFy9JwOyXA==}
@@ -19030,14 +19023,6 @@ snapshots:
       parse-static-imports: 1.1.0
       string.prototype.matchall: 4.0.12
       validate-peer-dependencies: 1.2.0
-    transitivePeerDependencies:
-      - supports-color
-
-  ember-template-imports@4.4.0:
-    dependencies:
-      broccoli-stew: 3.0.0
-      content-tag: 4.2.0
-      ember-cli-version-checker: 5.1.2
     transitivePeerDependencies:
       - supports-color
 
