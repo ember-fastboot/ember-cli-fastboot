@@ -5,7 +5,7 @@ const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 
 module.exports = async function () {
   return {
-    usePnpm: true,
+    packageManager: 'pnpm',
     scenarios: [
       {
         name: 'ember-lts-3.16',
@@ -16,6 +16,8 @@ module.exports = async function () {
             'ember-cli': '^4.12.0',
             '@ember/test-helpers': '^2.4.0',
             'ember-resolver': '^11.0.0',
+            'ember-page-title': '^8.0.0',
+            'ember-cli-htmlbars': '^6.0.1',
           },
         },
       },
@@ -28,6 +30,8 @@ module.exports = async function () {
             'ember-cli': '^4.12.0',
             '@ember/test-helpers': '^2.4.0',
             'ember-resolver': '^11.0.0',
+            'ember-page-title': '^8.0.0',
+            'ember-cli-htmlbars': '^6.0.1',
           },
         },
       },
@@ -40,6 +44,8 @@ module.exports = async function () {
             'ember-cli': '^4.12.0',
             '@ember/test-helpers': '^2.4.0',
             'ember-resolver': '^11.0.0',
+            'ember-page-title': '^8.0.0',
+            'ember-cli-htmlbars': '^6.0.1',
           },
         },
       },
@@ -50,6 +56,7 @@ module.exports = async function () {
             'ember-source': '~3.28.0',
             'ember-cli': '^4.12.0',
             'ember-resolver': '^11.0.0',
+            'ember-page-title': '^8.0.0',
           },
         },
       },
@@ -92,6 +99,30 @@ module.exports = async function () {
         npm: {
           devDependencies: {
             'ember-source': '~5.8.0',
+          },
+        },
+      },
+      {
+        name: 'ember-lts-5.12',
+        npm: {
+          devDependencies: {
+            'ember-source': '~5.12.0',
+          },
+        },
+      },
+      {
+        name: 'ember-lts-6.4',
+        npm: {
+          devDependencies: {
+            'ember-source': '~6.4.0',
+          },
+        },
+      },
+      {
+        name: 'ember-lts-6.8',
+        npm: {
+          devDependencies: {
+            'ember-source': '~6.8.0',
           },
         },
       },

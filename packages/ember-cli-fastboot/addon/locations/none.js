@@ -1,9 +1,9 @@
-/* eslint-disable ember/no-classic-classes, ember/no-get, ember/require-computed-property-dependencies, prettier/prettier */
+/* eslint-disable ember/no-classic-classes, ember/no-get, ember/require-computed-property-dependencies */
 import { computed, get } from '@ember/object';
 import { bool, readOnly } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { getOwner } from '@ember/application'
-import NoneLocation from '@ember/routing/none-location'
+import { getOwner } from '@ember/application';
+import NoneLocation from '@ember/routing/none-location';
 
 const TEMPORARY_REDIRECT_CODE = 307;
 
@@ -18,7 +18,9 @@ export default NoneLocation.extend({
   _fastbootHeadersEnabled: bool('_config.fastboot.fastbootHeaders'),
 
   _redirectCode: computed(function () {
-    return get(this, '_config.fastboot.redirectCode') || TEMPORARY_REDIRECT_CODE;
+    return (
+      get(this, '_config.fastboot.redirectCode') || TEMPORARY_REDIRECT_CODE
+    );
   }),
 
   _response: readOnly('fastboot.response'),
@@ -50,5 +52,5 @@ export default NoneLocation.extend({
     }
 
     this._super(...arguments);
-  }
+  },
 });
