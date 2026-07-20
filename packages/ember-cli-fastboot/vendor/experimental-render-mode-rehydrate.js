@@ -1,4 +1,4 @@
-/* eslint-disable prettier/prettier, no-undef */
+/* eslint-disable no-undef */
 (function() {
   if (typeof FastBoot === 'undefined') {
     var current = document.getElementById('fastboot-body-start');

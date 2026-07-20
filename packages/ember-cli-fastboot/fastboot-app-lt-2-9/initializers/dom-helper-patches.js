@@ -1,4 +1,4 @@
-/* eslint-disable no-redeclare, no-unused-vars, prettier/prettier */
+/* eslint-disable no-redeclare, no-unused-vars */
 /*globals Ember, URL*/
 export default {
   name: "dom-helper-patches",

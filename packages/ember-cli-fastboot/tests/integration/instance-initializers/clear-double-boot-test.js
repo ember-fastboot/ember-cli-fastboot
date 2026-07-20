@@ -1,4 +1,4 @@
-/* eslint-disable ember/no-get, prettier/prettier */
+/* eslint-disable ember/no-get */
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';

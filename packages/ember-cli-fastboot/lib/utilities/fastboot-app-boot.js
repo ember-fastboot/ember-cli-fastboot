@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 'use strict'
 
 // Added as app boot code to app.js that allows booting of the application

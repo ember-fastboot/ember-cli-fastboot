@@ -1,5 +1,4 @@
-/* eslint-disable no-undef, prettier/prettier */
-/* eslint-env node */
+/* eslint-disable no-undef */
 'use strict';
 
 const expect = require('chai').expect;

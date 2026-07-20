@@ -1,4 +1,4 @@
-/* eslint-disable ember/no-classic-classes, ember/no-get, ember/require-computed-property-dependencies, ember/require-return-from-computed, prettier/prettier */
+/* eslint-disable ember/no-classic-classes, ember/no-get, ember/require-computed-property-dependencies, ember/require-return-from-computed */
 /* global FastBoot */
 import { getOwner } from '@ember/application';
 import { computed, get } from '@ember/object';

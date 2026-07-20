@@ -1,5 +1,4 @@
-/* eslint-disable no-undef, prettier/prettier */
-/* eslint-env node */
+/* eslint-disable no-undef */
 'use strict';
 
 const fs     = require('fs');
@@ -8,13 +7,13 @@ const uniq   = require('ember-cli-lodash-subset').uniq;
 const merge  = require('ember-cli-lodash-subset').merge;
 const md5Hex = require('md5-hex');
 const path   = require('path');
-const Plugin = require('broccoli-plugin');
+const BroccoliPlugin = require('broccoli-plugin');
 
 const stringify = require('json-stable-stringify');
 
 const LATEST_SCHEMA_VERSION = 3;
 
-module.exports = class FastBootConfig extends Plugin {
+module.exports = class FastBootConfig extends BroccoliPlugin {
   constructor(inputNode, options) {
     super([inputNode], {
       annotation: 'Generate: FastBoot package.json',

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 // When using `ember serve` when fastboot addon is installed the application
 // output will already be rendered to the DOM when the actual JavaScript
 // loads. Ember does not automatically clear its `rootElement` so this

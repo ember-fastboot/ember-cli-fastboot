@@ -1,5 +1,4 @@
-/* eslint-disable no-prototype-builtins, prettier/prettier */
-/* eslint-env node */
+/* eslint-disable no-prototype-builtins */
 'use strict';
 
 const path = require('path');

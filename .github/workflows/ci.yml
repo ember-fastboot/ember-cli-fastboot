@@ -1,23 +1,15 @@
 name: CI
 
 on:
-  workflow_dispatch:
-  pull_request: {}
   push:
-    # Filtering branches here prevents duplicate builds from pull_request and push
     branches:
+      - main
       - master
-      - beta
-      - 'v*'
-      - /^greenkeeper.*$/
+  pull_request: {}
 
-    # Always run CI for tags
-    tags:
-      - '*'
-
-  # Early issue detection: run CI weekly on Sundays
-  schedule:
-    - cron: '0 6 * * 0'
+concurrency:
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint-all-packages:

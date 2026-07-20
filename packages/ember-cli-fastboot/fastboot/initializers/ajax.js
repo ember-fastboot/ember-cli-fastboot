@@ -1,4 +1,4 @@
-/* eslint-disable ember/new-module-imports, prettier/prettier */
+/* eslint-disable ember/new-module-imports */
 /* globals najax */
 import Ember from 'ember';
 
