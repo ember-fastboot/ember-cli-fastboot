@@ -21,6 +21,8 @@ const p = require('ember-cli-preprocess-registry/preprocessors');
 const fastbootTransform = require('fastboot-transform');
 const existsSync = fs.existsSync;
 
+const ServiceImportReplacer = require('./lib/broccoli/service-import');
+
 let checker;
 function getVersionChecker(context) {
   if (!checker) {
@@ -148,6 +150,17 @@ module.exports = {
     }
 
     return tree;
+  },
+
+  treeForAddon(tree) {
+    if (this._getEmberVersion().lt('4.1.0')) {
+      return this._super.treeForAddon.call(
+        this,
+        new ServiceImportReplacer(tree),
+      );
+    }
+
+    return this._super.treeForAddon.call(this, tree);
   },
 
   _processAddons(addons, fastbootTrees) {
