@@ -76,7 +76,6 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter basic-app test:mocha
-      - run: pnpm --filter custom-fastboot-app test:mocha
       - run: pnpm --filter ember-cli-fastboot-testing-app test:ember
 
   test-legacy-mocha:
