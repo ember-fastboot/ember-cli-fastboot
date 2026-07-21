@@ -101,9 +101,6 @@
     "stylelint-config-standard": "^36.0.1",
     "webpack": "^5.106.0"
   },
-  "peerDependencies": {
-    "ember-source": ">=3.16"
-  },
   "engines": {
     "node": ">= 20.19"
   },
