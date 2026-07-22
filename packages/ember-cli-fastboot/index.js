@@ -395,13 +395,13 @@ module.exports = {
   },
 
   _getEmberCliVersion() {
-    const checker = getVersionChecker(this);
+    const checker = getVersionChecker(this.project);
 
     return checker.for('ember-cli', 'npm');
   },
 
   _getEmberVersion() {
-    const checker = getVersionChecker(this);
+    const checker = getVersionChecker(this.project);
     const emberVersionChecker = checker.for('ember-source', 'npm');
 
     if (emberVersionChecker.version) {
