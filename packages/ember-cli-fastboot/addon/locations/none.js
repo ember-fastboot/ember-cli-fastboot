@@ -1,7 +1,7 @@
 /* eslint-disable ember/no-classic-classes, ember/no-get, ember/require-computed-property-dependencies */
 import { computed, get } from '@ember/object';
 import { bool, readOnly } from '@ember/object/computed';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { getOwner } from '@ember/application';
 import NoneLocation from '@ember/routing/none-location';
 

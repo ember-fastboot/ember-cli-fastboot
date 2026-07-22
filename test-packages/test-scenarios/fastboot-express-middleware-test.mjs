@@ -23,11 +23,13 @@ Object.assign(qunit.assert, {
 
 appScenarios
   .map('fastboot-express-middleware', (project) => {
+    // this test app has the service import itself so we need the polyfill to do its work
+    project.linkDevDependency('ember-service-import-polyfill', { baseDir: '.' });
     merge(project.files, {
       app: {
         routes: {
           'index.js': `import Route from '@ember/routing/route';
-          import { inject as service } from '@ember/service';
+          import { service } from '@ember/service';
 
           function isEmptyObject(obj) {
             return Object.keys(obj).length === 0 && obj.constructor.name === 'Object';
@@ -46,7 +48,7 @@ appScenarios
             }
           }`,
           'application.js': `import Route from '@ember/routing/route';
-          import { inject as service } from '@ember/service';
+          import { service } from '@ember/service';
 
           export default class ApplicationRoute extends Route {
             @service fastboot;

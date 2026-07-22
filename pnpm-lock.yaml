@@ -46,6 +46,9 @@ importers:
       broccoli-merge-trees:
         specifier: ^4.2.0
         version: 4.2.0
+      broccoli-persistent-filter:
+        specifier: ^3.1.3
+        version: 3.1.3
       broccoli-plugin:
         specifier: ^4.0.7
         version: 4.0.7
@@ -788,6 +791,9 @@ importers:
       ember-cli-head:
         specifier: ^2.0.0
         version: 2.0.0
+      ember-service-import-polyfill:
+        specifier: ^1.0.0
+        version: 1.0.0(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5))
       eslint:
         specifier: ^8.48.0
         version: 8.57.1
@@ -5573,6 +5579,12 @@ packages:
   ember-router-generator@2.0.0:
     resolution: {integrity: sha512-89oVHVJwmLDvGvAUWgS87KpBoRhy3aZ6U0Ql6HOmU4TrPkyaa8pM0W81wj9cIwjYprcQtN9EwzZMHnq46+oUyw==}
     engines: {node: 8.* || 10.* || >= 12}
+
+  ember-service-import-polyfill@1.0.0:
+    resolution: {integrity: sha512-aCfmHv+d6NQ7po9qUHhfDHEFYoUAj1Lw58j4fKyzMz5DR2qVk9BpE4n66AucC9VH5JHwZygAv+EoGN8LUiEi3A==}
+    engines: {node: '>= 20.19'}
+    peerDependencies:
+      ember-source: '>= 4.0.0'
 
   ember-source-channel-url@2.0.1:
     resolution: {integrity: sha512-YlLUHW9gNvxEaohIj5exykoTZb4xj9ZRTcR4J3svv9S8rjAHJUnHmqC5Fd9onCs+NGxHo7KwR/fDwsfadbDu5Q==}
@@ -14941,7 +14953,7 @@ snapshots:
 
   async@2.6.4:
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.18.1
 
   async@3.2.6: {}
 
@@ -15039,7 +15051,7 @@ snapshots:
       babel-helper-function-name: 6.24.1
       babel-runtime: 6.26.0
       babel-types: 6.26.0
-      lodash: 4.17.21
+      lodash: 4.18.1
     transitivePeerDependencies:
       - supports-color
 
@@ -15080,7 +15092,7 @@ snapshots:
     dependencies:
       babel-runtime: 6.26.0
       babel-types: 6.26.0
-      lodash: 4.17.21
+      lodash: 4.18.1
 
   babel-helper-remap-async-to-generator@6.24.1:
     dependencies:
@@ -18723,6 +18735,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  ember-service-import-polyfill@1.0.0(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5)):
+    dependencies:
+      '@babel/core': 7.29.7
+      ember-cli-babel: 8.3.1(@babel/core@7.29.7)
+      ember-cli-version-checker: 5.1.2
+      ember-source: 6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5)
+    transitivePeerDependencies:
+      - supports-color
+
   ember-source-channel-url@2.0.1:
     dependencies:
       got: 8.3.2
@@ -20938,7 +20959,7 @@ snapshots:
       heimdalljs: 0.2.6
       heimdalljs-logger: 0.1.10
       path-root: 0.1.1
-      resolve: 1.22.10
+      resolve: 1.22.12
       resolve-package-path: 1.2.7
     transitivePeerDependencies:
       - supports-color
