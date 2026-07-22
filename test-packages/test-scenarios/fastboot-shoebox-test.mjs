@@ -9,6 +9,8 @@ const { module: Qmodule, test } = qunit;
 
 appScenarios
   .map('fastboot-shoebox-test', (project) => {
+    // this test app has the service import itself so we need the polyfill to do its work
+    project.linkDevDependency('ember-service-import-polyfill', { baseDir: '.' });
     merge(project.files, {
       app: {
         routes: {

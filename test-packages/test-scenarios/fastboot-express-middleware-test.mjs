@@ -23,6 +23,8 @@ Object.assign(qunit.assert, {
 
 appScenarios
   .map('fastboot-express-middleware', (project) => {
+    // this test app has the service import itself so we need the polyfill to do its work
+    project.linkDevDependency('ember-service-import-polyfill', { baseDir: '.' });
     merge(project.files, {
       app: {
         routes: {

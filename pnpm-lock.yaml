@@ -791,6 +791,9 @@ importers:
       ember-cli-head:
         specifier: ^2.0.0
         version: 2.0.0
+      ember-service-import-polyfill:
+        specifier: ^1.0.0
+        version: 1.0.0(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5))
       eslint:
         specifier: ^8.48.0
         version: 8.57.1
@@ -5576,6 +5579,12 @@ packages:
   ember-router-generator@2.0.0:
     resolution: {integrity: sha512-89oVHVJwmLDvGvAUWgS87KpBoRhy3aZ6U0Ql6HOmU4TrPkyaa8pM0W81wj9cIwjYprcQtN9EwzZMHnq46+oUyw==}
     engines: {node: 8.* || 10.* || >= 12}
+
+  ember-service-import-polyfill@1.0.0:
+    resolution: {integrity: sha512-aCfmHv+d6NQ7po9qUHhfDHEFYoUAj1Lw58j4fKyzMz5DR2qVk9BpE4n66AucC9VH5JHwZygAv+EoGN8LUiEi3A==}
+    engines: {node: '>= 20.19'}
+    peerDependencies:
+      ember-source: '>= 4.0.0'
 
   ember-source-channel-url@2.0.1:
     resolution: {integrity: sha512-YlLUHW9gNvxEaohIj5exykoTZb4xj9ZRTcR4J3svv9S8rjAHJUnHmqC5Fd9onCs+NGxHo7KwR/fDwsfadbDu5Q==}
@@ -18723,6 +18732,15 @@ snapshots:
       '@babel/parser': 7.28.4
       '@babel/traverse': 7.28.4
       recast: 0.18.10
+    transitivePeerDependencies:
+      - supports-color
+
+  ember-service-import-polyfill@1.0.0(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5)):
+    dependencies:
+      '@babel/core': 7.29.7
+      ember-cli-babel: 8.3.1(@babel/core@7.29.7)
+      ember-cli-version-checker: 5.1.2
+      ember-source: 6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5)
     transitivePeerDependencies:
       - supports-color
 
