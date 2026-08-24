@@ -116,7 +116,7 @@ module.exports = function(environment) {
     Qmodule(scenario.name, function (hooks) {
       let app; // PreparedApp
 
-      qunit.assert.file = function (filePath) {
+      qunit.assert.file = function (app, filePath) {
         this.pushResult({
           result: fs.existsSync(path.join(app.dir, 'dist', filePath)),
           expected: filePath,
@@ -134,28 +134,28 @@ module.exports = function(environment) {
       });
 
       test('builds a package.json', function (assert) {
-        assert.file('totally-customized-asset-map.json');
-        assert.file('package.json');
+        assert.file(app, 'totally-customized-asset-map.json');
+        assert.file(app, 'package.json');
       });
 
       test('respects a custom asset map path and prepended URLs', function (assert) {
-        assert.file('totally-customized-asset-map.json');
+        assert.file(app, 'totally-customized-asset-map.json');
         let pkg = fs.readJSONSync(path.join(app.dir, 'dist/package.json'));
         let manifest = pkg.fastboot.manifest;
 
         manifest.appFiles.forEach((file) => {
-          assert.file(file);
+          assert.file(app, file);
         });
 
-        assert.file(manifest.htmlFile);
+        assert.file(app, manifest.htmlFile);
 
         manifest.vendorFiles.forEach((file) => {
-          assert.file(file);
+          assert.file(app, file);
         });
       });
 
       test('respects individual files being excluded from fingerprinting', function (assert) {
-        assert.file('totally-customized-asset-map.json');
+        assert.file(app, 'totally-customized-asset-map.json');
 
         let pkg = fs.readJSONSync(path.join(app.dir, 'dist/package.json'));
         let manifest = pkg.fastboot.manifest;
@@ -171,7 +171,7 @@ module.exports = function(environment) {
         let manifest = pkg.fastboot.manifest;
 
         assert.equal(manifest.htmlFile, 'custom-index.html');
-        assert.file(manifest.htmlFile);
+        assert.file(app, manifest.htmlFile);
       });
     });
   });
