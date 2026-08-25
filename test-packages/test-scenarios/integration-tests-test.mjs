@@ -14,7 +14,18 @@ appScenarios
     merge(project.files, loadFromFixtureData('basic-app'));
     project.linkDependency('fake-addon', { baseDir: './' });
     project.linkDependency('fake-addon-2', { baseDir: './' });
-    project.linkDependency('ember-cli-head', { baseDir: './' });
+
+    if (project.dependencyLinks.get('ember-source').resolveName === 'ember-source-3.16') {
+      // ember-cli-head says that it supports Ember 3.16 but it fails for an odd reason so we
+      // can fall back here
+      project.linkDependency('ember-cli-head', {
+        baseDir: './',
+        resolveName: 'ember-cli-head-1.0',
+      });
+    } else {
+      project.linkDependency('ember-cli-head', { baseDir: './' });
+    }
+
     // this test app has the service import itself so we need the polyfill to do its work
     project.linkDevDependency('ember-service-import-polyfill', { baseDir: '.' });
   })
