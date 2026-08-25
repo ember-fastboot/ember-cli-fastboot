@@ -33,7 +33,6 @@ appScenarios
     });
 
     project.pkg.fastbootDependencies = ['crypto'];
-    project.removeDependency('ember-fetch');
   })
   .forEachScenario((scenario) => {
     Qmodule(scenario.name, function (hooks) {

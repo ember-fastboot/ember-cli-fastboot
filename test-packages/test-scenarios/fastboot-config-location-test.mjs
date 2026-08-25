@@ -73,8 +73,6 @@ appScenarios
         `,
       },
     });
-
-    project.removeDependency('ember-fetch');
   })
   .forEachScenario((scenario) => {
     Qmodule(scenario.name, function (hooks) {

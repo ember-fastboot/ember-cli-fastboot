@@ -11,8 +11,6 @@ const { module: Qmodule, test } = qunit;
 appScenarios
   .map('fastboot-location', (project) => {
     merge(project.files, loadFromFixtureData('fastboot-location'));
-
-    project.removeDependency('ember-fetch');
   })
   .forEachScenario((scenario) => {
     Qmodule(scenario.name, function (hooks) {
