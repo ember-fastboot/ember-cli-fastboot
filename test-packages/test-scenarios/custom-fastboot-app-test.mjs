@@ -5,22 +5,7 @@ import { appScenarios } from './scenarios.mjs';
 import path from 'node:path';
 import fs from 'fs-extra';
 
-qunit.assert.includes = function (haystack, needle) {
-  if (!Array.isArray(haystack)) {
-    this.pushResult({
-      result: false,
-      message: 'you must pass an array to assert.includes',
-    });
-    return;
-  }
-
-  this.pushResult({
-    result: haystack.includes(needle),
-    expected: needle,
-    actual: haystack,
-    message: `[${needle}] is missing from the array`,
-  });
-};
+import './helpers/qunit-assertions.mjs';
 
 const { module: Qmodule, test } = qunit;
 
@@ -109,21 +94,10 @@ module.exports = function(environment) {
 `,
       },
     });
-
-    project.removeDependency('ember-fetch');
   })
   .forEachScenario((scenario) => {
     Qmodule(scenario.name, function (hooks) {
       let app; // PreparedApp
-
-      qunit.assert.file = function (filePath) {
-        this.pushResult({
-          result: fs.existsSync(path.join(app.dir, 'dist', filePath)),
-          expected: filePath,
-          actual: fs.readdirSync(path.join(app.dir, 'dist')),
-          message: 'File does not exist',
-        });
-      };
 
       hooks.before(async () => {
         app = await scenario.prepare();
@@ -134,28 +108,28 @@ module.exports = function(environment) {
       });
 
       test('builds a package.json', function (assert) {
-        assert.file('totally-customized-asset-map.json');
-        assert.file('package.json');
+        assert.distFile(app, 'totally-customized-asset-map.json');
+        assert.distFile(app, 'package.json');
       });
 
       test('respects a custom asset map path and prepended URLs', function (assert) {
-        assert.file('totally-customized-asset-map.json');
+        assert.distFile(app, 'totally-customized-asset-map.json');
         let pkg = fs.readJSONSync(path.join(app.dir, 'dist/package.json'));
         let manifest = pkg.fastboot.manifest;
 
         manifest.appFiles.forEach((file) => {
-          assert.file(file);
+          assert.distFile(app, file);
         });
 
-        assert.file(manifest.htmlFile);
+        assert.distFile(app, manifest.htmlFile);
 
         manifest.vendorFiles.forEach((file) => {
-          assert.file(file);
+          assert.distFile(app, file);
         });
       });
 
       test('respects individual files being excluded from fingerprinting', function (assert) {
-        assert.file('totally-customized-asset-map.json');
+        assert.distFile(app, 'totally-customized-asset-map.json');
 
         let pkg = fs.readJSONSync(path.join(app.dir, 'dist/package.json'));
         let manifest = pkg.fastboot.manifest;
@@ -171,7 +145,7 @@ module.exports = function(environment) {
         let manifest = pkg.fastboot.manifest;
 
         assert.equal(manifest.htmlFile, 'custom-index.html');
-        assert.file(manifest.htmlFile);
+        assert.distFile(app, manifest.htmlFile);
       });
     });
   });

@@ -19,7 +19,6 @@ appScenarios
 
     project.linkDevDependency('body-parser', { baseDir: '.' });
     project.linkDevDependency('fastboot-express-middleware', { baseDir: '.' });
-    project.removeDependency('ember-fetch');
   })
   .forEachScenario((scenario) => {
     Qmodule(scenario.name, function (hooks) {
