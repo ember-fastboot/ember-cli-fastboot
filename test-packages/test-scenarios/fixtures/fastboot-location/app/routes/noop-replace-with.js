@@ -1,8 +1,10 @@
-/* eslint-disable ember/new-module-imports, prettier/prettier */
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
-export default Ember.Route.extend({
+export default class extends Route {
+  @service router;
+
   beforeModel() {
-    this.replaceWith('noop-replace-with');
+    this.router.replaceWith('noop-replace-with');
   }
-});
+}
