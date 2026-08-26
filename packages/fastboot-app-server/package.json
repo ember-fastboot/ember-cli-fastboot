@@ -1,6 +1,6 @@
 {
   "name": "fastboot-app-server",
-  "version": "4.1.4",
+  "version": "5.0.0",
   "description": "A production-ready app server for running Ember FastBoot apps",
   "keywords": [
     "ember",
