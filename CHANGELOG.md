@@ -1,5 +1,44 @@
 # Changelog
 
+## Release (2026-08-26)
+
+* ember-cli-fastboot 5.0.0 (major)
+* fastboot 5.0.0 (major)
+* fastboot-app-server 5.0.0 (major)
+* fastboot-express-middleware 5.0.0 (major)
+
+#### :boom: Breaking Change
+* `ember-cli-fastboot`, `fastboot-app-server`, `fastboot-express-middleware`, `fastboot`
+  * [#954](https://github.com/ember-fastboot/ember-cli-fastboot/pull/954) drop support for node < 20 ([@mansona](https://github.com/mansona))
+
+#### :rocket: Enhancement
+* `ember-cli-fastboot`
+  * [#963](https://github.com/ember-fastboot/ember-cli-fastboot/pull/963) Fix ember v6 importing-inject-from-ember-service deprecation ([@mansona](https://github.com/mansona))
+  * [#965](https://github.com/ember-fastboot/ember-cli-fastboot/pull/965) remove ember-source peerDependency from ember-cli-fastboot ([@mansona](https://github.com/mansona))
+  * [#961](https://github.com/ember-fastboot/ember-cli-fastboot/pull/961) update ember-cli-babel to v8 ([@mansona](https://github.com/mansona))
+
+#### :bug: Bug Fix
+* `fastboot-express-middleware`
+  * [#949](https://github.com/ember-fastboot/ember-cli-fastboot/pull/949) Update url for fastboot-express-middleware in package.json for npm ([@SergeAstapov](https://github.com/SergeAstapov))
+
+#### :house: Internal
+* Other
+  * [#973](https://github.com/ember-fastboot/ember-cli-fastboot/pull/973) update release-plan to support OIDC ([@mansona](https://github.com/mansona))
+  * [#967](https://github.com/ember-fastboot/ember-cli-fastboot/pull/967) add full test matrix to test scenarios ([@mansona](https://github.com/mansona))
+  * [#964](https://github.com/ember-fastboot/ember-cli-fastboot/pull/964) move custom-fastboot-app into a scenario test ([@mansona](https://github.com/mansona))
+* `ember-cli-fastboot`
+  * [#971](https://github.com/ember-fastboot/ember-cli-fastboot/pull/971) make sure we have the latest test-waiters ([@mansona](https://github.com/mansona))
+  * [#972](https://github.com/ember-fastboot/ember-cli-fastboot/pull/972) stop using ember-source-channel-url ([@mansona](https://github.com/mansona))
+  * [#969](https://github.com/ember-fastboot/ember-cli-fastboot/pull/969) fix service deprecation in dummy app ([@mansona](https://github.com/mansona))
+  * [#962](https://github.com/ember-fastboot/ember-cli-fastboot/pull/962) Update ember-cli-fastboot to v6.12 with ember-cli-update ([@mansona](https://github.com/mansona))
+  * [#960](https://github.com/ember-fastboot/ember-cli-fastboot/pull/960) update ember-cli-fastboot to v5.12.0 with ember-cli-update ([@mansona](https://github.com/mansona))
+* `fastboot-app-server`, `fastboot-express-middleware`, `fastboot`
+  * [#952](https://github.com/ember-fastboot/ember-cli-fastboot/pull/952) Remove now unused release-it dependencies ([@SergeAstapov](https://github.com/SergeAstapov))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))
+
 ## Release (2024-05-21)
 
 ember-cli-fastboot 4.1.5 (patch)

@@ -1,43 +1,100 @@
 {
   "solution": {
     "ember-cli-fastboot": {
-      "impact": "patch",
-      "oldVersion": "4.1.4",
-      "newVersion": "4.1.5",
+      "impact": "major",
+      "oldVersion": "4.1.5",
+      "newVersion": "5.0.0",
+      "tagName": "latest",
       "constraints": [
+        {
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
+        },
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on fastboot-express-middleware"
+        },
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on fastboot"
+        },
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./packages/ember-cli-fastboot/package.json"
     },
     "fastboot": {
-      "impact": "patch",
-      "oldVersion": "4.1.4",
-      "newVersion": "4.1.5",
+      "impact": "major",
+      "oldVersion": "4.1.5",
+      "newVersion": "5.0.0",
+      "tagName": "latest",
       "constraints": [
         {
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
+        },
+        {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./packages/fastboot/package.json"
     },
     "fastboot-app-server": {
-      "impact": "patch",
-      "oldVersion": "4.1.3",
-      "newVersion": "4.1.4",
+      "impact": "major",
+      "oldVersion": "4.1.4",
+      "newVersion": "5.0.0",
+      "tagName": "latest",
       "constraints": [
+        {
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
+        },
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on fastboot-express-middleware"
+        },
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on fastboot"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./packages/fastboot-app-server/package.json"
     },
     "fastboot-express-middleware": {
-      "oldVersion": "4.1.2"
+      "impact": "major",
+      "oldVersion": "4.1.2",
+      "newVersion": "5.0.0",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
+        },
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:^` on fastboot"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./packages/fastboot-express-middleware/package.json"
     },
     "empty-package-json": {},
     "fastboot-test": {},
@@ -45,5 +102,5 @@
       "oldVersion": "0.0.0"
     }
   },
-  "description": "## Release (2024-05-21)\n\nember-cli-fastboot 4.1.5 (patch)\nfastboot 4.1.5 (patch)\nfastboot-app-server 4.1.4 (patch)\n\n#### :bug: Bug Fix\n* `fastboot`\n  * [#946](https://github.com/ember-fastboot/ember-cli-fastboot/pull/946) Update url for fastboot-app-server in package.json for npm ([@SergeAstapov](https://github.com/SergeAstapov))\n\n#### Committers: 1\n- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))\n"
+  "description": "## Release (2026-08-26)\n\n* ember-cli-fastboot 5.0.0 (major)\n* fastboot 5.0.0 (major)\n* fastboot-app-server 5.0.0 (major)\n* fastboot-express-middleware 5.0.0 (major)\n\n#### :boom: Breaking Change\n* `ember-cli-fastboot`, `fastboot-app-server`, `fastboot-express-middleware`, `fastboot`\n  * [#954](https://github.com/ember-fastboot/ember-cli-fastboot/pull/954) drop support for node < 20 ([@mansona](https://github.com/mansona))\n\n#### :rocket: Enhancement\n* `ember-cli-fastboot`\n  * [#963](https://github.com/ember-fastboot/ember-cli-fastboot/pull/963) Fix ember v6 importing-inject-from-ember-service deprecation ([@mansona](https://github.com/mansona))\n  * [#965](https://github.com/ember-fastboot/ember-cli-fastboot/pull/965) remove ember-source peerDependency from ember-cli-fastboot ([@mansona](https://github.com/mansona))\n  * [#961](https://github.com/ember-fastboot/ember-cli-fastboot/pull/961) update ember-cli-babel to v8 ([@mansona](https://github.com/mansona))\n\n#### :bug: Bug Fix\n* `fastboot-express-middleware`\n  * [#949](https://github.com/ember-fastboot/ember-cli-fastboot/pull/949) Update url for fastboot-express-middleware in package.json for npm ([@SergeAstapov](https://github.com/SergeAstapov))\n\n#### :house: Internal\n* Other\n  * [#973](https://github.com/ember-fastboot/ember-cli-fastboot/pull/973) update release-plan to support OIDC ([@mansona](https://github.com/mansona))\n  * [#967](https://github.com/ember-fastboot/ember-cli-fastboot/pull/967) add full test matrix to test scenarios ([@mansona](https://github.com/mansona))\n  * [#964](https://github.com/ember-fastboot/ember-cli-fastboot/pull/964) move custom-fastboot-app into a scenario test ([@mansona](https://github.com/mansona))\n* `ember-cli-fastboot`\n  * [#971](https://github.com/ember-fastboot/ember-cli-fastboot/pull/971) make sure we have the latest test-waiters ([@mansona](https://github.com/mansona))\n  * [#972](https://github.com/ember-fastboot/ember-cli-fastboot/pull/972) stop using ember-source-channel-url ([@mansona](https://github.com/mansona))\n  * [#969](https://github.com/ember-fastboot/ember-cli-fastboot/pull/969) fix service deprecation in dummy app ([@mansona](https://github.com/mansona))\n  * [#962](https://github.com/ember-fastboot/ember-cli-fastboot/pull/962) Update ember-cli-fastboot to v6.12 with ember-cli-update ([@mansona](https://github.com/mansona))\n  * [#960](https://github.com/ember-fastboot/ember-cli-fastboot/pull/960) update ember-cli-fastboot to v5.12.0 with ember-cli-update ([@mansona](https://github.com/mansona))\n* `fastboot-app-server`, `fastboot-express-middleware`, `fastboot`\n  * [#952](https://github.com/ember-fastboot/ember-cli-fastboot/pull/952) Remove now unused release-it dependencies ([@SergeAstapov](https://github.com/SergeAstapov))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))\n"
 }
