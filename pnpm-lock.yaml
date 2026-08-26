@@ -164,9 +164,6 @@ importers:
       ember-source:
         specifier: ~6.12.0
         version: 6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5)
-      ember-source-channel-url:
-        specifier: ^3.0.0
-        version: 3.0.0(encoding@0.1.13)
       ember-template-lint:
         specifier: ^6.1.0
         version: 6.1.0
