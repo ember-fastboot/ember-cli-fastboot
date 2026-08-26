@@ -57,6 +57,7 @@
     "@babel/plugin-proposal-decorators": "^7.29.0",
     "@ember/optional-features": "^2.3.0",
     "@ember/test-helpers": "^5.4.1",
+    "@ember/test-waiters": "^4.1.2",
     "@embroider/macros": "^1.20.2",
     "@embroider/test-setup": "^4.0.0",
     "@eslint/js": "^9.39.4",
