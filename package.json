@@ -9,26 +9,23 @@
     "lint": "pnpm --filter './*packages/**' lint",
     "test": "npm-run-all test:*",
     "test:ember-cli-fastboot": "pnpm --filter ember-cli-fastboot test:ember",
+    "test:extra": "pnpm --filter basic-app test:mocha && pnpm --filter custom-fastboot-app test:mocha",
     "test:fastboot": "pnpm --filter fastboot test",
-    "test:fastboot-express-middleware": "pnpm --filter fastboot-express-middleware test",
     "test:fastboot-app-server": "pnpm --filter fastboot-app-server test:mocha",
-    "test:integration": "pnpm --filter integration-tests test",
-    "test:extra": "pnpm --filter basic-app test:mocha && pnpm --filter custom-fastboot-app test:mocha"
+    "test:fastboot-express-middleware": "pnpm --filter fastboot-express-middleware test",
+    "test:integration": "pnpm --filter integration-tests test"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",
-    "release-plan": "^0.9.0"
+    "release-plan": "^0.18.0"
   },
+  "packageManager": "pnpm@10.17.0+sha512.fce8a3dd29a4ed2ec566fb53efbb04d8c44a0f05bc6f24a73046910fb9c3ce7afa35a0980500668fa3573345bd644644fa98338fa168235c80f4aa17aa17fbef",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
   "pnpm": {
     "overrides": {
       "clean-css@3": "^4.0.0"
-    },
-    "patchedDependencies": {
-      "ember-source@3.19.0": "patches/ember-source@3.19.0.patch"
     }
-  },
-  "packageManager": "pnpm@10.17.0+sha512.fce8a3dd29a4ed2ec566fb53efbb04d8c44a0f05bc6f24a73046910fb9c3ce7afa35a0980500668fa3573345bd644644fa98338fa168235c80f4aa17aa17fbef"
+  }
 }
