@@ -6,14 +6,11 @@
     "ember",
     "fastboot"
   ],
-  "homepage": "https://github.com/ember-fastboot/fastboot#readme",
+  "homepage": "https://github.com/ember-fastboot/ember-cli-fastboot#readme",
   "bugs": {
-    "url": "https://github.com/ember-fastboot/fastboot/issues"
+    "url": "https://github.com/ember-fastboot/ember-cli-fastboot/issues"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ember-fastboot/fastboot.git"
-  },
+  "repository": "https://github.com/ember-fastboot/ember-cli-fastboot",
   "license": "MIT",
   "author": "Tom Dale and FastBoot contributors",
   "main": "src/index.js",
