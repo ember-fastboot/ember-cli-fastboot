@@ -1,5 +1,18 @@
 # Changelog
 
+## Release (2026-08-27)
+
+* ember-cli-fastboot 5.0.1 (patch)
+* fastboot 5.0.1 (patch)
+* fastboot-app-server 5.0.1 (patch)
+
+#### :house: Internal
+* `fastboot`
+  * [#974](https://github.com/ember-fastboot/ember-cli-fastboot/pull/974) fix package.json urls for fastboot package ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2026-08-26)
 
 * ember-cli-fastboot 5.0.0 (major)
