@@ -1,5 +1,18 @@
 # Changelog
 
+## Release (2026-08-28)
+
+* ember-cli-fastboot 5.0.2 (patch)
+* fastboot-app-server 5.0.2 (patch)
+* fastboot-express-middleware 5.0.1 (patch)
+
+#### :bug: Bug Fix
+* `fastboot-express-middleware`
+  * [#976](https://github.com/ember-fastboot/ember-cli-fastboot/pull/976) fix fastboot-express-middleware github url ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2026-08-27)
 
 * ember-cli-fastboot 5.0.1 (patch)
