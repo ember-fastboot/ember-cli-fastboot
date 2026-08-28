@@ -2,45 +2,45 @@
   "solution": {
     "ember-cli-fastboot": {
       "impact": "patch",
-      "oldVersion": "5.0.0",
-      "newVersion": "5.0.1",
+      "oldVersion": "5.0.1",
+      "newVersion": "5.0.2",
       "tagName": "latest",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Has dependency `workspace:*` on fastboot"
+          "reason": "Has dependency `workspace:*` on fastboot-express-middleware"
         }
       ],
       "pkgJSONPath": "./packages/ember-cli-fastboot/package.json"
     },
     "fastboot": {
-      "impact": "patch",
-      "oldVersion": "5.0.0",
-      "newVersion": "5.0.1",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
-        }
-      ],
-      "pkgJSONPath": "./packages/fastboot/package.json"
+      "oldVersion": "5.0.1"
     },
     "fastboot-app-server": {
       "impact": "patch",
-      "oldVersion": "5.0.0",
-      "newVersion": "5.0.1",
+      "oldVersion": "5.0.1",
+      "newVersion": "5.0.2",
       "tagName": "latest",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Has dependency `workspace:*` on fastboot"
+          "reason": "Has dependency `workspace:*` on fastboot-express-middleware"
         }
       ],
       "pkgJSONPath": "./packages/fastboot-app-server/package.json"
     },
     "fastboot-express-middleware": {
-      "oldVersion": "5.0.0"
+      "impact": "patch",
+      "oldVersion": "5.0.0",
+      "newVersion": "5.0.1",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        }
+      ],
+      "pkgJSONPath": "./packages/fastboot-express-middleware/package.json"
     },
     "empty-package-json": {},
     "fastboot-test": {},
@@ -48,5 +48,5 @@
       "oldVersion": "0.0.0"
     }
   },
-  "description": "## Release (2026-08-27)\n\n* ember-cli-fastboot 5.0.1 (patch)\n* fastboot 5.0.1 (patch)\n* fastboot-app-server 5.0.1 (patch)\n\n#### :house: Internal\n* `fastboot`\n  * [#974](https://github.com/ember-fastboot/ember-cli-fastboot/pull/974) fix package.json urls for fastboot package ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2026-08-28)\n\n* ember-cli-fastboot 5.0.2 (patch)\n* fastboot-app-server 5.0.2 (patch)\n* fastboot-express-middleware 5.0.1 (patch)\n\n#### :bug: Bug Fix\n* `fastboot-express-middleware`\n  * [#976](https://github.com/ember-fastboot/ember-cli-fastboot/pull/976) fix fastboot-express-middleware github url ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
