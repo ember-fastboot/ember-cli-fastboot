@@ -1,5 +1,17 @@
 # Changelog
 
+## Release (2026-09-03)
+
+* ember-cli-fastboot 5.0.3 (patch)
+
+#### :bug: Bug Fix
+* `ember-cli-fastboot`
+  * [#979](https://github.com/ember-fastboot/ember-cli-fastboot/pull/979) remove use of Ember.get in ajax initialiser ([@mansona](https://github.com/mansona))
+  * [#978](https://github.com/ember-fastboot/ember-cli-fastboot/pull/978) remove fastboot error-handler initialiser ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2026-08-28)
 
 * ember-cli-fastboot 5.0.2 (patch)

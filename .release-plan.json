@@ -2,13 +2,13 @@
   "solution": {
     "ember-cli-fastboot": {
       "impact": "patch",
-      "oldVersion": "5.0.1",
-      "newVersion": "5.0.2",
+      "oldVersion": "5.0.2",
+      "newVersion": "5.0.3",
       "tagName": "latest",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Has dependency `workspace:*` on fastboot-express-middleware"
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./packages/ember-cli-fastboot/package.json"
@@ -17,30 +17,10 @@
       "oldVersion": "5.0.1"
     },
     "fastboot-app-server": {
-      "impact": "patch",
-      "oldVersion": "5.0.1",
-      "newVersion": "5.0.2",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on fastboot-express-middleware"
-        }
-      ],
-      "pkgJSONPath": "./packages/fastboot-app-server/package.json"
+      "oldVersion": "5.0.2"
     },
     "fastboot-express-middleware": {
-      "impact": "patch",
-      "oldVersion": "5.0.0",
-      "newVersion": "5.0.1",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        }
-      ],
-      "pkgJSONPath": "./packages/fastboot-express-middleware/package.json"
+      "oldVersion": "5.0.1"
     },
     "empty-package-json": {},
     "fastboot-test": {},
@@ -48,5 +28,5 @@
       "oldVersion": "0.0.0"
     }
   },
-  "description": "## Release (2026-08-28)\n\n* ember-cli-fastboot 5.0.2 (patch)\n* fastboot-app-server 5.0.2 (patch)\n* fastboot-express-middleware 5.0.1 (patch)\n\n#### :bug: Bug Fix\n* `fastboot-express-middleware`\n  * [#976](https://github.com/ember-fastboot/ember-cli-fastboot/pull/976) fix fastboot-express-middleware github url ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2026-09-03)\n\n* ember-cli-fastboot 5.0.3 (patch)\n\n#### :bug: Bug Fix\n* `ember-cli-fastboot`\n  * [#979](https://github.com/ember-fastboot/ember-cli-fastboot/pull/979) remove use of Ember.get in ajax initialiser ([@mansona](https://github.com/mansona))\n  * [#978](https://github.com/ember-fastboot/ember-cli-fastboot/pull/978) remove fastboot error-handler initialiser ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
