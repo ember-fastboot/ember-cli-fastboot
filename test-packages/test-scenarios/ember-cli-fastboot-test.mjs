@@ -38,35 +38,48 @@ appScenarios
     });
   })
   .forEachScenario((scenario) => {
-    Qmodule(scenario.name, function (hooks) {
-      let app; // PreparedApp
-      let process;
+    ['default', 'rehydrate'].forEach((renderMode) => {
+      Qmodule(`${scenario.name}-rendermode-${renderMode}`, function (hooks) {
+        let app; // PreparedApp
+        let process;
 
-      hooks.before(async () => {
-        app = await scenario.prepare();
-        process = await emberServe(app);
-      });
-
-      hooks.after(() => {
-        return process.stop();
-      });
-
-      test('provides sandbox globals', async function (assert) {
-        const response = await fetch(`http://localhost:${process.port}/`, {
-          headers: {
-            Accept: 'text/html',
-          },
+        hooks.before(async () => {
+          app = await scenario.prepare();
+          process = await emberServe(
+            app,
+            renderMode === 'rehydrate'
+              ? {
+                  EXPERIMENTAL_RENDER_MODE_SERIALIZE: 'true',
+                }
+              : {}
+          );
         });
 
-        assert.equal(response.status, 200, 'Status should be ok');
-        assert.equal(
-          response.headers.get('content-type'),
-          'text/html; charset=utf-8',
-          'headers should be right'
-        );
+        hooks.after(() => {
+          return process.stop();
+        });
 
-        const body = await response.text();
-        assert.matches(body, /<h1>My Global<\/h1>/);
+        test('provides sandbox globals', async function (assert) {
+          const response = await fetch(`http://localhost:${process.port}/`, {
+            headers: {
+              Accept: 'text/html',
+            },
+          });
+
+          assert.equal(response.status, 200, 'Status should be ok');
+          assert.equal(
+            response.headers.get('content-type'),
+            'text/html; charset=utf-8',
+            'headers should be right'
+          );
+
+          const body = await response.text();
+          if (renderMode === 'rehydrate') {
+            assert.matches(body, /-->My Global<!--/);
+          } else {
+            assert.matches(body, /<h1>My Global<\/h1>/);
+          }
+        });
       });
     });
   });
