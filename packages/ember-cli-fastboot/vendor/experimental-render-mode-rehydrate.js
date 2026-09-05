@@ -3,21 +3,37 @@
   if (typeof FastBoot === 'undefined') {
     var current = document.getElementById('fastboot-body-start');
 
-    var _Ember = require.has('ember') ? require('ember').default : window.Ember;
+    if (!current) {
+      return;
+    }
 
-    if (current && !_Ember) {
+    var isSerializationFirstNode;
+    var ApplicationInstance;
+
+    if (require.has('@ember/-internals/glimmer') && require.has('@ember/application/instance')) {
+      isSerializationFirstNode = require('@ember/-internals/glimmer').isSerializationFirstNode;
+      ApplicationInstance = require('@ember/application/instance').default;
+    } else if (require.has('ember')) {
+      var _Ember = require('ember').default;
+      isSerializationFirstNode = _Ember.ViewUtils.isSerializationFirstNode;
+      ApplicationInstance = _Ember.ApplicationInstance;
+    } else if (window.Ember) {
+      isSerializationFirstNode = window.Ember.ViewUtils.isSerializationFirstNode;
+      ApplicationInstance = window.Ember.ApplicationInstance;
+    }
+
+    if (!isSerializationFirstNode || !ApplicationInstance) {
       console.error(`Experimental render mode rehydrate isn't working because it couldn't find Ember via AMD or global.
 See https://github.com/ember-fastboot/ember-cli-fastboot/issues/938 for the current state of the fix.`);
       return;
     }
 
     if (
-      current &&
-      typeof _Ember.ViewUtils.isSerializationFirstNode === 'function' &&
-      _Ember.ViewUtils.isSerializationFirstNode(current.nextSibling)
+      typeof isSerializationFirstNode === 'function' &&
+      isSerializationFirstNode(current.nextSibling)
     ) {
-      _Ember.ApplicationInstance.reopen({
-        _bootSync: function (options) {
+      ApplicationInstance.reopen({
+        _bootSync: function(options) {
           if (options === undefined) {
             options = {
               _renderMode: 'rehydrate',
