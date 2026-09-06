@@ -1,9 +1,10 @@
 import { execaNode } from 'execa';
 
-export default async function emberServe(app) {
+export default async function emberServe(app, env) {
   return new Promise((resolve) => {
     const process = execaNode('node_modules/ember-cli/bin/ember', ['serve', '-p', '0'], {
       cwd: app.dir,
+      env,
     });
 
     process.stdout.on('data', (value) => {
