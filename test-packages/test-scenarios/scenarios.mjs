@@ -59,6 +59,21 @@ async function lts_6_12(project) {
 }
 
 /**
+ * @param {Project} project
+ */
+async function release(project) {
+  project.linkDevDependency('ember-source', { baseDir: '.', resolveName: 'ember-source-latest' });
+  project.linkDevDependency('ember-cli', { baseDir: '.', resolveName: 'ember-cli-latest' });
+  project.linkDevDependency('ember-data', { baseDir: '.', resolveName: 'ember-data-5.8' });
+  project.linkDevDependency('@ember/string', { baseDir: '.' });
+  project.linkDevDependency('ember-resolver', { baseDir: '.' });
+  project.linkDevDependency('ember-page-title', { baseDir: '.' });
+  project.linkDevDependency('ember-cli-htmlbars', { baseDir: '.' });
+  project.linkDevDependency('@ember/test-helpers', { baseDir: '.' });
+  project.linkDevDependency('ember-qunit', { baseDir: '.' });
+}
+
+/**
  *
  * @param {Scenarios} scenarios
  * @returns
@@ -70,8 +85,9 @@ function supportMatrix(scenarios) {
     lts_4_12,
     lts_5_12,
     lts_6_12,
+    release,
     // TODO add these when they are working
-    // release,
+    // beta,
     // canary,
   });
 }
