@@ -71,6 +71,8 @@ async function release(project) {
   project.linkDevDependency('ember-cli-htmlbars', { baseDir: '.' });
   project.linkDevDependency('@ember/test-helpers', { baseDir: '.' });
   project.linkDevDependency('ember-qunit', { baseDir: '.' });
+  project.linkDevDependency('ember-cli-babel', { baseDir: '.' });
+  project.linkDevDependency('@babel/core', { baseDir: '.' });
 }
 
 /**

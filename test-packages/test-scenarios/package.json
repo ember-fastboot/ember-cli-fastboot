@@ -9,6 +9,7 @@
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
+    "@babel/core": "^7.29.7",
     "@ember/string": "^4.0.1",
     "@ember/test-helpers": "^5.4.3",
     "body-parser": "^1.18.3",
@@ -19,6 +20,7 @@
     "ember-cli-5.12": "npm:ember-cli@~5.12.0",
     "ember-cli-6.12": "npm:ember-cli@~6.12.0",
     "ember-cli-latest": "npm:ember-cli@latest",
+    "ember-cli-babel": "^8.3.2",
     "ember-cli-head": "^2.0.0",
     "ember-cli-head-1.0": "npm:ember-cli-head@^1.0.0",
     "ember-cli-htmlbars": "^7.0.0",

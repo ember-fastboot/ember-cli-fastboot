@@ -25,9 +25,6 @@ appScenarios
     } else {
       project.linkDependency('ember-cli-head', { baseDir: './' });
     }
-
-    // this test app has the service import itself so we need the polyfill to do its work
-    project.linkDevDependency('ember-service-import-polyfill', { baseDir: '.' });
   })
   .forEachScenario((scenario) => {
     Qmodule(scenario.name, function (hooks) {
