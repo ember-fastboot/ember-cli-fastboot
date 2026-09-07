@@ -10,7 +10,8 @@ import './helpers/qunit-assertions.mjs';
 
 appScenarios
   // output paths were deprecated and removed in 6.0
-  .skip('lts_6.12')
+  .skip('lts_6_12')
+  .skip('release')
   .map('custom-output-paths', (project) => {
     project.mergeFiles({
       'ember-cli-build.js': `var EmberApp = require('ember-cli/lib/broccoli/ember-app');
