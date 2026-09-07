@@ -15,6 +15,7 @@ export function baseApp() {
  */
 async function lts_3_16(project) {
   project.linkDevDependency('ember-source', { baseDir: '.', resolveName: 'ember-source-3.16' });
+  project.linkDevDependency('ember-cli', { baseDir: '.', resolveName: 'ember-cli-3.16' });
 }
 
 /**
@@ -22,6 +23,7 @@ async function lts_3_16(project) {
  */
 async function lts_3_28(project) {
   project.linkDevDependency('ember-source', { baseDir: '.', resolveName: 'ember-source-3.28' });
+  project.linkDevDependency('ember-cli', { baseDir: '.', resolveName: 'ember-cli-3.28' });
 }
 
 /**
@@ -29,10 +31,7 @@ async function lts_3_28(project) {
  */
 async function lts_4_12(project) {
   project.linkDevDependency('ember-source', { baseDir: '.', resolveName: 'ember-source-4.12' });
-  // project.linkDevDependency('ember-data', { baseDir: '.', resolveName: 'ember-data-5.8' });
-  // project.linkDevDependency('@ember/string', { baseDir: '.' });
-  // project.linkDevDependency('ember-resolver', { baseDir: '.' });
-  // project.linkDevDependency('ember-page-title', { baseDir: '.' });
+  project.linkDevDependency('ember-cli', { baseDir: '.', resolveName: 'ember-cli-4.12' });
 }
 
 /**
@@ -40,6 +39,7 @@ async function lts_4_12(project) {
  */
 async function lts_5_12(project) {
   project.linkDevDependency('ember-source', { baseDir: '.', resolveName: 'ember-source-5.12' });
+  project.linkDevDependency('ember-cli', { baseDir: '.', resolveName: 'ember-cli-5.12' });
   project.linkDevDependency('ember-data', { baseDir: '.', resolveName: 'ember-data-5.8' });
   project.linkDevDependency('@ember/string', { baseDir: '.' });
   project.linkDevDependency('ember-resolver', { baseDir: '.' });
@@ -51,6 +51,7 @@ async function lts_5_12(project) {
  */
 async function lts_6_12(project) {
   project.linkDevDependency('ember-source', { baseDir: '.', resolveName: 'ember-source-6.12' });
+  project.linkDevDependency('ember-cli', { baseDir: '.', resolveName: 'ember-cli-6.12' });
   project.linkDevDependency('ember-data', { baseDir: '.', resolveName: 'ember-data-5.8' });
   project.linkDevDependency('@ember/string', { baseDir: '.' });
   project.linkDevDependency('ember-resolver', { baseDir: '.' });
