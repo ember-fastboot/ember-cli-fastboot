@@ -36,17 +36,18 @@ module.exports = class Sandbox {
         ResizeObserver,
         AbortController,
         ReadableStream:
-            typeof ReadableStream !== 'undefined'
-                ? ReadableStream
-                : require('node:stream/web').ReadableStream,
+          typeof ReadableStream !== 'undefined'
+            ? ReadableStream
+            : require('node:stream/web').ReadableStream,
         WritableStream:
-            typeof WritableStream !== 'undefined'
-                ? WritableStream
-                : require('node:stream/web').WritableStream,
+          typeof WritableStream !== 'undefined'
+            ? WritableStream
+            : require('node:stream/web').WritableStream,
         TransformStream:
-            typeof TransformStream !== 'undefined'
-                ? TransformStream
-                : require('node:stream/web').TransformStream,
+          typeof TransformStream !== 'undefined'
+            ? // eslint-disable-next-line no-undef
+              TransformStream
+            : require('node:stream/web').TransformStream,
         Headers: typeof Headers !== 'undefined' ? Headers : undefined,
       },
       globals
