@@ -19,6 +19,7 @@ module.exports = class Sandbox {
 
     let sandbox = Object.assign(
       {
+        atob,
         sourceMapSupport,
         console,
         fetch,
