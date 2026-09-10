@@ -23,8 +23,6 @@ module.exports = class Sandbox {
         sourceMapSupport,
         console,
         fetch,
-        document,
-        navigator,
         setTimeout,
         clearTimeout,
         URL,
@@ -32,8 +30,6 @@ module.exports = class Sandbox {
         // Convince jQuery not to assume it's in a browser
         module: { exports: {} },
 
-        MutationObserver,
-        ResizeObserver,
         AbortController,
         ReadableStream:
           typeof ReadableStream !== 'undefined'
