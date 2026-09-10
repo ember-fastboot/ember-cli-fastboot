@@ -14,7 +14,7 @@ FastBoot).
 
 ## Installation
 
-FastBoot requires Ember 2.3 or higher. It is also preferable that your app is running `ember-cli` 2.12.0 and higher.
+FastBoot requires Ember 3.28 or higher. It is also preferable that your app is running `ember-cli` 3.28.0 and higher.
 
 From within your Ember CLI application, run the following command:
 

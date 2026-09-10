@@ -13,14 +13,6 @@ export function baseApp() {
 /**
  * @param {Project} project
  */
-async function lts_3_16(project) {
-  project.linkDevDependency('ember-source', { baseDir: '.', resolveName: 'ember-source-3.16' });
-  project.linkDevDependency('ember-cli', { baseDir: '.', resolveName: 'ember-cli-3.16' });
-}
-
-/**
- * @param {Project} project
- */
 async function lts_3_28(project) {
   project.linkDevDependency('ember-source', { baseDir: '.', resolveName: 'ember-source-3.28' });
   project.linkDevDependency('ember-cli', { baseDir: '.', resolveName: 'ember-cli-3.28' });
@@ -84,7 +76,6 @@ async function release(project) {
  */
 function supportMatrix(scenarios) {
   return scenarios.expand({
-    lts_3_16,
     lts_3_28,
     lts_4_12,
     lts_5_12,
