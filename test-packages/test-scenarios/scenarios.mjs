@@ -73,6 +73,8 @@ async function release(project) {
   project.linkDevDependency('ember-qunit', { baseDir: '.' });
   project.linkDevDependency('ember-cli-babel', { baseDir: '.' });
   project.linkDevDependency('@babel/core', { baseDir: '.' });
+  project.linkDevDependency('@glimmer/component', { baseDir: '.' });
+  project.linkDevDependency('ember-load-initializers', { baseDir: '.' });
 }
 
 /**
