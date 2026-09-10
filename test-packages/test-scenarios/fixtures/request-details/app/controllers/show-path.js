@@ -1,5 +1,3 @@
-/* eslint-disable ember/new-module-imports, prettier/prettier */
-import Ember from "ember";
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
-});
+export default class extends Controller {}

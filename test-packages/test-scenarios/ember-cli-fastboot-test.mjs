@@ -51,7 +51,7 @@ appScenarios
           return process.stop();
         });
 
-        test(`provides sandbox globals with ender mode ${renderMode}`, async function (assert) {
+        test(`provides sandbox globals with render mode ${renderMode}`, async function (assert) {
           process = await emberServe(
             app,
             renderMode === 'rehydrate'

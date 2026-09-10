@@ -7,6 +7,8 @@ import buildFastboot from './helpers/build-fastboot.mjs';
 const { module: Qmodule, test } = qunit;
 
 appScenarios
+  // Ember.onerror was removed in 7 https://deprecations.emberjs.com/id/deprecate-import-onerror-from-ember
+  .skip('release')
   .map('oneerror-per-visit', (project) => {
     merge(project.files, {
       app: {

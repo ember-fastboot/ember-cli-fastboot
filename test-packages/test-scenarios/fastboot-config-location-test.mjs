@@ -9,8 +9,6 @@ const { module: Qmodule, test } = qunit;
 
 appScenarios
   .map('fastboot-config-location', (project) => {
-    // this test app has the service import itself so we need the polyfill to do its work
-    project.linkDevDependency('ember-service-import-polyfill', { baseDir: '.' });
     merge(project.files, {
       app: {
         routes: {
@@ -27,11 +25,6 @@ appScenarios
             }
           }
           `,
-          'test-passed.js': `
-          import Ember from 'ember';
-
-          export default Ember.Route.extend({});
-          `,
         },
         templates: {
           'test-passed.hbs': `<h1>The Test Passed!</h1>
@@ -39,16 +32,18 @@ appScenarios
           <p>All redirection tests should be set up to redirect here.</p>`,
         },
         'router.js': `
-        import Ember from 'ember';
+        import EmberRouter from '@ember/routing/router';
+        import config from './config/environment';
 
-        let Router = Ember.Router;
+        export default class Router extends EmberRouter {
+          location = config.locationType;
+          rootURL = config.rootURL;
+        }
 
         Router.map(function() {
           this.route('redirect-on-transition-to');
           this.route('test-passed');
         });
-
-        export default Router;
         `,
       },
       config: {
