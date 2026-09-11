@@ -134,22 +134,6 @@ module.exports = {
     }
   },
 
-  treeForFastBoot(tree) {
-    let fastbootHtmlBarsTree;
-
-    // check the ember version and conditionally patch the DOM api
-    if (this._getEmberVersion().lt('2.10.0-alpha.1')) {
-      fastbootHtmlBarsTree = this.treeGenerator(
-        path.resolve(__dirname, 'fastboot-app-lt-2-9'),
-      );
-      return tree
-        ? new MergeTrees([tree, fastbootHtmlBarsTree])
-        : fastbootHtmlBarsTree;
-    }
-
-    return tree;
-  },
-
   treeForAddon(tree) {
     if (this._getEmberVersion().lt('4.1.0')) {
       return this._super.treeForAddon.call(
