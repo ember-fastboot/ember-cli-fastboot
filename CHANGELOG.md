@@ -1,5 +1,36 @@
 # Changelog
 
+## Release (2026-09-11)
+
+* ember-cli-fastboot 6.0.0 (major)
+* fastboot 6.0.0 (major)
+* fastboot-app-server 5.0.3 (patch)
+* fastboot-express-middleware 5.0.2 (patch)
+
+#### :boom: Breaking Change
+* `ember-cli-fastboot`
+  * [#988](https://github.com/ember-fastboot/ember-cli-fastboot/pull/988) remove very old code to support ember < 2.10 ([@mansona](https://github.com/mansona))
+* `fastboot`
+  * [#956](https://github.com/ember-fastboot/ember-cli-fastboot/pull/956) Update the default sandbox ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+* Other
+  * [#987](https://github.com/ember-fastboot/ember-cli-fastboot/pull/987) Drop support for Ember < 3.28 ([@mansona](https://github.com/mansona))
+
+#### :rocket: Enhancement
+* `ember-cli-fastboot`
+  * [#986](https://github.com/ember-fastboot/ember-cli-fastboot/pull/986) move experimental-render-mode-rehydrate setup to a real initializer ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* Other
+  * [#983](https://github.com/ember-fastboot/ember-cli-fastboot/pull/983) re-enable release scenario ([@mansona](https://github.com/mansona))
+  * [#985](https://github.com/ember-fastboot/ember-cli-fastboot/pull/985) update ember-cli versions in scenarios ([@mansona](https://github.com/mansona))
+  * [#982](https://github.com/ember-fastboot/ember-cli-fastboot/pull/982) add a basic render rehydrate test ([@mansona](https://github.com/mansona))
+* `fastboot`
+  * [#981](https://github.com/ember-fastboot/ember-cli-fastboot/pull/981) remove unused fastboot fixtures ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2026-09-03)
 
 * ember-cli-fastboot 5.0.3 (patch)
