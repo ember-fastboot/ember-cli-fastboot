@@ -1,6 +1,48 @@
 {
   "solution": {
     "ember-cli-fastboot": {
+      "impact": "major",
+      "oldVersion": "5.0.3",
+      "newVersion": "6.0.0",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
+        },
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on fastboot"
+        },
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on fastboot-express-middleware"
+        },
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        }
+      ],
+      "pkgJSONPath": "./packages/ember-cli-fastboot/package.json"
+    },
+    "fastboot": {
+      "impact": "major",
+      "oldVersion": "5.0.1",
+      "newVersion": "6.0.0",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./packages/fastboot/package.json"
+    },
+    "fastboot-app-server": {
       "impact": "patch",
       "oldVersion": "5.0.2",
       "newVersion": "5.0.3",
@@ -8,19 +50,27 @@
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Has dependency `workspace:*` on fastboot"
+        },
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on fastboot-express-middleware"
         }
       ],
-      "pkgJSONPath": "./packages/ember-cli-fastboot/package.json"
-    },
-    "fastboot": {
-      "oldVersion": "5.0.1"
-    },
-    "fastboot-app-server": {
-      "oldVersion": "5.0.2"
+      "pkgJSONPath": "./packages/fastboot-app-server/package.json"
     },
     "fastboot-express-middleware": {
-      "oldVersion": "5.0.1"
+      "impact": "patch",
+      "oldVersion": "5.0.1",
+      "newVersion": "5.0.2",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:^` on fastboot"
+        }
+      ],
+      "pkgJSONPath": "./packages/fastboot-express-middleware/package.json"
     },
     "empty-package-json": {},
     "fastboot-test": {},
@@ -28,5 +78,5 @@
       "oldVersion": "0.0.0"
     }
   },
-  "description": "## Release (2026-09-03)\n\n* ember-cli-fastboot 5.0.3 (patch)\n\n#### :bug: Bug Fix\n* `ember-cli-fastboot`\n  * [#979](https://github.com/ember-fastboot/ember-cli-fastboot/pull/979) remove use of Ember.get in ajax initialiser ([@mansona](https://github.com/mansona))\n  * [#978](https://github.com/ember-fastboot/ember-cli-fastboot/pull/978) remove fastboot error-handler initialiser ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2026-09-11)\n\n* ember-cli-fastboot 6.0.0 (major)\n* fastboot 6.0.0 (major)\n* fastboot-app-server 5.0.3 (patch)\n* fastboot-express-middleware 5.0.2 (patch)\n\n#### :boom: Breaking Change\n* `ember-cli-fastboot`\n  * [#988](https://github.com/ember-fastboot/ember-cli-fastboot/pull/988) remove very old code to support ember < 2.10 ([@mansona](https://github.com/mansona))\n* `fastboot`\n  * [#956](https://github.com/ember-fastboot/ember-cli-fastboot/pull/956) Update the default sandbox ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* Other\n  * [#987](https://github.com/ember-fastboot/ember-cli-fastboot/pull/987) Drop support for Ember < 3.28 ([@mansona](https://github.com/mansona))\n\n#### :rocket: Enhancement\n* `ember-cli-fastboot`\n  * [#986](https://github.com/ember-fastboot/ember-cli-fastboot/pull/986) move experimental-render-mode-rehydrate setup to a real initializer ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* Other\n  * [#983](https://github.com/ember-fastboot/ember-cli-fastboot/pull/983) re-enable release scenario ([@mansona](https://github.com/mansona))\n  * [#985](https://github.com/ember-fastboot/ember-cli-fastboot/pull/985) update ember-cli versions in scenarios ([@mansona](https://github.com/mansona))\n  * [#982](https://github.com/ember-fastboot/ember-cli-fastboot/pull/982) add a basic render rehydrate test ([@mansona](https://github.com/mansona))\n* `fastboot`\n  * [#981](https://github.com/ember-fastboot/ember-cli-fastboot/pull/981) remove unused fastboot fixtures ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
 }
