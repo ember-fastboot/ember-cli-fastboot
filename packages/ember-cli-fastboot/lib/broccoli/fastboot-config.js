@@ -3,8 +3,6 @@
 
 const fs = require('fs');
 const fmt = require('util').format;
-const uniq = require('ember-cli-lodash-subset').uniq;
-const merge = require('ember-cli-lodash-subset').merge;
 const md5Hex = require('md5-hex');
 const path = require('path');
 const BroccoliPlugin = require('broccoli-plugin');
@@ -76,7 +74,7 @@ module.exports = class FastBootConfig extends BroccoliPlugin {
           throw new Error('`fastbootConfigTree` requires a map to be returned');
         }
 
-        merge(this.fastbootConfig, configFromAddon);
+        Object.assign(this.fastbootConfig, configFromAddon);
       }
     });
   }
@@ -130,7 +128,7 @@ module.exports = class FastBootConfig extends BroccoliPlugin {
     }
 
     this.dependencies = dependencies;
-    this.moduleWhitelist = uniq(moduleWhitelist);
+    this.moduleWhitelist = [...new Set(moduleWhitelist)];
   }
 
   updateFastBootManifest(manifest) {

@@ -40,7 +40,6 @@
     "broccoli-plugin": "^4.0.7",
     "chalk": "^4.1.2",
     "ember-cli-babel": "^8.3.1",
-    "ember-cli-lodash-subset": "^2.0.1",
     "ember-cli-preprocess-registry": "^3.3.0",
     "ember-cli-version-checker": "^5.1.2",
     "fastboot": "workspace:*",
