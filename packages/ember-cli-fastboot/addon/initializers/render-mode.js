@@ -11,7 +11,7 @@ export function initialize() {
       ApplicationInstance.prototype._bootSync = function (options) {
         this._bootSyncOld({
           ...options,
-          _rendermode: 'rehydrate',
+          _renderMode: 'rehydrate',
         });
       };
 
