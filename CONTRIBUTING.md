@@ -1,40 +1,43 @@
-# How To Contribute
-
-It is always welcome to contribute to FastBoot project! Don't hesitate to open issues, submit PRs, or [chat with community](https://emberjs.com/community) for questions or help.
-
-## Code of Conduct
-[Ember Community Guidelines](https://emberjs.com/guidelines/)
+# Contributing
 
 ## Code organization
 
-This project is organized in a monorepo, you can find the packages published to npm under `packages/` folder:
-- `fastboot`
-- `ember-cli-fastboot`
-- `fastboot-app-server`
-- `fastboot-express-middleware`
+- `packages/fastboot`: the renderer for Node.js, the request handler, and the Vite plugin
+- `packages/ember-cli-fastboot`: the Ember addon (browser boot, `fastboot` service, classic build hooks)
+- `test-packages/classic-app`: a classic (ember-cli and broccoli) app for the tests
+- `test-packages/vite-app`: a Vite app for the tests
+- `tests`: the tests of the whole repository
 
-The `test-packages` folder contains sample apps and integration test suite used for testing the published packages.
+The two test apps have the same routes, components, and templates.
+When you change one, make the same change in the other.
 
-## Installation
+## Set up
 
-* `git clone https://github.com/ember-fastboot/ember-cli-fastboot/`
-* `cd ember-cli-fastboot`
-* `pnpm install`
-
-## Running tests
-
-If you want to **all** the tests you can run 
-
+```sh
+git clone https://github.com/ember-fastboot/ember-cli-fastboot.git
+cd ember-cli-fastboot
+pnpm install
+pnpm exec playwright install chromium
 ```
+
+## Test
+
+```sh
 pnpm test
 ```
 
-in the root of the monorepo. You will see that it is calling `npm-run-all` on other scripts listed in `package.json` with the prefix `test:` so if you want to run any specific test again you can just use that package.json sript
+The tests build both test apps first. That takes about 20 seconds.
+To test the builds that are already on disk, set `SKIP_FIXTURE_BUILD=true`.
 
-## Where to write test
+CI runs the tests with Node.js 22, 24, and 26.
 
-The packages in this monorepo are tightly integrated, consider these when writing new tests:
+## Lint
 
-* Unit testing individual package: add to the package's own `test` folder
-* Integration test that involve multiple packages: add to `test-packages/integration-tests`
-* Testing FastBoot rendered sample app as `ember-cli-fastboot` consumer: add to `test-packages/<the-sample-app>/test`
+```sh
+pnpm lint
+pnpm lint:fix
+```
+
+## Release
+
+See [RELEASE.md](RELEASE.md).

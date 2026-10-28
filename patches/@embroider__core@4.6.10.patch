@@ -1,0 +1,22 @@
+diff --git a/dist/src/virtual-entrypoint.js b/dist/src/virtual-entrypoint.js
+index 74608e9856a4f55518939755c7726fa7f7fb844e..a60d5f4024b376b5442febfe5295def381328c0e 100644
+--- a/dist/src/virtual-entrypoint.js
++++ b/dist/src/virtual-entrypoint.js
+@@ -15,6 +15,7 @@ const lodash_1 = require("lodash");
+ const path_1 = require("path");
+ const shared_internals_1 = require("@embroider/shared-internals");
+ const walk_sync_1 = __importDefault(require("walk-sync"));
++const fs_1 = require("fs");
+ const escape_string_regexp_1 = __importDefault(require("escape-string-regexp"));
+ const options_1 = require("./options");
+ const resolvable_extensions_1 = require("./resolvable-extensions");
+@@ -274,6 +275,9 @@ function getAppFiles(appRoot) {
+ }
+ function getFastbootFiles(appRoot) {
+     const appDirPath = (0, path_1.join)(appRoot, '_fastboot_');
++    if (!(0, fs_1.existsSync)(appDirPath)) {
++        return new Set();
++    }
+     const files = (0, walk_sync_1.default)(appDirPath);
+     return new Set(files);
+ }

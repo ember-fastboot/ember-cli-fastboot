@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   publish:
-    name: "NPM Publish"
+    name: 'NPM Publish'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -26,11 +26,11 @@ jobs:
       attestations: write
 
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v5
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version-file: .node-version
           registry-url: 'https://registry.npmjs.org'
           cache: pnpm
       - run: pnpm install --frozen-lockfile

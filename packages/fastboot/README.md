@@ -1,179 +1,155 @@
-# FastBoot
+# fastboot
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/ember-fastboot/fastboot.svg)](https://greenkeeper.io/)
-[![npm version](https://badge.fury.io/js/fastboot.svg)](https://badge.fury.io/js/fastboot)
-[![Build Status](https://travis-ci.org/ember-fastboot/fastboot.svg?branch=master)](https://travis-ci.org/ember-fastboot/fastboot)
+Renders the pages of an Ember app in Node.js.
+To set up an app, read the [FastBoot README](../../README.md).
 
-FastBoot is a library for rendering Ember.js applications in Node.js.
+The app runs with a DOM ([happy-dom](https://github.com/capricorn86/happy-dom)), as it does in a browser.
+Each worker thread loads the app one time, and renders one page at a time.
 
-For more information about FastBoot, see
-[www.ember-fastboot.com][ember-fastboot], the Ember CLI addon that's a
-prerequisite for developing FastBoot apps.
-
-[ember-fastboot]: https://www.ember-fastboot.com
-
-To serve server-rendered versions of your Ember app over HTTP, see the
-[FastBoot App
-Server](../fastboot-app-server/README.md).
-
-## Usage
+## `FastBoot`
 
 ```js
-const FastBoot = require('fastboot');
+import FastBoot from 'fastboot';
 
-let app = new FastBoot({
-  distPath: 'path/to/dist',
-  // optional boolean flag when set to true does not reject the promise if there are rendering errors (defaults to false)
-  resilient: <boolean>,
+// a classic build
+const fastboot = new FastBoot({ distPath: 'dist' });
 
-  // optional function used to generate the set of global properties available within the sandbox, receives default globals
-  // and is expected to return an object (the default implementation returns the passed in defaults)
-  buildSandboxGlobals(defaultGlobals) {
-    return Object.assign({}, defaultGlobals, {
-      // additional global properties to define within the sandbox
-    });
-  },
+// a Vite build
+const fastboot = new FastBoot({ distPath: 'dist/client', entry: 'dist/server/app-ssr.mjs' });
 
-  // optional number to be provided when using `buildSandboxPerVisit` which defines the queue size for sandboxes.
-  // This number should represent your QPS of your service
-  maxSandboxQueueSize: <Number> // defaults to 1 if not provided
+const result = await fastboot.visit('/photos?page=2', { request: req, response: res });
+
+res.statusCode = result.statusCode;
+res.end(result.html());
+```
+
+### Options
+
+| Option           | Default                     | What it does                                                                                    |
+| ---------------- | --------------------------- | ----------------------------------------------------------------------------------------------- |
+| `distPath`       |                             | the directory of the build that has `index.html`                                                |
+| `entry`          |                             | the SSR bundle of a Vite build; without it, `distPath` is a classic build                       |
+| `template`       | `index.html`                | the HTML file to render into, in `distPath` (or with `vite`, in the root of the app)            |
+| `vite`           |                             | a Vite dev server; FastBoot then renders the current source files, and `entry` is a source path |
+| `workers`        | `os.availableParallelism()` | the number of worker threads                                                                    |
+| `allowedHosts`   |                             | hosts for `fastboot.request.host`: strings, or `RegExp`s                                        |
+| `resilient`      | `false`                     | when `true`, a failed render resolves with `result.error` set; when `false`, `visit()` rejects  |
+| `settledTimeout` | `10000`                     | milliseconds to wait for the app to settle; after that, FastBoot sends the page as it is        |
+| `redirectCode`   | `307`                       | the status code when a route redirects during the render                                        |
+
+When the `Host` header of a request matches `allowedHosts`, `location` in the app has that host.
+Otherwise, `location` has `http://localhost`.
+
+### Methods
+
+| Method                        | What it does                                                                    |
+| ----------------------------- | ------------------------------------------------------------------------------- |
+| `visit(url, options)`         | renders a URL; resolves with a `Result`                                         |
+| `reload({ distPath, entry })` | loads the build again; renders that started before finish with the old build    |
+| `ready()`                     | resolves when the workers have loaded the app; rejects if the app does not load |
+| `destroy()`                   | stops the workers                                                               |
+
+Options of `visit()`:
+
+| Option      | What it does                                                                   |
+| ----------- | ------------------------------------------------------------------------------ |
+| `request`   | the Node.js request, for `fastboot.request`                                    |
+| `response`  | the Node.js response; its headers are the first headers of `fastboot.response` |
+| `metadata`  | data for `fastboot.metadata`; it must survive `structuredClone`                |
+| `html`      | the page to render into; the default is the `index.html` of the build          |
+| `resilient` | overrides the `resilient` option for this render                               |
+
+### `Result`
+
+| Member          | What it is                                                                               |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| `statusCode`    | the status code that the app set, or `200`                                               |
+| `headers`       | the headers that the app set: `get`, `getAll`, `has`, `entries`, `keys`                  |
+| `error`         | the error of a failed render                                                             |
+| `routeNames`    | the active routes after the render, from the top: `['application', 'blog', 'blog.post']` |
+| `html()`        | the full page                                                                            |
+| `domContents()` | `{ head, body }`: the rendered content without the page                                  |
+
+For a redirect, `html()` is a short page with a link to the new URL.
+For a failed render, `html()` is the page without rendered content, so that the browser renders it.
+
+## `fastboot/middleware`
+
+A request handler with the signature `(req, res, next)`.
+It works with `node:http`, Express, Connect, and the Vite dev server.
+
+```js
+import fastbootMiddleware from 'fastboot/middleware';
+
+app.use(fastbootMiddleware({ distPath: 'dist' }, { resilient: true }));
+```
+
+The first argument is a `FastBoot`, or the options for `new FastBoot()`.
+
+| Option      | What it does                                                                            |
+| ----------- | --------------------------------------------------------------------------------------- |
+| `resilient` | when `true`, a failed render sends the page with status `500` for the browser to render |
+| `metadata`  | a function of the request; its result is `fastboot.metadata`                            |
+
+- `GET` and `HEAD` requests are rendered. Other methods go to `next()`.
+- A URL that has no route goes to `next()`.
+- A failed render goes to `next(error)`, unless `resilient` is `true`.
+
+## `fastboot/prerender`
+
+```js
+import { prerender } from 'fastboot/prerender';
+
+let pages = await prerender({ distPath: 'dist', routes: ['/', '/about'] });
+```
+
+Renders each URL, and writes the page as `<outDir>/<url>/index.html`.
+It resolves with `{ url, file, statusCode }` for each page.
+It rejects with an `AggregateError` when a page has an error, or a status code of 400 or more.
+
+| Option          | What it does                                                            |
+| --------------- | ----------------------------------------------------------------------- |
+| `routes`        | the URLs to render                                                      |
+| `distPath`      | the directory of the build                                              |
+| `entry`         | the SSR bundle of a Vite build                                          |
+| `template`      | the HTML file in `distPath` to render into; the default is `index.html` |
+| `outDir`        | the directory for the pages; the default is `distPath`                  |
+| `transformHtml` | `(html, { url, result }) => html`: changes a page before it is written  |
+
+The other options of `FastBoot`, for example `workers`, also apply.
+
+## `fastboot/vite`
+
+```js
+import { fastboot } from 'fastboot/vite';
+
+export default defineConfig({
+  plugins: [fastboot({ entry: 'app/app-ssr.js' })],
 });
-
-app.visit('/photos', options)
-  .then(result => result.html())
-  .then(html => res.send(html));
 ```
 
-In order to get a `dist` directory, you will first need to build your
-Ember application, which packages it up for using in both the browser
-and in Node.js.
+- `vite`: the dev server renders each page request with the current source files.
+  A failed render shows the error page of Vite.
+- `vite build --ssr <entry>`: the server bundle includes every dependency.
 
-### Default globals
+- `vite build` with the `prerender` option: also builds the SSR bundle, and writes a page for each route.
+  The dev server then renders only those routes, into the `prerender.template`.
 
-`FastBoot` object will be available to the sandboxed environment. This object has the following form:
+The options are `entry` (default `app/app-ssr.js`), `prerender`, and `allowedHosts`, `settledTimeout`, and `redirectCode` from above.
 
-```
-FastBoot.require  // provides a mechanism to load additional modules. Note: these modules are only those included in the module whitelist
-FastBoot.config   // a function which takes a key, and returns the corresponding fastboot config value
-FastBoot.distPath // readOnly accessor that provides the dist path for the current fastboot sandbox
-```
+| `prerender` option | What it does                                                           |
+| ------------------ | ---------------------------------------------------------------------- |
+| `routes`           | the URLs of the pages                                                  |
+| `template`         | the HTML file of the build to render into; the default is `index.html` |
+| `routeName`        | `(source) => name`: the route of a source module, for its stylesheets  |
 
-### Additional configuration
+Each page links the CSS of the modules of its routes.
+The default `routeName` reads the routes that Embroider splits, and `app/templates`, `app/routes`, and `app/controllers`.
 
-> By default source maps are enabled by the source-maps-support package. Setting an environment variable `FASTBOOT_SOURCEMAPS_DISABLE=true` will bypass this package effectively disabling source maps support.
+## The SSR entry of a Vite app
 
-`app.visit` takes a second parameter as `options` above which a map and allows to define additional optional per request
-configuration:
+The entry module exports:
 
-- `resilient`: whether to reject the returned promise if there is an error during rendering. If not defined, defaults to the app's resilient setting.
-- `html`: the HTML document to insert the rendered app into. Uses the built app's index.html by default.
-- `metadata`: per request meta data that is exposed in the app via the [fastboot service](https://github.com/ember-fastboot/ember-cli-fastboot/blob/master/app/services/fastboot.js).
-- `shouldRender`: boolean to indicate whether the app should do rendering or not. If set to false, it puts the app in routing-only. Defaults to true.
-- `disableShoebox`: boolean to indicate whether we should send the API data in the shoebox. If set to false, it will not send the API data used for rendering the app on server side in the index.html. Defaults to false.
-- `destroyAppInstanceInMs`: whether to destroy the instance in the given number of ms. This is a failure mechanism to not wedge the Node process
-- `buildSandboxPerVisit`: whether to create a new sandbox context per-visit (slows down each visit, but guarantees no prototype leakages can occur), or reuse the existing sandbox (faster per-request, but each request shares the same set of prototypes). Defaults to false. When using this flag, also set `maxSandboxQueueSize` to represent the QPS of your application so that sandboxes can be queued for next requests. When not provided, it defaults to storing only one sandbox
-
-### Build Your App
-
-To get your Ember.js application ready to both run in your user's
-browsers and run inside the FastBoot environment, run the Ember CLI
-build command:
-
-```sh
-$ ember build --environment production
-```
-
-(You will need to have already set up the [ember-cli-fastboot](https://github.com/ember-fastboot/ember-cli-fastboot) addon.
-For more information, see the [FastBoot quickstart][quickstart].)
-
-[quickstart]: https://www.ember-fastboot.com/quickstart
-
-Once this is done, you will have a `dist` directory that contains the
-multi-environment build of your app.
-
-Run the command to install run time node modules:
-
-```sh
-$ cd dist/
-$ npm install
-```
-
-Upload the `dist/` folder including `node_modules` to your FastBoot server.
-
-### Command Line
-
-You can start a simple HTTP server that responds to incoming requests by
-rendering your Ember.js application using the [FastBoot App Server](https://github.com/ember-fastboot/fastboot-app-server#ember-fastboot-app-server)
-
-### Debugging
-
-Run `fastboot` with the `DEBUG` environment variable set to `fastboot:*`
-for detailed logging.
-
-### Result
-
-The result from `fastboot` is a `Result` object that has the following API:
-
-```TypeScript
-type DOMContents = () => {
-  /**
-    The `<head>` contents generated by the visit.
-  */
-  head: string;
-
-  /**
-    The `<body>` contents generated by the visit.
-  */
-  body: string;
-}
-
-interface FastBootVisitResult {
-  /**
-    The serialized DOM contents after completing the `visit` request.
-
-    Note: this combines the `domContents.head` and `domContents.body`.
-  */
-  html(): string;
-
-  domContents(): DOMContents
-
-  analytics: {
-    /**
-     * Boolean to know if the request used a prebuilt sandbox
-     */
-    usedPrebuiltSandbox: <Boolean>
-  }
-}
-```
-
-### The Shoebox
-
-You can pass application state from the FastBoot rendered application to
-the browser rendered application using a feature called the "Shoebox".
-This allows you to leverage server API calls made by the FastBoot rendered
-application on the browser rendered application. Thus preventing you from
-duplicating work that the FastBoot application is performing. This should
-result in a performance benefit for your browser application, as it does
-not need to issue server API calls whose results are available from the
-Shoebox.
-
-The contents of the Shoebox are written to the HTML as strings within
-`<script>` tags by the server rendered application, which are then consumed
-by the browser rendered application.
-
-This looks like:
-
-```html
-<script type="fastboot/shoebox" id="shoebox-main-store">
-{"data":[{"attributes":{"name":"AEC Professionals"},"id":106,"type":"audience"},
-{"attributes":{"name":"Components"},"id":111,"type":"audience"},
-{"attributes":{"name":"Emerging Professionals"},"id":116,"type":"audience"},
-{"attributes":{"name":"Independent Voters"},"id":2801,"type":"audience"},
-{"attributes":{"name":"Members"},"id":121,"type":"audience"},
-{"attributes":{"name":"Partners"},"id":126,"type":"audience"},
-{"attributes":{"name":"Prospective Members"},"id":131,"type":"audience"},
-{"attributes":{"name":"Public"},"id":136,"type":"audience"},
-{"attributes":{"name":"Staff"},"id":141,"type":"audience"},
-{"attributes":{"name":"Students"},"id":146,"type":"audience"}]}
-</script>
-```
+- `createSsrApp()`: returns an `Application` that was created with `autoboot: false`
+- `settled()` (optional): resolves when the app has no more work.
+  `ember-cli-fastboot/settled` waits for the run loop.

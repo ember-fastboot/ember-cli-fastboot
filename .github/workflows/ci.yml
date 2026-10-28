@@ -12,164 +12,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint-all-packages:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version-file: .node-version
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
 
-  test-all-packages:
-    name: Ember Tests
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 15
-
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version: [20.x, 22.x, 24.x]
-        os: [ubuntu-latest, windows-latest]
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm test:ember-cli-fastboot
-      - name: Run fastboot Tests
-        if: ${{ matrix.os != 'windows-latest' }}
-        run: pnpm test:fastboot
-      - run: pnpm test:fastboot-express-middleware
-      - run: pnpm test:fastboot-app-server
-
-  test-packages:
-    name: Test Packages
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 15
-
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version: [20.x, 22.x, 24.x]
-        os: [ubuntu-latest, windows-latest]
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter basic-app test:mocha
-      - run: pnpm --filter ember-cli-fastboot-testing-app test:ember
-
-  test-legacy-mocha:
-    name: Legacy Mocha Tests - ${{ matrix.node-version }}
+  test:
+    name: Test (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
     strategy:
       fail-fast: false
       matrix:
-        node-version: [20.x, 22.x, 24.x]
+        node-version: [22, 24, 26]
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter ember-cli-fastboot test:mocha
-
-  try-scenarios:
-    name: 'ember-try for ember-cli-fastboot: ${{ matrix.ember-try-scenario }}'
-    runs-on: ubuntu-latest
-    timeout-minutes: 7
-
-    strategy:
-      fail-fast: false
-      matrix:
-        ember-try-scenario:
-          - ember-lts-3.28
-          - ember-lts-4.4
-          - ember-lts-4.8
-          - ember-lts-4.12
-          - ember-lts-5.4
-          - ember-lts-5.8
-          - ember-release
-          - ember-beta
-          - ember-canary
-          - embroider-safe
-          - embroider-optimized
-          - no-deprecations
-          - ember-release-no-deprecations
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - name: test
-        run: pnpm --filter ember-cli-fastboot exec ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
-
-  discover_matrix:
-    runs-on: ubuntu-latest
-
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - id: set-matrix
-        working-directory: test-packages/test-scenarios
-        run: echo "matrix=$(npm run --silent test:list -- --matrix 'pnpm test --filter %s:')" >> $GITHUB_OUTPUT
-
-  scenario-tester:
-    needs: discover_matrix
-    name: ${{ matrix.name }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 7
-
-    strategy:
-      fail-fast: false
-      matrix: ${{fromJson(needs.discover_matrix.outputs.matrix)}}
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - name: test
-        run: ${{ matrix.command }}
-        working-directory: test-packages/test-scenarios
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test

@@ -1,0 +1,9 @@
+dist/
+tmp/
+pnpm-lock.yaml
+CHANGELOG.md
+.release-plan.json
+test-packages/
+patches/
+LICENSE.md
+.github/workflows/plan-release.yml
